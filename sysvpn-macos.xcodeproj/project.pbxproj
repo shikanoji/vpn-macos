@@ -1,0 +1,573 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AC09D71B28BCDCD40078E928 /* sysvpn_macosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D71A28BCDCD40078E928 /* sysvpn_macosApp.swift */; };
+		AC09D71D28BCDCD40078E928 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D71C28BCDCD40078E928 /* ContentView.swift */; };
+		AC09D71F28BCDCD70078E928 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC09D71E28BCDCD70078E928 /* Assets.xcassets */; };
+		AC09D72228BCDCD70078E928 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC09D72128BCDCD70078E928 /* Preview Assets.xcassets */; };
+		AC09D72D28BCDCD80078E928 /* sysvpn_macosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D72C28BCDCD80078E928 /* sysvpn_macosTests.swift */; };
+		AC09D73728BCDCD80078E928 /* sysvpn_macosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D73628BCDCD80078E928 /* sysvpn_macosUITests.swift */; };
+		AC09D73928BCDCD80078E928 /* sysvpn_macosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D73828BCDCD80078E928 /* sysvpn_macosUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AC09D72928BCDCD80078E928 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC09D70F28BCDCD40078E928 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC09D71628BCDCD40078E928;
+			remoteInfo = "sysvpn-macos";
+		};
+		AC09D73328BCDCD80078E928 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC09D70F28BCDCD40078E928 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC09D71628BCDCD40078E928;
+			remoteInfo = "sysvpn-macos";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AC09D71728BCDCD40078E928 /* sysvpn-macos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sysvpn-macos.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC09D71A28BCDCD40078E928 /* sysvpn_macosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysvpn_macosApp.swift; sourceTree = "<group>"; };
+		AC09D71C28BCDCD40078E928 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AC09D71E28BCDCD70078E928 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AC09D72128BCDCD70078E928 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AC09D72328BCDCD70078E928 /* sysvpn_macos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = sysvpn_macos.entitlements; sourceTree = "<group>"; };
+		AC09D72828BCDCD80078E928 /* sysvpn-macosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "sysvpn-macosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC09D72C28BCDCD80078E928 /* sysvpn_macosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysvpn_macosTests.swift; sourceTree = "<group>"; };
+		AC09D73228BCDCD80078E928 /* sysvpn-macosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "sysvpn-macosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC09D73628BCDCD80078E928 /* sysvpn_macosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysvpn_macosUITests.swift; sourceTree = "<group>"; };
+		AC09D73828BCDCD80078E928 /* sysvpn_macosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysvpn_macosUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AC09D71428BCDCD40078E928 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC09D72528BCDCD80078E928 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC09D72F28BCDCD80078E928 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AC09D70E28BCDCD40078E928 = {
+			isa = PBXGroup;
+			children = (
+				AC09D71928BCDCD40078E928 /* sysvpn-macos */,
+				AC09D72B28BCDCD80078E928 /* sysvpn-macosTests */,
+				AC09D73528BCDCD80078E928 /* sysvpn-macosUITests */,
+				AC09D71828BCDCD40078E928 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AC09D71828BCDCD40078E928 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D71728BCDCD40078E928 /* sysvpn-macos.app */,
+				AC09D72828BCDCD80078E928 /* sysvpn-macosTests.xctest */,
+				AC09D73228BCDCD80078E928 /* sysvpn-macosUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC09D71928BCDCD40078E928 /* sysvpn-macos */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D71A28BCDCD40078E928 /* sysvpn_macosApp.swift */,
+				AC09D71C28BCDCD40078E928 /* ContentView.swift */,
+				AC09D71E28BCDCD70078E928 /* Assets.xcassets */,
+				AC09D72328BCDCD70078E928 /* sysvpn_macos.entitlements */,
+				AC09D72028BCDCD70078E928 /* Preview Content */,
+			);
+			path = "sysvpn-macos";
+			sourceTree = "<group>";
+		};
+		AC09D72028BCDCD70078E928 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D72128BCDCD70078E928 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		AC09D72B28BCDCD80078E928 /* sysvpn-macosTests */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D72C28BCDCD80078E928 /* sysvpn_macosTests.swift */,
+			);
+			path = "sysvpn-macosTests";
+			sourceTree = "<group>";
+		};
+		AC09D73528BCDCD80078E928 /* sysvpn-macosUITests */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D73628BCDCD80078E928 /* sysvpn_macosUITests.swift */,
+				AC09D73828BCDCD80078E928 /* sysvpn_macosUITestsLaunchTests.swift */,
+			);
+			path = "sysvpn-macosUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AC09D71628BCDCD40078E928 /* sysvpn-macos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC09D73C28BCDCD80078E928 /* Build configuration list for PBXNativeTarget "sysvpn-macos" */;
+			buildPhases = (
+				AC09D71328BCDCD40078E928 /* Sources */,
+				AC09D71428BCDCD40078E928 /* Frameworks */,
+				AC09D71528BCDCD40078E928 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "sysvpn-macos";
+			productName = "sysvpn-macos";
+			productReference = AC09D71728BCDCD40078E928 /* sysvpn-macos.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AC09D72728BCDCD80078E928 /* sysvpn-macosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC09D73F28BCDCD80078E928 /* Build configuration list for PBXNativeTarget "sysvpn-macosTests" */;
+			buildPhases = (
+				AC09D72428BCDCD80078E928 /* Sources */,
+				AC09D72528BCDCD80078E928 /* Frameworks */,
+				AC09D72628BCDCD80078E928 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AC09D72A28BCDCD80078E928 /* PBXTargetDependency */,
+			);
+			name = "sysvpn-macosTests";
+			productName = "sysvpn-macosTests";
+			productReference = AC09D72828BCDCD80078E928 /* sysvpn-macosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AC09D73128BCDCD80078E928 /* sysvpn-macosUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC09D74228BCDCD80078E928 /* Build configuration list for PBXNativeTarget "sysvpn-macosUITests" */;
+			buildPhases = (
+				AC09D72E28BCDCD80078E928 /* Sources */,
+				AC09D72F28BCDCD80078E928 /* Frameworks */,
+				AC09D73028BCDCD80078E928 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AC09D73428BCDCD80078E928 /* PBXTargetDependency */,
+			);
+			name = "sysvpn-macosUITests";
+			productName = "sysvpn-macosUITests";
+			productReference = AC09D73228BCDCD80078E928 /* sysvpn-macosUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AC09D70F28BCDCD40078E928 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1340;
+				LastUpgradeCheck = 1340;
+				TargetAttributes = {
+					AC09D71628BCDCD40078E928 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					AC09D72728BCDCD80078E928 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = AC09D71628BCDCD40078E928;
+					};
+					AC09D73128BCDCD80078E928 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = AC09D71628BCDCD40078E928;
+					};
+				};
+			};
+			buildConfigurationList = AC09D71228BCDCD40078E928 /* Build configuration list for PBXProject "sysvpn-macos" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AC09D70E28BCDCD40078E928;
+			productRefGroup = AC09D71828BCDCD40078E928 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AC09D71628BCDCD40078E928 /* sysvpn-macos */,
+				AC09D72728BCDCD80078E928 /* sysvpn-macosTests */,
+				AC09D73128BCDCD80078E928 /* sysvpn-macosUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AC09D71528BCDCD40078E928 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC09D72228BCDCD70078E928 /* Preview Assets.xcassets in Resources */,
+				AC09D71F28BCDCD70078E928 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC09D72628BCDCD80078E928 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC09D73028BCDCD80078E928 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AC09D71328BCDCD40078E928 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC09D71D28BCDCD40078E928 /* ContentView.swift in Sources */,
+				AC09D71B28BCDCD40078E928 /* sysvpn_macosApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC09D72428BCDCD80078E928 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC09D72D28BCDCD80078E928 /* sysvpn_macosTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC09D72E28BCDCD80078E928 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC09D73728BCDCD80078E928 /* sysvpn_macosUITests.swift in Sources */,
+				AC09D73928BCDCD80078E928 /* sysvpn_macosUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AC09D72A28BCDCD80078E928 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AC09D71628BCDCD40078E928 /* sysvpn-macos */;
+			targetProxy = AC09D72928BCDCD80078E928 /* PBXContainerItemProxy */;
+		};
+		AC09D73428BCDCD80078E928 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AC09D71628BCDCD40078E928 /* sysvpn-macos */;
+			targetProxy = AC09D73328BCDCD80078E928 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AC09D73A28BCDCD80078E928 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AC09D73B28BCDCD80078E928 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		AC09D73D28BCDCD80078E928 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "sysvpn-macos/sysvpn_macos.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"sysvpn-macos/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "syspvn.client.macos.sysvpn-macos";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AC09D73E28BCDCD80078E928 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "sysvpn-macos/sysvpn_macos.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"sysvpn-macos/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "syspvn.client.macos.sysvpn-macos";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AC09D74028BCDCD80078E928 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "syspvn.client.macos.sysvpn-macosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sysvpn-macos.app/Contents/MacOS/sysvpn-macos";
+			};
+			name = Debug;
+		};
+		AC09D74128BCDCD80078E928 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "syspvn.client.macos.sysvpn-macosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sysvpn-macos.app/Contents/MacOS/sysvpn-macos";
+			};
+			name = Release;
+		};
+		AC09D74328BCDCD80078E928 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "syspvn.client.macos.sysvpn-macosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "sysvpn-macos";
+			};
+			name = Debug;
+		};
+		AC09D74428BCDCD80078E928 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "syspvn.client.macos.sysvpn-macosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "sysvpn-macos";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AC09D71228BCDCD40078E928 /* Build configuration list for PBXProject "sysvpn-macos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC09D73A28BCDCD80078E928 /* Debug */,
+				AC09D73B28BCDCD80078E928 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC09D73C28BCDCD80078E928 /* Build configuration list for PBXNativeTarget "sysvpn-macos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC09D73D28BCDCD80078E928 /* Debug */,
+				AC09D73E28BCDCD80078E928 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC09D73F28BCDCD80078E928 /* Build configuration list for PBXNativeTarget "sysvpn-macosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC09D74028BCDCD80078E928 /* Debug */,
+				AC09D74128BCDCD80078E928 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC09D74228BCDCD80078E928 /* Build configuration list for PBXNativeTarget "sysvpn-macosUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC09D74328BCDCD80078E928 /* Debug */,
+				AC09D74428BCDCD80078E928 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AC09D70F28BCDCD40078E928 /* Project object */;
+}
