@@ -14,6 +14,28 @@
 		AC09D72D28BCDCD80078E928 /* sysvpn_macosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D72C28BCDCD80078E928 /* sysvpn_macosTests.swift */; };
 		AC09D73728BCDCD80078E928 /* sysvpn_macosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D73628BCDCD80078E928 /* sysvpn_macosUITests.swift */; };
 		AC09D73928BCDCD80078E928 /* sysvpn_macosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D73828BCDCD80078E928 /* sysvpn_macosUITestsLaunchTests.swift */; };
+		AC09D74728BCDE080078E928 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = AC09D74628BCDE080078E928 /* Alamofire */; };
+		AC09D74A28BCDE7A0078E928 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = AC09D74928BCDE7A0078E928 /* CombineMoya */; };
+		AC09D74C28BCDE7A0078E928 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = AC09D74B28BCDE7A0078E928 /* Moya */; };
+		AC09D74E28BCDE7A0078E928 /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = AC09D74D28BCDE7A0078E928 /* ReactiveMoya */; };
+		AC09D75028BCDE7A0078E928 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = AC09D74F28BCDE7A0078E928 /* RxMoya */; };
+		AC09D76128BCE0560078E928 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = AC09D76028BCE0560078E928 /* SwiftyJSON */; };
+		AC09D77E28BDE6830078E928 /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = AC09D77D28BDE6820078E928 /* swiftgen.yml */; };
+		AC09D78128BDE6DE0078E928 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC09D78028BDE6DE0078E928 /* Colors.xcassets */; };
+		AC09D78628BDE8BA0078E928 /* Global.strings in Resources */ = {isa = PBXBuildFile; fileRef = AC09D78828BDE8BA0078E928 /* Global.strings */; };
+		AC09D78A28BDE8E10078E928 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = AC09D78928BDE8E10078E928 /* en.lproj */; };
+		AC09D78D28BE05480078E928 /* .swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = AC09D78C28BE05480078E928 /* .swiftformat */; };
+		AC09D79228BE08460078E928 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AC09D79128BE08460078E928 /* GoogleSignIn */; };
+		AC09D79428BE08460078E928 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AC09D79328BE08460078E928 /* GoogleSignInSwift */; };
+		AC09D79628BE0D1F0078E928 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D79528BE0D1F0078E928 /* AppDelegate.swift */; };
+		AC09D79928BE0F340078E928 /* XCAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D79728BE0F340078E928 /* XCAssets+Generated.swift */; };
+		AC09D79A28BE0F340078E928 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D79828BE0F340078E928 /* Strings+Generated.swift */; };
+		AC09D79E28BE12480078E928 /* BaseServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D79D28BE12480078E928 /* BaseServiceManager.swift */; };
+		AC09D7A028BF0F970078E928 /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D79F28BF0F970078E928 /* APIServiceManager.swift */; };
+		AC09D7A228BF0FEE0078E928 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A128BF0FEE0078E928 /* APIService.swift */; };
+		AC09D7A528BF10D30078E928 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A428BF10D30078E928 /* Constant.swift */; };
+		AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A628BF13400078E928 /* AppSetting.swift */; };
+		AC09D7AD28BF17010078E928 /* Login.strings in Resources */ = {isa = PBXBuildFile; fileRef = AC09D7AC28BF17010078E928 /* Login.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +67,22 @@
 		AC09D73228BCDCD80078E928 /* sysvpn-macosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "sysvpn-macosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC09D73628BCDCD80078E928 /* sysvpn_macosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysvpn_macosUITests.swift; sourceTree = "<group>"; };
 		AC09D73828BCDCD80078E928 /* sysvpn_macosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysvpn_macosUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		AC09D77828BDE00A0078E928 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		AC09D77A28BDE4D60078E928 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
+		AC09D77D28BDE6820078E928 /* swiftgen.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
+		AC09D78028BDE6DE0078E928 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		AC09D78728BDE8BA0078E928 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Global.strings; sourceTree = "<group>"; };
+		AC09D78928BDE8E10078E928 /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
+		AC09D78C28BE05480078E928 /* .swiftformat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
+		AC09D79528BE0D1F0078E928 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AC09D79728BE0F340078E928 /* XCAssets+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCAssets+Generated.swift"; sourceTree = "<group>"; };
+		AC09D79828BE0F340078E928 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
+		AC09D79D28BE12480078E928 /* BaseServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseServiceManager.swift; sourceTree = "<group>"; };
+		AC09D79F28BF0F970078E928 /* APIServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceManager.swift; sourceTree = "<group>"; };
+		AC09D7A128BF0FEE0078E928 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		AC09D7A428BF10D30078E928 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		AC09D7A628BF13400078E928 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
+		AC09D7AC28BF17010078E928 /* Login.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Login.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +90,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC09D75028BCDE7A0078E928 /* RxMoya in Frameworks */,
+				AC09D74A28BCDE7A0078E928 /* CombineMoya in Frameworks */,
+				AC09D74E28BCDE7A0078E928 /* ReactiveMoya in Frameworks */,
+				AC09D79428BE08460078E928 /* GoogleSignInSwift in Frameworks */,
+				AC09D74728BCDE080078E928 /* Alamofire in Frameworks */,
+				AC09D76128BCE0560078E928 /* SwiftyJSON in Frameworks */,
+				AC09D74C28BCDE7A0078E928 /* Moya in Frameworks */,
+				AC09D79228BE08460078E928 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +121,10 @@
 		AC09D70E28BCDCD40078E928 = {
 			isa = PBXGroup;
 			children = (
+				AC09D78C28BE05480078E928 /* .swiftformat */,
+				AC09D77D28BDE6820078E928 /* swiftgen.yml */,
 				AC09D71928BCDCD40078E928 /* sysvpn-macos */,
+				AC09D77728BDDFF60078E928 /* BuildTools */,
 				AC09D72B28BCDCD80078E928 /* sysvpn-macosTests */,
 				AC09D73528BCDCD80078E928 /* sysvpn-macosUITests */,
 				AC09D71828BCDCD40078E928 /* Products */,
@@ -95,9 +144,14 @@
 		AC09D71928BCDCD40078E928 /* sysvpn-macos */ = {
 			isa = PBXGroup;
 			children = (
+				AC09D7A328BF10C80078E928 /* Common */,
+				AC09D79B28BE10660078E928 /* Context */,
+				AC09D78328BDE8770078E928 /* Language */,
+				AC09D78228BDE7FB0078E928 /* Generated */,
+				AC09D77F28BDE6A60078E928 /* Resources */,
 				AC09D71A28BCDCD40078E928 /* sysvpn_macosApp.swift */,
 				AC09D71C28BCDCD40078E928 /* ContentView.swift */,
-				AC09D71E28BCDCD70078E928 /* Assets.xcassets */,
+				AC09D79528BE0D1F0078E928 /* AppDelegate.swift */,
 				AC09D72328BCDCD70078E928 /* sysvpn_macos.entitlements */,
 				AC09D72028BCDCD70078E928 /* Preview Content */,
 			);
@@ -129,6 +183,86 @@
 			path = "sysvpn-macosUITests";
 			sourceTree = "<group>";
 		};
+		AC09D77728BDDFF60078E928 /* BuildTools */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D77828BDE00A0078E928 /* Package.swift */,
+				AC09D77A28BDE4D60078E928 /* Empty.swift */,
+			);
+			path = BuildTools;
+			sourceTree = "<group>";
+		};
+		AC09D77F28BDE6A60078E928 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D71E28BCDCD70078E928 /* Assets.xcassets */,
+				AC09D78028BDE6DE0078E928 /* Colors.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		AC09D78228BDE7FB0078E928 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D79828BE0F340078E928 /* Strings+Generated.swift */,
+				AC09D79728BE0F340078E928 /* XCAssets+Generated.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		AC09D78328BDE8770078E928 /* Language */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D78928BDE8E10078E928 /* en.lproj */,
+				AC09D78828BDE8BA0078E928 /* Global.strings */,
+				AC09D7AC28BF17010078E928 /* Login.strings */,
+			);
+			path = Language;
+			sourceTree = "<group>";
+		};
+		AC09D79B28BE10660078E928 /* Context */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D7A928BF166C0078E928 /* Login */,
+				AC09D79C28BE12180078E928 /* Networking */,
+			);
+			path = Context;
+			sourceTree = "<group>";
+		};
+		AC09D79C28BE12180078E928 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D7A828BF13D60078E928 /* API */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		AC09D7A328BF10C80078E928 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D7A428BF10D30078E928 /* Constant.swift */,
+				AC09D7A628BF13400078E928 /* AppSetting.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		AC09D7A828BF13D60078E928 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				AC09D79D28BE12480078E928 /* BaseServiceManager.swift */,
+				AC09D79F28BF0F970078E928 /* APIServiceManager.swift */,
+				AC09D7A128BF0FEE0078E928 /* APIService.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		AC09D7A928BF166C0078E928 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -139,12 +273,24 @@
 				AC09D71328BCDCD40078E928 /* Sources */,
 				AC09D71428BCDCD40078E928 /* Frameworks */,
 				AC09D71528BCDCD40078E928 /* Resources */,
+				AC09D77C28BDE5130078E928 /* SwiftFormat */,
+				AC09D78B28BDE98B0078E928 /* SwiftGen */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "sysvpn-macos";
+			packageProductDependencies = (
+				AC09D74628BCDE080078E928 /* Alamofire */,
+				AC09D74928BCDE7A0078E928 /* CombineMoya */,
+				AC09D74B28BCDE7A0078E928 /* Moya */,
+				AC09D74D28BCDE7A0078E928 /* ReactiveMoya */,
+				AC09D74F28BCDE7A0078E928 /* RxMoya */,
+				AC09D76028BCE0560078E928 /* SwiftyJSON */,
+				AC09D79128BE08460078E928 /* GoogleSignIn */,
+				AC09D79328BE08460078E928 /* GoogleSignInSwift */,
+			);
 			productName = "sysvpn-macos";
 			productReference = AC09D71728BCDCD40078E928 /* sysvpn-macos.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +363,12 @@
 				Base,
 			);
 			mainGroup = AC09D70E28BCDCD40078E928;
+			packageReferences = (
+				AC09D74528BCDE080078E928 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				AC09D74828BCDE7A0078E928 /* XCRemoteSwiftPackageReference "Moya" */,
+				AC09D75F28BCE0560078E928 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				AC09D79028BE08460078E928 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
 			productRefGroup = AC09D71828BCDCD40078E928 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -233,8 +385,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC09D78628BDE8BA0078E928 /* Global.strings in Resources */,
 				AC09D72228BCDCD70078E928 /* Preview Assets.xcassets in Resources */,
+				AC09D78D28BE05480078E928 /* .swiftformat in Resources */,
+				AC09D78128BDE6DE0078E928 /* Colors.xcassets in Resources */,
 				AC09D71F28BCDCD70078E928 /* Assets.xcassets in Resources */,
+				AC09D78A28BDE8E10078E928 /* en.lproj in Resources */,
+				AC09D7AD28BF17010078E928 /* Login.strings in Resources */,
+				AC09D77E28BDE6830078E928 /* swiftgen.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,13 +412,60 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		AC09D77C28BDE5130078E928 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\n#swift package update #Uncomment this line temporarily to update the version used to the latest matching your BuildTools/Package.swift file\nswift run -c release swiftformat \"$SRCROOT\"\n";
+		};
+		AC09D78B28BDE98B0078E928 /* SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftGen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\n#swift package update #Uncomment this line temporarily to update the version used to the latest matching your BuildTools/Package.swift file\nswift run -c release swiftgen config run --config \"$SRCROOT/swiftgen.yml\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AC09D71328BCDCD40078E928 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */,
+				AC09D79A28BE0F340078E928 /* Strings+Generated.swift in Sources */,
+				AC09D79628BE0D1F0078E928 /* AppDelegate.swift in Sources */,
+				AC09D7A528BF10D30078E928 /* Constant.swift in Sources */,
+				AC09D79E28BE12480078E928 /* BaseServiceManager.swift in Sources */,
 				AC09D71D28BCDCD40078E928 /* ContentView.swift in Sources */,
 				AC09D71B28BCDCD40078E928 /* sysvpn_macosApp.swift in Sources */,
+				AC09D7A028BF0F970078E928 /* APIServiceManager.swift in Sources */,
+				AC09D7A228BF0FEE0078E928 /* APIService.swift in Sources */,
+				AC09D79928BE0F340078E928 /* XCAssets+Generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +500,17 @@
 			targetProxy = AC09D73328BCDCD80078E928 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AC09D78828BDE8BA0078E928 /* Global.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AC09D78728BDE8BA0078E928 /* en */,
+			);
+			name = Global.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		AC09D73A28BCDCD80078E928 /* Debug */ = {
@@ -428,7 +644,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "syspvn.client.macos.sysvpn-macos";
+				PRODUCT_BUNDLE_IDENTIFIER = com.syspvn.client.macos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -453,7 +669,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "syspvn.client.macos.sysvpn-macos";
+				PRODUCT_BUNDLE_IDENTIFIER = com.syspvn.client.macos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -568,6 +784,84 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AC09D74528BCDE080078E928 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.1;
+			};
+		};
+		AC09D74828BCDE7A0078E928 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.0;
+			};
+		};
+		AC09D75F28BCE0560078E928 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		AC09D79028BE08460078E928 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AC09D74628BCDE080078E928 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC09D74528BCDE080078E928 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		AC09D74928BCDE7A0078E928 /* CombineMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC09D74828BCDE7A0078E928 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = CombineMoya;
+		};
+		AC09D74B28BCDE7A0078E928 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC09D74828BCDE7A0078E928 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		AC09D74D28BCDE7A0078E928 /* ReactiveMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC09D74828BCDE7A0078E928 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = ReactiveMoya;
+		};
+		AC09D74F28BCDE7A0078E928 /* RxMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC09D74828BCDE7A0078E928 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = RxMoya;
+		};
+		AC09D76028BCE0560078E928 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC09D75F28BCE0560078E928 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		AC09D79128BE08460078E928 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC09D79028BE08460078E928 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		AC09D79328BE08460078E928 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC09D79028BE08460078E928 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AC09D70F28BCDCD40078E928 /* Project object */;
 }

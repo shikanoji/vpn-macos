@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct sysvpn_macosApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
             ContentView()

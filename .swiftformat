@@ -1,0 +1,110 @@
+# file options
+
+--exclude ../Reception/Resources/Generated/*
+
+# format options
+
+## redundantType
+--redundanttype infer-locals-only
+
+## trailingCommas
+--commas inline
+
+## trailingSpace
+--trimwhitespace nonblank-lines
+
+## spaceAroundOperators
+--ranges no-space
+
+## unusedArguments
+--stripunusedargs unnamed-only
+
+
+# rules
+
+--disable acronyms
+--disable andOperator
+--enable anyObjectProtocol
+--disable assertionFailures
+--enable blankLinesAroundMark
+--enable blankLinesAtEndOfScope
+--enable blankLinesAtStartOfScope
+--enable blankLinesBetweenImports
+--enable blankLinesBetweenImports
+--enable blankLinesBetweenScopes
+--disable blockComments
+--enable braces
+--enable consecutiveBlankLines
+--enable consecutiveSpaces
+--enable duplicateImports
+--enable elseOnSameLine
+--enable emptyBraces
+--disable enumNamespaces
+--enable extensionAccessControl
+--disable fileHeader
+--enable hoistPatternLet
+--enable indent
+--disable initCoderUnavailable
+--enable isEmpty
+--enable leadingDelimiters
+--enable linebreakAtEndOfFile
+--disable linebreaks
+--disable markTypes
+--enable modifierOrder
+--disable numberFormatting
+--disable organizeDeclarations
+--disable preferDouble
+--disable preferKeyPath
+--disable redundantBackticks
+--enable redundantBreak
+--enable redundantClosure
+--enable redundantExtensionACL
+--enable redundantFileprivate
+--enable redundantGet
+--enable redundantInit
+--enable redundantLet
+--enable redundantLetError
+--enable redundantNilInit
+--enable redundantObjc
+--enable redundantParens
+--enable redundantPattern
+--enable redundantRawValues
+--disable redundantReturn
+--enable redundantSelf
+--enable redundantType
+--enable redundantVoidReturnType
+--enable semicolons
+--enable sortedImports
+--disable sortedSwitchCases
+--enable spaceAroundBraces
+--enable spaceAroundBrackets
+--enable spaceAroundComments
+--enable spaceAroundGenerics
+--enable spaceAroundOperators
+--enable spaceAroundParens
+--enable spaceInsideBraces
+--enable spaceInsideBrackets
+--enable spaceInsideComments
+--enable spaceInsideGenerics
+--enable spaceInsideParens
+--disable strongOutlets
+--enable strongifiedSelf
+--disable todos
+--enable trailingClosures
+--enable trailingCommas
+--enable trailingSpace
+--enable typeSugar
+--enable unusedArguments
+--enable void
+--disable wrap
+--disable wrapArguments
+--disable wrapAttributes
+--disable wrapConditionalBodies
+--disable wrapEnumCases
+--disable wrapMultilineStatementBraces
+--disable wrapSwitchCases
+--disable yodaConditions
+
+
+# swift version
+--swiftversion 5.3.2

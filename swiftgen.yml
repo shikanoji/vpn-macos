@@ -1,0 +1,23 @@
+# 1
+input_dir: sysvpn-macos/
+# 2
+output_dir: sysvpn-macos/Generated/
+## XCAssets
+xcassets:
+  inputs:
+    - Resources/Assets.xcassets
+    - Resources/Colors.xcassets
+  outputs:
+    templateName: swift5
+    output: XCAssets+Generated.swift
+## Strings
+strings:
+  inputs:
+    # 1
+    - Language/en.lproj
+  outputs:
+    - templateName: structured-swift5
+      # 2
+      params:
+        publicAccess: true
+      output: Strings+Generated.swift

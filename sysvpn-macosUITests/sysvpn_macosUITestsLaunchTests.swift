@@ -8,7 +8,6 @@
 import XCTest
 
 class sysvpn_macosUITestsLaunchTests: XCTestCase {
-
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
