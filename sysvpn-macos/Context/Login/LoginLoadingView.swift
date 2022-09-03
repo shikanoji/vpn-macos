@@ -27,7 +27,7 @@ struct LoginLoadingView: View {
                             .fill(
                                 RadialGradient(
                                     colors: [
-                                        Asset.Colors.outlightColor.swiftUIColor.opacity(0.12), Asset.Colors.outlightColor.swiftUIColor.opacity(0)], center: .center, startRadius: .zero, endRadius: outLightSize / 2))
+                                        Asset.Colors.outlightColor.swiftUIColor.opacity(0.1), Asset.Colors.outlightColor.swiftUIColor.opacity(0)], center: .center, startRadius: .zero, endRadius: outLightSize / 2))
                             .frame(width: outLightSize,
                                    height: outLightSize,
                                    alignment: .center)
@@ -62,6 +62,10 @@ struct MyEffect: GeometryEffect {
     }
     
     func effectValue(size: CGSize) -> ProjectionTransform {
-        return ProjectionTransform(CGAffineTransform(scaleX: x, y: x).translatedBy(x: (1 - x) * width / 2, y: (1 - x) * width / 2))
+        let newWidth = width * x
+        let newHeight = width * x
+        
+        return ProjectionTransform(CGAffineTransform(scaleX: x, y: x)
+            .translatedBy(x: (width - newWidth) / 2, y: (width - newHeight) / 2))
     }
 }

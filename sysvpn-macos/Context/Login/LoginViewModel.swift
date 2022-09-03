@@ -29,7 +29,7 @@ extension LoginView {
             withAnimation {
                 self.isPresentedLoading = true
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 withAnimation {
                     self.isPresentedLoading = false
                 }
