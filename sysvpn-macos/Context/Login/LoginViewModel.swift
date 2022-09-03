@@ -7,7 +7,8 @@
 
 import Foundation
 import RxSwift
- 
+import SwiftUI
+
 extension LoginView {
     @MainActor class LoginViewModel: ObservableObject {
         @Published var userName: String = ""
@@ -15,7 +16,33 @@ extension LoginView {
         @Published var isEditingEmail: Bool = false
         @Published var isEditingPassword: Bool = false
         @Published var isRemember: Bool = false
-        
         @Published var isPresentedLoading = false
+        
+        func onTouchSignin() {
+            withAnimation {
+                self.isPresentedLoading = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                withAnimation {
+                    self.isPresentedLoading = false
+                }
+            }
+        }
+        
+        func onTouchForgotPassword() {
+            print("Forgot button was tapped")
+        }
+        
+        func onTouchCreateAccount() {
+            print("Creat new button was tapped")
+        }
+    
+        func onTouchSocialLoginGoogle() {
+            print("Google button was tapped")
+        }
+        
+        func onTouchSocialLoginApple() {
+            print("Apple button was tapped")
+        }
     }
 }

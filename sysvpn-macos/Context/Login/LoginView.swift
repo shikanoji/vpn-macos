@@ -28,7 +28,7 @@ struct LoginView: View {
                     .font(.body)
                     .padding(.top, 14)
                 
-                TextField("Your email", text: $viewModel.userName)
+                TextField(L10n.Login.yourEmail, text: $viewModel.userName)
                     .padding(EdgeInsets(top: 60, leading: 60, bottom: 16, trailing: 60))
                     .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingEmail))
                     .disableAutocorrection(true)
@@ -37,7 +37,7 @@ struct LoginView: View {
                         viewModel.isEditingEmail = newValue == .username
                     }
                 
-                SecureField("Password", text: $viewModel.password)
+                SecureField(L10n.Login.password, text: $viewModel.password)
                     .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingPassword))
                     .padding(EdgeInsets(top: 0, leading: 60, bottom: 30, trailing: 60))
                     .focused($focusState, equals: .password)
@@ -50,12 +50,12 @@ struct LoginView: View {
                     Button {
                         viewModel.isRemember = !viewModel.isRemember
                     } label: {
-                        if viewModel.isRemember { Asset.Assets.icCheckNormal.swiftUIImage
+                        if viewModel.isRemember { Asset.Assets.icCheckChecked.swiftUIImage
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 20, height: 20)
                         } else {
-                            Asset.Assets.icCheckChecked.swiftUIImage
+                            Asset.Assets.icCheckNormal.swiftUIImage
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
@@ -64,7 +64,7 @@ struct LoginView: View {
                     }.buttonStyle(LoginButtonNoBackgroundStyle())
                     Spacer()
                     Button {
-                        print("Edit button was tapped")
+                        viewModel.onTouchForgotPassword()
                     } label: {
                         Text(L10n.Login.forgotPassword)
                     }.buttonStyle(LoginButtonNoBackgroundStyle())
@@ -72,15 +72,7 @@ struct LoginView: View {
                 .padding(EdgeInsets(top: 0, leading: 60, bottom: 46, trailing: 60))
                 
                 Button {
-                    print("sign button was tapped")
-                    withAnimation {
-                        viewModel.isPresentedLoading = true
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        withAnimation {
-                            self.viewModel.isPresentedLoading = false
-                        }
-                    }
+                    viewModel.onTouchSignin()
                 } label: {
                     Text(L10n.Login.signIn)
                 }.buttonStyle(LoginButtonCTAStyle())
@@ -88,7 +80,7 @@ struct LoginView: View {
                 
                 HStack(alignment: .center) {
                     Button {
-                        print("social login button was tapped")
+                        viewModel.onTouchSocialLoginGoogle()
                     } label: {
                         Asset.Assets.icGoogle.swiftUIImage
                             .resizable()
@@ -100,7 +92,7 @@ struct LoginView: View {
                     Divider().frame(height: 24)
                     Spacer()
                     Button {
-                        print("social login button was tapped")
+                        viewModel.onTouchSocialLoginApple()
                     } label: {
                         Asset.Assets.icApple.swiftUIImage
                             .resizable()
@@ -114,7 +106,7 @@ struct LoginView: View {
                 VStack {
                     Text(L10n.Login.dontHaveAnAccount).foregroundColor(Asset.Colors.subTextColor.swiftUIColor).padding(.bottom, 4)
                     Button {
-                        print("create button was tapped")
+                        viewModel.onTouchCreateAccount()
                     } label: {
                         Text(L10n.Login.createNew)
                     }.buttonStyle(LoginButtonNoBackgroundStyle())
@@ -131,7 +123,6 @@ struct LoginView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification), perform: { _ in
             NSApp.mainWindow?.standardWindowButton(.zoomButton)?.isHidden = true
-            
         })
     }
 }
