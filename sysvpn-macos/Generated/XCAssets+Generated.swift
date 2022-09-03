@@ -27,9 +27,23 @@ internal enum Asset {
   internal enum Assets {
     internal static let accentColor = ColorAsset(name: "AccentColor")
     internal static let logo = ImageAsset(name: "Logo")
+    internal static let bgLoading = ImageAsset(name: "bg_loading")
+    internal static let icApple = ImageAsset(name: "ic_apple")
+    internal static let icCheckChecked = ImageAsset(name: "ic_check_checked")
+    internal static let icCheckNormal = ImageAsset(name: "ic_check_normal")
+    internal static let icGoogle = ImageAsset(name: "ic_google")
+    internal static let logoF1 = ImageAsset(name: "logo_f1")
   }
   internal enum Colors {
+    internal static let primaryColor = ColorAsset(name: " primaryColor")
+    internal static let backgroundButtonDisable = ColorAsset(name: "backgroundButtonDisable")
     internal static let backgroundColor = ColorAsset(name: "backgroundColor")
+    internal static let borderColor = ColorAsset(name: "borderColor")
+    internal static let foregroundButtonDisable = ColorAsset(name: "foregroundButtonDisable")
+    internal static let foregroundButtonEnable = ColorAsset(name: "foregroundButtonEnable")
+    internal static let mainTextColor = ColorAsset(name: "mainTextColor")
+    internal static let outlightColor = ColorAsset(name: "outlightColor")
+    internal static let subTextColor = ColorAsset(name: "subTextColor")
     internal static let themeColor = ColorAsset(name: "themeColor")
   }
 }

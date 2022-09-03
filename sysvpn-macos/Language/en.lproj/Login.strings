@@ -1,0 +1,19 @@
+/* 
+  Login.strings
+  sysvpn-macos
+
+  Created by Nguyen Dinh Thach on 31/08/2022.
+  
+*/
+"sologan" = "Start protecting yourself with SysVPN";
+"sologanProcessing" = "Light is Faster, but We are Safer.";
+"yourEmail" = "Your email";
+"password" = "Password";
+"rememberLogin" = "Remember login";
+"forgotPassword" = "Forgot password";
+"signIn" = "Sign in";
+"signInWithGoogle" = "Sign In with Google";
+"signInWithApple" = "Sign In with Apple ID";
+"dontHaveAnAccount" = "Don’t have an account?";
+"createNew" = "Create New";
+"appName" = "SYSVPN";

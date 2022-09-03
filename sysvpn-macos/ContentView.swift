@@ -10,8 +10,10 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Asset.Assets.logo.swiftUIImage
-            Text(L10n.hello)
+            Asset.Assets.logoF1.swiftUIImage
+                .resizable()
+                .frame(width: 100, height: 116, alignment: .center)
+            Text(L10n.Global.hello)
                 .padding()
         }
         .frame(width: 600, height: 600)

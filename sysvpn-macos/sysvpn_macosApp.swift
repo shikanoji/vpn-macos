@@ -12,7 +12,7 @@ struct sysvpn_macosApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
-            ContentView()
-        }
+            LoginView().frame(width: 500, height: 770, alignment: .center)
+        }.windowStyle(HiddenTitleBarWindowStyle())
     }
 }
