@@ -10,6 +10,7 @@ import Foundation
 enum AppKeys: String {
     /// Auth Keys
     case sample
+    case rememberLogin
 }
 
 class AppSetting {
@@ -23,6 +24,15 @@ class AppSetting {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: AppKeys.sample.rawValue)
+        }
+    }
+    
+    var isRememberLogin: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: AppKeys.rememberLogin.rawValue)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: AppKeys.rememberLogin.rawValue)
         }
     }
 }

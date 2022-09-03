@@ -33,18 +33,12 @@ struct LoginView: View {
                     .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingEmail))
                     .disableAutocorrection(true)
                     .focused($focusState, equals: .username)
-                    .onChange(of: focusState) { newValue in
-                        viewModel.isEditingEmail = newValue == .username
-                    }
                 
                 SecureField(L10n.Login.password, text: $viewModel.password)
                     .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingPassword))
                     .padding(EdgeInsets(top: 0, leading: 60, bottom: 30, trailing: 60))
                     .focused($focusState, equals: .password)
                     .textContentType(.password)
-                    .onChange(of: focusState) { newValue in
-                        viewModel.isEditingPassword = newValue == .password
-                    }
                 
                 HStack(alignment: .center) {
                     Button {
@@ -77,6 +71,7 @@ struct LoginView: View {
                     Text(L10n.Login.signIn)
                 }.buttonStyle(LoginButtonCTAStyle())
                     .padding(EdgeInsets(top: 0, leading: 60, bottom: 32, trailing: 60))
+                    .environment(\.isEnabled, viewModel.isVerifiedInput)
                 
                 HStack(alignment: .center) {
                     Button {
@@ -120,6 +115,16 @@ struct LoginView: View {
             .foregroundColor(Color.white)
             .font(Font.system(size: 14))
             LoginLoadingView(isShowing: $viewModel.isPresentedLoading)
+        }
+        .onChange(of: focusState) { newValue in
+            viewModel.isEditingPassword = newValue == .password
+            viewModel.verifyInputLogin()
+        }.onChange(of: focusState) { newValue in
+            viewModel.isEditingEmail = newValue == .username
+        }.onChange(of: viewModel.userName) { _ in
+            viewModel.verifyInputLogin()
+        }.onChange(of: viewModel.password) { _ in
+            viewModel.verifyInputLogin()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification), perform: { _ in
             NSApp.mainWindow?.standardWindowButton(.zoomButton)?.isHidden = true

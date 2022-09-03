@@ -17,8 +17,15 @@ extension LoginView {
         @Published var isEditingPassword: Bool = false
         @Published var isRemember: Bool = false
         @Published var isPresentedLoading = false
+        @Published var isVerifiedInput = false
+        
+        init() {
+            isRemember = AppSetting.shared.isRememberLogin
+        }
         
         func onTouchSignin() {
+            // test
+            AppSetting.shared.isRememberLogin = isRemember
             withAnimation {
                 self.isPresentedLoading = true
             }
@@ -43,6 +50,10 @@ extension LoginView {
         
         func onTouchSocialLoginApple() {
             print("Apple button was tapped")
+        }
+        
+        func verifyInputLogin() {
+            isVerifiedInput = !userName.isEmpty && !password.isEmpty
         }
     }
 }
