@@ -13,6 +13,7 @@ struct sysvpn_macosApp: App {
     var body: some Scene {
         WindowGroup {
             LoginView().frame(width: 500, height: 770, alignment: .center)
+            // VpnMapView().frame(width: 1024, height: 588, alignment: .center)
         }.windowStyle(HiddenTitleBarWindowStyle())
     }
 }
