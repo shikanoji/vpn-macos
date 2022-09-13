@@ -33,6 +33,7 @@ internal enum Asset {
     internal static let icCheckNormal = ImageAsset(name: "ic_check_normal")
     internal static let icGoogle = ImageAsset(name: "ic_google")
     internal static let logoF1 = ImageAsset(name: "logo_f1")
+    internal static let mapLayer1 = ImageAsset(name: "map_layer1")
   }
   internal enum Colors {
     internal static let primaryColor = ColorAsset(name: " primaryColor")
