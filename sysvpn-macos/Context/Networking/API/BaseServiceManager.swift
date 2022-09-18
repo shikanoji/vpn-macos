@@ -41,6 +41,15 @@ class BaseServiceManager<API: TargetType> {
     func cancelTask() {
         provider.session.session.finishTasksAndInvalidate()
     }
+    
+    static func handleResult<T>(type: T.Type, input: Result<Response, Error>) -> APICallerResult<T?>{
+        switch(input){
+        case .success(let response):
+              return .success(response as? T) 
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
 }
 
 extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
@@ -71,3 +80,11 @@ struct ResponseError: Decodable, Error {
 enum TokenError: Swift.Error {
     case tokenExpired
 }
+
+enum APICallerResult<T>{
+    case success(T?)
+    case failure(Error)
+}
+ 
+ 
+

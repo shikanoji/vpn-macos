@@ -27,11 +27,18 @@ internal enum Asset {
   internal enum Assets {
     internal static let accentColor = ColorAsset(name: "AccentColor")
     internal static let logo = ImageAsset(name: "Logo")
+    internal static let avatarTest = ImageAsset(name: "avatar_test")
     internal static let bgLoading = ImageAsset(name: "bg_loading")
     internal static let icApple = ImageAsset(name: "ic_apple")
     internal static let icCheckChecked = ImageAsset(name: "ic_check_checked")
     internal static let icCheckNormal = ImageAsset(name: "ic_check_normal")
     internal static let icGoogle = ImageAsset(name: "ic_google")
+    internal static let icIpAddress = ImageAsset(name: "ic_ip_address")
+    internal static let icLink = ImageAsset(name: "ic_link")
+    internal static let icLocation = ImageAsset(name: "ic_location")
+    internal static let icPower = ImageAsset(name: "ic_power")
+    internal static let icSend = ImageAsset(name: "ic_send")
+    internal static let icSetting = ImageAsset(name: "ic_setting")
     internal static let logoF1 = ImageAsset(name: "logo_f1")
   }
   internal enum Colors {

@@ -40,6 +40,12 @@
 		AC09D7A228BF0FEE0078E928 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A128BF0FEE0078E928 /* APIService.swift */; };
 		AC09D7A528BF10D30078E928 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A428BF10D30078E928 /* Constant.swift */; };
 		AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A628BF13400078E928 /* AppSetting.swift */; };
+		B9D7F70E28D21421008B1D39 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F70D28D21421008B1D39 /* HomeView.swift */; };
+		B9D7F71228D2E3C5008B1D39 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71128D2E3C5008B1D39 /* UIColor+Extension.swift */; };
+		B9D7F71528D330BF008B1D39 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71428D330BE008B1D39 /* BaseModel.swift */; };
+		B9D7F71728D3324C008B1D39 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71628D3324C008B1D39 /* UserModel.swift */; };
+		B9D7F71928D38343008B1D39 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71828D38343008B1D39 /* System.swift */; };
+		B9D7F71C28D781A8008B1D39 /* AppDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71B28D781A8008B1D39 /* AppDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +97,13 @@
 		AC09D7A128BF0FEE0078E928 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		AC09D7A428BF10D30078E928 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		AC09D7A628BF13400078E928 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
+		B9D7F70D28D21421008B1D39 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		B9D7F71128D2E3C5008B1D39 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		B9D7F71428D330BE008B1D39 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
+		B9D7F71628D3324C008B1D39 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		B9D7F71828D38343008B1D39 /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
+		B9D7F71A28D463E8008B1D39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B9D7F71B28D781A8008B1D39 /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +185,7 @@
 		AC09D71928BCDCD40078E928 /* sysvpn-macos */ = {
 			isa = PBXGroup;
 			children = (
+				B9D7F71A28D463E8008B1D39 /* Info.plist */,
 				AC09D7A328BF10C80078E928 /* Common */,
 				AC09D79B28BE10660078E928 /* Context */,
 				AC09D78328BDE8770078E928 /* Language */,
@@ -250,6 +264,9 @@
 		AC09D79B28BE10660078E928 /* Context */ = {
 			isa = PBXGroup;
 			children = (
+				B9D7F71328D330A5008B1D39 /* Models */,
+				B9D7F71028D2E36D008B1D39 /* Extensions */,
+				B9D7F70C28D213FF008B1D39 /* Home */,
 				9EC3322628C1086D00CA5DF5 /* Login */,
 				AC09D79C28BE12180078E928 /* Networking */,
 			);
@@ -269,6 +286,8 @@
 			children = (
 				AC09D7A428BF10D30078E928 /* Constant.swift */,
 				AC09D7A628BF13400078E928 /* AppSetting.swift */,
+				B9D7F71828D38343008B1D39 /* System.swift */,
+				B9D7F71B28D781A8008B1D39 /* AppDataManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -281,6 +300,39 @@
 				AC09D7A128BF0FEE0078E928 /* APIService.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		B9D7F70C28D213FF008B1D39 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				B9D7F70F28D21DF4008B1D39 /* Components */,
+				B9D7F70D28D21421008B1D39 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		B9D7F70F28D21DF4008B1D39 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B9D7F71028D2E36D008B1D39 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B9D7F71128D2E3C5008B1D39 /* UIColor+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B9D7F71328D330A5008B1D39 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B9D7F71428D330BE008B1D39 /* BaseModel.swift */,
+				B9D7F71628D3324C008B1D39 /* UserModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -475,11 +527,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9D7F71928D38343008B1D39 /* System.swift in Sources */,
+				B9D7F71528D330BF008B1D39 /* BaseModel.swift in Sources */,
 				9EC3323528C254DF00CA5DF5 /* LoginLoadingView.swift in Sources */,
 				AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */,
 				AC09D79A28BE0F340078E928 /* Strings+Generated.swift in Sources */,
 				AC09D79628BE0D1F0078E928 /* AppDelegate.swift in Sources */,
+				B9D7F71228D2E3C5008B1D39 /* UIColor+Extension.swift in Sources */,
 				9EC3322F28C1151800CA5DF5 /* LoginInputTextFiled.swift in Sources */,
+				B9D7F71C28D781A8008B1D39 /* AppDataManager.swift in Sources */,
 				AC09D7A528BF10D30078E928 /* Constant.swift in Sources */,
 				AC09D79E28BE12480078E928 /* BaseServiceManager.swift in Sources */,
 				9EC3323328C2134200CA5DF5 /* LoginButtonStyle.swift in Sources */,
@@ -488,6 +544,8 @@
 				9EC3322C28C108B000CA5DF5 /* LoginViewModel.swift in Sources */,
 				AC09D71B28BCDCD40078E928 /* sysvpn_macosApp.swift in Sources */,
 				AC09D7A028BF0F970078E928 /* APIServiceManager.swift in Sources */,
+				B9D7F71728D3324C008B1D39 /* UserModel.swift in Sources */,
+				B9D7F70E28D21421008B1D39 /* HomeView.swift in Sources */,
 				AC09D7A228BF0FEE0078E928 /* APIService.swift in Sources */,
 				AC09D79928BE0F340078E928 /* XCAssets+Generated.swift in Sources */,
 			);
@@ -662,6 +720,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"sysvpn-macos/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "sysvpn-macos/Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -687,6 +746,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"sysvpn-macos/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "sysvpn-macos/Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

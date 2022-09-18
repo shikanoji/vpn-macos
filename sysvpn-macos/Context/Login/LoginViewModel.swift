@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import SwiftUI
+import SwiftyJSON
 
 extension LoginView {
     @MainActor class LoginViewModel: ObservableObject {
@@ -18,6 +19,7 @@ extension LoginView {
         @Published var isRemember: Bool = false
         @Published var isPresentedLoading = false
         @Published var isVerifiedInput = false
+        @Environment(\.openURL) private var openURL
         
         init() {
             isRemember = AppSetting.shared.isRememberLogin
@@ -26,22 +28,39 @@ extension LoginView {
         func onTouchSignin() {
             // test
             AppSetting.shared.isRememberLogin = isRemember
-            withAnimation {
-                self.isPresentedLoading = true
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                withAnimation {
-                    self.isPresentedLoading = false
+            /*
+             withAnimation {
+                 self.isPresentedLoading = true
+             }
+             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                 withAnimation {
+                     self.isPresentedLoading = false
+                 }
+             }
+              */
+            let email = "test@gmail.com"
+            let password2 = "X12345678"
+            APIServiceManager.shared.onLogin(email: email, password: password2) { [weak self] (result) in
+                switch result {
+                case .success(let dataUser):
+                    AppDataManager.shared.userData = dataUser as? UserModel
+                    break
+                case .failure(_):
+                    break
+                    
                 }
             }
         }
         
-        func onTouchForgotPassword() {
-            print("Forgot button was tapped")
+        func onTouchForgotPassword() { 
+            print("Forgot button was tapped:   \(AppSetting.shared.deviceVersion)")
         }
         
         func onTouchCreateAccount() {
             print("Creat new button was tapped")
+            if let url = URL(string: "https://www.facebook.com/doragon0") {
+                openURL(url)
+            }
         }
     
         func onTouchSocialLoginGoogle() {

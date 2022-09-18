@@ -35,3 +35,20 @@ struct LoginButtonCTAStyle: ButtonStyle {
         }
     }
 }
+
+struct ActionButtonStyle: ButtonStyle {
+    func makeBody(configuration: ButtonStyle.Configuration) -> some View {
+        ActionButton(configuration: configuration)
+    }
+    
+    struct ActionButton: View {
+        let configuration: ButtonStyle.Configuration
+        var body: some View {
+            configuration.label
+                .padding(EdgeInsets(top: 6.0, leading: 0, bottom: 6.0, trailing: 0))
+                .frame(maxWidth: 120, maxHeight: 40)
+                .overlay(RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color(hexString: "#353748"), lineWidth: 1))
+        }
+    }
+}

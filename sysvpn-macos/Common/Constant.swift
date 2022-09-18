@@ -16,6 +16,7 @@ struct Constant {
         
         struct Path {
             static let ipInfo = "/app/module_server/v1/app_setting/get_app_settings"
+            static let login = "/shared/module_auth/v1/login"
         }
     }
 }
