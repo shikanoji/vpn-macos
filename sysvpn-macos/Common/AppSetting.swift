@@ -61,18 +61,16 @@ class AppSetting {
         return IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformUUIDKey as CFString, kCFAllocatorDefault, 0).takeRetainedValue() as? String
     }
     
-    func getDeviceInfo()  -> String {
-        let jsonObject : [String: Any] = [
-            "userIp": AppDataManager.shared.userIp ,
+    func getDeviceInfo() -> String {
+        let jsonObject: [String: Any] = [
+            "userIp": AppDataManager.shared.userIp,
             "userCity": AppDataManager.shared.userCity,
-            "userCountryCode":AppDataManager.shared.userCountryCode,
-            "deviceId":deviceId,
-            "deviceOs":deviceOs,
-            "osBuildNumber":deviceVersion,
-            "deviceFreeMemory":System.memoryUsage().free 
+            "userCountryCode": AppDataManager.shared.userCountryCode,
+            "deviceId": deviceId,
+            "deviceOs": deviceOs,
+            "osBuildNumber": deviceVersion,
+            "deviceFreeMemory": System.memoryUsage().free
         ]
         return String(data: try! JSONSerialization.data(withJSONObject: jsonObject, options: []), encoding: .utf8) ?? ""
     }
-    
-    
 }

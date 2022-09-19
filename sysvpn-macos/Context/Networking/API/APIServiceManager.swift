@@ -22,10 +22,7 @@ final class APIServiceManager: BaseServiceManager<APIService> {
 //        self.provider.session.sessionConfiguration.timeoutIntervalForResource = 10
 //    }
      
-    func onLogin(email: String, password: String, completed: ((APICallerResult<UserModel?>) -> Void)?) {
-        request(.login(email: email, password: password)).subscribe { event in
-            completed?(APIServiceManager.handleResult(type: UserModel.self, input: event)) 
-        }
-
+    func onLogin(email: String, password: String) -> Single<AuthenResponse> {
+        return request(.login(email: email, password: password)).handleApiResponse(type: AuthenResponse.self)
     }
 }

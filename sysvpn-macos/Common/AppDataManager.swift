@@ -8,12 +8,11 @@
 import Foundation
 
 extension String {
-  static var keySaveRefreshToken = "USER_REFRESH_TOKEN"
-  static var keySaveAccessToken = "USER_ACCESS_TOKEN"
+    static var keySaveRefreshToken = "USER_REFRESH_TOKEN"
+    static var keySaveAccessToken = "USER_ACCESS_TOKEN"
     static var keyUserIP = "USER_IP"
     static var keyUserCity = "USER_CITY"
     static var keyUserCountryCode = "USER_COUNTRY_CODE"
-    
 }
 
 class AppDataManager {
@@ -23,41 +22,41 @@ class AppDataManager {
     
     var userData: UserModel? {
         get {
-          if !isLogin {
-            return nil
-          }
-          if _user == nil {
-            _user = UserModel.fromSaved()
-          }
-          return _user
-        } 
+            if !isLogin {
+                return nil
+            }
+            if _user == nil {
+                _user = UserModel.fromSaved()
+            }
+            return _user
+        }
         set {
-          _user = newValue
-          _user?.save()
+            _user = newValue
+            _user?.save()
         }
     }
     
-    private var _cacheToken: String? = nil
+    private var _cacheToken: String?
     var accessToken: String? {
-      get {
-        if _cacheToken == nil {
-          _cacheToken = UserDefaults.standard.string(forKey: .keySaveAccessToken)
+        get {
+            if _cacheToken == nil {
+                _cacheToken = UserDefaults.standard.string(forKey: .keySaveAccessToken)
+            }
+            return _cacheToken
         }
-        return  _cacheToken
-      }
-      set {
-        _cacheToken = newValue
-        if newValue == nil {
-          UserDefaults.standard.removeObject(forKey: .keySaveAccessToken)
-        } else {
-          UserDefaults.standard.setValue(newValue,forKey: .keySaveAccessToken)
+        set {
+            _cacheToken = newValue
+            if newValue == nil {
+                UserDefaults.standard.removeObject(forKey: .keySaveAccessToken)
+            } else {
+                UserDefaults.standard.setValue(newValue, forKey: .keySaveAccessToken)
+            }
+            UserDefaults.standard.synchronize()
         }
-        UserDefaults.standard.synchronize()
-      }
     }
     
     var isLogin: Bool {
-      return ( accessToken?.count ?? 0) > 0
+        return (accessToken?.count ?? 0) > 0
     }
     
     var userIp: String {

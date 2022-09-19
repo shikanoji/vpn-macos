@@ -60,8 +60,8 @@ extension APIService: TargetType {
             let paramTest: [String: Any] = [
                 "userIp": "127.0.0.1", "userCity": "Ha Noi", "userCountryCode": "VN", "deviceId": "device_id_1_2", "deviceCode": "device code", "deviceBrand": "SangML", "deviceApiVersion": "121", "deviceFingerprint": "123123123123123", "deviceOs": "Android", "deviceSupportedAbis": ["abc", "cde"], "deviceModel": "SangMList", "deviceIsRoot": 0, "deviceHardware": "Device hardware", "deviceManufacture": "Xiaomi", "deviceFreeMemory": 12312312, "osBuildNumber": "12", "osIncremental": "123123123", "osSecurityPath": "12", "appVersion": "1", "appBundleId": "com.ilg.sysvpn", "isEmulator": 0, "isTablet": 0
             ]
-             */
-            param["deviceInfo"] = AppSetting.shared.getDeviceInfo() //String(data: try! JSONSerialization.data(withJSONObject: paramTest, options: []), encoding: .utf8)
+             */ 
+            param["deviceInfo"] = AppSetting.shared.getDeviceInfo() // String(data: try! JSONSerialization.data(withJSONObject: paramTest, options: []), encoding: .utf8)
             
             return .requestParameters(parameters: param, encoding: URLEncoding.default)
         }

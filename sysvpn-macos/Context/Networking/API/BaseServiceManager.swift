@@ -8,6 +8,7 @@
 import Moya
 import RxMoya
 import RxSwift
+import SwiftyJSON
 
 class BaseServiceManager<API: TargetType> {
     private let provider = MoyaProvider<API>(plugins: [NetworkLoggerPlugin(configuration: .init(logOptions: .formatRequestAscURL))])
@@ -41,15 +42,6 @@ class BaseServiceManager<API: TargetType> {
     func cancelTask() {
         provider.session.session.finishTasksAndInvalidate()
     }
-    
-    static func handleResult<T>(type: T.Type, input: Result<Response, Error>) -> APICallerResult<T?>{
-        switch(input){
-        case .success(let response):
-              return .success(response as? T) 
-        case .failure(let error):
-            return .failure(error)
-        }
-    }
 }
 
 extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
@@ -70,6 +62,28 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
             return Single.error(genericError)
         }
     }
+    
+    func handleApiResponse<T: BaseModel>(type: T.Type) -> Single<T> {
+        return flatMap { response in
+            let data = try? JSON(data: response.data)
+             
+            let result = BaseResponseModel<T>(json: data)
+            
+            if !(result?.success ?? false) {
+                let genericError = ResponseError(statusCode: response.statusCode,
+                                                 message: result?.message ?? "")
+                return Single.error(genericError)
+            }
+            
+            guard let strongResult = result?.result else {
+                let genericError = ResponseError(statusCode: response.statusCode,
+                                                 message: "parse data error")
+                return Single.error(genericError)
+            }
+       
+            return Single.just(strongResult)
+        }
+    }
 }
 
 struct ResponseError: Decodable, Error {
@@ -81,10 +95,8 @@ enum TokenError: Swift.Error {
     case tokenExpired
 }
 
-enum APICallerResult<T>{
+enum APICallerResult<T> {
     case success(T?)
     case failure(Error)
 }
  
- 
-

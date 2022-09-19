@@ -42,7 +42,7 @@ class UserModel: BaseModel {
         parseJson(_json)
     }
     
-    func parseJson(_ json: JSON) { 
+    func parseJson(_ json: JSON) {
         id = json[JSONUserKey.id].int
         email = json[JSONUserKey.email].string
         status = json[JSONUserKey.status].int
@@ -56,50 +56,47 @@ class UserModel: BaseModel {
     }
     
     static func fromSaved() -> UserModel? {
-     
-      if let dicData = UserDefaults.standard.dictionary(forKey: .keySaveUserData) {
-        let model = UserModel()
-        model.id = dicData[JSONUserKey.id] as? Int ?? 0
-        model.email = dicData[JSONUserKey.email] as? String
-        model.status = dicData[JSONUserKey.status] as? Int
-        model.premiumExpire = dicData[JSONUserKey.premiumExpire] as? Int
-        model.emailVerified = dicData[JSONUserKey.emailVerified] as? Bool ?? false
-          model.isDelete = dicData[JSONUserKey.isDelete] as? Int ?? 0
-          model.veryfiedAt = dicData[JSONUserKey.veryfiedAt] as? Int
-          model.freePremiumDays = dicData[JSONUserKey.freePremiumDays] as? Int ?? 0
-          model.isPremium = dicData[JSONUserKey.isPremium] as? Bool ?? false
-          model.hasPassword = dicData[JSONUserKey.hasPassword] as? Bool ?? false
+        if let dicData = UserDefaults.standard.dictionary(forKey: .keySaveUserData) {
+            let model = UserModel()
+            model.id = dicData[JSONUserKey.id] as? Int ?? 0
+            model.email = dicData[JSONUserKey.email] as? String
+            model.status = dicData[JSONUserKey.status] as? Int
+            model.premiumExpire = dicData[JSONUserKey.premiumExpire] as? Int
+            model.emailVerified = dicData[JSONUserKey.emailVerified] as? Bool ?? false
+            model.isDelete = dicData[JSONUserKey.isDelete] as? Int ?? 0
+            model.veryfiedAt = dicData[JSONUserKey.veryfiedAt] as? Int
+            model.freePremiumDays = dicData[JSONUserKey.freePremiumDays] as? Int ?? 0
+            model.isPremium = dicData[JSONUserKey.isPremium] as? Bool ?? false
+            model.hasPassword = dicData[JSONUserKey.hasPassword] as? Bool ?? false
          
-        return model
-      }
+            return model
+        }
       
-      return nil
-     
+        return nil
     }
     
-    func save() { 
-      let dicData = [
-        JSONUserKey.id: self.id,
-        JSONUserKey.email: self.email ?? "",
-        JSONUserKey.status: self.status ?? 0,
-        JSONUserKey.premiumExpire: self.premiumExpire ?? 0,
-        JSONUserKey.emailVerified: self.emailVerified ?? false,
-        JSONUserKey.isDelete: self.isDelete ?? 0,
-        JSONUserKey.veryfiedAt: self.veryfiedAt ?? 0,
-        JSONUserKey.freePremiumDays: self.freePremiumDays ?? 0,
-        JSONUserKey.isPremium: self.isPremium ?? false,
-        JSONUserKey.hasPassword: self.hasPassword ?? false
-      ]
+    func save() {
+        let dicData: [String: Any] = [
+            JSONUserKey.id: id,
+            JSONUserKey.email: email ?? "",
+            JSONUserKey.status: status ?? 0,
+            JSONUserKey.premiumExpire: premiumExpire ?? 0,
+            JSONUserKey.emailVerified: emailVerified ?? false,
+            JSONUserKey.isDelete: isDelete ?? 0,
+            JSONUserKey.veryfiedAt: veryfiedAt ?? 0,
+            JSONUserKey.freePremiumDays: freePremiumDays ?? 0,
+            JSONUserKey.isPremium: isPremium ?? false,
+            JSONUserKey.hasPassword: hasPassword ?? false
+        ]
       
-      UserDefaults.standard.setValue(dicData, forKey: .keySaveUserData)
+        UserDefaults.standard.setValue(dicData, forKey: .keySaveUserData)
     }
-    
-  }
+}
    
-  extension String {
+extension String {
     static var keySaveUserData = "KEY_USER_DATA"
-   
-  }
+}
+
 struct JSONUserKey {
     static let id = "id"
     static let email = "email"

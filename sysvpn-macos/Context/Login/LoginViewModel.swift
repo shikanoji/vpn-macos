@@ -40,19 +40,17 @@ extension LoginView {
               */
             let email = "test@gmail.com"
             let password2 = "X12345678"
-            APIServiceManager.shared.onLogin(email: email, password: password2) { [weak self] (result) in
-                switch result {
-                case .success(let dataUser):
-                    AppDataManager.shared.userData = dataUser as? UserModel
-                    break
-                case .failure(_):
-                    break
-                    
+            APIServiceManager.shared.onLogin(email: email, password: password2).subscribe { event in
+                switch event {
+                case let .success(authenModel):
+                    print("done\(authenModel.user?.email)")
+                case let .failure(e):
+                    print(e)
                 }
             }
         }
         
-        func onTouchForgotPassword() { 
+        func onTouchForgotPassword() {
             print("Forgot button was tapped:   \(AppSetting.shared.deviceVersion)")
         }
         
