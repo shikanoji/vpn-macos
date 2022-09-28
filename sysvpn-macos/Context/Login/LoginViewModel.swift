@@ -18,6 +18,7 @@ extension LoginView {
         @Published var isRemember: Bool = false
         @Published var isPresentedLoading = false
         @Published var isVerifiedInput = false
+        @Published var showAlert = true
         
         init() {
             isRemember = AppSetting.shared.isRememberLogin
@@ -29,7 +30,7 @@ extension LoginView {
             withAnimation {
                 self.isPresentedLoading = true
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 withAnimation {
                     self.isPresentedLoading = false
                 }

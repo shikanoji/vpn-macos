@@ -14,6 +14,7 @@ struct ZoomModifier: ViewModifier {
     private var max: CGFloat = 3.0
     private var numberImage: CGFloat = 3
     
+    
     @State var currentScale: CGFloat = 1.0
     @State var isDrag = false
     @State private var offset = CGSize.zero

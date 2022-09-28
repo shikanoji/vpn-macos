@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-
 struct VpnMapView: View {
     var body: some View {
         GeometryReader { proxy in
@@ -33,6 +32,14 @@ struct LoopMapView: View {
                     .frame(width: size.width, height: size.height)
                 Asset.Assets.mapLayer1
                     .swiftUIImage.resizable()
+                    .frame(width: size.width, height: size.height)
+            }
+            HStack(spacing: 0) {
+                VpnMapPointLayerView()
+                    .frame(width: size.width, height: size.height)
+                VpnMapPointLayerView()
+                    .frame(width: size.width, height: size.height)
+                VpnMapPointLayerView()
                     .frame(width: size.width, height: size.height)
             }
         }.frame(width: size.width * 3, height: size.height, alignment: .center)

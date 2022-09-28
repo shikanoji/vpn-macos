@@ -7,16 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E06007228E4047E00FF8F40 /* AppAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06007128E4047E00FF8F40 /* AppAlertView.swift */; };
+		9E06007728E40D7100FF8F40 /* VpnMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06007428E40D7100FF8F40 /* VpnMapViewModel.swift */; };
+		9E06007828E40D7100FF8F40 /* VpnMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06007528E40D7100FF8F40 /* VpnMapView.swift */; };
+		9E06007928E40D7100FF8F40 /* PinZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06007628E40D7100FF8F40 /* PinZoomView.swift */; };
+		9E06007C28E40D7F00FF8F40 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06007B28E40D7F00FF8F40 /* ViewExtension.swift */; };
+		9E06007E28E40D8800FF8F40 /* TrackinAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06007D28E40D8800FF8F40 /* TrackinAreaView.swift */; };
+		9E06008028E4103F00FF8F40 /* WindowMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06007F28E4103F00FF8F40 /* WindowMgr.swift */; };
+		9E06008328E4128600FF8F40 /* VpnMapPointLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06008228E4128600FF8F40 /* VpnMapPointLayerView.swift */; };
+		9E06008628E419DD00FF8F40 /* VpnMapPointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06008528E419DD00FF8F40 /* VpnMapPointView.swift */; };
+		9E06008A28E4278200FF8F40 /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = 9E06008928E4278200FF8F40 /* SwiftUITooltip */; };
+		9E26608F28DF8B1E00C421B1 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 9E26608E28DF8B1E00C421B1 /* PopupView */; };
 		9EC3322A28C108A300CA5DF5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322928C108A300CA5DF5 /* LoginView.swift */; };
 		9EC3322C28C108B000CA5DF5 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322B28C108B000CA5DF5 /* LoginViewModel.swift */; };
 		9EC3322F28C1151800CA5DF5 /* LoginInputTextFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322E28C1151800CA5DF5 /* LoginInputTextFiled.swift */; };
 		9EC3323328C2134200CA5DF5 /* LoginButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3323228C2134200CA5DF5 /* LoginButtonStyle.swift */; };
 		9EC3323528C254DF00CA5DF5 /* LoginLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3323428C254DF00CA5DF5 /* LoginLoadingView.swift */; };
-		9EC3323828C32C0E00CA5DF5 /* VpnMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3323728C32C0E00CA5DF5 /* VpnMapView.swift */; };
-		9EC3323A28C32C2E00CA5DF5 /* VpnMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3323928C32C2E00CA5DF5 /* VpnMapViewModel.swift */; };
-		9EC3323C28C3325000CA5DF5 /* PinZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3323B28C3325000CA5DF5 /* PinZoomView.swift */; };
-		9EC3324028C34A4300CA5DF5 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3323F28C34A4300CA5DF5 /* ViewExtension.swift */; };
-		9EC3324328C34AAA00CA5DF5 /* TrackinAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3324228C34AAA00CA5DF5 /* TrackinAreaView.swift */; };
 		AC09D71B28BCDCD40078E928 /* sysvpn_macosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D71A28BCDCD40078E928 /* sysvpn_macosApp.swift */; };
 		AC09D71D28BCDCD40078E928 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D71C28BCDCD40078E928 /* ContentView.swift */; };
 		AC09D71F28BCDCD70078E928 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC09D71E28BCDCD70078E928 /* Assets.xcassets */; };
@@ -65,16 +71,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9E06007128E4047E00FF8F40 /* AppAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlertView.swift; sourceTree = "<group>"; };
+		9E06007428E40D7100FF8F40 /* VpnMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VpnMapViewModel.swift; sourceTree = "<group>"; };
+		9E06007528E40D7100FF8F40 /* VpnMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VpnMapView.swift; sourceTree = "<group>"; };
+		9E06007628E40D7100FF8F40 /* PinZoomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinZoomView.swift; sourceTree = "<group>"; };
+		9E06007B28E40D7F00FF8F40 /* ViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		9E06007D28E40D8800FF8F40 /* TrackinAreaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackinAreaView.swift; sourceTree = "<group>"; };
+		9E06007F28E4103F00FF8F40 /* WindowMgr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowMgr.swift; sourceTree = "<group>"; };
+		9E06008128E410E100FF8F40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9E06008228E4128600FF8F40 /* VpnMapPointLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnMapPointLayerView.swift; sourceTree = "<group>"; };
+		9E06008528E419DD00FF8F40 /* VpnMapPointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnMapPointView.swift; sourceTree = "<group>"; };
+		9E06008728E41A9000FF8F40 /* sysvpn_macosApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sysvpn_macosApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		9EC3322928C108A300CA5DF5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9EC3322B28C108B000CA5DF5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		9EC3322E28C1151800CA5DF5 /* LoginInputTextFiled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputTextFiled.swift; sourceTree = "<group>"; };
 		9EC3323228C2134200CA5DF5 /* LoginButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonStyle.swift; sourceTree = "<group>"; };
 		9EC3323428C254DF00CA5DF5 /* LoginLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLoadingView.swift; sourceTree = "<group>"; };
-		9EC3323728C32C0E00CA5DF5 /* VpnMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnMapView.swift; sourceTree = "<group>"; };
-		9EC3323928C32C2E00CA5DF5 /* VpnMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnMapViewModel.swift; sourceTree = "<group>"; };
-		9EC3323B28C3325000CA5DF5 /* PinZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinZoomView.swift; sourceTree = "<group>"; };
-		9EC3323F28C34A4300CA5DF5 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
-		9EC3324228C34AAA00CA5DF5 /* TrackinAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackinAreaView.swift; sourceTree = "<group>"; };
 		AC09D71728BCDCD40078E928 /* sysvpn-macos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sysvpn-macos.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC09D71A28BCDCD40078E928 /* sysvpn_macosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysvpn_macosApp.swift; sourceTree = "<group>"; };
 		AC09D71C28BCDCD40078E928 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -108,9 +120,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E06008A28E4278200FF8F40 /* SwiftUITooltip in Frameworks */,
 				AC09D75028BCDE7A0078E928 /* RxMoya in Frameworks */,
 				AC09D74A28BCDE7A0078E928 /* CombineMoya in Frameworks */,
 				AC09D74E28BCDE7A0078E928 /* ReactiveMoya in Frameworks */,
+				9E26608F28DF8B1E00C421B1 /* PopupView in Frameworks */,
 				AC09D79428BE08460078E928 /* GoogleSignInSwift in Frameworks */,
 				AC09D74728BCDE080078E928 /* Alamofire in Frameworks */,
 				AC09D76128BCE0560078E928 /* SwiftyJSON in Frameworks */,
@@ -136,6 +150,59 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E06006F28E4044F00FF8F40 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				9E06007A28E40D7F00FF8F40 /* Extension */,
+				9E06007028E4046800FF8F40 /* CommonView */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		9E06007028E4046800FF8F40 /* CommonView */ = {
+			isa = PBXGroup;
+			children = (
+				9E06007D28E40D8800FF8F40 /* TrackinAreaView.swift */,
+				9E06007128E4047E00FF8F40 /* AppAlertView.swift */,
+			);
+			path = CommonView;
+			sourceTree = "<group>";
+		};
+		9E06007328E40D7100FF8F40 /* VpnMap */ = {
+			isa = PBXGroup;
+			children = (
+				9E06008428E419BF00FF8F40 /* Components */,
+				9E06007428E40D7100FF8F40 /* VpnMapViewModel.swift */,
+				9E06007528E40D7100FF8F40 /* VpnMapView.swift */,
+			);
+			path = VpnMap;
+			sourceTree = "<group>";
+		};
+		9E06007A28E40D7F00FF8F40 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				9E06007B28E40D7F00FF8F40 /* ViewExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		9E06008428E419BF00FF8F40 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9E06007628E40D7100FF8F40 /* PinZoomView.swift */,
+				9E06008228E4128600FF8F40 /* VpnMapPointLayerView.swift */,
+				9E06008528E419DD00FF8F40 /* VpnMapPointView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9E26609028DF8B8700C421B1 /* SharedView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SharedView;
+			sourceTree = "<group>";
+		};
 		9EC3322628C1086D00CA5DF5 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,41 +221,6 @@
 				9EC3323228C2134200CA5DF5 /* LoginButtonStyle.swift */,
 			);
 			path = Styles;
-			sourceTree = "<group>";
-		};
-		9EC3323628C32BF800CA5DF5 /* VpnMap */ = {
-			isa = PBXGroup;
-			children = (
-				9EC3323728C32C0E00CA5DF5 /* VpnMapView.swift */,
-				9EC3323928C32C2E00CA5DF5 /* VpnMapViewModel.swift */,
-				9EC3323B28C3325000CA5DF5 /* PinZoomView.swift */,
-			);
-			path = VpnMap;
-			sourceTree = "<group>";
-		};
-		9EC3323D28C34A2800CA5DF5 /* Util */ = {
-			isa = PBXGroup;
-			children = (
-				9EC3324128C34A9C00CA5DF5 /* CommonView */,
-				9EC3323E28C34A3600CA5DF5 /* Extension */,
-			);
-			path = Util;
-			sourceTree = "<group>";
-		};
-		9EC3323E28C34A3600CA5DF5 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				9EC3323F28C34A4300CA5DF5 /* ViewExtension.swift */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
-		9EC3324128C34A9C00CA5DF5 /* CommonView */ = {
-			isa = PBXGroup;
-			children = (
-				9EC3324228C34AAA00CA5DF5 /* TrackinAreaView.swift */,
-			);
-			path = CommonView;
 			sourceTree = "<group>";
 		};
 		AC09D70E28BCDCD40078E928 = {
@@ -217,7 +249,8 @@
 		AC09D71928BCDCD40078E928 /* sysvpn-macos */ = {
 			isa = PBXGroup;
 			children = (
-				9EC3323D28C34A2800CA5DF5 /* Util */,
+				9E06008128E410E100FF8F40 /* Info.plist */,
+				9E06006F28E4044F00FF8F40 /* Util */,
 				AC09D7A328BF10C80078E928 /* Common */,
 				AC09D79B28BE10660078E928 /* Context */,
 				AC09D78328BDE8770078E928 /* Language */,
@@ -228,6 +261,7 @@
 				AC09D79528BE0D1F0078E928 /* AppDelegate.swift */,
 				AC09D72328BCDCD70078E928 /* sysvpn_macos.entitlements */,
 				AC09D72028BCDCD70078E928 /* Preview Content */,
+				9E06008728E41A9000FF8F40 /* sysvpn_macosApp-Bridging-Header.h */,
 			);
 			path = "sysvpn-macos";
 			sourceTree = "<group>";
@@ -296,7 +330,8 @@
 		AC09D79B28BE10660078E928 /* Context */ = {
 			isa = PBXGroup;
 			children = (
-				9EC3323628C32BF800CA5DF5 /* VpnMap */,
+				9E06007328E40D7100FF8F40 /* VpnMap */,
+				9E26609028DF8B8700C421B1 /* SharedView */,
 				9EC3322628C1086D00CA5DF5 /* Login */,
 				AC09D79C28BE12180078E928 /* Networking */,
 			);
@@ -316,6 +351,7 @@
 			children = (
 				AC09D7A428BF10D30078E928 /* Constant.swift */,
 				AC09D7A628BF13400078E928 /* AppSetting.swift */,
+				9E06007F28E4103F00FF8F40 /* WindowMgr.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -357,6 +393,8 @@
 				AC09D76028BCE0560078E928 /* SwiftyJSON */,
 				AC09D79128BE08460078E928 /* GoogleSignIn */,
 				AC09D79328BE08460078E928 /* GoogleSignInSwift */,
+				9E26608E28DF8B1E00C421B1 /* PopupView */,
+				9E06008928E4278200FF8F40 /* SwiftUITooltip */,
 			);
 			productName = "sysvpn-macos";
 			productReference = AC09D71728BCDCD40078E928 /* sysvpn-macos.app */;
@@ -435,6 +473,8 @@
 				AC09D74828BCDE7A0078E928 /* XCRemoteSwiftPackageReference "Moya" */,
 				AC09D75F28BCE0560078E928 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				AC09D79028BE08460078E928 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				9E26608D28DF8B1E00C421B1 /* XCRemoteSwiftPackageReference "PopupView" */,
+				9E06008828E4278200FF8F40 /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
 			);
 			productRefGroup = AC09D71828BCDCD40078E928 /* Products */;
 			projectDirPath = "";
@@ -481,7 +521,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		AC09D77C28BDE5130078E928 /* SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -493,13 +533,13 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "cd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\n#swift package update #Uncomment this line temporarily to update the version used to the latest matching your BuildTools/Package.swift file\nswift run -c release swiftformat \"$SRCROOT\"\n";
 		};
 		AC09D78B28BDE98B0078E928 /* SwiftGen */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -522,26 +562,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9EC3324328C34AAA00CA5DF5 /* TrackinAreaView.swift in Sources */,
 				9EC3323528C254DF00CA5DF5 /* LoginLoadingView.swift in Sources */,
+				9E06007228E4047E00FF8F40 /* AppAlertView.swift in Sources */,
 				AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */,
 				AC09D79A28BE0F340078E928 /* Strings+Generated.swift in Sources */,
 				AC09D79628BE0D1F0078E928 /* AppDelegate.swift in Sources */,
 				9EC3322F28C1151800CA5DF5 /* LoginInputTextFiled.swift in Sources */,
 				AC09D7A528BF10D30078E928 /* Constant.swift in Sources */,
+				9E06007728E40D7100FF8F40 /* VpnMapViewModel.swift in Sources */,
 				AC09D79E28BE12480078E928 /* BaseServiceManager.swift in Sources */,
-				9EC3323A28C32C2E00CA5DF5 /* VpnMapViewModel.swift in Sources */,
+				9E06007E28E40D8800FF8F40 /* TrackinAreaView.swift in Sources */,
 				9EC3323328C2134200CA5DF5 /* LoginButtonStyle.swift in Sources */,
-				9EC3323828C32C0E00CA5DF5 /* VpnMapView.swift in Sources */,
 				9EC3322A28C108A300CA5DF5 /* LoginView.swift in Sources */,
 				AC09D71D28BCDCD40078E928 /* ContentView.swift in Sources */,
 				9EC3322C28C108B000CA5DF5 /* LoginViewModel.swift in Sources */,
 				AC09D71B28BCDCD40078E928 /* sysvpn_macosApp.swift in Sources */,
+				9E06008628E419DD00FF8F40 /* VpnMapPointView.swift in Sources */,
+				9E06007C28E40D7F00FF8F40 /* ViewExtension.swift in Sources */,
 				AC09D7A028BF0F970078E928 /* APIServiceManager.swift in Sources */,
-				9EC3324028C34A4300CA5DF5 /* ViewExtension.swift in Sources */,
-				9EC3323C28C3325000CA5DF5 /* PinZoomView.swift in Sources */,
 				AC09D7A228BF0FEE0078E928 /* APIService.swift in Sources */,
+				9E06008028E4103F00FF8F40 /* WindowMgr.swift in Sources */,
+				9E06007828E40D7100FF8F40 /* VpnMapView.swift in Sources */,
+				9E06007928E40D7100FF8F40 /* PinZoomView.swift in Sources */,
 				AC09D79928BE0F340078E928 /* XCAssets+Generated.swift in Sources */,
+				9E06008328E4128600FF8F40 /* VpnMapPointLayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,6 +758,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"sysvpn-macos/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "sysvpn-macos/Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -723,6 +768,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.syspvn.client.macos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "sysvpn-macos/sysvpn_macosApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -739,6 +785,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"sysvpn-macos/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "sysvpn-macos/Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -748,6 +795,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.syspvn.client.macos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "sysvpn-macos/sysvpn_macosApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -862,6 +910,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9E06008828E4278200FF8F40 /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/quassum/SwiftUI-Tooltip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		9E26608D28DF8B1E00C421B1 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		AC09D74528BCDE080078E928 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
@@ -897,6 +961,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9E06008928E4278200FF8F40 /* SwiftUITooltip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E06008828E4278200FF8F40 /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */;
+			productName = SwiftUITooltip;
+		};
+		9E26608E28DF8B1E00C421B1 /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E26608D28DF8B1E00C421B1 /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
 		AC09D74628BCDE080078E928 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AC09D74528BCDE080078E928 /* XCRemoteSwiftPackageReference "Alamofire" */;
