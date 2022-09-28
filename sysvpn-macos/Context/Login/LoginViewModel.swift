@@ -18,6 +18,7 @@ extension LoginView {
         @Published var isRemember: Bool = false
         @Published var isPresentedLoading = false
         @Published var isVerifiedInput = false
+        @Published var showAlert = true
         
         init() {
             isRemember = AppSetting.shared.isRememberLogin

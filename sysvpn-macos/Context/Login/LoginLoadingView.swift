@@ -46,7 +46,6 @@ struct LoginLoadingView: View {
         }.onAppear {
             withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
                 animate.toggle()
-                print("123213")
             }
         }
     }
