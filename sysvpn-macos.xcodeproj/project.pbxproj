@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E06007228E4047E00FF8F40 /* AppAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06007128E4047E00FF8F40 /* AppAlertView.swift */; };
+		9E26608F28DF8B1E00C421B1 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 9E26608E28DF8B1E00C421B1 /* PopupView */; };
 		9EC3322A28C108A300CA5DF5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322928C108A300CA5DF5 /* LoginView.swift */; };
 		9EC3322C28C108B000CA5DF5 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322B28C108B000CA5DF5 /* LoginViewModel.swift */; };
 		9EC3322F28C1151800CA5DF5 /* LoginInputTextFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322E28C1151800CA5DF5 /* LoginInputTextFiled.swift */; };
@@ -60,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9E06007128E4047E00FF8F40 /* AppAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlertView.swift; sourceTree = "<group>"; };
 		9EC3322928C108A300CA5DF5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9EC3322B28C108B000CA5DF5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		9EC3322E28C1151800CA5DF5 /* LoginInputTextFiled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputTextFiled.swift; sourceTree = "<group>"; };
@@ -101,6 +104,7 @@
 				AC09D75028BCDE7A0078E928 /* RxMoya in Frameworks */,
 				AC09D74A28BCDE7A0078E928 /* CombineMoya in Frameworks */,
 				AC09D74E28BCDE7A0078E928 /* ReactiveMoya in Frameworks */,
+				9E26608F28DF8B1E00C421B1 /* PopupView in Frameworks */,
 				AC09D79428BE08460078E928 /* GoogleSignInSwift in Frameworks */,
 				AC09D74728BCDE080078E928 /* Alamofire in Frameworks */,
 				AC09D76128BCE0560078E928 /* SwiftyJSON in Frameworks */,
@@ -126,6 +130,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E06006F28E4044F00FF8F40 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				9E06007028E4046800FF8F40 /* CommonView */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		9E06007028E4046800FF8F40 /* CommonView */ = {
+			isa = PBXGroup;
+			children = (
+				9E06007128E4047E00FF8F40 /* AppAlertView.swift */,
+			);
+			path = CommonView;
+			sourceTree = "<group>";
+		};
+		9E26609028DF8B8700C421B1 /* SharedView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SharedView;
+			sourceTree = "<group>";
+		};
 		9EC3322628C1086D00CA5DF5 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +199,7 @@
 		AC09D71928BCDCD40078E928 /* sysvpn-macos */ = {
 			isa = PBXGroup;
 			children = (
+				9E06006F28E4044F00FF8F40 /* Util */,
 				AC09D7A328BF10C80078E928 /* Common */,
 				AC09D79B28BE10660078E928 /* Context */,
 				AC09D78328BDE8770078E928 /* Language */,
@@ -250,6 +278,7 @@
 		AC09D79B28BE10660078E928 /* Context */ = {
 			isa = PBXGroup;
 			children = (
+				9E26609028DF8B8700C421B1 /* SharedView */,
 				9EC3322628C1086D00CA5DF5 /* Login */,
 				AC09D79C28BE12180078E928 /* Networking */,
 			);
@@ -310,6 +339,7 @@
 				AC09D76028BCE0560078E928 /* SwiftyJSON */,
 				AC09D79128BE08460078E928 /* GoogleSignIn */,
 				AC09D79328BE08460078E928 /* GoogleSignInSwift */,
+				9E26608E28DF8B1E00C421B1 /* PopupView */,
 			);
 			productName = "sysvpn-macos";
 			productReference = AC09D71728BCDCD40078E928 /* sysvpn-macos.app */;
@@ -388,6 +418,7 @@
 				AC09D74828BCDE7A0078E928 /* XCRemoteSwiftPackageReference "Moya" */,
 				AC09D75F28BCE0560078E928 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				AC09D79028BE08460078E928 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				9E26608D28DF8B1E00C421B1 /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = AC09D71828BCDCD40078E928 /* Products */;
 			projectDirPath = "";
@@ -434,7 +465,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		AC09D77C28BDE5130078E928 /* SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -446,13 +477,13 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "cd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\n#swift package update #Uncomment this line temporarily to update the version used to the latest matching your BuildTools/Package.swift file\nswift run -c release swiftformat \"$SRCROOT\"\n";
 		};
 		AC09D78B28BDE98B0078E928 /* SwiftGen */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -464,7 +495,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "cd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\n#swift package update #Uncomment this line temporarily to update the version used to the latest matching your BuildTools/Package.swift file\nswift run -c release swiftgen config run --config \"$SRCROOT/swiftgen.yml\"\n";
 		};
@@ -476,6 +507,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EC3323528C254DF00CA5DF5 /* LoginLoadingView.swift in Sources */,
+				9E06007228E4047E00FF8F40 /* AppAlertView.swift in Sources */,
 				AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */,
 				AC09D79A28BE0F340078E928 /* Strings+Generated.swift in Sources */,
 				AC09D79628BE0D1F0078E928 /* AppDelegate.swift in Sources */,
@@ -810,6 +842,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9E26608D28DF8B1E00C421B1 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		AC09D74528BCDE080078E928 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
@@ -845,6 +885,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9E26608E28DF8B1E00C421B1 /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E26608D28DF8B1E00C421B1 /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
 		AC09D74628BCDE080078E928 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AC09D74528BCDE080078E928 /* XCRemoteSwiftPackageReference "Alamofire" */;
