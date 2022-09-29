@@ -10,7 +10,7 @@ import SwiftyJSON
 
 class AuthenResponse: BaseModel {
     var user: UserModel?
-    var email: String?
+    var tokens: AuthenTokenModel?
     
     required convenience init?(json: JSON?) {
         guard let _json = json else { return nil }
@@ -20,9 +20,12 @@ class AuthenResponse: BaseModel {
     
     func parseJson(_ json: JSON) {
         user = UserModel(json: json[JSONUserKey.user])
-        email = json[JSONUserKey.email].string
+        tokens = AuthenTokenModel(json: json[JSONTokenKey.tokens])
     }
+    
 }
+
+
 
 class UserModel: BaseModel {
     var id: Int?
@@ -110,7 +113,6 @@ struct JSONUserKey {
     static let freePremiumDays = "free_premium_days"
     static let isPremium = "is_premium"
     static let hasPassword = "has_password"
-    static let tokens = "tokens"
-    static let access = "access"
     static let user = "user"
+
 }

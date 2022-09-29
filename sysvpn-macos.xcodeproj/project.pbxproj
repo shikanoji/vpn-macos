@@ -40,6 +40,12 @@
 		AC09D7A228BF0FEE0078E928 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A128BF0FEE0078E928 /* APIService.swift */; };
 		AC09D7A528BF10D30078E928 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A428BF10D30078E928 /* Constant.swift */; };
 		AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A628BF13400078E928 /* AppSetting.swift */; };
+		B99DB42628E4496300331AFB /* AppAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DB42528E4496300331AFB /* AppAlertView.swift */; };
+		B99DB42928E449A700331AFB /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = B99DB42828E449A700331AFB /* PopupView */; };
+		B99DB42B28E455F400331AFB /* AuthenTokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DB42A28E455F400331AFB /* AuthenTokenModel.swift */; };
+		B99DB42D28E4595800331AFB /* IpInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DB42C28E4595800331AFB /* IpInfoModel.swift */; };
+		B99DB43028E5869F00331AFB /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DB42F28E5869F00331AFB /* SplashView.swift */; };
+		B99DB43228E5896900331AFB /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DB43128E5896900331AFB /* SplashViewModel.swift */; };
 		B9D7F70E28D21421008B1D39 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F70D28D21421008B1D39 /* HomeView.swift */; };
 		B9D7F71228D2E3C5008B1D39 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71128D2E3C5008B1D39 /* UIColor+Extension.swift */; };
 		B9D7F71528D330BF008B1D39 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71428D330BE008B1D39 /* BaseModel.swift */; };
@@ -97,6 +103,11 @@
 		AC09D7A128BF0FEE0078E928 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		AC09D7A428BF10D30078E928 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		AC09D7A628BF13400078E928 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
+		B99DB42528E4496300331AFB /* AppAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppAlertView.swift; sourceTree = "<group>"; };
+		B99DB42A28E455F400331AFB /* AuthenTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenTokenModel.swift; sourceTree = "<group>"; };
+		B99DB42C28E4595800331AFB /* IpInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IpInfoModel.swift; sourceTree = "<group>"; };
+		B99DB42F28E5869F00331AFB /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		B99DB43128E5896900331AFB /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
 		B9D7F70D28D21421008B1D39 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		B9D7F71128D2E3C5008B1D39 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		B9D7F71428D330BE008B1D39 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
@@ -114,6 +125,7 @@
 				AC09D75028BCDE7A0078E928 /* RxMoya in Frameworks */,
 				AC09D74A28BCDE7A0078E928 /* CombineMoya in Frameworks */,
 				AC09D74E28BCDE7A0078E928 /* ReactiveMoya in Frameworks */,
+				B99DB42928E449A700331AFB /* PopupView in Frameworks */,
 				AC09D79428BE08460078E928 /* GoogleSignInSwift in Frameworks */,
 				AC09D74728BCDE080078E928 /* Alamofire in Frameworks */,
 				AC09D76128BCE0560078E928 /* SwiftyJSON in Frameworks */,
@@ -185,6 +197,7 @@
 		AC09D71928BCDCD40078E928 /* sysvpn-macos */ = {
 			isa = PBXGroup;
 			children = (
+				B99DB42328E4496300331AFB /* Util */,
 				B9D7F71A28D463E8008B1D39 /* Info.plist */,
 				AC09D7A328BF10C80078E928 /* Common */,
 				AC09D79B28BE10660078E928 /* Context */,
@@ -264,6 +277,7 @@
 		AC09D79B28BE10660078E928 /* Context */ = {
 			isa = PBXGroup;
 			children = (
+				B99DB42E28E5861A00331AFB /* Splash */,
 				B9D7F71328D330A5008B1D39 /* Models */,
 				B9D7F71028D2E36D008B1D39 /* Extensions */,
 				B9D7F70C28D213FF008B1D39 /* Home */,
@@ -302,6 +316,31 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		B99DB42328E4496300331AFB /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				B99DB42428E4496300331AFB /* CommonView */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		B99DB42428E4496300331AFB /* CommonView */ = {
+			isa = PBXGroup;
+			children = (
+				B99DB42528E4496300331AFB /* AppAlertView.swift */,
+			);
+			path = CommonView;
+			sourceTree = "<group>";
+		};
+		B99DB42E28E5861A00331AFB /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				B99DB42F28E5869F00331AFB /* SplashView.swift */,
+				B99DB43128E5896900331AFB /* SplashViewModel.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
 		B9D7F70C28D213FF008B1D39 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,6 +370,8 @@
 			children = (
 				B9D7F71428D330BE008B1D39 /* BaseModel.swift */,
 				B9D7F71628D3324C008B1D39 /* UserModel.swift */,
+				B99DB42A28E455F400331AFB /* AuthenTokenModel.swift */,
+				B99DB42C28E4595800331AFB /* IpInfoModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -362,6 +403,7 @@
 				AC09D76028BCE0560078E928 /* SwiftyJSON */,
 				AC09D79128BE08460078E928 /* GoogleSignIn */,
 				AC09D79328BE08460078E928 /* GoogleSignInSwift */,
+				B99DB42828E449A700331AFB /* PopupView */,
 			);
 			productName = "sysvpn-macos";
 			productReference = AC09D71728BCDCD40078E928 /* sysvpn-macos.app */;
@@ -440,6 +482,7 @@
 				AC09D74828BCDE7A0078E928 /* XCRemoteSwiftPackageReference "Moya" */,
 				AC09D75F28BCE0560078E928 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				AC09D79028BE08460078E928 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				B99DB42728E449A700331AFB /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = AC09D71828BCDCD40078E928 /* Products */;
 			projectDirPath = "";
@@ -529,6 +572,7 @@
 			files = (
 				B9D7F71928D38343008B1D39 /* System.swift in Sources */,
 				B9D7F71528D330BF008B1D39 /* BaseModel.swift in Sources */,
+				B99DB43028E5869F00331AFB /* SplashView.swift in Sources */,
 				9EC3323528C254DF00CA5DF5 /* LoginLoadingView.swift in Sources */,
 				AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */,
 				AC09D79A28BE0F340078E928 /* Strings+Generated.swift in Sources */,
@@ -545,9 +589,13 @@
 				AC09D71B28BCDCD40078E928 /* sysvpn_macosApp.swift in Sources */,
 				AC09D7A028BF0F970078E928 /* APIServiceManager.swift in Sources */,
 				B9D7F71728D3324C008B1D39 /* UserModel.swift in Sources */,
+				B99DB42D28E4595800331AFB /* IpInfoModel.swift in Sources */,
+				B99DB42B28E455F400331AFB /* AuthenTokenModel.swift in Sources */,
+				B99DB43228E5896900331AFB /* SplashViewModel.swift in Sources */,
 				B9D7F70E28D21421008B1D39 /* HomeView.swift in Sources */,
 				AC09D7A228BF0FEE0078E928 /* APIService.swift in Sources */,
 				AC09D79928BE0F340078E928 /* XCAssets+Generated.swift in Sources */,
+				B99DB42628E4496300331AFB /* AppAlertView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -902,6 +950,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		B99DB42728E449A700331AFB /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -944,6 +1000,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AC09D79028BE08460078E928 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		B99DB42828E449A700331AFB /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B99DB42728E449A700331AFB /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

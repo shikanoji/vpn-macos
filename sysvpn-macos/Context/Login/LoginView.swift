@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import PopupView
 import SwiftUI
 
 private enum Field: Int, Hashable {
@@ -16,19 +17,25 @@ struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel()
     @FocusState private var focusState: Field?
     
+    private let contentHorizontalMargin: EdgeInsets = .init(top: 0, leading: 60, bottom: 0, trailing: 60)
+    private let socialIconSize: CGFloat = 20
+    private let inputSpacing: CGFloat = 16
+    private let paddingTop: CGFloat = 60
+    
     var formInput: some View {
         VStack {
+            Spacer().frame(height: paddingTop)
             TextField(L10n.Login.yourEmail, text: $viewModel.userName)
-                .padding(EdgeInsets(top: 60, leading: 60, bottom: 16, trailing: 60))
                 .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingEmail))
-                .disableAutocorrection(true)
                 .focused($focusState, equals: .username)
-            
+                .textContentType(.username)
+                .disableAutocorrection(true)
+            Spacer().frame(height: inputSpacing)
             SecureField(L10n.Login.password, text: $viewModel.password)
                 .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingPassword))
-                .padding(EdgeInsets(top: 0, leading: 60, bottom: 30, trailing: 60))
                 .focused($focusState, equals: .password)
-                .textContentType(.password)
+                .textContentType(nil)
+            Spacer().frame(height: 34)
         }
     }
     
@@ -40,7 +47,7 @@ struct LoginView: View {
                 Asset.Assets.icGoogle.swiftUIImage
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 20, height: 20)
+                    .frame(width: socialIconSize, height: socialIconSize)
                 Text(L10n.Login.signInWithGoogle)
             }.buttonStyle(LoginButtonNoBackgroundStyle())
             Spacer()
@@ -52,7 +59,7 @@ struct LoginView: View {
                 Asset.Assets.icApple.swiftUIImage
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 20, height: 20)
+                    .frame(width: socialIconSize, height: socialIconSize)
                 Text(L10n.Login.signInWithApple)
             }.buttonStyle(LoginButtonNoBackgroundStyle())
         }
@@ -61,7 +68,7 @@ struct LoginView: View {
     var formHeader: some View {
         VStack {
             Asset.Assets.logo.swiftUIImage
-                .padding(.top, 60)
+                .padding(.top, paddingTop)
             Text(L10n.Login.sologan)
                 .lineLimit(nil)
                 .font(Font.system(size: 16))
@@ -90,12 +97,12 @@ struct LoginView: View {
                 if viewModel.isRemember { Asset.Assets.icCheckChecked.swiftUIImage
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 20, height: 20)
+                    .frame(width: socialIconSize, height: socialIconSize)
                 } else {
                     Asset.Assets.icCheckNormal.swiftUIImage
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20)
+                        .frame(width: socialIconSize, height: socialIconSize)
                 }
                 Text(L10n.Login.rememberLogin)
             }.buttonStyle(LoginButtonNoBackgroundStyle())
@@ -114,30 +121,35 @@ struct LoginView: View {
                 formHeader
                 formInput
                 formFooter
-                    .padding(EdgeInsets(top: 0, leading: 60, bottom: 46, trailing: 60))
-                
+                Spacer().frame(height: 46)
                 Button {
                     viewModel.onTouchSignin()
                 } label: {
                     Text(L10n.Login.signIn)
                 }.buttonStyle(LoginButtonCTAStyle())
-                    .padding(EdgeInsets(top: 0, leading: 60, bottom: 32, trailing: 60))
                     .environment(\.isEnabled, viewModel.isVerifiedInput)
-                
+                Spacer().frame(height: 32)
                 socialLogin
-                    .padding(EdgeInsets(top: 0, leading: 60, bottom: 0, trailing: 60))
-                
+                Spacer().frame(height: 76)
                 createAccountArea
-                    .padding(EdgeInsets(top: 48, leading: 60, bottom: 0, trailing: 60))
-                
                 Spacer()
             }
+            .padding(contentHorizontalMargin)
             
             .background(Asset.Colors.backgroundColor.swiftUIColor)
             .foregroundColor(Color.white)
             .font(Font.system(size: 14))
             
             LoginLoadingView(isShowing: $viewModel.isPresentedLoading)
+        }
+        .popup(isPresented: $viewModel.showAlert,
+               type: .floater(verticalPadding: 0),
+               position: .bottom,
+               animation: .easeInOut,
+               autohideIn: 10,
+               closeOnTap: false,
+               closeOnTapOutside: true) {
+            AppAlertView(type: .error, message: viewModel.errorMessage)
         }
         .onChange(of: focusState) { newValue in
             viewModel.isEditingPassword = newValue == .password
@@ -158,5 +170,6 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
+            .frame(width: 500, height: 770, alignment: .center)
     }
 }

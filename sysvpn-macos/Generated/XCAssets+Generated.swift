@@ -29,6 +29,7 @@ internal enum Asset {
     internal static let logo = ImageAsset(name: "Logo")
     internal static let avatarTest = ImageAsset(name: "avatar_test")
     internal static let bgLoading = ImageAsset(name: "bg_loading")
+    internal static let icAlertError = ImageAsset(name: "ic_alert_error")
     internal static let icApple = ImageAsset(name: "ic_apple")
     internal static let icCheckChecked = ImageAsset(name: "ic_check_checked")
     internal static let icCheckNormal = ImageAsset(name: "ic_check_normal")
@@ -46,12 +47,16 @@ internal enum Asset {
     internal static let backgroundButtonDisable = ColorAsset(name: "backgroundButtonDisable")
     internal static let backgroundColor = ColorAsset(name: "backgroundColor")
     internal static let borderColor = ColorAsset(name: "borderColor")
+    internal static let errorColor = ColorAsset(name: "errorColor")
     internal static let foregroundButtonDisable = ColorAsset(name: "foregroundButtonDisable")
     internal static let foregroundButtonEnable = ColorAsset(name: "foregroundButtonEnable")
+    internal static let infoColor = ColorAsset(name: "infoColor")
     internal static let mainTextColor = ColorAsset(name: "mainTextColor")
     internal static let outlightColor = ColorAsset(name: "outlightColor")
     internal static let subTextColor = ColorAsset(name: "subTextColor")
+    internal static let successColor = ColorAsset(name: "successColor")
     internal static let themeColor = ColorAsset(name: "themeColor")
+    internal static let warningColor = ColorAsset(name: "warningColor")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

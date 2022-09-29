@@ -1,18 +1,16 @@
 //
-//  LoginLoadingView.swift
+//  SplashView.swift
 //  sysvpn-macos
 //
-//  Created by NuocLoc on 02/09/2022.
+//  Created by doragon on 29/09/2022.
 //
 
-import Foundation
 import SwiftUI
+import Foundation
 
-struct LoginLoadingView: View {
-    @Binding var isShowing: Bool
+struct SplashView: View {
+    @StateObject private var model = SplashViewModel()
     @State private var animate = true
-    private let outLightSize: CGFloat = 300
-    private let logoSize = CGSize(width: 100, height: 116)
     
     var body: some View {
         GeometryReader { geometry in
@@ -27,14 +25,14 @@ struct LoginLoadingView: View {
                             .fill(
                                 RadialGradient(
                                     colors: [
-                                        Asset.Colors.outlightColor.swiftUIColor.opacity(0.12), Asset.Colors.outlightColor.swiftUIColor.opacity(0)], center: .center, startRadius: .zero, endRadius: outLightSize / 2))
-                            .frame(width: outLightSize,
-                                   height: outLightSize,
+                                        Asset.Colors.outlightColor.swiftUIColor.opacity(0.12), Asset.Colors.outlightColor.swiftUIColor.opacity(0)], center: .center, startRadius: .zero, endRadius: model.outLightSize / 2))
+                            .frame(width: model.outLightSize,
+                                   height: model.outLightSize,
                                    alignment: .center)
-                            .modifier(MyEffect(x: animate ? 1 : 0.8, width: outLightSize))
+                            .modifier(MyEffect(x: animate ? 1 : 0.8, width: model.outLightSize))
                         Asset.Assets.logoF1.swiftUIImage
                             .resizable()
-                            .frame(width: logoSize.width, height: logoSize.height, alignment: .center)
+                            .frame(width: model.logoSize.width, height: model.logoSize.height, alignment: .center)
                     }
                     Text(L10n.Login.appName).font(Font.system(size: 26, weight: .bold)).padding(.bottom, 8)
                     Text(L10n.Login.sologanProcessing).padding(.bottom, 48)
@@ -42,7 +40,6 @@ struct LoginLoadingView: View {
                 
             }.background(Asset.Colors.backgroundColor.swiftUIColor)
                 .foregroundColor(Color.white)
-                .opacity(self.isShowing ? 1 : 0)
         }.onAppear {
             withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
                 animate.toggle()
@@ -51,16 +48,8 @@ struct LoginLoadingView: View {
     }
 }
 
-struct MyEffect: GeometryEffect {
-    var x: CGFloat = 0
-    var width: CGFloat = 0
-    
-    var animatableData: CGFloat {
-        get { x }
-        set { x = newValue }
-    }
-    
-    func effectValue(size: CGSize) -> ProjectionTransform {
-        return ProjectionTransform(CGAffineTransform(scaleX: x, y: x).translatedBy(x: (1 - x) * width / 2, y: (1 - x) * width / 2))
+struct SplashView_Previews: PreviewProvider {
+    static var previews: some View {
+        SplashView()
     }
 }

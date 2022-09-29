@@ -20,13 +20,15 @@ extension LoginView {
         @Published var isPresentedLoading = false
         @Published var isVerifiedInput = false
         @Environment(\.openURL) private var openURL
-        
+        @Published var showAlert = false
+        @Published var errorMessage: String = ""
+
         init() {
             isRemember = AppSetting.shared.isRememberLogin
         }
         
+         
         func onTouchSignin() {
-            // test
             AppSetting.shared.isRememberLogin = isRemember
             /*
              withAnimation {
@@ -36,16 +38,22 @@ extension LoginView {
                  withAnimation {
                      self.isPresentedLoading = false
                  }
-             }
-              */
+             } */
             let email = "test@gmail.com"
             let password2 = "X12345678"
             APIServiceManager.shared.onLogin(email: email, password: password2).subscribe { event in
                 switch event {
                 case let .success(authenModel):
-                    print("done\(authenModel.user?.email)")
-                case let .failure(e):
-                    print(e)
+                    AppDataManager.shared.userData = authenModel.user
+                    AppDataManager.shared.accessToken = authenModel.tokens?.access?.token
+                case let .failure( e):
+                    guard let error = e as? ResponseError else {
+                        self.errorMessage = L10n.Login.tryAgain
+                        self.showAlert = true
+                        return
+                    }
+                    self.errorMessage = error.message
+                    self.showAlert = true
                 }
             }
         }

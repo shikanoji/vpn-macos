@@ -13,6 +13,9 @@ extension String {
     static var keyUserIP = "USER_IP"
     static var keyUserCity = "USER_CITY"
     static var keyUserCountryCode = "USER_COUNTRY_CODE"
+    static var keyUserLatitude = "USER_LATITUDE"
+    static var keyUserLongitude = "USER_LONGTITUDE"
+    static var keyUserIsp = "USER_ISP"
 }
 
 class AppDataManager {
@@ -84,5 +87,41 @@ class AppDataManager {
         set {
             UserDefaults.standard.setValue(newValue, forKey: .keyUserCountryCode)
         }
+    }
+    
+    var latitude: Double {
+        get {
+            return UserDefaults.standard.double(forKey: .keyUserLatitude)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: .keyUserLatitude)
+        }
+    }
+    
+    var longitude: Double {
+        get {
+            return UserDefaults.standard.double(forKey: .keyUserLongitude)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: .keyUserLongitude)
+        }
+    }
+    
+    var userIsp: String {
+        get {
+            return UserDefaults.standard.string(forKey: .keyUserIsp) ?? ""
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: .keyUserIsp)
+        }
+    }
+    
+    func saveIpInfo(info: IpInfoModel?) {
+        userIp = info?.ip ?? "127.0.0.1"
+        userCity = info?.city ?? "Ha Noi"
+        userCountryCode = info?.countryCode ?? "VN"
+        latitude = info?.latitude ?? 0.0
+        longitude = info?.longitude ?? 0.0
+        userIsp = info?.isp ?? ""
     }
 }

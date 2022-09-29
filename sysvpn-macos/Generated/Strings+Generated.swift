@@ -43,6 +43,8 @@ public enum L10n {
     public static let sologan = L10n.tr("Login", "sologan", fallback: "Start protecting yourself with SysVPN")
     /// Light is Faster, but We are Safer.
     public static let sologanProcessing = L10n.tr("Login", "sologanProcessing", fallback: "Light is Faster, but We are Safer.")
+    /// Please try again!
+    public static let tryAgain = L10n.tr("Login", "tryAgain", fallback: "Please try again!")
     /// Your email
     public static let yourEmail = L10n.tr("Login", "yourEmail", fallback: "Your email")
   }
