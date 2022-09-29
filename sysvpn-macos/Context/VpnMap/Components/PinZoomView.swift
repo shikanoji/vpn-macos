@@ -10,8 +10,9 @@ import SwiftUI
  
 struct ZoomModifier: ViewModifier {
     private var contentSize: CGSize
+    private var screenSize: CGSize
     private var min: CGFloat = 1.0
-    private var max: CGFloat = 3.0
+    private var max: CGFloat = 2.0
     private var numberImage: CGFloat = 3
     
     
@@ -20,8 +21,10 @@ struct ZoomModifier: ViewModifier {
     @State private var offset = CGSize.zero
     @State private var lastOffset = CGSize.zero
 
-    init(contentSize: CGSize) {
+    init(contentSize: CGSize, screenSize: CGSize ,numberImage: Int = 3) {
         self.contentSize = contentSize
+        self.numberImage = CGFloat(numberImage)
+        self.screenSize = screenSize
     }
     
     func calcOffset(newOffset: CGSize, skipCheckPosition: Bool = false) {
@@ -31,24 +34,38 @@ struct ZoomModifier: ViewModifier {
         if offset.height > 0 {
             offset.height = 0
         }
-        if !skipCheckPosition {
-            if abs(offset.width) > newContentWidth * 2 / numberImage || abs(offset.width) < newContentWidth / numberImage {
-                offset.width = offset.width.remainder(dividingBy: newContentWidth / numberImage) - newContentWidth / numberImage
+        if (numberImage) > 1 {
+            if !skipCheckPosition {
+                if abs(offset.width) > newContentWidth * 2 / numberImage || abs(offset.width) < newContentWidth / numberImage {
+                    offset.width = offset.width.remainder(dividingBy: newContentWidth / numberImage) - newContentWidth / numberImage
+                }
+            }
+        } else {
+            if (offset.width > 0) {
+                offset.width = 0
+            }
+            if (abs (offset.width ) + screenSize.width  > newContentWidth)
+            {
+                offset.width = (newContentWidth - screenSize.width) * -1
             }
         }
-     
+      
         if offset.height * -1 > newContentHeight - contentSize.height {
-            offset.height = (newContentHeight - contentSize.height) * -1
+            offset.height = (newContentHeight - contentSize.height) * -1  
         }
     }
     
     func onScaleCalcOffset(value: CGFloat) {
         let currentWidth = contentSize.width * numberImage * currentScale
         let currentHeight = contentSize.height * currentScale
+        
         let nextWith = contentSize.width * value * numberImage
         let nextHeight = contentSize.height * value
-        offset.width += (currentWidth - nextWith) / 2
-        offset.height += (currentHeight - nextHeight) / 2
+        let dist = (offset.width * -1 + screenSize.width / 2)  - currentWidth / 2
+        let percent = dist / (contentSize.width / 2 ) / currentScale 
+        
+        offset.width += (currentWidth - nextWith) / (2 - percent)
+        offset.height += (currentHeight - nextHeight) / (2 - percent)
         calcOffset(newOffset: offset, skipCheckPosition: currentScale > 0.9)
     }
      
@@ -75,7 +92,7 @@ struct ZoomModifier: ViewModifier {
                 
         }.content.offset(offset)
             .onAppear {
-                offset.width = contentSize.width * -1
+                offset.width = contentSize.width * -1 * floor((numberImage / 2))
             }
     }
 }

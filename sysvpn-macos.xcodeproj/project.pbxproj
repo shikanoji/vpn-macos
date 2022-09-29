@@ -18,6 +18,7 @@
 		9E06008628E419DD00FF8F40 /* VpnMapPointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06008528E419DD00FF8F40 /* VpnMapPointView.swift */; };
 		9E06008A28E4278200FF8F40 /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = 9E06008928E4278200FF8F40 /* SwiftUITooltip */; };
 		9E26608F28DF8B1E00C421B1 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 9E26608E28DF8B1E00C421B1 /* PopupView */; };
+		9E6BEAB828E5385700DD31AB /* VpnMapProtocol+Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6BEAB728E5385700DD31AB /* VpnMapProtocol+Enum.swift */; };
 		9EC3322A28C108A300CA5DF5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322928C108A300CA5DF5 /* LoginView.swift */; };
 		9EC3322C28C108B000CA5DF5 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322B28C108B000CA5DF5 /* LoginViewModel.swift */; };
 		9EC3322F28C1151800CA5DF5 /* LoginInputTextFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322E28C1151800CA5DF5 /* LoginInputTextFiled.swift */; };
@@ -82,6 +83,7 @@
 		9E06008228E4128600FF8F40 /* VpnMapPointLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnMapPointLayerView.swift; sourceTree = "<group>"; };
 		9E06008528E419DD00FF8F40 /* VpnMapPointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnMapPointView.swift; sourceTree = "<group>"; };
 		9E06008728E41A9000FF8F40 /* sysvpn_macosApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sysvpn_macosApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		9E6BEAB728E5385700DD31AB /* VpnMapProtocol+Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VpnMapProtocol+Enum.swift"; sourceTree = "<group>"; };
 		9EC3322928C108A300CA5DF5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9EC3322B28C108B000CA5DF5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		9EC3322E28C1151800CA5DF5 /* LoginInputTextFiled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputTextFiled.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				9E06008428E419BF00FF8F40 /* Components */,
 				9E06007428E40D7100FF8F40 /* VpnMapViewModel.swift */,
 				9E06007528E40D7100FF8F40 /* VpnMapView.swift */,
+				9E6BEAB728E5385700DD31AB /* VpnMapProtocol+Enum.swift */,
 			);
 			path = VpnMap;
 			sourceTree = "<group>";
@@ -586,6 +589,7 @@
 				9E06007928E40D7100FF8F40 /* PinZoomView.swift in Sources */,
 				AC09D79928BE0F340078E928 /* XCAssets+Generated.swift in Sources */,
 				9E06008328E4128600FF8F40 /* VpnMapPointLayerView.swift in Sources */,
+				9E6BEAB828E5385700DD31AB /* VpnMapProtocol+Enum.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
