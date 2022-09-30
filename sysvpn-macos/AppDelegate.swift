@@ -9,8 +9,10 @@ import AppKit
 import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
+    private var menuExtrasConfigurator: MenuQuickAccessConfigurator?
+    
     func applicationDidFinishLaunching(_: Notification) {
         //
-        
+        menuExtrasConfigurator = .init()
     }
 }

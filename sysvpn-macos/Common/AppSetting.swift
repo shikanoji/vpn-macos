@@ -73,6 +73,4 @@ class AppSetting {
         ]
         return String(data: try! JSONSerialization.data(withJSONObject: jsonObject, options: []), encoding: .utf8) ?? ""
     }
-    
-   
 }

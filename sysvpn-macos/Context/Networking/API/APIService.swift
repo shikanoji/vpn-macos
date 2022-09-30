@@ -57,7 +57,7 @@ extension APIService: TargetType {
             param["email"] = email
             param["password"] = password
             
-            param["deviceInfo"] = AppSetting.shared.getDeviceInfo() 
+            param["deviceInfo"] = AppSetting.shared.getDeviceInfo()
             return .requestParameters(parameters: param, encoding: URLEncoding.default)
         }
     }

@@ -27,7 +27,6 @@ extension LoginView {
             isRemember = AppSetting.shared.isRememberLogin
         }
         
-         
         func onTouchSignin() {
             AppSetting.shared.isRememberLogin = isRemember
             /*
@@ -46,7 +45,7 @@ extension LoginView {
                 case let .success(authenModel):
                     AppDataManager.shared.userData = authenModel.user
                     AppDataManager.shared.accessToken = authenModel.tokens?.access?.token
-                case let .failure( e):
+                case let .failure(e):
                     guard let error = e as? ResponseError else {
                         self.errorMessage = L10n.Login.tryAgain
                         self.showAlert = true

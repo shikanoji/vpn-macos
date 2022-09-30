@@ -7,8 +7,6 @@
 
 import Foundation
 
- 
-
 extension SplashView {
     @MainActor class SplashViewModel: ObservableObject {
         @Published var outLightSize: CGFloat = 300
@@ -21,17 +19,16 @@ extension SplashView {
         func loadAppSetting() {
             APIServiceManager.shared.getAppSetting().subscribe { event in
                 switch event {
-                case .success(let response) :
+                case let .success(response):
                     AppDataManager.shared.saveIpInfo(info: response.ipInfo)
-                case .failure( let e):
+                case let .failure(e):
                     guard let error = e as? ResponseError else {
                         return
                     }
-                    //handel fail
+                    // handel fail
                     error.message
                 }
             }
         }
-         
     }
 }

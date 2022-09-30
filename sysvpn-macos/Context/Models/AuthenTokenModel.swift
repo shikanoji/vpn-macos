@@ -8,7 +8,7 @@
 import Foundation
 import SwiftyJSON
 
-class AuthenTokenModel : BaseModel {
+class AuthenTokenModel: BaseModel {
     var access: JWTTokenModel?
     var refresh: JWTTokenModel?
     
@@ -22,10 +22,9 @@ class AuthenTokenModel : BaseModel {
         access = JWTTokenModel(json: json[JSONTokenKey.access])
         refresh = JWTTokenModel(json: json[JSONTokenKey.refresh])
     }
-     
 }
 
-class JWTTokenModel : BaseModel {
+class JWTTokenModel: BaseModel {
     var token: String?
     var expires: Int?
     required convenience init?(json: JSON?) {
@@ -41,11 +40,9 @@ class JWTTokenModel : BaseModel {
 }
 
 struct JSONTokenKey {
-
     static let tokens = "tokens"
     static let access = "access"
     static let refresh = "refresh"
     static let token = "token"
     static let expires = "expires"
-    
 }

@@ -22,10 +22,7 @@ class AuthenResponse: BaseModel {
         user = UserModel(json: json[JSONUserKey.user])
         tokens = AuthenTokenModel(json: json[JSONTokenKey.tokens])
     }
-    
 }
-
-
 
 class UserModel: BaseModel {
     var id: Int?
@@ -114,5 +111,4 @@ struct JSONUserKey {
     static let isPremium = "is_premium"
     static let hasPassword = "has_password"
     static let user = "user"
-
 }

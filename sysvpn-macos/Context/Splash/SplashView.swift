@@ -5,8 +5,8 @@
 //  Created by doragon on 29/09/2022.
 //
 
-import SwiftUI
 import Foundation
+import SwiftUI
 
 struct SplashView: View {
     @StateObject private var model = SplashViewModel()

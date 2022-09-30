@@ -8,7 +8,7 @@
 import Foundation
 import SwiftyJSON
 
-class AppSettingResponse : BaseModel{
+class AppSettingResponse: BaseModel {
     var lastChange: Int?
     var ipInfo: IpInfoModel?
     var appSettings: AppSettingModel?
@@ -25,7 +25,7 @@ class AppSettingResponse : BaseModel{
     }
 }
 
-class IpInfoModel: BaseModel { 
+class IpInfoModel: BaseModel {
     var ip: String?
     var countryCode: String?
     var countryName: String?
@@ -56,10 +56,10 @@ class IpInfoModel: BaseModel {
         proxyCountryName = json[JSONIpInfoKey.proxyCountryName].string
         latitude = json[JSONIpInfoKey.latitude].double
         longitude = json[JSONIpInfoKey.longitude].double
-    } 
+    }
 }
 
-class AppSettingModel : BaseModel {
+class AppSettingModel: BaseModel {
     var forceUpdateVersions: [Int]?
     var vpnSetting: VpnSettingModel?
     required convenience init?(json: JSON?) {
@@ -69,14 +69,14 @@ class AppSettingModel : BaseModel {
     }
     
     func parseJson(_ json: JSON) {
-        forceUpdateVersions = json[JSONIpInfoKey.forceUpdateVersions].arrayValue.map({ data in
+        forceUpdateVersions = json[JSONIpInfoKey.forceUpdateVersions].arrayValue.map { data in
             return data.int ?? 0
-        })
+        }
         vpnSetting = VpnSettingModel(json: json[JSONIpInfoKey.vpn])
     }
 }
 
-class VpnSettingModel : BaseModel{
+class VpnSettingModel: BaseModel {
     var defaultTech: String?
     var defaultProtocol: String?
     
@@ -90,10 +90,7 @@ class VpnSettingModel : BaseModel{
         defaultTech = json[JSONIpInfoKey.defaultTech].string
         defaultProtocol = json[JSONIpInfoKey.defaultProtocol].string
     }
-    
-    
 }
-
 
 struct JSONIpInfoKey {
     static let lastChange = "lastChange"
@@ -109,12 +106,9 @@ struct JSONIpInfoKey {
     static let proxyCountryCode = "proxyCountryCode"
     static let proxyCountryName = "proxyCountryName"
     static let ipInfo = "ipInfo"
-    static let appSettings =  "appSettings"
-    static let forceUpdateVersions =  "forceUpdateVersions"
-    static let vpn =  "vpn"
-    static let defaultTech =  "defaultTech"
-    static let defaultProtocol =  "defaultProtocol"
+    static let appSettings = "appSettings"
+    static let forceUpdateVersions = "forceUpdateVersions"
+    static let vpn = "vpn"
+    static let defaultTech = "defaultTech"
+    static let defaultProtocol = "defaultProtocol"
 }
-
-
-
