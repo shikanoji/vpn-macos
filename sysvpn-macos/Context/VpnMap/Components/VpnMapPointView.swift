@@ -9,23 +9,25 @@ import Foundation
 import SwiftUI
 import SwiftUITooltip
 
-
-
-struct VpnMapPointView : View {
-    var state: VpnMapPontState = VpnMapPontState.normal
-    var body : some View {
+struct VpnMapPointView: View {
+    var state: VpnMapPontState = .normal
+    var locationIndex: Int?
+    var body: some View {
         return ZStack {
-            state.icon.resizable().frame(width: 18, height: 18, alignment: .center)
+            state.icon
+            if locationIndex != nil {
+                Text(String(locationIndex ?? 0))
+                    .foregroundColor(Color.white)
+                    .background(
+                        Asset.Assets.icLocation.swiftUIImage.frame(width: 40, height: 40, alignment: .center).transformEffect(CGAffineTransform(translationX: 0, y: 2))
+                    ).transformEffect(CGAffineTransform(translationX: 0, y: -35))
+            }
         }
     }
 }
-
-
+ 
 struct VpnMapPointView_Previews: PreviewProvider {
     static var previews: some View {
         VpnMapPointView()
     }
 }
-
-
- 

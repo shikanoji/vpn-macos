@@ -9,11 +9,11 @@ import Foundation
 import SwiftUI
 
 enum OpenWindows: String, CaseIterable {
-    case LoginView = "LoginView"
-    case MainView   = "MainView"
+    case LoginView
+    case MainView
    
-    func open(){
-        if let url = URL(string: "sysvpn://\(self.rawValue)") { 
+    func open() {
+        if let url = URL(string: "sysvpn://\(rawValue)") {
             NSWorkspace.shared.open(url)
         }
     }

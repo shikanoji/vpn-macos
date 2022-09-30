@@ -18,6 +18,7 @@
 		9E06008628E419DD00FF8F40 /* VpnMapPointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E06008528E419DD00FF8F40 /* VpnMapPointView.swift */; };
 		9E06008A28E4278200FF8F40 /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = 9E06008928E4278200FF8F40 /* SwiftUITooltip */; };
 		9E26608F28DF8B1E00C421B1 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 9E26608E28DF8B1E00C421B1 /* PopupView */; };
+		9E3756B428E6D2BF00E95C64 /* SystemNetworkingMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3756B328E6D2BF00E95C64 /* SystemNetworkingMonitor.swift */; };
 		9E6BEAB828E5385700DD31AB /* VpnMapProtocol+Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6BEAB728E5385700DD31AB /* VpnMapProtocol+Enum.swift */; };
 		9EC3322A28C108A300CA5DF5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322928C108A300CA5DF5 /* LoginView.swift */; };
 		9EC3322C28C108B000CA5DF5 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322B28C108B000CA5DF5 /* LoginViewModel.swift */; };
@@ -83,6 +84,7 @@
 		9E06008228E4128600FF8F40 /* VpnMapPointLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnMapPointLayerView.swift; sourceTree = "<group>"; };
 		9E06008528E419DD00FF8F40 /* VpnMapPointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnMapPointView.swift; sourceTree = "<group>"; };
 		9E06008728E41A9000FF8F40 /* sysvpn_macosApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sysvpn_macosApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		9E3756B328E6D2BF00E95C64 /* SystemNetworkingMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemNetworkingMonitor.swift; sourceTree = "<group>"; };
 		9E6BEAB728E5385700DD31AB /* VpnMapProtocol+Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VpnMapProtocol+Enum.swift"; sourceTree = "<group>"; };
 		9EC3322928C108A300CA5DF5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9EC3322B28C108B000CA5DF5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 		9E06006F28E4044F00FF8F40 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				9E3756B228E6D2AB00E95C64 /* Networking */,
 				9E06007A28E40D7F00FF8F40 /* Extension */,
 				9E06007028E4046800FF8F40 /* CommonView */,
 			);
@@ -204,6 +207,14 @@
 			children = (
 			);
 			path = SharedView;
+			sourceTree = "<group>";
+		};
+		9E3756B228E6D2AB00E95C64 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				9E3756B328E6D2BF00E95C64 /* SystemNetworkingMonitor.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		9EC3322628C1086D00CA5DF5 /* Login */ = {
@@ -524,7 +535,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		AC09D77C28BDE5130078E928 /* SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -536,7 +547,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\n#swift package update #Uncomment this line temporarily to update the version used to the latest matching your BuildTools/Package.swift file\nswift run -c release swiftformat \"$SRCROOT\"\n";
 		};
@@ -570,6 +581,7 @@
 				AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */,
 				AC09D79A28BE0F340078E928 /* Strings+Generated.swift in Sources */,
 				AC09D79628BE0D1F0078E928 /* AppDelegate.swift in Sources */,
+				9E3756B428E6D2BF00E95C64 /* SystemNetworkingMonitor.swift in Sources */,
 				9EC3322F28C1151800CA5DF5 /* LoginInputTextFiled.swift in Sources */,
 				AC09D7A528BF10D30078E928 /* Constant.swift in Sources */,
 				9E06007728E40D7100FF8F40 /* VpnMapViewModel.swift in Sources */,

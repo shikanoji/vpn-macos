@@ -12,19 +12,22 @@ struct ZoomModifier: ViewModifier {
     private var contentSize: CGSize
     private var screenSize: CGSize
     private var min: CGFloat = 1.0
-    private var max: CGFloat = 2.0
+    private var max: CGFloat = 1.5
     private var numberImage: CGFloat = 3
     
-    
-    @State var currentScale: CGFloat = 1.0
+    @Binding var currentScale: CGFloat
     @State var isDrag = false
     @State private var offset = CGSize.zero
     @State private var lastOffset = CGSize.zero
-
-    init(contentSize: CGSize, screenSize: CGSize ,numberImage: Int = 3) {
+ 
+    var overlayLayer: VpnMapOverlayLayer
+    
+    init(contentSize: CGSize, screenSize: CGSize, numberImage: Int = 3, currentScale: Binding<CGFloat>, overlayLayer: VpnMapOverlayLayer) {
         self.contentSize = contentSize
         self.numberImage = CGFloat(numberImage)
         self.screenSize = screenSize
+        self.overlayLayer = overlayLayer
+        _currentScale = currentScale
     }
     
     func calcOffset(newOffset: CGSize, skipCheckPosition: Bool = false) {
@@ -34,24 +37,23 @@ struct ZoomModifier: ViewModifier {
         if offset.height > 0 {
             offset.height = 0
         }
-        if (numberImage) > 1 {
+        if numberImage > 1 {
             if !skipCheckPosition {
                 if abs(offset.width) > newContentWidth * 2 / numberImage || abs(offset.width) < newContentWidth / numberImage {
                     offset.width = offset.width.remainder(dividingBy: newContentWidth / numberImage) - newContentWidth / numberImage
                 }
             }
         } else {
-            if (offset.width > 0) {
+            if offset.width > 0 {
                 offset.width = 0
             }
-            if (abs (offset.width ) + screenSize.width  > newContentWidth)
-            {
+            if abs(offset.width) + screenSize.width > newContentWidth {
                 offset.width = (newContentWidth - screenSize.width) * -1
             }
         }
       
         if offset.height * -1 > newContentHeight - contentSize.height {
-            offset.height = (newContentHeight - contentSize.height) * -1  
+            offset.height = (newContentHeight - contentSize.height) * -1
         }
     }
     
@@ -61,8 +63,8 @@ struct ZoomModifier: ViewModifier {
         
         let nextWith = contentSize.width * value * numberImage
         let nextHeight = contentSize.height * value
-        let dist = (offset.width * -1 + screenSize.width / 2)  - currentWidth / 2
-        let percent = dist / (contentSize.width / 2 ) / currentScale 
+        let dist = (offset.width * -1 + screenSize.width / 2) - currentWidth / 2
+        let percent = dist / (contentSize.width / 2) / currentScale
         
         offset.width += (currentWidth - nextWith) / (2 - percent)
         offset.height += (currentHeight - nextHeight) / (2 - percent)
@@ -88,11 +90,11 @@ struct ZoomModifier: ViewModifier {
                     .onEnded { _ in
                         isDrag = false
                     }
-                )
+                ).modifier(overlayLayer)
                 
         }.content.offset(offset)
             .onAppear {
-                offset.width = contentSize.width * -1 * floor((numberImage / 2))
+                offset.width = contentSize.width * -1 * floor(numberImage / 2)
             }
     }
 }
@@ -138,3 +140,4 @@ struct PinchToZoom: ViewModifier {
             .gesture(magnification)
     }
 }
+ 

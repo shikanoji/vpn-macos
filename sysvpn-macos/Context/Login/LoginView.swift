@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import PopupView
+import SwiftUI
 
 private enum Field: Int, Hashable {
     case username, password
@@ -142,15 +142,14 @@ struct LoginView: View {
             
             LoginLoadingView(isShowing: $viewModel.isPresentedLoading)
         }
-         .popup(isPresented: $viewModel.showAlert,
-                        type: .floater(verticalPadding: 0),
-                        position: .bottom,
-                        animation: .easeInOut,
-                        autohideIn: 10,
-                        closeOnTap: false,
-                        closeOnTapOutside: true) {
-
-             AppAlertView(type: .error, message: "test message")
+        .popup(isPresented: $viewModel.showAlert,
+               type: .floater(verticalPadding: 0),
+               position: .bottom,
+               animation: .easeInOut,
+               autohideIn: 10,
+               closeOnTap: false,
+               closeOnTapOutside: true) {
+            AppAlertView(type: .error, message: "test message")
         }
         .onChange(of: focusState) { newValue in
             viewModel.isEditingPassword = newValue == .password

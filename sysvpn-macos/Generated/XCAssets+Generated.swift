@@ -33,6 +33,7 @@ internal enum Asset {
     internal static let icCheckChecked = ImageAsset(name: "ic_check_checked")
     internal static let icCheckNormal = ImageAsset(name: "ic_check_normal")
     internal static let icGoogle = ImageAsset(name: "ic_google")
+    internal static let icLocation = ImageAsset(name: "ic_location")
     internal static let icNode = ImageAsset(name: "ic_node")
     internal static let icNodeActive = ImageAsset(name: "ic_node_active")
     internal static let icNodeActiveDisabled = ImageAsset(name: "ic_node_active_disabled")
