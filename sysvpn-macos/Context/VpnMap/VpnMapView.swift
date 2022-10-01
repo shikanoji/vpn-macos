@@ -14,6 +14,7 @@ struct VpnMapView: View {
     var rescaleView: CGFloat = 1.5
     var numberImage = 1
     var aspecRaito: CGFloat = 1024 / 588
+    var baseHeight: CGFloat = 588
     var scaleVector: CGFloat = 1
     @State var selectedNode: NodePoint? = nil
     var connectPoints: [ConnectPoint] = [
@@ -26,13 +27,14 @@ struct VpnMapView: View {
         NodePoint(point: CGPoint(x: 350, y: 220), info: NodeInfoTest(state: .normal))
     ]
     
+    
     var body: some View {
         GeometryReader { proxy in
             LoopMapView(
                 size: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height),
                 scale: rescaleView,
                 loop: numberImage,
-                scaleVector: scaleVector,
+                scaleVector: scaleVector * proxy.size.height / baseHeight,
                 connectPoints: connectPoints,
                 nodeList: nodeList,
                 
@@ -44,13 +46,13 @@ struct VpnMapView: View {
             .clipShape(Rectangle())
             .modifier(ZoomModifier(contentSize: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height), screenSize: proxy.size, numberImage: numberImage, currentScale: $scale,
                                    overlayLayer: VpnMapOverlayLayer(
-                                       scaleVector: scaleVector, scaleValue: scale,
+                                       scaleVector: scaleVector * proxy.size.height / baseHeight, scaleValue: scale,
                                        rescaleView: rescaleView,
                                        nodePoint: selectedNode)))
         }
         .simultaneousGesture(TapGesture().onEnded {
             selectedNode = nil
-        })
+        }).clipped()
     }
 }
 

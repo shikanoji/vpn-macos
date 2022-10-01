@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import SwiftUI
+import SwiftyJSON
 
 extension LoginView {
     @MainActor class LoginViewModel: ObservableObject {
@@ -18,31 +19,61 @@ extension LoginView {
         @Published var isRemember: Bool = false
         @Published var isPresentedLoading = false
         @Published var isVerifiedInput = false
-        @Published var showAlert = true
-        
+        @Environment(\.openURL) private var openURL
+        @Published var showAlert = false
+        @Published var errorMessage: String = ""
+
         init() {
             isRemember = AppSetting.shared.isRememberLogin
         }
         
-        func onTouchSignin() {
-            // test
+        func onLoginSuccess() {
             AppSetting.shared.isRememberLogin = isRemember
-            withAnimation {
-                self.isPresentedLoading = true
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                withAnimation {
-                    self.isPresentedLoading = false
+            OpenWindows.MainView.open()
+        }
+        
+        func onTouchSignin() {
+            showLoading()
+            _ = APIServiceManager.shared.onLogin(email: userName, password: password).subscribe { event in
+                switch event {
+                case let .success(authenModel):
+                    AppDataManager.shared.userData = authenModel.user
+                    AppDataManager.shared.accessToken = authenModel.tokens?.access?.token
+                    self.onLoginSuccess()
+                case let .failure(e):
+                    self.hideLoading()
+                    guard let error = e as? ResponseError else {
+                        self.errorMessage = L10n.Login.tryAgain
+                        self.showAlert = true
+                        return
+                    }
+                    self.errorMessage = error.message
+                    self.showAlert = true
                 }
             }
         }
         
+        func showLoading() {
+            withAnimation {
+                self.isPresentedLoading = true
+            }
+        }
+
+        func hideLoading() {
+            withAnimation {
+                self.isPresentedLoading = false
+            }
+        }
+        
         func onTouchForgotPassword() {
-            print("Forgot button was tapped")
+            print("Forgot button was tapped:   \(AppSetting.shared.deviceVersion)")
         }
         
         func onTouchCreateAccount() {
             print("Creat new button was tapped")
+            if let url = URL(string: "https://www.facebook.com/doragon0") {
+                openURL(url)
+            }
         }
     
         func onTouchSocialLoginGoogle() {

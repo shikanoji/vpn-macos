@@ -89,6 +89,7 @@ struct LoginView: View {
         }
     }
     
+    
     var formFooter: some View {
         HStack(alignment: .center) {
             Button {
@@ -112,30 +113,32 @@ struct LoginView: View {
             } label: {
                 Text(L10n.Login.forgotPassword)
             }.buttonStyle(LoginButtonNoBackgroundStyle())
-        }
+        }.padding(.bottom, 45 )
     }
+    
+  
     
     var body: some View {
         ZStack {
-            VStack(alignment: .center) {
-                formHeader
-                formInput
-                formFooter
-                Spacer().frame(height: 46)
-                Button {
-                    viewModel.onTouchSignin()
-                } label: {
-                    Text(L10n.Login.signIn)
-                }.buttonStyle(LoginButtonCTAStyle())
-                    .environment(\.isEnabled, viewModel.isVerifiedInput)
-                Spacer().frame(height: 32)
-                socialLogin
-                Spacer().frame(height: 76)
-                createAccountArea
-                Spacer()
+            VStack { 
+                VStack(alignment: .center) {
+                    formHeader
+                    formInput
+                    formFooter
+                    Button {
+                        viewModel.onTouchSignin()
+                    } label: {
+                        Text(L10n.Login.signIn)
+                    }.buttonStyle(LoginButtonCTAStyle())
+                        .environment(\.isEnabled, viewModel.isVerifiedInput)
+                    Spacer().frame(height: 32)
+                    socialLogin
+                    Spacer().frame(height: 76)
+                    createAccountArea
+                    Spacer()
+                }
+                .padding(contentHorizontalMargin)
             }
-            .padding(contentHorizontalMargin)
-            
             .background(Asset.Colors.backgroundColor.swiftUIColor)
             .foregroundColor(Color.white)
             .font(Font.system(size: 14))
@@ -149,7 +152,7 @@ struct LoginView: View {
                autohideIn: 10,
                closeOnTap: false,
                closeOnTapOutside: true) {
-            AppAlertView(type: .error, message: "test message")
+            AppAlertView(type: .error, message: viewModel.errorMessage)
         }
         .onChange(of: focusState) { newValue in
             viewModel.isEditingPassword = newValue == .password

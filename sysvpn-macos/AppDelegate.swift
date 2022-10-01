@@ -7,17 +7,12 @@
 
 import AppKit
 import SwiftUI
-
+ 
 class AppDelegate: NSObject, NSApplicationDelegate {
+    private var menuExtrasConfigurator: MenuQuickAccessConfigurator?
+ 
     func applicationDidFinishLaunching(_: Notification) {
-        //
-        
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(test), userInfo: nil, repeats: true)
+        menuExtrasConfigurator = .init()
     }
     
-    @objc func test() {
-        var send = SystemDataUsage.getDataUsage().wifiSent
-        var revc = SystemDataUsage.getDataUsage().wifiReceived
-        print("\(send) \(revc)")
-    }
 }

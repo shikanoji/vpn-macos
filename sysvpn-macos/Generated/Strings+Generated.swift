@@ -16,6 +16,8 @@ public enum L10n {
     /// 
     ///   Created by Nguyen Dinh Thach on 30/08/2022.
     public static let hello = L10n.tr("Global", "hello", fallback: "Hello")
+    /// Location Map
+    public static let locationMap = L10n.tr("Global", "locationMap", fallback: "Location Map")
   }
   public enum Login {
     /// SYSVPN
@@ -43,6 +45,8 @@ public enum L10n {
     public static let sologan = L10n.tr("Login", "sologan", fallback: "Start protecting yourself with SysVPN")
     /// Light is Faster, but We are Safer.
     public static let sologanProcessing = L10n.tr("Login", "sologanProcessing", fallback: "Light is Faster, but We are Safer.")
+    /// Please try again!
+    public static let tryAgain = L10n.tr("Login", "tryAgain", fallback: "Please try again!")
     /// Your email
     public static let yourEmail = L10n.tr("Login", "yourEmail", fallback: "Your email")
   }

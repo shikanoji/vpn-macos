@@ -7,16 +7,6 @@
 
 import Foundation
  
-public extension SystemDataUsage {
-    static var wifiCompelete: UInt64 {
-        return SystemDataUsage.getDataUsage().wifiSent + SystemDataUsage.getDataUsage().wifiReceived
-    }
-
-    static var wwanCompelete: UInt64 {
-        return SystemDataUsage.getDataUsage().wirelessWanDataSent + SystemDataUsage.getDataUsage().wirelessWanDataReceived
-    }
-}
-
 class SystemDataUsage {
     private static let wwanInterfacePrefix = "pdp_ip"
     private static let wifiInterfacePrefix = "en"
