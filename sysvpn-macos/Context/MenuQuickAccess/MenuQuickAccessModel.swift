@@ -11,11 +11,38 @@ import SwiftUI
 extension MenuQuickAccessView {
     @MainActor class MenuQuickAccessModel: ObservableObject {
         @Published var userIp: String = ""
+        @Published var protected: String = ""
         @Published var location: String = ""
-         
+        @Published var tabIndex: Int
+        @Published var isConnect: Bool = false
+        
         init() {
-            userIp = "IP: \(AppDataManager.shared.userIp)"
-            location = "Location: \(AppDataManager.shared.userCity)"
+             
+            userIp = "IP: \(AppDataManager.shared.userIp) -"
+            location = AppDataManager.shared.isConnect ? L10n.Login.titleNotConnect : "Location: \(AppDataManager.shared.userCity)"
+            tabIndex = 0
+        }
+        
+        func onTouchConnect() {
+            
+        }
+        
+        func onTouchDisconnect() {
+            
+        }
+        
+        func onQuit() {
+            
+        }
+        
+        func onOpenApp() {
+            NSApp.activate(ignoringOtherApps: true)
+        }
+        
+        func onChageTab(index: Int) {
+            withAnimation {
+                tabIndex = index
+            }
         }
     }
 }
