@@ -13,6 +13,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
  
     func applicationDidFinishLaunching(_: Notification) {
         menuExtrasConfigurator = .init()
+        
     }
+    
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        NSApp.setActivationPolicy(.accessory)
+        return false
+    }
+    
+ 
     
 }

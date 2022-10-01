@@ -38,6 +38,11 @@ struct sysvpn_macosApp: App {
                 }
             }
         }.windowStyle(HiddenTitleBarWindowStyle())
+            .commands {
+                CommandGroup(replacing: .newItem, addition: {
+                    
+                })
+            }
         
     }
 }

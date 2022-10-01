@@ -17,7 +17,6 @@ struct MenuQuickAccessView: View {
             bodyMenu
             footerMenu
         }
-        .frame( height: 580)
         .cornerRadius(8)
     }
     
@@ -59,6 +58,7 @@ struct MenuQuickAccessView: View {
         VStack(alignment: .leading) {
             HStack {
                 Asset.Assets.avatarTest.swiftUIImage
+                    .resizable()
                     .frame(width: 50, height: 50)
                     .cornerRadius(25)
                 VStack (alignment: .leading) {
@@ -87,7 +87,7 @@ struct MenuQuickAccessView: View {
                     HStack {
                         Asset.Assets.icArrowUp.swiftUIImage
                             .frame(width: sizeIcon, height: sizeIcon)
-                        Text("900kb/s")
+                        Text(viewModel.uploadSpeed)
                             .font(Font.system(size: 14, weight: .semibold))
                             .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
                     }
@@ -95,13 +95,12 @@ struct MenuQuickAccessView: View {
                     HStack {
                         Asset.Assets.icArrowDown.swiftUIImage
                             .frame(width: sizeIcon, height: sizeIcon)
-                        Text("900kb/s")
+                        Text(viewModel.downloadSpeed)
                             .font(Font.system(size: 14, weight: .semibold))
                             .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
                     }
          
-                }
-                .frame(width: 210)
+                } 
                 .padding(EdgeInsets(top: 13.0, leading: 8.0, bottom: 13.0, trailing: 10.0))
                 .background(Color(hexString: "FFFFFF").opacity(0.2))
                 .cornerRadius(8)
@@ -173,37 +172,37 @@ struct MenuQuickAccessView: View {
     }
     
     var footerMenu: some View {
-        HStack {
-            Button {
-                viewModel.onQuit()
-            } label: {
-                HStack {
-                    Asset.Assets.icOff.swiftUIImage
-                        .frame(width: sizeIcon, height: sizeIcon)
-                    Text(L10n.Login.titleQuit)
-                        .font(Font.system(size: 14, weight: .semibold))
-                        .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
-                }
-            }.buttonStyle(PlainButtonStyle())
-            Spacer()
-            Button {
-                viewModel.onOpenApp()
-            } label: {
-                HStack {
-                    Asset.Assets.icLogoApp.swiftUIImage
-                        .frame(width: sizeIcon, height: sizeIcon)
-                    Text("\(L10n.Login.titleOpen) SysVPN")
-                        .font(Font.system(size: 14, weight: .semibold))
-                        .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
-                }
-            }.buttonStyle(PlainButtonStyle())
+        VStack {
+            HStack (spacing: 0){
+                Button {
+                    viewModel.onQuit()
+                } label: {
+                    HStack {
+                        Asset.Assets.icOff.swiftUIImage
+                            .frame(width: sizeIcon, height: sizeIcon)
+                        Text(L10n.Login.titleQuit)
+                            .font(Font.system(size: 14, weight: .semibold))
+                            .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
+                    }
+                }.buttonStyle(PlainButtonStyle())
+                Spacer()
+                Button {
+                    viewModel.onOpenApp()
+                } label: {
+                    HStack {
+                        Asset.Assets.icLogoApp.swiftUIImage
+                            .frame(width: sizeIcon, height: sizeIcon)
+                        Text("\(L10n.Login.titleOpen) \(L10n.Login.appName)")
+                            .font(Font.system(size: 14, weight: .semibold))
+                            .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
+                    }
+                }.buttonStyle(PlainButtonStyle())
+            }
+            .padding(EdgeInsets(top: 25, leading: 30, bottom: 25, trailing: 30))
         }
-        .frame(
-            maxWidth: .infinity,
-            alignment: .topLeading
-        )
-        .padding(EdgeInsets(top: 25, leading: 30, bottom: 25, trailing: 30))
+         
         .background(Color(hexString: "101016").opacity(0.85))
+       
     }
 }
 

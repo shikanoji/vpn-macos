@@ -16,11 +16,15 @@ extension MenuQuickAccessView {
         @Published var tabIndex: Int
         @Published var isConnect: Bool = false
         
-        init() {
-             
+        @Published var downloadSpeed: String = ""
+        @Published var uploadSpeed: String = ""
+        
+        init() { 
             userIp = "IP: \(AppDataManager.shared.userIp) -"
             location = AppDataManager.shared.isConnect ? L10n.Login.titleNotConnect : "Location: \(AppDataManager.shared.userCity)"
             tabIndex = 0
+            downloadSpeed = "900kb/s"
+            uploadSpeed = "1080kb/s"
         }
         
         func onTouchConnect() {
@@ -36,7 +40,15 @@ extension MenuQuickAccessView {
         }
         
         func onOpenApp() {
-            NSApp.activate(ignoringOtherApps: true)
+             /*
+            if let url = URL(string: "sysvpn://") {
+                 NSWorkspace.shared.open(url)
+             }
+              */
+            NSApp.setActivationPolicy(.regular)
+            DispatchQueue.main.async {
+                NSApp.windows.first?.makeKeyAndOrderFront(nil)
+            }
         }
         
         func onChageTab(index: Int) {
