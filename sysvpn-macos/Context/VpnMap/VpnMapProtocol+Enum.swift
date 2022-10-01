@@ -57,7 +57,7 @@ struct ConnectPoint {
 
 class NodeInfoTest: INodeInfo {
     var image: Image? {
-        return Asset.Assets.icGoogle.swiftUIImage
+        return Asset.Assets.demoCountry.swiftUIImage
     }
     
     var localtionIndex: Int?

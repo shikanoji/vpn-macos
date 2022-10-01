@@ -18,7 +18,17 @@
 		9E3756C928E6DB9D00E95C64 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3756C828E6DB9D00E95C64 /* ViewExtension.swift */; };
 		9E3756CC28E6DCA600E95C64 /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = 9E3756CB28E6DCA600E95C64 /* SwiftUITooltip */; };
 		9E3756CE28E6E54500E95C64 /* SpashWindowAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3756CD28E6E54500E95C64 /* SpashWindowAccessor.swift */; };
+		9E668DF828E8A6F7009CDC95 /* TabbarViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E668DF728E8A6F6009CDC95 /* TabbarViews.swift */; };
+		9E668DFA28E8A722009CDC95 /* MenuQuickAccessConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E668DF928E8A722009CDC95 /* MenuQuickAccessConfigurator.swift */; };
+		9E668DFC28E8A9E2009CDC95 /* HomeChartViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E668DFB28E8A9E2009CDC95 /* HomeChartViews.swift */; };
+		9E668DFE28E8AF9F009CDC95 /* GlobalAppStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E668DFD28E8AF9F009CDC95 /* GlobalAppStates.swift */; };
+		9E668E0028E8B30A009CDC95 /* HomeAlertConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E668DFF28E8B30A009CDC95 /* HomeAlertConnectionView.swift */; };
+		9E668E0228E8BC62009CDC95 /* CountryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E668E0128E8BC62009CDC95 /* CountryItemView.swift */; };
 		9EB62F8228E7E54C00351D98 /* HomeZoomSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB62F8128E7E54C00351D98 /* HomeZoomSliderView.swift */; };
+		9EB62F8428E7F8DD00351D98 /* DataTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB62F8328E7F8DD00351D98 /* DataTypeExtension.swift */; };
+		9EB62F8628E7FE7900351D98 /* HomeListCountryNodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB62F8528E7FE7900351D98 /* HomeListCountryNodeView.swift */; };
+		9EB62F8828E8033600351D98 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB62F8728E8033600351D98 /* HomeViewModel.swift */; };
+		9EB62F8A28E803FD00351D98 /* HomeTrafficMonitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB62F8928E803FD00351D98 /* HomeTrafficMonitorView.swift */; };
 		9EC0CF4528E7468F00617A83 /* HomeLeftPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0CF4428E7468F00617A83 /* HomeLeftPanelView.swift */; };
 		9EC0CF4828E748F600617A83 /* HomeMenuButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0CF4728E748F600617A83 /* HomeMenuButtonView.swift */; };
 		9EC3322A28C108A300CA5DF5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC3322928C108A300CA5DF5 /* LoginView.swift */; };
@@ -98,7 +108,17 @@
 		9E3756C528E6DB9400E95C64 /* TrackinAreaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackinAreaView.swift; sourceTree = "<group>"; };
 		9E3756C828E6DB9D00E95C64 /* ViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		9E3756CD28E6E54500E95C64 /* SpashWindowAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpashWindowAccessor.swift; sourceTree = "<group>"; };
+		9E668DF728E8A6F6009CDC95 /* TabbarViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarViews.swift; sourceTree = "<group>"; };
+		9E668DF928E8A722009CDC95 /* MenuQuickAccessConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuQuickAccessConfigurator.swift; sourceTree = "<group>"; };
+		9E668DFB28E8A9E2009CDC95 /* HomeChartViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeChartViews.swift; sourceTree = "<group>"; };
+		9E668DFD28E8AF9F009CDC95 /* GlobalAppStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalAppStates.swift; sourceTree = "<group>"; };
+		9E668DFF28E8B30A009CDC95 /* HomeAlertConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAlertConnectionView.swift; sourceTree = "<group>"; };
+		9E668E0128E8BC62009CDC95 /* CountryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryItemView.swift; sourceTree = "<group>"; };
 		9EB62F8128E7E54C00351D98 /* HomeZoomSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeZoomSliderView.swift; sourceTree = "<group>"; };
+		9EB62F8328E7F8DD00351D98 /* DataTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypeExtension.swift; sourceTree = "<group>"; };
+		9EB62F8528E7FE7900351D98 /* HomeListCountryNodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListCountryNodeView.swift; sourceTree = "<group>"; };
+		9EB62F8728E8033600351D98 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		9EB62F8928E803FD00351D98 /* HomeTrafficMonitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTrafficMonitorView.swift; sourceTree = "<group>"; };
 		9EC0CF4428E7468F00617A83 /* HomeLeftPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLeftPanelView.swift; sourceTree = "<group>"; };
 		9EC0CF4728E748F600617A83 /* HomeMenuButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenuButtonView.swift; sourceTree = "<group>"; };
 		9EC3322928C108A300CA5DF5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -208,8 +228,17 @@
 			isa = PBXGroup;
 			children = (
 				9E3756C828E6DB9D00E95C64 /* ViewExtension.swift */,
+				9EB62F8328E7F8DD00351D98 /* DataTypeExtension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		9E668DF628E8A617009CDC95 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9E668DF728E8A6F6009CDC95 /* TabbarViews.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		9EC0CF4628E748DD00617A83 /* Components */ = {
@@ -217,6 +246,11 @@
 			children = (
 				9EC0CF4728E748F600617A83 /* HomeMenuButtonView.swift */,
 				9EB62F8128E7E54C00351D98 /* HomeZoomSliderView.swift */,
+				9EB62F8528E7FE7900351D98 /* HomeListCountryNodeView.swift */,
+				9EB62F8928E803FD00351D98 /* HomeTrafficMonitorView.swift */,
+				9E668DFB28E8A9E2009CDC95 /* HomeChartViews.swift */,
+				9E668DFF28E8B30A009CDC95 /* HomeAlertConnectionView.swift */,
+				9E668E0128E8BC62009CDC95 /* CountryItemView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -375,6 +409,7 @@
 				B9D7F71828D38343008B1D39 /* System.swift */,
 				B9D7F71B28D781A8008B1D39 /* AppDataManager.swift */,
 				9E3756B528E6DB3900E95C64 /* WindowMgr.swift */,
+				9E668DFD28E8AF9F009CDC95 /* GlobalAppStates.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -420,8 +455,10 @@
 		B99DB43328E594F200331AFB /* MenuQuickAccess */ = {
 			isa = PBXGroup;
 			children = (
+				9E668DF628E8A617009CDC95 /* Components */,
 				B99DB43428E5955F00331AFB /* MenuQuickAccessView.swift */,
 				B991D52928E6CE9300BFB6E4 /* MenuQuickAccessModel.swift */,
+				9E668DF928E8A722009CDC95 /* MenuQuickAccessConfigurator.swift */,
 			);
 			path = MenuQuickAccess;
 			sourceTree = "<group>";
@@ -432,6 +469,7 @@
 				9EC0CF4628E748DD00617A83 /* Components */,
 				B9D7F70D28D21421008B1D39 /* HomeView.swift */,
 				9EC0CF4428E7468F00617A83 /* HomeLeftPanelView.swift */,
+				9EB62F8728E8033600351D98 /* HomeViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -628,7 +666,7 @@
 		};
 		AC09D78B28BDE98B0078E928 /* SwiftGen */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -655,6 +693,8 @@
 				B9D7F71528D330BF008B1D39 /* BaseModel.swift in Sources */,
 				B99DB43028E5869F00331AFB /* SplashView.swift in Sources */,
 				9E3756C228E6DB6500E95C64 /* VpnMapPointLayerView.swift in Sources */,
+				9EB62F8A28E803FD00351D98 /* HomeTrafficMonitorView.swift in Sources */,
+				9E668DF828E8A6F7009CDC95 /* TabbarViews.swift in Sources */,
 				9EC3323528C254DF00CA5DF5 /* LoginLoadingView.swift in Sources */,
 				AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */,
 				AC09D79A28BE0F340078E928 /* Strings+Generated.swift in Sources */,
@@ -666,23 +706,29 @@
 				AC09D79628BE0D1F0078E928 /* AppDelegate.swift in Sources */,
 				9E3756BF28E6DB6500E95C64 /* VpnMapProtocol+Enum.swift in Sources */,
 				B9D7F71228D2E3C5008B1D39 /* UIColor+Extension.swift in Sources */,
+				9EB62F8428E7F8DD00351D98 /* DataTypeExtension.swift in Sources */,
 				9EC0CF4528E7468F00617A83 /* HomeLeftPanelView.swift in Sources */,
 				9E3756CE28E6E54500E95C64 /* SpashWindowAccessor.swift in Sources */,
 				9EC3322F28C1151800CA5DF5 /* LoginInputTextFiled.swift in Sources */,
 				B9D7F71C28D781A8008B1D39 /* AppDataManager.swift in Sources */,
 				B99DB43528E5955F00331AFB /* MenuQuickAccessView.swift in Sources */,
 				9E3756C328E6DB6500E95C64 /* PinZoomView.swift in Sources */,
+				9E668DFC28E8A9E2009CDC95 /* HomeChartViews.swift in Sources */,
 				AC09D7A528BF10D30078E928 /* Constant.swift in Sources */,
 				AC09D79E28BE12480078E928 /* BaseServiceManager.swift in Sources */,
+				9EB62F8828E8033600351D98 /* HomeViewModel.swift in Sources */,
 				9EC3323328C2134200CA5DF5 /* LoginButtonStyle.swift in Sources */,
 				9E3756B628E6DB3900E95C64 /* WindowMgr.swift in Sources */,
 				9EC0CF4828E748F600617A83 /* HomeMenuButtonView.swift in Sources */,
 				9EC3322A28C108A300CA5DF5 /* LoginView.swift in Sources */,
+				9E668DFA28E8A722009CDC95 /* MenuQuickAccessConfigurator.swift in Sources */,
 				AC09D71D28BCDCD40078E928 /* ContentView.swift in Sources */,
 				9EC3322C28C108B000CA5DF5 /* LoginViewModel.swift in Sources */,
 				9E3756C628E6DB9400E95C64 /* TrackinAreaView.swift in Sources */,
 				AC09D71B28BCDCD40078E928 /* sysvpn_macosApp.swift in Sources */,
 				AC09D7A028BF0F970078E928 /* APIServiceManager.swift in Sources */,
+				9E668DFE28E8AF9F009CDC95 /* GlobalAppStates.swift in Sources */,
+				9E668E0228E8BC62009CDC95 /* CountryItemView.swift in Sources */,
 				B9D7F71728D3324C008B1D39 /* UserModel.swift in Sources */,
 				B99DB42D28E4595800331AFB /* IpInfoModel.swift in Sources */,
 				B99DB42B28E455F400331AFB /* AuthenTokenModel.swift in Sources */,
@@ -690,6 +736,8 @@
 				B9D7F70E28D21421008B1D39 /* HomeView.swift in Sources */,
 				AC09D7A228BF0FEE0078E928 /* APIService.swift in Sources */,
 				AC09D79928BE0F340078E928 /* XCAssets+Generated.swift in Sources */,
+				9E668E0028E8B30A009CDC95 /* HomeAlertConnectionView.swift in Sources */,
+				9EB62F8628E7FE7900351D98 /* HomeListCountryNodeView.swift in Sources */,
 				9E3756C028E6DB6500E95C64 /* VpnMapViewModel.swift in Sources */,
 				B99DB42628E4496300331AFB /* AppAlertView.swift in Sources */,
 			);

@@ -10,17 +10,24 @@ import SwiftUI
 
 struct HomeZoomSliderView : View {
     @Binding var value: Double
-        
-        @State var lastCoordinateValue: CGFloat = 0.0
-        var sliderRange: ClosedRange<Double> = 1...100
-        var thumbColor: Color = .yellow
-        var minTrackColor: Color = .blue
-        var maxTrackColor: Color = .gray
-        
-        var body: some View {
+    var step: Double = 5
+    @State var lastCoordinateValue: CGFloat = 0.0
+    var sliderRange: ClosedRange<Double> = 1...100
+    
+    var thumbColor: Color = Color.init(rgb: 0x9697A6)
+    var minTrackColor: Color = Color.init(rgb: 0x31323B)
+    var maxTrackColor: Color = Color.init(rgb: 0x31323B)
+    
+    
+    var body: some View {
+        HStack {
+            Asset.Assets.icDecZoom.swiftUIImage
+                .onTapGesture {
+                    value = max(sliderRange.lowerBound, value - step)
+                }
             GeometryReader { gr in
-                let thumbHeight = gr.size.height * 1.1
-                let thumbWidth = gr.size.width * 0.03
+                let thumbHeight: CGFloat = 7
+                let thumbWidth: CGFloat = 4
                 let radius = gr.size.height * 0.5
                 let minValue = gr.size.width * 0.015
                 let maxValue = (gr.size.width * 0.98) - thumbWidth
@@ -37,7 +44,7 @@ struct HomeZoomSliderView : View {
                     HStack {
                         Rectangle()
                             .foregroundColor(minTrackColor)
-                        .frame(width: sliderVal, height: 3)
+                            .frame(width: sliderVal, height: 3)
                         Spacer()
                     }
                     .clipShape(RoundedRectangle(cornerRadius: radius))
@@ -59,13 +66,19 @@ struct HomeZoomSliderView : View {
                                             let nextCoordinateValue = max(minValue, self.lastCoordinateValue + v.translation.width)
                                             self.value = ((nextCoordinateValue - minValue) / scaleFactor) + lower
                                         }
-                                   }
+                                    }
                             )
                         Spacer()
                     }
                 }
-            }
+            }.frame(height: 7)
+            Asset.Assets.icIncZoom.swiftUIImage
+                .onTapGesture {
+                    value = min(sliderRange.upperBound, value + step)
+                }
         }
+      
+    }
 }
 
 

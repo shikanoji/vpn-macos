@@ -7,18 +7,19 @@
 
 import Foundation
 import SwiftUI
+import Cocoa
 
 extension MenuQuickAccessView {
     @MainActor class MenuQuickAccessModel: ObservableObject {
+       
+        
         @Published var userIp: String = ""
         @Published var protected: String = ""
         @Published var location: String = ""
         @Published var tabIndex: Int
-        @Published var isConnect: Bool = false
-        
         @Published var downloadSpeed: String = ""
         @Published var uploadSpeed: String = ""
-        
+    
         init() { 
             userIp = "IP: \(AppDataManager.shared.userIp) -"
             location = AppDataManager.shared.isConnect ? L10n.Login.titleNotConnect : "Location: \(AppDataManager.shared.userCity)"
@@ -28,26 +29,33 @@ extension MenuQuickAccessView {
         }
         
         func onTouchConnect() {
-            
+            withAnimation {
+                GlobalAppStates.shared.isConnected = true
+            }
         }
         
         func onTouchDisconnect() {
-            
+            withAnimation {
+                GlobalAppStates.shared.isConnected = false
+            }
         }
         
         func onQuit() {
-            
+            NSApp.terminate(nil)
         }
         
         func onOpenApp() {
-             /*
-            if let url = URL(string: "sysvpn://") {
-                 NSWorkspace.shared.open(url)
-             }
-              */
             NSApp.setActivationPolicy(.regular)
             DispatchQueue.main.async {
-                NSApp.windows.first?.makeKeyAndOrderFront(nil)
+                if let window = NSApp.mainWindow {
+                    window.orderFrontRegardless()
+                } else {
+                    if let url = URL(string: "sysvpn://") {
+                         NSWorkspace.shared.open(url)
+                     }
+                }
+                
+                MenuQuickAccessConfigurator.closePopover()
             }
         }
         
@@ -55,39 +63,6 @@ extension MenuQuickAccessView {
             withAnimation {
                 tabIndex = index
             }
-        }
-    }
-}
-
-class MenuQuickAccessConfigurator {
-    private var statusBar: NSStatusBar
-    private var statusItem: NSStatusItem
-    private var mainView: NSView
-    private var visualEffect = NSVisualEffectView()
-    
-    init() {
-        visualEffect.blendingMode = .behindWindow
-        visualEffect.state = .active
-        visualEffect.material = .underWindowBackground
-        visualEffect.frame = NSRect(x: 0, y: 0, width: 400, height: 580)
-        statusBar = NSStatusBar.system
-        statusItem = statusBar.statusItem(withLength: NSStatusItem.squareLength)
-        mainView = NSHostingView(rootView: MenuQuickAccessView())
-        mainView.frame = visualEffect.frame
-        visualEffect.addSubview(mainView)
-        createMenu()
-    }
-    
-    func createMenu() {
-        if let statusBarButton = statusItem.button {
-            let mainMenu = NSMenu()
-            statusBarButton.image = Asset.Assets.icLogoWhite.image
-            statusBarButton.frame = NSRect(x: 0, y: 0, width: 30, height: 30)
-            let rootItem = NSMenuItem()
-            rootItem.target = self
-            rootItem.view = visualEffect
-            mainMenu.addItem(rootItem)
-            statusItem.menu = mainMenu
         }
     }
 }

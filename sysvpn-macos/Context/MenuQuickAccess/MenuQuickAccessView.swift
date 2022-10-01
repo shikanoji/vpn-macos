@@ -9,11 +9,19 @@ import SwiftUI
  
 struct MenuQuickAccessView: View {
     @StateObject private var viewModel = MenuQuickAccessModel()
+    @EnvironmentObject var appState: GlobalAppStates
+    
     var sizeIcon: CGFloat = 20
     
     var body: some View {
-        VStack (alignment: .leading) {
-            headerMenuConnected
+        VStack (alignment: .leading, spacing: 0) {
+            if appState.isConnected {
+                headerMenuConnected
+                    .transition(.opacity)
+            } else {
+                headerMenuNotConnect
+                    .transition(.opacity)
+            }
             bodyMenu
             footerMenu
         }
@@ -105,7 +113,7 @@ struct MenuQuickAccessView: View {
                 .background(Color(hexString: "FFFFFF").opacity(0.2))
                 .cornerRadius(8)
                 Button {
-                    viewModel.onTouchConnect()
+                    viewModel.onTouchDisconnect()
                 } label: {
                     Text(L10n.Login.disconnect)
                         .font(Font.system(size: 14, weight: .semibold))
@@ -125,12 +133,13 @@ struct MenuQuickAccessView: View {
     
     var bodyMenu: some View {
         VStack  {
-            HStack {
+            HStack(spacing: 0) {
                 Button {
                     viewModel.onChageTab(index: 0)
                 } label: {
                     TabBarButton(text: L10n.Login.recent, isSelected: .constant(viewModel.tabIndex == 0))
                         .frame(width: 110)
+                        .contentShape(Rectangle())
                         .background(viewModel.tabIndex == 0 ? Asset.Assets.bgTabbar.swiftUIImage: nil)
                 }
                 .frame(width: 110)
@@ -141,8 +150,8 @@ struct MenuQuickAccessView: View {
                 } label: {
                     TabBarButton(text:  L10n.Login.suggest, isSelected: .constant(viewModel.tabIndex == 1))
                     .frame(width: 110)
+                    .contentShape(Rectangle())
                     .background(viewModel.tabIndex == 1 ? Asset.Assets.bgTabbar.swiftUIImage: nil)
-                     
                 }
                 .frame(width: 110)
                 .buttonStyle(PlainButtonStyle())
@@ -152,6 +161,7 @@ struct MenuQuickAccessView: View {
                 } label: {
                     TabBarButton(text:  L10n.Login.allCountry, isSelected: .constant(viewModel.tabIndex == 2))
                     .frame(width: 110)
+                    .contentShape(Rectangle())
                     .background(viewModel.tabIndex == 2 ? Asset.Assets.bgTabbar.swiftUIImage: nil)
                     
                 }
@@ -203,19 +213,6 @@ struct MenuQuickAccessView: View {
          
         .background(Color(hexString: "101016").opacity(0.85))
        
-    }
-}
-
-
-struct TabBarButton: View {
-    let text: String
-    @Binding var isSelected: Bool
-    var body: some View {
-        Text(text)
-            .fontWeight(.semibold)
-            .font(Font.system(size: 14))
-            .foregroundColor(isSelected ? Asset.Colors.primaryColor.swiftUIColor : Asset.Colors.mainTextColor.swiftUIColor)
-            .frame(maxWidth: 100, minHeight: 52, alignment: .center)
     }
 }
 

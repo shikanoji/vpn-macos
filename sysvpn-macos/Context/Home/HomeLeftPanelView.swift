@@ -14,7 +14,7 @@ enum HomeMenuItem {
     case none
 }
 struct HomeLeftPanelView: View {
-    @State var selectedItem: HomeMenuItem = .none
+    @Binding var selectedItem: HomeMenuItem
     
     var iconSize: CGFloat = 32
     var quickConnectButton: some View {
@@ -151,49 +151,10 @@ struct HomeLeftPanelView: View {
 }
 
 struct HomeLeftPanelView_Previews: PreviewProvider {
+     @State static var selectedItem: HomeMenuItem = .none
+    
     static var previews: some View {
-        HomeLeftPanelView()
+        HomeLeftPanelView(selectedItem: $selectedItem)
     }
 }
-
-/*
  
- Text("Sysvpn Configuration")
- HStack {
-     Button {
-         print("Edit button was tapped")
-     } label: {
-         HStack {
-             Asset.Assets.icSetting.swiftUIImage
-                 .frame(width: 32, height: 32)
-             Text("Setting")
-         }
-     }
-     .buttonStyle(ActionButtonStyle())
-     
-     Button {
-         print("Edit button was tapped")
-     } label: {
-         HStack {
-             Asset.Assets.icSend.swiftUIImage
-                 .frame(width: 32, height: 32)
-             Text("Help center")
-         }
-     }
-     .buttonStyle(ActionButtonStyle())
- }
- .padding([.leading, .trailing], 20)
- Divider().padding([.leading, .trailing], 20)
- HStack {
-     Asset.Assets.avatarTest.swiftUIImage
-         .frame(width: 50, height: 50)
-         .cornerRadius(25)
-         .padding([.leading, .top], 20)
-     VStack(alignment: .leading) {
-         Text("Jason Vincius")
-         Text("312 days left")
-     }.padding(EdgeInsets(top: 20, leading: 12, bottom: 0, trailing: 0))
-     Spacer()
- }
- 
- */

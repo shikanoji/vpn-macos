@@ -14,6 +14,7 @@ struct ZoomModifier: ViewModifier {
     private var min: CGFloat = 1.0
     private var max: CGFloat = 1.5
     private var numberImage: CGFloat = 3
+    @State var lastScaleValue: CGFloat = 1
     
     @Binding var currentScale: CGFloat
     @State var isDrag = false
@@ -28,6 +29,7 @@ struct ZoomModifier: ViewModifier {
         self.screenSize = screenSize
         self.overlayLayer = overlayLayer
         _currentScale = currentScale
+        self.lastScaleValue = currentScale.wrappedValue
     }
     
     func calcOffset(newOffset: CGSize, skipCheckPosition: Bool = false) {
@@ -58,24 +60,25 @@ struct ZoomModifier: ViewModifier {
     }
     
     func onScaleCalcOffset(value: CGFloat) {
-        let currentWidth = contentSize.width * numberImage * currentScale
-        let currentHeight = contentSize.height * currentScale
+        let currentWidth = contentSize.width * numberImage * lastScaleValue
+        let currentHeight = contentSize.height * lastScaleValue
         
         let nextWith = contentSize.width * value * numberImage
         let nextHeight = contentSize.height * value
         let dist = (offset.width * -1 + screenSize.width / 2) - currentWidth / 2
-        let percent = dist / (contentSize.width / 2) / currentScale
+        let percent = dist / (contentSize.width / 2) / lastScaleValue
         
         offset.width += (currentWidth - nextWith) / (2 - percent)
         offset.height += (currentHeight - nextHeight) / (2 - percent)
-        calcOffset(newOffset: offset, skipCheckPosition: currentScale > 0.9)
+        calcOffset(newOffset: offset, skipCheckPosition: lastScaleValue > 0.9)
+        self.lastScaleValue = value
     }
      
     func body(content: Content) -> some View {
         ScrollView([.horizontal, .vertical], showsIndicators: false) {
             content
                 .frame(width: contentSize.width * currentScale * numberImage, height: contentSize.height * currentScale, alignment: .center)
-                .modifier(PinchToZoom(minScale: min, maxScale: max, scale: $currentScale, onScale: onScaleCalcOffset))
+                .modifier(PinchToZoom(minScale: min, maxScale: max, scale: $currentScale))
                 .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
                                 
                     .onChanged { val in
@@ -91,6 +94,10 @@ struct ZoomModifier: ViewModifier {
                         isDrag = false
                     }
                 ).modifier(overlayLayer)
+                .onChange(of: currentScale) { newValue in
+                   
+                    onScaleCalcOffset(value: newValue)
+                }
                 
         }.content.offset(offset)
             .onAppear {
@@ -110,8 +117,6 @@ struct PinchToZoom: ViewModifier {
     @GestureState var magnifyBy = 1.0
     @State var lastScaleValue: CGFloat = 1.0
     
-    let onScale: (CGFloat) -> Void
-
     var magnification: some Gesture {
         MagnificationGesture()
             .updating($magnifyBy) { currentState, gestureState, _ in
@@ -125,7 +130,6 @@ struct PinchToZoom: ViewModifier {
                 } else if newScale < minScale {
                     newScale = minScale
                 }
-                self.onScale(newScale)
                 scale = newScale
                 isPinching = true
             }.onEnded { _ in

@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftUITooltip
 
 struct VpnMapView: View {
-    @State var scale: CGFloat = 1.0
+    @Binding var scale: CGFloat
     var rescaleView: CGFloat = 1.5
     var numberImage = 1
     var aspecRaito: CGFloat = 1024 / 588
@@ -139,7 +139,8 @@ struct VpnMapOverlayLayer: ViewModifier {
 }
 
 struct VpnMapView_Previews: PreviewProvider {
+    @State static var value: CGFloat = 1
     static var previews: some View {
-        VpnMapView()
+        VpnMapView(scale: $value)
     }
 }
