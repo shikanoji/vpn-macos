@@ -17,19 +17,26 @@ struct LoginButtonNoBackgroundStyle: ButtonStyle {
 }
 
 struct LoginButtonCTAStyle: ButtonStyle {
+    
+    var bgColor: Color = Asset.Colors.primaryColor.swiftUIColor
+    var bgColorDissable: Color = Asset.Colors.backgroundButtonDisable.swiftUIColor
+    
     func makeBody(configuration: ButtonStyle.Configuration) -> some View {
-        CTAButton(configuration: configuration)
+        CTAButton(configuration: configuration, bgColor: bgColor, bgColorDissable: bgColorDissable)
     }
 
     struct CTAButton: View {
         let configuration: ButtonStyle.Configuration
         @Environment(\.isEnabled) private var isEnabled: Bool
+        var bgColor: Color = Asset.Colors.primaryColor.swiftUIColor
+        var bgColorDissable: Color = Asset.Colors.backgroundButtonDisable.swiftUIColor
+        
         var body: some View {
             configuration.label
                 .padding(EdgeInsets(top: 13.0, leading: 8.0, bottom: 13.0, trailing: 8.0))
                 .frame(maxWidth: .infinity)
                 .foregroundColor(isEnabled ? Asset.Colors.foregroundButtonEnable.swiftUIColor : Asset.Colors.foregroundButtonDisable.swiftUIColor)
-                .background(isEnabled ? Asset.Colors.primaryColor.swiftUIColor : Asset.Colors.backgroundButtonDisable.swiftUIColor)
+                .background(isEnabled ? bgColor : bgColorDissable)
                 .opacity(configuration.isPressed ? 0.8 : 1.0)
                 .cornerRadius(8)
         }

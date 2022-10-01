@@ -18,16 +18,26 @@ public enum L10n {
     public static let hello = L10n.tr("Global", "hello", fallback: "Hello")
   }
   public enum Login {
+    /// All Country
+    public static let allCountry = L10n.tr("Login", "allCountry", fallback: "All Country")
     /// SYSVPN
     public static let appName = L10n.tr("Login", "appName", fallback: "SYSVPN")
     /// Create New
     public static let createNew = L10n.tr("Login", "createNew", fallback: "Create New")
+    /// Disconnect
+    public static let disconnect = L10n.tr("Login", "disconnect", fallback: "Disconnect")
     /// Don’t have an account?
     public static let dontHaveAnAccount = L10n.tr("Login", "dontHaveAnAccount", fallback: "Don’t have an account?")
     /// Forgot password
     public static let forgotPassword = L10n.tr("Login", "forgotPassword", fallback: "Forgot password")
     /// Password
     public static let password = L10n.tr("Login", "password", fallback: "Password")
+    /// Protected
+    public static let protected = L10n.tr("Login", "protected", fallback: "Protected")
+    /// Quick Connect
+    public static let quickConnect = L10n.tr("Login", "quickConnect", fallback: "Quick Connect")
+    /// Recent
+    public static let recent = L10n.tr("Login", "recent", fallback: "Recent")
     /// Remember login
     public static let rememberLogin = L10n.tr("Login", "rememberLogin", fallback: "Remember login")
     /// Sign in
@@ -43,8 +53,18 @@ public enum L10n {
     public static let sologan = L10n.tr("Login", "sologan", fallback: "Start protecting yourself with SysVPN")
     /// Light is Faster, but We are Safer.
     public static let sologanProcessing = L10n.tr("Login", "sologanProcessing", fallback: "Light is Faster, but We are Safer.")
+    /// Suggest
+    public static let suggest = L10n.tr("Login", "suggest", fallback: "Suggest")
+    /// Connect to VPN to online sercurity
+    public static let titleNotConnect = L10n.tr("Login", "titleNotConnect", fallback: "Connect to VPN to online sercurity")
+    /// Open
+    public static let titleOpen = L10n.tr("Login", "titleOpen", fallback: "Open")
+    /// Quit
+    public static let titleQuit = L10n.tr("Login", "titleQuit", fallback: "Quit")
     /// Please try again!
     public static let tryAgain = L10n.tr("Login", "tryAgain", fallback: "Please try again!")
+    /// Unprotected
+    public static let unprotected = L10n.tr("Login", "unprotected", fallback: "Unprotected")
     /// Your email
     public static let yourEmail = L10n.tr("Login", "yourEmail", fallback: "Your email")
   }

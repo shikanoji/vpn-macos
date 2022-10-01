@@ -18,3 +18,13 @@
 "createNew" = "Create New";
 "appName" = "SYSVPN";
 "tryAgain" = "Please try again!";
+"quickConnect" = "Quick Connect";
+"titleQuit" = "Quit";
+"titleOpen" = "Open";
+"titleNotConnect" = "Connect to VPN to online sercurity";
+"unprotected" = "Unprotected";
+"protected" = "Protected";
+"recent" = "Recent";
+"suggest" = "Suggest";
+"allCountry" = "All Country";
+"disconnect" = "Disconnect";

@@ -16,6 +16,7 @@ extension String {
     static var keyUserLatitude = "USER_LATITUDE"
     static var keyUserLongitude = "USER_LONGTITUDE"
     static var keyUserIsp = "USER_ISP"
+    static var keyUserIsConnect = "USER_IS_CONNECT"
 }
 
 class AppDataManager {
@@ -113,6 +114,15 @@ class AppDataManager {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: .keyUserIsp)
+        }
+    }
+    
+    var isConnect: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: .keyUserIsConnect)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: .keyUserIsConnect)
         }
     }
     
