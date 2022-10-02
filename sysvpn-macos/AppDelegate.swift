@@ -10,11 +10,12 @@ import SwiftUI
  
 class AppDelegate: NSObject, NSApplicationDelegate {
     var menuExtrasConfigurator: MenuQuickAccessConfigurator?
-   
+    var appState = GlobalAppStates()
+    
     func applicationDidFinishLaunching(_: Notification) {
         #if !targetEnvironment(simulator)
-                NSApp.activate(ignoringOtherApps: true)
-                NSApp.delegate = self
+                NSApp.activate(ignoringOtherApps: false)
+               
                 menuExtrasConfigurator = .init()
         #endif
     }

@@ -43,6 +43,7 @@ struct sysvpn_macosApp: App {
                     
                 })
             }
+            .handlesExternalEvents(matching: ["main"])
         
     }
 }

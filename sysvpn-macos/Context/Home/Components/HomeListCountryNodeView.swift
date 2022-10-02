@@ -25,31 +25,10 @@ struct HomeListCountryNodeView : View {
         HomeListCountryModel(type: .country, title: "Test4"),
         HomeListCountryModel(type: .country, title: "Test5"),
         HomeListCountryModel(type: .country, title: "Test6"),
-        HomeListCountryModel(type: .country, title: "Test7"),
-        HomeListCountryModel(type: .country, title: "Test4"),
-        HomeListCountryModel(type: .country, title: "Test5"),
-        HomeListCountryModel(type: .country, title: "Test6"),
         HomeListCountryModel(type: .country, title: "Test7")
     ]
     var body: some View {
-        VStack(alignment: .leading) {
-           /* Text("Recent locations")
-                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                .font(Font.system(size: 14, weight: .regular))
-            Spacer().frame(height: 21)
-            CountryItemView()
-            Text("Recommended")
-                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                .font(Font.system(size: 14, weight: .regular))
-            Spacer().frame(height: 21)
-            CountryItemView()
-            Text("All countries")
-                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                .font(Font.system(size: 14, weight: .regular))
-            Spacer().frame(height: 21)
-            CountryItemView()
-            Spacer()*/
-            
+        VStack(alignment: .leading) { 
             List(countries) {  item in
                 switch item.type {
                 case .spacing:

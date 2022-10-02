@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
  
 class MenuQuickAccessConfigurator {
-    
+    static var shared:MenuQuickAccessConfigurator!
     private var statusBar: NSStatusBar
     private var statusItem: NSStatusItem
     private var mainView: NSView
@@ -37,6 +37,7 @@ class MenuQuickAccessConfigurator {
         self.popover = popover
         
         createMenu()
+        MenuQuickAccessConfigurator.shared = self
     }
     
     func createMenu() {
@@ -67,11 +68,7 @@ class MenuQuickAccessConfigurator {
      
 
     class func closePopover() {
-      
-        guard let appDelegate = NSApp.delegate as? AppDelegate else {
-            return
-        }
-        print("closeedd")
-        appDelegate.menuExtrasConfigurator?.popover.performClose(nil)
+       
+        MenuQuickAccessConfigurator.shared.popover.performClose(nil)
     }
 }

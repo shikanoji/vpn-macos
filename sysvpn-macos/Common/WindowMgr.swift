@@ -28,5 +28,5 @@ class WindowMgr: ObservableObject {
         return _instance
     }
     
-    @Published var currentWindow: OpenWindows = .MainView
+    @Published var currentWindow: OpenWindows = .SpashView
 }

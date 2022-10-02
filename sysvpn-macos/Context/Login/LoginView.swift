@@ -25,11 +25,11 @@ struct LoginView: View {
     var formInput: some View {
         VStack {
             Spacer().frame(height: paddingTop)
-            TextField(L10n.Login.yourEmail, text: $viewModel.userName)
+            TextField(L10n.Login.yourEmail, text: $viewModel.userName) 
+                .disableAutocorrection(true)
                 .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingEmail))
                 .focused($focusState, equals: .username)
                 .textContentType(.username)
-                .disableAutocorrection(true)
             Spacer().frame(height: inputSpacing)
             SecureField(L10n.Login.password, text: $viewModel.password)
                 .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingPassword))
