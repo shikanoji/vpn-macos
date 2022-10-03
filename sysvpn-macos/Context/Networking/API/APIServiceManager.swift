@@ -21,4 +21,12 @@ final class APIServiceManager: BaseServiceManager<APIService> {
 //        self.provider.session.sessionConfiguration.timeoutIntervalForRequest = 10
 //        self.provider.session.sessionConfiguration.timeoutIntervalForResource = 10
 //    }
+     
+    func onLogin(email: String, password: String) -> Single<AuthenResponse> {
+        return request(.login(email: email, password: password)).handleApiResponse(type: AuthenResponse.self)
+    }
+    
+    func getAppSetting() -> Single<AppSettingResponse> {
+        return request(.getAppSettings).handleApiResponse(type: AppSettingResponse.self)
+    }
 }
