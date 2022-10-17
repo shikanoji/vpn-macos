@@ -50,13 +50,7 @@ class IPCNetworkExtension: XPCBaseService {
                 }
                 
             } catch let e {
-                guard let error = e as? NSError else {
-                    completionHandler([
-                        HttpFieldName.statusCode.rawValue: -1 as NSObject,
-                        HttpFieldName.error.rawValue: MoyaIPCErrorDomain.unknownError as NSObject,
-                    ])
-                    return
-                }
+                let error = e as NSError 
                 completionHandler([
                     HttpFieldName.statusCode.rawValue: error.code as NSObject,
                     HttpFieldName.error.rawValue: error.domain as NSObject,
