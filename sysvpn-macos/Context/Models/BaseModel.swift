@@ -34,3 +34,5 @@ struct JSONBaseModelKey {
     static let message = "message"
     static let result = "result"
 }
+
+

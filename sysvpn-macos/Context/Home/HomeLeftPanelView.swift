@@ -15,15 +15,20 @@ enum HomeMenuItem {
 }
 struct HomeLeftPanelView: View {
     @Binding var selectedItem: HomeMenuItem
-    
+    @StateObject private var viewModel = HomeLeftPanelViewModel()
+     
     var iconSize: CGFloat = 32
     var quickConnectButton: some View {
         VStack {
             Text("Quick Connect")
             Spacer().frame( height: 20)
             Asset.Assets.icPower.swiftUIImage.resizable().frame(width: 100, height: 100)
+                .onTapGesture {
+                    viewModel.onTapConnect()
+                }
         }
         .frame(maxWidth: .infinity, alignment: .center)
+        
     }
     
     var menuSection : some View {

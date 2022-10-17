@@ -16,7 +16,13 @@ struct Constant {
         
         struct Path {
             static let ipInfo = "/app/module_server/v1/app_setting/get_app_settings"
+            static let listCountry = "/app/module_server/v1/country/get_list"
+            static let requestCert = "app/module_server/v1/vpn/request_certificate"
+            
+            
+            static let logout = "/shared/module_auth/v1/logout"
             static let login = "/shared/module_auth/v1/login"
+            static let disconnectSession = "/shared/module_server/v1/vpn/disconnect_session"
         }
     }
 }

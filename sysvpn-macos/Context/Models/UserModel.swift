@@ -92,11 +92,7 @@ class UserModel: BaseModel {
         UserDefaults.standard.setValue(dicData, forKey: .keySaveUserData)
     }
 }
-   
-extension String {
-    static var keySaveUserData = "KEY_USER_DATA"
-}
-
+ 
 struct JSONUserKey {
     static let id = "id"
     static let email = "email"
