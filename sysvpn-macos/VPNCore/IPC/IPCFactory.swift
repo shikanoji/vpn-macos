@@ -12,16 +12,28 @@ enum IPCServiceProto: String {
   
     case openVPN = "com.syspvn.macos.openvpn"
     case wireGuard = "com.syspvn.macos.wireguard"
-    
+
     public var machServiceName: String {
-        let teamId = "J953BZ6B49"
+        let teamId = CoreAppConstants.AppGroups.teamId
         return "\(teamId).group.\(rawValue)"
     }
 }
 
 class IPCFactory {
+    static let shared = IPCFactory()
+    fileprivate lazy var openVPNIPC = XPCServiceUser(withExtension: IPCServiceProto.openVPN.machServiceName, logger: { print("\($0)") })
+    
+    fileprivate lazy var wireGuardIPC = XPCServiceUser(withExtension: IPCServiceProto.wireGuard.machServiceName, logger: { print("\($0)") })
+    
     class func makeIPCService(proto: IPCServiceProto) -> XPCServiceUser {
-        return XPCServiceUser(withExtension: proto.machServiceName, logger: { print("\($0)")
-        })
+        switch proto {
+        case .wireGuard:
+            return IPCFactory.shared.wireGuardIPC
+        case .openVPN:
+            return IPCFactory.shared.openVPNIPC
+        }
+    }
+    class func makeIPCRequestService() -> XPCServiceUser {
+        return IPCFactory.shared.openVPNIPC
     }
 }

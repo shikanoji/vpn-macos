@@ -23,7 +23,7 @@ final class APIServiceManager: BaseServiceManager<APIService> {
 //    }
      
     func onLogin(email: String, password: String) -> Single<AuthenResponse> {
-        return request(.login(email: email, password: password)).handleApiResponse(type: AuthenResponse.self)
+        return requestIPC(.login(email: email, password: password)).handleApiResponse(type: AuthenResponse.self)
     }
     
     func getAppSetting() -> Single<AppSettingResponse> {

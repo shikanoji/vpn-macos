@@ -32,10 +32,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         
-        /*// demo xpc vpn
+        // demo xpc vpn
         IPCFactory.makeIPCService(proto: .openVPN).getLogs { data in
             print("[VPN] ===  \(data)")
-        }*/
+        }
         /// demo get bit rate
         statistics = NetworkStatistics(with: 1, and: { bitrate in
             let download = bitrate.rateString(for: bitrate.download)

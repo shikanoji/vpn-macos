@@ -49,9 +49,7 @@ class OSExtensionManager : NSObject {
         return extensionBundle
         
     }
-    
- 
-    
+     
      func startExtension() {
          if let extensionIdentifier = getExtensionBundle(CoreAppConstants.NetworkExtensions.openVpn)?.bundleIdentifier {
              let activationRequest = OSSystemExtensionRequest.activationRequest(forExtensionWithIdentifier: extensionIdentifier, queue: .main)
@@ -63,10 +61,7 @@ class OSExtensionManager : NSObject {
              activationRequest.delegate = self
              OSSystemExtensionManager.shared.submitRequest(activationRequest)
         }
- 
     }
-    
-
 }
 
 

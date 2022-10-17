@@ -39,6 +39,27 @@ class BaseServiceManager<API: TargetType> {
             .retry(2)
     }
     
+    func requestIPC(_ api: API) -> Single<Response> {
+        return provider.rx.requestIPC(api)
+            .flatMap {
+                if $0.statusCode == 401 {
+                    throw TokenError.tokenExpired
+                } else {
+                    return Single.just($0)
+                }
+            }
+            .retry { (error: Observable<TokenError>) in
+                // TODO: Handle refresh token
+                error
+//                error.flatMap { error -> Single<APIResponse<RegisterResultModel>> in
+//
+//                }
+            }
+            .handleResponse()
+            .filterSuccessfulStatusCodes()
+            .retry(2)
+    }
+    
     func cancelTask() {
         provider.session.session.finishTasksAndInvalidate()
     }

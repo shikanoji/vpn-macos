@@ -32,10 +32,11 @@ class XPCBaseService: NSObject {
 }
 
 extension XPCBaseService: ProviderCommunication {
-    func request(request: URLRequest) {
-        log("This is just a placeholder! Add `getLogs` in each implementation.")
+    func request(request: [String: NSObject], completionHandler: @escaping ([String: NSObject]) -> Void) {
+        log("This is just a placeholder! Add `request` in each implementation.")
     }
     
+   
     func getLogs(_ completionHandler: @escaping (Data?) -> Void) {
         log("This is just a placeholder! Add `getLogs` in each implementation.")
     } 

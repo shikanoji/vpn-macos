@@ -28,11 +28,9 @@ public class CoreAppConstants {
     
     struct AppGroups {
         static let main = "J953BZ6B49.group.com.syspvn.macos"
+        static let teamId = "J953BZ6B49"
     }
-    
-   // com.syspvn.client.macos.OpenVpnSysExtension
-   // com.syspvn.client.macos.WireGuardSysExtension
-    
+     
     struct NetworkExtensions {
         static let openVpn = "\(appBundleId).OpenVpnSysExtension"
         static let wireguard = "\(appBundleId).WireGuardSysExtension"

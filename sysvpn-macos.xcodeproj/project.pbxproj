@@ -81,6 +81,8 @@
 		FA12F19828FDA98A009753EE /* com.syspvn.client.macos.OpenVpnSysExtension.systemextension in Embed System Extensions */ = {isa = PBXBuildFile; fileRef = FAA35B4528FD335600205ECD /* com.syspvn.client.macos.OpenVpnSysExtension.systemextension */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FA12F19D28FDAE9D009753EE /* SystemNetworkingMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12F19C28FDAE9D009753EE /* SystemNetworkingMonitor.swift */; };
 		FA12F19F28FDB61A009753EE /* NetworkStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12F19E28FDB61A009753EE /* NetworkStatistics.swift */; };
+		FA12F1A328FDCBAD009753EE /* IPCHttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12F1A128FDCB0D009753EE /* IPCHttpRequest.swift */; };
+		FA12F1A428FDCBAD009753EE /* IPCHttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12F1A128FDCB0D009753EE /* IPCHttpRequest.swift */; };
 		FAA35B3D28FD2B2D00205ECD /* Moya+Rx+IPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35B3C28FD2B2D00205ECD /* Moya+Rx+IPC.swift */; };
 		FAA35B4828FD335600205ECD /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA35B4728FD335600205ECD /* NetworkExtension.framework */; };
 		FAA35B4B28FD335600205ECD /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35B4A28FD335600205ECD /* PacketTunnelProvider.swift */; };
@@ -122,8 +124,8 @@
 		FAA35BDA28FD442600205ECD /* CodeSignatureComparitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BB028FD41CA00205ECD /* CodeSignatureComparitor.swift */; };
 		FAA35BDB28FD442B00205ECD /* XPCBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAF28FD41CA00205ECD /* XPCBaseService.swift */; };
 		FAA35BDC28FD442C00205ECD /* XPCBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAF28FD41CA00205ECD /* XPCBaseService.swift */; };
-		FAA35BDD28FD443600205ECD /* BaseIPCNetworkExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAE28FD41CA00205ECD /* BaseIPCNetworkExtension.swift */; };
-		FAA35BDE28FD443600205ECD /* BaseIPCNetworkExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAE28FD41CA00205ECD /* BaseIPCNetworkExtension.swift */; };
+		FAA35BDD28FD443600205ECD /* IPCNetworkExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAE28FD41CA00205ECD /* IPCNetworkExtension.swift */; };
+		FAA35BDE28FD443600205ECD /* IPCNetworkExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAE28FD41CA00205ECD /* IPCNetworkExtension.swift */; };
 		FAA35BDF28FD443E00205ECD /* IPCBaseConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAB28FD41CA00205ECD /* IPCBaseConnection.swift */; };
 		FAA35BE028FD443F00205ECD /* IPCBaseConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAB28FD41CA00205ECD /* IPCBaseConnection.swift */; };
 		FAA35BE228FD46E400205ECD /* demofile.ovpn in Resources */ = {isa = PBXBuildFile; fileRef = FAA35BE128FD46E400205ECD /* demofile.ovpn */; };
@@ -263,6 +265,7 @@
 		B9D7F71B28D781A8008B1D39 /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		FA12F19C28FDAE9D009753EE /* SystemNetworkingMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemNetworkingMonitor.swift; sourceTree = "<group>"; };
 		FA12F19E28FDB61A009753EE /* NetworkStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatistics.swift; sourceTree = "<group>"; };
+		FA12F1A128FDCB0D009753EE /* IPCHttpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPCHttpRequest.swift; sourceTree = "<group>"; };
 		FAA35B3C28FD2B2D00205ECD /* Moya+Rx+IPC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Moya+Rx+IPC.swift"; sourceTree = "<group>"; };
 		FAA35B4028FD32A100205ECD /* tunnelkit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = tunnelkit; sourceTree = "<group>"; };
 		FAA35B4528FD335600205ECD /* com.syspvn.client.macos.OpenVpnSysExtension.systemextension */ = {isa = PBXFileReference; explicitFileType = "wrapper.system-extension"; includeInIndex = 0; path = com.syspvn.client.macos.OpenVpnSysExtension.systemextension; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -297,7 +300,7 @@
 		FAA35BAB28FD41CA00205ECD /* IPCBaseConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPCBaseConnection.swift; sourceTree = "<group>"; };
 		FAA35BAC28FD41CA00205ECD /* AuditTokenGetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditTokenGetter.h; sourceTree = "<group>"; };
 		FAA35BAD28FD41CA00205ECD /* XPCServiceUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPCServiceUser.swift; sourceTree = "<group>"; };
-		FAA35BAE28FD41CA00205ECD /* BaseIPCNetworkExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseIPCNetworkExtension.swift; sourceTree = "<group>"; };
+		FAA35BAE28FD41CA00205ECD /* IPCNetworkExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPCNetworkExtension.swift; sourceTree = "<group>"; };
 		FAA35BAF28FD41CA00205ECD /* XPCBaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPCBaseService.swift; sourceTree = "<group>"; };
 		FAA35BB028FD41CA00205ECD /* CodeSignatureComparitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeSignatureComparitor.swift; sourceTree = "<group>"; };
 		FAA35BB128FD41CA00205ECD /* OSExtensionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSExtensionManager.swift; sourceTree = "<group>"; };
@@ -676,6 +679,14 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		FA12F1A028FDCAFD009753EE /* IPCRequest */ = {
+			isa = PBXGroup;
+			children = (
+				FA12F1A128FDCB0D009753EE /* IPCHttpRequest.swift */,
+			);
+			path = IPCRequest;
+			sourceTree = "<group>";
+		};
 		FAA35B3B28FD2B0F00205ECD /* CoreIPC */ = {
 			isa = PBXGroup;
 			children = (
@@ -803,10 +814,11 @@
 		FAA35BAA28FD41CA00205ECD /* IPC */ = {
 			isa = PBXGroup;
 			children = (
+				FA12F1A028FDCAFD009753EE /* IPCRequest */,
 				FAA35BAB28FD41CA00205ECD /* IPCBaseConnection.swift */,
 				FAA35BAC28FD41CA00205ECD /* AuditTokenGetter.h */,
 				FAA35BAD28FD41CA00205ECD /* XPCServiceUser.swift */,
-				FAA35BAE28FD41CA00205ECD /* BaseIPCNetworkExtension.swift */,
+				FAA35BAE28FD41CA00205ECD /* IPCNetworkExtension.swift */,
 				FAA35BAF28FD41CA00205ECD /* XPCBaseService.swift */,
 				FAA35BB028FD41CA00205ECD /* CodeSignatureComparitor.swift */,
 				FAA35BB128FD41CA00205ECD /* OSExtensionManager.swift */,
@@ -1207,7 +1219,8 @@
 				FAA35B4D28FD335600205ECD /* main.swift in Sources */,
 				FAA35BD928FD442500205ECD /* CodeSignatureComparitor.swift in Sources */,
 				FAA35BDF28FD443E00205ECD /* IPCBaseConnection.swift in Sources */,
-				FAA35BDD28FD443600205ECD /* BaseIPCNetworkExtension.swift in Sources */,
+				FAA35BDD28FD443600205ECD /* IPCNetworkExtension.swift in Sources */,
+				FA12F1A328FDCBAD009753EE /* IPCHttpRequest.swift in Sources */,
 				FAA35B4B28FD335600205ECD /* PacketTunnelProvider.swift in Sources */,
 				FAA35BD528FD441700205ECD /* IPCHelper.swift in Sources */,
 				FAA35BDB28FD442B00205ECD /* XPCBaseService.swift in Sources */,
@@ -1221,7 +1234,8 @@
 				FAA35B7328FD33DA00205ECD /* main.swift in Sources */,
 				FAA35BDA28FD442600205ECD /* CodeSignatureComparitor.swift in Sources */,
 				FAA35BE028FD443F00205ECD /* IPCBaseConnection.swift in Sources */,
-				FAA35BDE28FD443600205ECD /* BaseIPCNetworkExtension.swift in Sources */,
+				FAA35BDE28FD443600205ECD /* IPCNetworkExtension.swift in Sources */,
+				FA12F1A428FDCBAD009753EE /* IPCHttpRequest.swift in Sources */,
 				FAA35B7128FD33DA00205ECD /* PacketTunnelProvider.swift in Sources */,
 				FAA35BD628FD441900205ECD /* IPCHelper.swift in Sources */,
 				FAA35BDC28FD442C00205ECD /* XPCBaseService.swift in Sources */,
