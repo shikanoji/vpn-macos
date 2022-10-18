@@ -31,6 +31,10 @@ final class APIServiceManager: BaseServiceManager<APIService> {
         return request(.getAppSettings).handleApiResponseCodable(type: AppSettingResult.self)
     }
     
+    func getAppSettingFirstOpen() -> Single<AppSettingResult> {
+        return request(.getAppSettings).handleApiResponseCodable(type: AppSettingResult.self)
+    }
+    
     func getListCountry()  -> Single<CountryResult> {
         return request(.getListCountry).handleApiResponseCodable(type: CountryResult.self)
     }

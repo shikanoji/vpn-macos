@@ -62,8 +62,8 @@ class SystemDataUsage {
             var networkData: UnsafeMutablePointer<if_data>?
             networkData = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
             if let data = networkData {
-                var send = UInt64(data.pointee.ifi_obytes)
-                var received = UInt64(data.pointee.ifi_ibytes)
+                let send = UInt64(data.pointee.ifi_obytes)
+                let received = UInt64(data.pointee.ifi_ibytes)
                 dataUsageInfo.received += received
                 dataUsageInfo.sent += send
             }

@@ -12,7 +12,7 @@ typealias SysVPNPrepareConnecitonStringCallback = (Result<PrepareConnecitonStrin
 
 
 struct DisconnectVPNParams: Codable {
-    
+    var sessionId:String
 }
 
 struct PrepareConnecitonStringResult : Codable  {
@@ -34,7 +34,7 @@ protocol SysVPNService {
 class MockVPNService : SysVPNService {
     func prepareConection(connectType: ConnectionType, params: SysVPNConnectParams?, callback: SysVPNPrepareConnecitonStringCallback?) {
          
-        let result = PrepareConnecitonStringResult(connectionString: MockVPNService.getText() , vpnProtocol: .openVpn(.udp))
+        let result = PrepareConnecitonStringResult(connectionString: MockVPNService.getText() , vpnProtocol: .openVpn(.udp) )
         
         callback?(.success(result))
     }
