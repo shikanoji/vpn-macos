@@ -22,11 +22,30 @@ final class APIServiceManager: BaseServiceManager<APIService> {
 //        self.provider.session.sessionConfiguration.timeoutIntervalForResource = 10
 //    }
      
-    func onLogin(email: String, password: String) -> Single<AuthenResponse> {
-        return requestIPC(.login(email: email, password: password)).handleApiResponse(type: AuthenResponse.self)
+ 
+    func onLogin(email: String, password: String) -> Single<AuthResult> {
+        return request(.login(email: email, password: password)).handleApiResponseCodable(type: AuthResult.self) 
     }
     
-    func getAppSetting() -> Single<AppSettingResponse> {
-        return request(.getAppSettings).handleApiResponse(type: AppSettingResponse.self)
+    func getAppSetting() -> Single<AppSettingResult> {
+        return request(.getAppSettings).handleApiResponseCodable(type: AppSettingResult.self)
     }
+    
+    func getListCountry()  -> Single<CountryResult> {
+        return request(.getListCountry).handleApiResponseCodable(type: CountryResult.self)
+    }
+    
+    func onLogout() -> Single<Bool> {
+        return request(.logout).handleEmptyResponse() 
+    }
+    
+    func onRequestCert(param: VpnParamRequest) -> Single<VPNResult> {
+        return request(.requestCert(vpnParam: param)).handleApiResponseCodable(type: VPNResult.self)
+    }
+    
+    func onDisconnect() -> Single<Bool>{
+        return request(.disconnectSession(sectionId: "", disconnectedBy: "")).handleEmptyResponse()
+    }
+    
+    
 }

@@ -19,3 +19,25 @@ extension HomeView {
         
     }
 }
+
+
+extension HomeLeftPanelView {
+    @MainActor class HomeLeftPanelViewModel: ObservableObject {
+        
+        @Published var selectedMenuItem: HomeMenuItem = .none
+        var isConnected: Bool = false
+
+        init() {
+            
+        }
+        
+        func onTapConnect() {
+            let param = VpnParamRequest()
+            param.dev = "tun"
+            param.proto = "tcp"
+            
+            APIServiceManager.shared.onRequestCert(param: param)
+        }
+        
+    }
+}

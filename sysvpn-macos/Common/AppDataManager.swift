@@ -17,20 +17,23 @@ extension String {
     static var keyUserLongitude = "USER_LONGTITUDE"
     static var keyUserIsp = "USER_ISP"
     static var keyUserIsConnect = "USER_IS_CONNECT"
+    static var keyUserInfo = "KEY_USER_INFO"
+    static var keySaveUserData = "KEY_USER_DATA"
+    static var keySaveCountry = "KEY_SAVE_COUNTRY"
 }
 
 class AppDataManager {
     static var shared = AppDataManager()
     
-    private var _user: UserModel?
+    private var _user: AuthUser?
     
-    var userData: UserModel? {
+    var userData: AuthUser? {
         get {
             if !isLogin {
                 return nil
             }
             if _user == nil {
-                _user = UserModel.fromSaved()
+                _user = AuthUser.fromSaved()
             }
             return _user
         }
@@ -40,20 +43,39 @@ class AppDataManager {
         }
     }
     
-    private var _cacheToken: String?
+    private var _cacheAccessToken: String?
     var accessToken: String? {
         get {
-            if _cacheToken == nil {
-                _cacheToken = UserDefaults.standard.string(forKey: .keySaveAccessToken)
+            if _cacheAccessToken == nil {
+                _cacheAccessToken = UserDefaults.standard.string(forKey: .keySaveAccessToken)
             }
-            return _cacheToken
+            return _cacheAccessToken
         }
         set {
-            _cacheToken = newValue
+            _cacheAccessToken = newValue
             if newValue == nil {
                 UserDefaults.standard.removeObject(forKey: .keySaveAccessToken)
             } else {
                 UserDefaults.standard.setValue(newValue, forKey: .keySaveAccessToken)
+            }
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    private var _cacheRefreshToken: String?
+    var refreshToken: String? {
+        get {
+            if _cacheRefreshToken == nil {
+                _cacheRefreshToken = UserDefaults.standard.string(forKey: .keySaveRefreshToken)
+            }
+            return _cacheRefreshToken
+        }
+        set {
+            _cacheRefreshToken = newValue
+            if newValue == nil {
+                UserDefaults.standard.removeObject(forKey: .keySaveRefreshToken)
+            } else {
+                UserDefaults.standard.setValue(newValue, forKey: .keySaveRefreshToken)
             }
             UserDefaults.standard.synchronize()
         }
@@ -126,7 +148,7 @@ class AppDataManager {
         }
     }
     
-    func saveIpInfo(info: IpInfoModel?) {
+    func saveIpInfo(info: AppSettingIpInfo?) {
         userIp = info?.ip ?? "127.0.0.1"
         userCity = info?.city ?? "Ha Noi"
         userCountryCode = info?.countryCode ?? "VN"
