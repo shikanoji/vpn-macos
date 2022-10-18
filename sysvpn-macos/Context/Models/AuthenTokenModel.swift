@@ -34,8 +34,8 @@ class JWTTokenModel: BaseModel {
     }
     
     func parseJson(_ json: JSON) {
-        token = json[JSONTokenKey.access].string
-        expires = json[JSONTokenKey.refresh].int
+        token = json[JSONTokenKey.token].string
+        expires = json[JSONTokenKey.expires].int
     }
 }
 
