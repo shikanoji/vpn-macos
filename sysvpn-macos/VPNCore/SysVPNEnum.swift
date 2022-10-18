@@ -32,9 +32,9 @@ enum ConnectionStatus {
 
 
 enum ConnectionType {
-    case serverId(id: String)
-    case countryId(id: String)
-    case cityId(id: String)
+    case serverId(id: Int)
+    case countryId(id: Int)
+    case cityId(id: Int)
     case lastSessionCode(code: String)
     case quick
 }

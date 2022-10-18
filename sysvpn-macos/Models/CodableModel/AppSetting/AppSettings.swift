@@ -15,9 +15,7 @@ struct AppSettings: Codable {
   }
 
   var forceUpdateVersions: [Int]?
-  var settingVpn: AppSettingVpn?
-
-
+  var settingVpn: AppSettingVpn? 
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)

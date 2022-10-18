@@ -552,10 +552,10 @@ class SysVPNManager : SysVPNManagerProtocol {
 
     private func executeDisconnectionRequestWhenReady(request: @escaping () -> Void) {
         print("[VPN] call executeDisconnectionRequestWhenReady")
-        if currentVpnProtocol == nil {
+       /* if currentVpnProtocol == nil {
             delayedDisconnectRequest = request
-        } else {
+        } else {*/
             request()
-        }
+       // }
     }
 }

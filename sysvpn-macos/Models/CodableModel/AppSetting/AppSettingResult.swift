@@ -27,5 +27,15 @@ struct AppSettingResult: Codable {
       appSettings = try container.decodeIfPresent(AppSettings.self, forKey: .appSettings)
       lastChange = try container.decodeIfPresent(Int.self, forKey: .lastChange)
   }
+    
+    
+    func saveUserSetting() {
+        self.saveFile(fileName: .keySaveUserSetting)
+    }
+    
+    static func getUserSetting() -> AppSettingResult?{
+        return AppSettingResult.readFile(fileName: .keySaveUserSetting) as? AppSettingResult
+    }
+    
 
 }

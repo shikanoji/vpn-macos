@@ -116,7 +116,7 @@ class SysVPNConfiguration : SysVpnManagerConfiguration {
 
 struct SysVPNConnectParams : Codable {
     var isHop: Bool?
-   
+    
 }
 
 struct ConnectionConfiguration : Codable  {

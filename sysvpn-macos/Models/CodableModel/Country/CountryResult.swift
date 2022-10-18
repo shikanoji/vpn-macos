@@ -35,7 +35,7 @@ struct CountryResult: Codable {
         self.saveFile(fileName: .keySaveCountry)
     }
     
-    func getListCountry() -> CountryResult?{
+    static func getListCountry() -> CountryResult? {
         return CountryResult.readFile(fileName: .keySaveCountry) as? CountryResult
     }
     

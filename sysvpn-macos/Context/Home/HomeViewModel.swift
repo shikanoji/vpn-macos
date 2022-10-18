@@ -32,11 +32,12 @@ extension HomeLeftPanelView {
         }
         
         func onTapConnect() {
-            let param = VpnParamRequest()
-            param.dev = "tun"
-            param.proto = "tcp"
-            
-            APIServiceManager.shared.onRequestCert(param: param)
+            let dj = DependencyContainer.shared 
+            DispatchQueue.main.async {
+                dj.vpnManager.whenReady(queue: DispatchQueue.main) {
+                    dj.vpnCore.quickConnect()
+                }
+            }
         }
         
     }

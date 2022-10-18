@@ -86,7 +86,7 @@ extension APIService: TargetType {
             param["cityId"] = vpnParam.cityId
             param["cybersec"] = vpnParam.cybersec
             param["isHop"] = vpnParam.isHop
-            param["tech"] = vpnParam.tech?.vpnTypeStr ?? nil
+            param["tech"] = vpnParam.tech?.vpnTypeStr ?? "ovpn"
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case let .disconnectSession(sectionId, disconnectedBy):
             param["sessionId"] = sectionId
@@ -99,8 +99,11 @@ extension APIService: TargetType {
     // Usually you would pass auth tokens here.
     var headers: [String: String]? {
         switch self {
-        case .getListCountry:
-            return ["Content-type": "application/x-www-form-urlencoded", "Authorization": "Bearer " + (AppDataManager.shared.accessToken ?? ""),]
+        case .getListCountry, .requestCert, .disconnectSession:
+            return ["Content-type": "application/x-www-form-urlencoded",
+                    "Authorization": "Bearer " + (AppDataManager.shared.accessToken ?? ""),
+                    "x-device-info" : AppSetting.shared.getDeviceInfo(), 
+            ]
         default:
             return ["Content-type": "application/x-www-form-urlencoded"]
         }

@@ -95,6 +95,8 @@
 		B9B3705F28FE500B0022498B /* CountryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B3705E28FE500B0022498B /* CountryModel.swift */; };
 		B9B3706128FE5A0C0022498B /* LocalJsonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B3706028FE5A0C0022498B /* LocalJsonFile.swift */; };
 		B9B3706428FE5FE40022498B /* AppVpnService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B3706328FE5FE40022498B /* AppVpnService.swift */; };
+		B9B3706828FEAB090022498B /* ListServerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B3706628FEAB080022498B /* ListServerState.swift */; };
+		B9B3706928FEAB090022498B /* ServerStateResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B3706728FEAB090022498B /* ServerStateResult.swift */; };
 		B9D7F70E28D21421008B1D39 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F70D28D21421008B1D39 /* HomeView.swift */; };
 		B9D7F71228D2E3C5008B1D39 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71128D2E3C5008B1D39 /* UIColor+Extension.swift */; };
 		B9D7F71528D330BF008B1D39 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71428D330BE008B1D39 /* BaseModel.swift */; };
@@ -302,6 +304,8 @@
 		B9B3705E28FE500B0022498B /* CountryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryModel.swift; sourceTree = "<group>"; };
 		B9B3706028FE5A0C0022498B /* LocalJsonFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalJsonFile.swift; sourceTree = "<group>"; };
 		B9B3706328FE5FE40022498B /* AppVpnService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVpnService.swift; sourceTree = "<group>"; };
+		B9B3706628FEAB080022498B /* ListServerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListServerState.swift; sourceTree = "<group>"; };
+		B9B3706728FEAB090022498B /* ServerStateResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerStateResult.swift; sourceTree = "<group>"; };
 		B9D7F70D28D21421008B1D39 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		B9D7F71128D2E3C5008B1D39 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		B9D7F71428D330BE008B1D39 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
@@ -519,6 +523,8 @@
 		AC09D71928BCDCD40078E928 /* sysvpn-macos */ = {
 			isa = PBXGroup;
 			children = (
+				B9D7F71328D330A5008B1D39 /* Models */,
+				AC09D79C28BE12180078E928 /* Networking */,
 				FAA35B9128FD408000205ECD /* VPNCore */,
 				B99DB42328E4496300331AFB /* Util */,
 				AC09D7A328BF10C80078E928 /* Common */,
@@ -605,11 +611,9 @@
 				9E3756B728E6DB6500E95C64 /* VpnMap */,
 				B99DB43328E594F200331AFB /* MenuQuickAccess */,
 				B99DB42E28E5861A00331AFB /* Splash */,
-				B9D7F71328D330A5008B1D39 /* Models */,
 				B9D7F71028D2E36D008B1D39 /* Extensions */,
 				B9D7F70C28D213FF008B1D39 /* Home */,
 				9EC3322628C1086D00CA5DF5 /* Login */,
-				AC09D79C28BE12180078E928 /* Networking */,
 			);
 			path = Context;
 			sourceTree = "<group>";
@@ -691,6 +695,7 @@
 		B9B3703128FE4FE70022498B /* CodableModel */ = {
 			isa = PBXGroup;
 			children = (
+				B9B3706528FEAAF90022498B /* ServerState */,
 				B9B3703228FE4FE70022498B /* BaseCodable.swift */,
 				B9B3703328FE4FE70022498B /* Auth */,
 				B9B3703928FE4FE70022498B /* AppSetting */,
@@ -753,6 +758,15 @@
 				B9B3706328FE5FE40022498B /* AppVpnService.swift */,
 			);
 			path = Vpn;
+			sourceTree = "<group>";
+		};
+		B9B3706528FEAAF90022498B /* ServerState */ = {
+			isa = PBXGroup;
+			children = (
+				B9B3706728FEAB090022498B /* ServerStateResult.swift */,
+				B9B3706628FEAB080022498B /* ListServerState.swift */,
+			);
+			path = ServerState;
 			sourceTree = "<group>";
 		};
 		B9D7F70C28D213FF008B1D39 /* Home */ = {
@@ -1248,6 +1262,7 @@
 				9E668DF828E8A6F7009CDC95 /* TabbarViews.swift in Sources */,
 				9EC3323528C254DF00CA5DF5 /* LoginLoadingView.swift in Sources */,
 				AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */,
+				B9B3706828FEAB090022498B /* ListServerState.swift in Sources */,
 				B9B3706128FE5A0C0022498B /* LocalJsonFile.swift in Sources */,
 				AC09D79A28BE0F340078E928 /* Strings+Generated.swift in Sources */,
 				FAA35BC828FD41CB00205ECD /* IPCBaseConnection.swift in Sources */,
@@ -1279,6 +1294,7 @@
 				FAA35BB828FD41CB00205ECD /* Loging.swift in Sources */,
 				B9B3704E28FE4FE70022498B /* AuthAccess.swift in Sources */,
 				B9B3705B28FE4FE80022498B /* CountryAvailables.swift in Sources */,
+				B9B3706928FEAB090022498B /* ServerStateResult.swift in Sources */,
 				B9B3705028FE4FE70022498B /* AppSettingIpInfo.swift in Sources */,
 				B9B3705728FE4FE70022498B /* VPNResult.swift in Sources */,
 				AC09D7A528BF10D30078E928 /* Constant.swift in Sources */,

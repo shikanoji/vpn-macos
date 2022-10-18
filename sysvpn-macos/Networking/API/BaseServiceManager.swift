@@ -30,15 +30,11 @@ class BaseServiceManager<API: TargetType> {
                 }
             }
             .retry { (error: Observable<TokenError>) in
-                // TODO: Handle refresh token
+                
                 error
-//                error.flatMap { error -> Single<APIResponse<RegisterResultModel>> in
-//
-//                }
             }
             .handleResponse()
             .filterSuccessfulStatusCodes()
-            .retry(2)
     }
     
     func requestIPC(_ api: API) -> Single<Response> {
@@ -59,7 +55,7 @@ class BaseServiceManager<API: TargetType> {
             }
             .handleResponse()
             .filterSuccessfulStatusCodes()
-            .retry(2)
+             
     }
     
     func cancelTask() {

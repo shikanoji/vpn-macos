@@ -25,20 +25,20 @@ struct CountryStaticServers: Codable {
     case y
   }
 
-  var countryId: Int?
-  var serverNumber: Int?
-  var flag: String?
-  var latitude: String?
-  var cityName: String?
-  var iso2: String?
-  var currentLoad: Int?
-  var longitude: String?
-  var x: Double?
-  var countryName: String?
-  var iso3: String?
-  var serverId: Int?
-  var y: Double?
-
+    var countryId: Int?
+    var serverNumber: Int?
+    var flag: String?
+    var latitude: String?
+    var cityName: String?
+    var iso2: String?
+    var currentLoad: Int?
+    var longitude: String?
+    var x: Double?
+    var countryName: String?
+    var iso3: String?
+    var serverId: Int?
+    var y: Double?
+    var score: Int?
 
 
   init(from decoder: Decoder) throws {

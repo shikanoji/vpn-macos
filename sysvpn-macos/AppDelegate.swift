@@ -24,14 +24,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // demo install extension vpn
        OSExtensionManager.shared.startExtension()
+        /*
         let dj = DependencyContainer.shared
         // demo connect vpn
+        
         DispatchQueue.main.async {
             dj.vpnManager.whenReady(queue: DispatchQueue.main) {
                 dj.vpnCore.quickConnect()
             }
         }
-        
+       
         // demo xpc vpn
         IPCFactory.makeIPCService(proto: .openVPN).getLogs { data in
             print("[VPN] ===  \(data)")
@@ -42,6 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let upload = bitrate.rateString(for: bitrate.upload)
             print ("bitrate :\(download) \(upload)")
         })
+         */
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

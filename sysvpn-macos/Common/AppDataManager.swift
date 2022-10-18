@@ -20,6 +20,7 @@ extension String {
     static var keyUserInfo = "KEY_USER_INFO"
     static var keySaveUserData = "KEY_USER_DATA"
     static var keySaveCountry = "KEY_SAVE_COUNTRY"
+    static var keySaveUserSetting = "KEY_SAVE_USER_SETTING"
 }
 
 class AppDataManager {
@@ -156,4 +157,35 @@ class AppDataManager {
         longitude = info?.longitude ?? 0.0
         userIsp = info?.isp ?? ""
     }
+    
+    private var _userEtting: AppSettingResult?
+    
+    var userSetting: AppSettingResult? {
+        get {
+            if _userEtting == nil {
+                _userEtting = AppSettingResult.getUserSetting()
+            }
+            return _userEtting
+        }
+        set {
+            _userEtting = newValue
+            _userEtting?.saveUserSetting()
+        }
+    }
+    
+    private var _userCountry: CountryResult?
+    
+    var userCountry: CountryResult? {
+        get {
+            if _userCountry == nil {
+                _userCountry = CountryResult.getListCountry()
+            }
+            return _userCountry
+        }
+        set {
+            _userCountry = newValue
+            _userCountry?.saveListCountry()
+        }
+    }
+    
 }

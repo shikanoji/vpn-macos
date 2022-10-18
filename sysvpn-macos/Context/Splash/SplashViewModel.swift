@@ -23,6 +23,7 @@ extension SplashView {
                 switch event {
                 case let .success(response):
                     AppDataManager.shared.saveIpInfo(info: response.ipInfo)
+                    AppDataManager.shared.userSetting = response
                 case let .failure(e):
                     guard let error = e as? ResponseError else {
                         return

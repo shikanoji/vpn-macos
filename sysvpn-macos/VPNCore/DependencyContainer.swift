@@ -56,6 +56,6 @@ extension DependencyContainer: SysVPNStateConfigurationFactory {
 
 extension DependencyContainer: SysVPNServiceFactory {
     func makeVpnService() -> SysVPNService {
-        return MockVPNService()  
+        return AppVpnService()  
     }
 }
