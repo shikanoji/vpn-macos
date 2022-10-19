@@ -12,7 +12,7 @@ import SystemConfiguration.CaptiveNetwork
 class SystemDataUsage {
     private static let wwanInterfacePrefix = "pdp_ip"
     private static let wifiInterfacePrefix = "en"
-    
+    static var  lastestVpnUsageInfo:  SingleDataUsageInfo =  SingleDataUsageInfo(received: 0, sent: 0)
     class func getDataUsage() -> DataUsageInfo {
         var ifaddr: UnsafeMutablePointer<ifaddrs>?
         var dataUsageInfo = DataUsageInfo()
@@ -71,7 +71,7 @@ class SystemDataUsage {
         }
         
         freeifaddrs(ifaddr)
-         
+        lastestVpnUsageInfo = dataUsageInfo
         return dataUsageInfo;
     }
     
@@ -126,5 +126,22 @@ struct SingleDataUsageInfo {
     mutating func updateInfoByAdding(_ info: SingleDataUsageInfo) {
         received += info.received
         sent += info.sent
+    }
+    
+    func displayString(for rate: UInt64) -> String {
+        let rateString: String
+        
+        switch rate {
+        case let rate where rate >= UInt64(pow(1024.0, 3)):
+            rateString = "\(String(format: "%.1f", Double(rate) / pow(1024.0, 3))) GB"
+        case let rate where rate >= UInt64(pow(1024.0, 2)):
+            rateString = "\(String(format: "%.1f", Double(rate) / pow(1024.0, 2))) MB"
+        case let rate where rate >= 1024:
+            rateString = "\(String(format: "%.1f", Double(rate) / 1024.0)) KB"
+        default:
+            rateString = "\(String(format: "%.1f", Double(rate))) B"
+        }
+        
+        return rateString
     }
 }

@@ -55,10 +55,11 @@ struct TrafficLineChartView : View {
     var list2 : [Double] =  [1, 2, 212, 242, 92, 81, 188, 50, 155, 243, 243, 53, 141, 32, 1, 242, 30, 158, 6, 188, 195, 104, 67, 125 ];
     var height: CGFloat = 54
     var body: some View{
+        var maxValue = max(list.max() ?? 1, list2.max() ?? 1)
         return ZStack {
             ChartLineBackground().stroke(Color.white.opacity(0.05), lineWidth: 1.0)
-            LineShape(yValues: list2, scaleFactor: height / max(1,(list.max() ?? 1)) ).stroke(Color(rgb: 0x464859), lineWidth: 1.0)
-            LineShape(yValues: list, scaleFactor: height / max(1,(list.max() ?? 1)) ).stroke(Asset.Colors.primaryColor.swiftUIColor, lineWidth: 1.0)
+            LineShape(yValues: list2, scaleFactor: height / max(1, maxValue) ).stroke(Color(rgb: 0x464859), lineWidth: 1.0)
+            LineShape(yValues: list, scaleFactor: height / max(1, maxValue) ).stroke(Asset.Colors.primaryColor.swiftUIColor, lineWidth: 1.0)
         }.frame( height: height)
     }
 }

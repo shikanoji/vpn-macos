@@ -24,20 +24,16 @@ extension MenuQuickAccessView {
             userIp = "IP: \(AppDataManager.shared.userIp) -"
             location = AppDataManager.shared.isConnect ? L10n.Login.titleNotConnect : "Location: \(AppDataManager.shared.userCity)"
             tabIndex = 0
-            downloadSpeed = "900kb/s"
-            uploadSpeed = "1080kb/s"
+            downloadSpeed = "0b/s"
+            uploadSpeed = "0b/s"
         }
         
         func onTouchConnect() {
-            withAnimation {
-                GlobalAppStates.shared.isConnected = true
-            }
+            DependencyContainer.shared.vpnCore.quickConnect()
         }
         
         func onTouchDisconnect() {
-            withAnimation {
-                GlobalAppStates.shared.isConnected = false
-            }
+            DependencyContainer.shared.vpnCore.disconnect()
         }
         
         func onQuit() {

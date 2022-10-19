@@ -10,12 +10,12 @@ import SwiftUI
 struct MenuQuickAccessView: View {
     @StateObject private var viewModel = MenuQuickAccessModel()
     @EnvironmentObject var appState: GlobalAppStates
-    
+    @State var connectionState: AppDisplayState = .disconnected
     var sizeIcon: CGFloat = 20
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
-            if appState.isConnected {
+            if connectionState == .connected  || connectionState == .disconnecting {
                 headerMenuConnected
                     .transition(.opacity)
             } else {
@@ -26,6 +26,15 @@ struct MenuQuickAccessView: View {
             footerMenu
         }
         .cornerRadius(8)
+        .onChange(of: appState.displayState) { newValue in
+            withAnimation {
+                connectionState = newValue
+            }
+        }
+        .onChange(of: appState.bitRate) { newValue in
+            viewModel.downloadSpeed = newValue.rateString(for: appState.bitRate.download)
+            viewModel.uploadSpeed = newValue.rateString(for: appState.bitRate.upload)
+        }
     }
     
     var headerMenuNotConnect: some View {
@@ -47,12 +56,22 @@ struct MenuQuickAccessView: View {
                 .font(Font.system(size: 14))
                 .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
             Spacer().frame(height: 20)
-            Button {
-                viewModel.onTouchConnect()
-            } label: {
-                Text(L10n.Login.quickConnect)
-                    .font(Font.system(size: 14, weight: .semibold))
-            }.buttonStyle(LoginButtonCTAStyle())
+            if connectionState == .connecting {
+                Button {
+                     
+                } label: {
+                    Text("• • •")
+                        .font(Font.system(size: 14, weight: .semibold))
+                }.buttonStyle(LoginButtonCTAStyle(bgColor: Color.white))
+            } else {
+                Button {
+                    viewModel.onTouchConnect()
+                } label: {
+                    Text(L10n.Login.quickConnect)
+                        .font(Font.system(size: 14, weight: .semibold))
+                }.buttonStyle(LoginButtonCTAStyle())
+            }
+           
         }
         .frame(
             maxWidth: .infinity,
@@ -96,30 +115,43 @@ struct MenuQuickAccessView: View {
                         Asset.Assets.icArrowUp.swiftUIImage
                             .frame(width: sizeIcon, height: sizeIcon)
                         Text(viewModel.uploadSpeed)
-                            .font(Font.system(size: 14, weight: .semibold))
+                            .font(Font.system(size: 12, weight: .regular))
                             .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
-                    }
+                    } .frame(maxWidth: .infinity)
                     Spacer().frame(width: 16)
                     HStack {
                         Asset.Assets.icArrowDown.swiftUIImage
                             .frame(width: sizeIcon, height: sizeIcon)
                         Text(viewModel.downloadSpeed)
-                            .font(Font.system(size: 14, weight: .semibold))
+                            .font(Font.system(size: 12, weight: .regular))
                             .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
-                    }
+                    } .frame(maxWidth: .infinity)
          
                 } 
                 .padding(EdgeInsets(top: 13.0, leading: 8.0, bottom: 13.0, trailing: 10.0))
                 .background(Color(hexString: "FFFFFF").opacity(0.2))
                 .cornerRadius(8)
-                Button {
-                    viewModel.onTouchDisconnect()
-                } label: {
-                    Text(L10n.Login.disconnect)
-                        .font(Font.system(size: 14, weight: .semibold))
+                
+                if connectionState == .disconnecting {
+                    Button {
+                        
+                    } label: {
+                        Text("• • •")
+                            .font(Font.system(size: 14, weight: .semibold))
+                    }
+                    .frame(width: 120)
+                    .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
+                } else {
+                    Button {
+                        connectionState = .disconnecting
+                        viewModel.onTouchDisconnect()
+                    } label: {
+                        Text(L10n.Login.disconnect)
+                            .font(Font.system(size: 14, weight: .semibold))
+                    }
+                    .frame(width: 120)
+                    .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
                 }
-                .frame(width: 120)
-                .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
             }
         }
         .frame(

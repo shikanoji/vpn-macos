@@ -24,6 +24,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // demo install extension vpn
        OSExtensionManager.shared.startExtension()
+        DispatchQueue.main.async {
+            DependencyContainer.shared.vpnManager.whenReady(queue: DispatchQueue.main) {
+                print("readdy")
+            }
+        }
         /*
         let dj = DependencyContainer.shared
         // demo connect vpn

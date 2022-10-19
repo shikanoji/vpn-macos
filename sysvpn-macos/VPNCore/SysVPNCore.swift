@@ -27,6 +27,10 @@ class SysVPNCore : SysVPNGatewayProtocol {
                                                selector: #selector(appStateChanged),
                                                name: AppStateManagerNotification.stateChange,
                                                object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reconnectOnNotification),
+                                               name: Self.needsReconnectNotification,
+                                               object: nil)
     }
     
     func autoConnect() {
@@ -128,6 +132,10 @@ class SysVPNCore : SysVPNGatewayProtocol {
         }
         connection = ConnectionStatus.forAppState(state)
         postConnectionInformation()
+    }
+    
+    @objc private func reconnectOnNotification(_ notification: Notification) {
+    
     }
     
     

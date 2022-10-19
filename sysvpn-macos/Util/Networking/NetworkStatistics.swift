@@ -7,25 +7,30 @@
 
 import Foundation
 
-struct Bitrate {
+struct Bitrate : Equatable {
     var download: UInt32
     var upload: UInt32
+    var time: Int = 0
     
     func rateString(for rate: UInt32) -> String {
         let rateString: String
         
         switch rate {
         case let rate where rate >= UInt32(pow(1024.0, 3)):
-            rateString = "\(String(format: "%.1f", Double(rate) / pow(1024.0, 3))) GB/s"
+            rateString = "\(String(format: "%.1f", Double(rate) / pow(1024.0, 3)))gb/s"
         case let rate where rate >= UInt32(pow(1024.0, 2)):
-            rateString = "\(String(format: "%.1f", Double(rate) / pow(1024.0, 2))) MB/s"
+            rateString = "\(String(format: "%.1f", Double(rate) / pow(1024.0, 2)))mb/s"
         case let rate where rate >= 1024:
-            rateString = "\(String(format: "%.1f", Double(rate) / 1024.0)) KB/s"
+            rateString = "\(String(format: "%.1f", Double(rate) / 1024.0))kb/s"
         default:
-            rateString = "\(String(format: "%.1f", Double(rate))) B/s"
+            rateString = "\(String(format: "%.1f", Double(rate)))b/s"
         }
         
         return rateString
+    }
+    
+    static func ==(lhs: Bitrate, rhs: Bitrate) -> Bool {
+        return lhs.upload == rhs.upload && lhs.download == rhs.download && lhs.time == rhs.time
     }
 }
 
@@ -64,7 +69,7 @@ class NetworkStatistics {
         guard let updateWithBitrate = updateWithBitrate else { return }
         
         let latestTraffic = self.getTrafficStatistics()
-        
+        let time = Int(Date.now.timeIntervalSince1970)
         // usage can overflow
         let bitrate = Bitrate(download: UInt32(TimeInterval(latestTraffic.downloadCount >= self.traffic.downloadCount
                                                             ? latestTraffic.downloadCount - self.traffic.downloadCount
@@ -73,7 +78,7 @@ class NetworkStatistics {
           upload: UInt32(TimeInterval(latestTraffic.uploadCount >= self.traffic.uploadCount
                                                           ? latestTraffic.uploadCount - self.traffic.uploadCount
                                                           : latestTraffic.uploadCount)
-                                                          / timeInterval))
+                                                          / timeInterval), time: time)
         
         self.traffic = latestTraffic
         
@@ -81,7 +86,7 @@ class NetworkStatistics {
     }
     
     private func getTrafficStatistics() -> NetworkTraffic {
-        var vpnTraffic = SystemDataUsage.vpnDataUsageInfo()
+        let vpnTraffic = SystemDataUsage.vpnDataUsageInfo()
         return NetworkTraffic(downloadCount:  UInt32(vpnTraffic.received), uploadCount: UInt32(vpnTraffic.sent))
     }
     

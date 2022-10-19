@@ -255,7 +255,7 @@ class SysVPNManager : SysVPNManagerProtocol {
                 return
             }
             
-            self.currentVpnProtocol = vpnProtocol
+            self.currentVpnProtocol = vpnProtocol ?? .openVpn(.udp)
             self.setState()
 
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NEVPNStatusDidChange, object: nil)
@@ -325,9 +325,9 @@ class SysVPNManager : SysVPNManagerProtocol {
        
         // test kill switch
         
-        PropertiesManager.shared.hasConnected = true
+       /* PropertiesManager.shared.hasConnected = true
         PropertiesManager.shared.killSwitch = true
-        PropertiesManager.shared.excludeLocalNetworks = true
+        PropertiesManager.shared.excludeLocalNetworks = true*/
         
         
         // MARK: - KillSwitch configuration
@@ -552,10 +552,10 @@ class SysVPNManager : SysVPNManagerProtocol {
 
     private func executeDisconnectionRequestWhenReady(request: @escaping () -> Void) {
         print("[VPN] call executeDisconnectionRequestWhenReady")
-       /* if currentVpnProtocol == nil {
+       if currentVpnProtocol == nil {
             delayedDisconnectRequest = request
-        } else {*/
+        } else {
             request()
-       // }
+        }
     }
 }

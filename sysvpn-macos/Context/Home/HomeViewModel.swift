@@ -34,9 +34,7 @@ extension HomeLeftPanelView {
         func onTapConnect() {
             let dj = DependencyContainer.shared 
             DispatchQueue.main.async {
-                dj.vpnManager.whenReady(queue: DispatchQueue.main) {
-                    dj.vpnCore.quickConnect()
-                }
+                dj.vpnCore.quickConnect()
             }
         }
         

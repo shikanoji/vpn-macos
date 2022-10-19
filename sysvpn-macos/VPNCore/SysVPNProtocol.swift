@@ -41,16 +41,7 @@ protocol SysVpnManagerConfiguration {
     var vpnProtocol: VpnProtocol { get }
     var passwordReference: Data { get }
 }
-
-
-public enum AppDisplayState {
-    case connected
-    case connecting
-    case loadingConnectionInfo
-    case disconnecting
-    case disconnected
-}
-
+ 
 
 enum VpnProviderManagerRequirement {
     case configuration
