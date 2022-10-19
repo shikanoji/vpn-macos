@@ -62,7 +62,7 @@ class SysVpnAppStateManagement : AppStateManagement {
     private var lastAttemptedConfiguration: ConnectionConfiguration?
     private var timeoutTimer: BackgroundTimer?
     private var timerFactory = TimerFactoryImplementation()
-    private var statistics: NetworkStatistics?
+    var statistics: NetworkStatistics?
     
     private var vpnState: VpnState = .invalid {
         didSet {

@@ -50,6 +50,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print ("bitrate :\(download) \(upload)")
         })
          */
+         
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

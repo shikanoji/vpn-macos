@@ -71,8 +71,7 @@ struct HomeTrafficChartView : View {
                 Spacer()
             }
             Spacer().frame(height: 24)
-            TrafficLineChartView(list: lineDownSpeed, list2: lineUpSpeed)
-            .clipShape(Rectangle())
+            TrafficLineChartView()
         }.onChange(of: bitRate) { newValue in
             withAnimation {
                 lineDownSpeed.append(Double(bitRate.download))

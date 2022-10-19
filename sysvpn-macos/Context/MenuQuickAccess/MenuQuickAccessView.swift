@@ -26,6 +26,9 @@ struct MenuQuickAccessView: View {
             footerMenu
         }
         .cornerRadius(8)
+        .onAppear(){
+            connectionState = appState.displayState
+        }
         .onChange(of: appState.displayState) { newValue in
             withAnimation {
                 connectionState = newValue

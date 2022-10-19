@@ -8,12 +8,13 @@
 import Foundation
 import SwiftUI
 import SwiftUITooltip
+import Kingfisher
 
-protocol INodeInfo: AnyObject {
+protocol INodeInfo {
     var state: VpnMapPontState { get }
     var localtionIndex: Int? { get }
-    var name: String { get }
-    var image: Image? { get }
+    var locationName: String { get }
+    var image: KFImage? { get }
 }
 
 struct NodePoint {
@@ -56,13 +57,13 @@ struct ConnectPoint {
 }
 
 class NodeInfoTest: INodeInfo {
-    var image: Image? {
-        return Asset.Assets.demoCountry.swiftUIImage
+    var image: KFImage? {
+        return nil
     }
     
     var localtionIndex: Int?
     var state: VpnMapPontState = .disabled
-    var name: String = "TEST NODE"
+    var locationName: String = "TEST NODE"
     
     init(state: VpnMapPontState, localtionIndex: Int? = nil) {
         self.state = state

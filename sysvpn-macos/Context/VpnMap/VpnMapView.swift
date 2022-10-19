@@ -10,6 +10,7 @@ import SwiftUI
 import SwiftUITooltip
 
 struct VpnMapView: View {
+    @StateObject private var viewModel = VpnMapViewModel()
     @Binding var scale: CGFloat
     var rescaleView: CGFloat = 1.5
     var numberImage = 1
@@ -17,15 +18,8 @@ struct VpnMapView: View {
     var baseHeight: CGFloat = 588
     var scaleVector: CGFloat = 1
     @State var selectedNode: NodePoint? = nil
-    var connectPoints: [ConnectPoint] = [
-        ConnectPoint(point1: CGPoint(x: 100, y: 100), point2: CGPoint(x: 400, y: 500))
-    ]
-    var nodeList: [NodePoint] = [
-        NodePoint(point: CGPoint(x: 400, y: 500), info: NodeInfoTest(state: .activated, localtionIndex: 1)),
-        NodePoint(point: CGPoint(x: 100, y: 100), info: NodeInfoTest(state: .activeDisabled, localtionIndex: 2)),
-        NodePoint(point: CGPoint(x: 300, y: 200), info: NodeInfoTest(state: .disabled)),
-        NodePoint(point: CGPoint(x: 350, y: 220), info: NodeInfoTest(state: .normal))
-    ]
+    var connectPoints: [ConnectPoint] = [  ]
+    
     
     
     var body: some View {
@@ -36,10 +30,13 @@ struct VpnMapView: View {
                 loop: numberImage,
                 scaleVector: scaleVector * proxy.size.height / baseHeight,
                 connectPoints: connectPoints,
-                nodeList: nodeList,
+                nodeList: scale > 1.4 ? viewModel.listCity : viewModel.listCountry,
                 
-                onTouchPoint: { node in
-                    self.selectedNode = node
+                onTouchPoint: { node in 
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self.selectedNode = node
+                    }
+                    
                 }
             )
             .scaledToFit()
@@ -52,7 +49,13 @@ struct VpnMapView: View {
         }
         .simultaneousGesture(TapGesture().onEnded {
             selectedNode = nil
-        }).clipped()
+        })
+        .onChange(of: scale) { newValue in
+            selectedNode = nil
+        }
+        .clipped()
+            
+        
     }
 }
 
@@ -110,7 +113,7 @@ struct VpnMapOverlayLayer: ViewModifier {
     }
     
     var tooltipNodeName: String {
-        return nodePoint?.info.name ?? ""
+        return nodePoint?.info.locationName ?? ""
     }
 
     func body(content: Content) -> some View {

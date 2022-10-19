@@ -12,6 +12,7 @@ import SystemConfiguration.CaptiveNetwork
 class SystemDataUsage {
     private static let wwanInterfacePrefix = "pdp_ip"
     private static let wifiInterfacePrefix = "en"
+    private static var vpnInterfaces:[String]? = nil
     static var  lastestVpnUsageInfo:  SingleDataUsageInfo =  SingleDataUsageInfo(received: 0, sent: 0)
     class func getDataUsage() -> DataUsageInfo {
         var ifaddr: UnsafeMutablePointer<ifaddrs>?
@@ -36,13 +37,21 @@ class SystemDataUsage {
     class func vpnDataUsageInfo()  -> SingleDataUsageInfo {
         var dataUsageInfo = SingleDataUsageInfo()
         var vpnInterface:[String] = [];
-        if let settings = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as? Dictionary<String, Any>,
-            let scopes = settings["__SCOPED__"] as? [String:Any] {
-            for (key, _) in scopes {
-                if key.contains("tap") || key.contains("tun") || key.contains("ppp") || key.contains("ipsec") {
-                    vpnInterface.append(key)
+        if let interfaces = vpnInterfaces {
+            vpnInterface = interfaces
+        } else {
+            if let settings = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as? Dictionary<String, Any>,
+                let scopes = settings["__SCOPED__"] as? [String:Any] {
+                for (key, _) in scopes {
+                    if key.contains("tap") || key.contains("tun") || key.contains("ppp") || key.contains("ipsec") {
+                        vpnInterface.append(key)
+                    }
                 }
             }
+        }
+        
+        if vpnInterfaces == nil && vpnInterface.count > 0 {
+            vpnInterfaces = vpnInterface
         }
          
         var ifaddr: UnsafeMutablePointer<ifaddrs>?

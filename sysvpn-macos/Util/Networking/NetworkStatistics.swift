@@ -46,10 +46,20 @@ class NetworkStatistics {
         }
     }
     
+    var downloadHistory : LastNItemsBuffer =  LastNItemsBuffer(count: 30);
+    var uploadHistory : LastNItemsBuffer =  LastNItemsBuffer(count: 30);
+    var latestBitrateInfo: Bitrate = Bitrate(download: 0, upload: 0, time: 0)
+    var animSpeedUpload: Double = 0
+    var animSpeedDownload: Double = 0
+    
     private var timer: Timer! = nil
+    private var timer2: Timer! = nil
     private var timeInterval: TimeInterval = 1
+    private var timeIntervalGraph: TimeInterval = 0.2
     private var traffic: NetworkTraffic! = nil
     private var updateWithBitrate: ((Bitrate) -> Void)?
+    
+    
     
     init(with timeInterval: TimeInterval, and updateHandler: @escaping (Bitrate) -> Void) {
         self.timeInterval = timeInterval
@@ -58,11 +68,23 @@ class NetworkStatistics {
         traffic = getTrafficStatistics()
         
         timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(updateBitrate), userInfo: nil, repeats: true)
+        
+        timer2 = Timer.scheduledTimer(timeInterval: timeIntervalGraph, target: self, selector: #selector(updateHistory), userInfo: nil, repeats: true)
+        
         updateBitrate()
     }
     
     func stopGathering() {
+        timer2.invalidate()
         timer.invalidate()
+    }
+    
+    @objc private func updateHistory() {
+        let value =  Double(latestBitrateInfo.download);
+        let value2 =  Double(latestBitrateInfo.upload)
+        
+        _ = downloadHistory.anim(to:value, speed:  max(1000, animSpeedDownload) )
+        _ = uploadHistory.anim(to: value2, speed:  max(1000, animSpeedUpload ))
     }
     
     @objc private func updateBitrate() {
@@ -82,6 +104,10 @@ class NetworkStatistics {
         
         self.traffic = latestTraffic
         
+        animSpeedUpload = (Double(bitrate.upload) - Double(self.latestBitrateInfo.upload)) / 2
+        animSpeedDownload = (Double(bitrate.download) - Double(self.latestBitrateInfo.download)) / 2
+        
+        self.latestBitrateInfo = bitrate
         updateWithBitrate(bitrate)
     }
     
@@ -91,4 +117,53 @@ class NetworkStatistics {
     }
     
     
+}
+
+
+public struct LastNItemsBuffer {
+    var array: [Double?]
+    fileprivate var index = 0
+
+    public init(count: Int) {
+        array = [Double?](repeating: nil, count: count)
+    }
+
+    public mutating func clear() {
+        forceToValue(value: nil)
+    }
+
+    public mutating func forceToValue(value: Double?) {
+        let count = array.count
+        array = [Double?](repeating: value, count: count)
+    }
+
+    public mutating func write(_ element: Double) {
+        array[index % array.count] = element
+        index += 1
+    }
+    public func lastNItems() -> [Double] {
+        var result = [Double?]()
+        for loop in 0..<array.count {
+            result.append(array[(loop+index) % array.count])
+        }
+        return result.compactMap { $0 }
+    }
+     
+    public func max() -> Double? {
+        return array.max { a, b in
+            return (a ?? 0) > (b ?? 0)
+        } ?? 0
+    }
+    
+    public mutating func anim(to value: Double = 0, speed: Double = 1024) -> Bool{
+        var last = (array[(Swift.max(0, index - 1)) % array.count] ) ?? 0
+     //   var abs = Swift.max(10, abs(value - last) / 3);
+        if last > value {
+            last = Swift.max(value , last - speed)
+        } else if last < value {
+            last = Swift.min(value , last + speed)
+        }
+        write(last )
+        return true
+    }
 }
