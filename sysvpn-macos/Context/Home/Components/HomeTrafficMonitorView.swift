@@ -63,10 +63,10 @@ struct HomeTrafficChartView : View {
         VStack {
             HStack {
                 HStack {
-                    Text("Down Speed: \(bitRate.rateString(for: bitRate.download))")
+                    Text("Down Speed: \(Bitrate.rateString(for: bitRate.download))")
                 }
                 HStack {
-                    Text("Up Speed: \(bitRate.rateString(for: bitRate.upload))")
+                    Text("Up Speed: \(Bitrate.rateString(for: bitRate.upload))")
                 }
                 Spacer()
             }

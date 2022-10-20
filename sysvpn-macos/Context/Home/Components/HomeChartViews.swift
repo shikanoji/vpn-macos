@@ -56,25 +56,28 @@ struct ChartLineBackground: Shape {
 struct TrafficLineChartView : View {
     var height: CGFloat = 54
     var body: some View{
-        return ZStack {
-            ChartLineBackground().stroke(Color.white.opacity(0.05), lineWidth: 1.0)
-            TimelineView(.animation) { timeLine in
-                let list = DependencyContainer.shared.appStateMgr.statistics?.uploadHistory.lastNItems() ?? []
-                let list2 = DependencyContainer.shared.appStateMgr.statistics?.downloadHistory.lastNItems() ?? []
+        return TimelineView(.animation) { timeLine in
+            let list = DependencyContainer.shared.appStateMgr.statistics?.uploadHistory.lastNItems() ?? []
+            let list2 = DependencyContainer.shared.appStateMgr.statistics?.downloadHistory.lastNItems() ?? []
+            
+            let maxValue = max(list.max() ?? 1, list2.max() ?? 1)
+            
+            ZStack {
+                ChartLineBackground().stroke(Color.white.opacity(0.05), lineWidth: 1.0)
+                LineShape(yValues: list2, scaleFactor: height / max(2, maxValue) ).stroke(Color(rgb: 0x464859), lineWidth: 1.0)
+                LineShape(yValues: list, scaleFactor: height / max(2, maxValue) ).stroke(Asset.Colors.primaryColor.swiftUIColor, lineWidth: 1.0)
                 
-                let maxValue = max(list.max() ?? 1, list2.max() ?? 1)
-               
-           
-                
-                LineShape(yValues: list2, scaleFactor: height / max(1, maxValue) ).stroke(Color(rgb: 0x464859), lineWidth: 1.0)
-                LineShape(yValues: list, scaleFactor: height / max(1, maxValue) ).stroke(Asset.Colors.primaryColor.swiftUIColor, lineWidth: 1.0)
-                
-            }
-           
-
-        }.frame( height: height)
-            .padding(.top, 5)
-            .padding(.bottom, 5)
+            }.frame( height: height)
+                .padding(.top, 5)
+                .padding(.bottom, 5)
+          
+            HStack(  alignment: .top) {
+                Spacer()
+                Text(Bitrate.rateString(for: UInt32(maxValue)))
+                    .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                    .transformEffect(.init(translationX: 0, y: -42))
+            }.frame( height: height)
+        }
     }
     
     

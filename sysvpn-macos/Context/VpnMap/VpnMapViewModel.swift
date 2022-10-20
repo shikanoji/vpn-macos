@@ -18,11 +18,11 @@ extension VpnMapView {
         
         
         func convertX(_ value: Double? , scale: Double = 1) -> CGFloat {
-            return (value ?? 0) * 0.75
+            return (value ?? 0) * 0.5
         }
         
         func convertY(_ value: Double? , scale: Double = 1) -> CGFloat {
-            return (value ?? 0) * 0.68
+            return (value ?? 0) * 0.453
         }
          
         init() {
@@ -70,16 +70,27 @@ extension VpnMapView {
 
 
 extension CountryCity : INodeInfo {
+    var locationDescription: String? {
+        return nil
+    }
+    
+    var locationSubname: String? {
+        return self.name
+    }
+    
     var locationName: String{
-        return name ?? ""
+        return self.country?.name ?? ""
     }
     
     var state: VpnMapPontState {
+        if GlobalAppStates.shared.displayState == .connected {
+            return .disabled
+        }
         return .normal
     }
     
     var localtionIndex: Int? {
-        return nil
+        return 1
     }
     
     var image: KFImage? {
@@ -94,11 +105,22 @@ extension CountryCity : INodeInfo {
 }
 
 extension CountryAvailables : INodeInfo {
+    var locationDescription: String? {
+        return nil
+    }
+    
+    var locationSubname: String? {
+        return nil
+    }
+    
     var locationName: String{
         return name ?? ""
     }
     
     var state: VpnMapPontState {
+        if GlobalAppStates.shared.displayState == .connected {
+            return .disabled
+        }
         return .normal
     }
     

@@ -12,7 +12,7 @@ struct ZoomModifier: ViewModifier {
     private var contentSize: CGSize
     private var screenSize: CGSize
     private var min: CGFloat = 1.0
-    private var max: CGFloat = 1.5
+    private var max: CGFloat = 2
     private var numberImage: CGFloat = 3
     @State var lastScaleValue: CGFloat = 1
     

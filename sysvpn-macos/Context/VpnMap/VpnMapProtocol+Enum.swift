@@ -15,6 +15,8 @@ protocol INodeInfo {
     var localtionIndex: Int? { get }
     var locationName: String { get }
     var image: KFImage? { get }
+    var locationDescription: String? {get}
+    var locationSubname: String? {get}
 }
 
 struct NodePoint {
@@ -57,6 +59,10 @@ struct ConnectPoint {
 }
 
 class NodeInfoTest: INodeInfo {
+    var locationDescription: String?
+    
+    var locationSubname: String?
+    
     var image: KFImage? {
         return nil
     }
@@ -98,7 +104,7 @@ public struct AppTooltipConfig: TooltipConfig {
     public var margin: CGFloat = 8
     public var zIndex: Double = 10000
     
-    public var width: CGFloat?
+    public var width: CGFloat? 
     public var height: CGFloat?
 
     public var borderRadius: CGFloat = 8
@@ -124,12 +130,12 @@ public struct AppTooltipConfig: TooltipConfig {
     public var arrowWidth: CGFloat = 12
     public var arrowHeight: CGFloat = 6
     
-    public var enableAnimation: Bool = false
+    public var enableAnimation: Bool = true
     public var animationOffset: CGFloat = 10
     public var animationTime: Double = 1
     public var animation: Animation? = .easeInOut
 
-    public var transition: AnyTransition = .opacity
+    public var transition: AnyTransition = .slide
 
     public init() {}
 

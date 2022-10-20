@@ -12,7 +12,7 @@ struct Bitrate : Equatable {
     var upload: UInt32
     var time: Int = 0
     
-    func rateString(for rate: UInt32) -> String {
+   static func rateString(for rate: UInt32) -> String {
         let rateString: String
         
         switch rate {
@@ -48,14 +48,12 @@ class NetworkStatistics {
     
     var downloadHistory : LastNItemsBuffer =  LastNItemsBuffer(count: 30);
     var uploadHistory : LastNItemsBuffer =  LastNItemsBuffer(count: 30);
-    var latestBitrateInfo: Bitrate = Bitrate(download: 0, upload: 0, time: 0)
-    var animSpeedUpload: Double = 0
-    var animSpeedDownload: Double = 0
-    
+    var latestBitrateInfo: [Bitrate] = [Bitrate(download: 0, upload: 0, time: 0)]
+ 
     private var timer: Timer! = nil
     private var timer2: Timer! = nil
     private var timeInterval: TimeInterval = 1
-    private var timeIntervalGraph: TimeInterval = 0.2
+    private var timeIntervalGraph: TimeInterval = 0.1
     private var traffic: NetworkTraffic! = nil
     private var updateWithBitrate: ((Bitrate) -> Void)?
     
@@ -80,11 +78,43 @@ class NetworkStatistics {
     }
     
     @objc private func updateHistory() {
-        let value =  Double(latestBitrateInfo.download);
-        let value2 =  Double(latestBitrateInfo.upload)
+        var value =  Double(latestBitrateInfo.first?.download ?? 0);
+        var value2 =  Double(latestBitrateInfo.first?.upload ?? 0)
+        var speed1: Double = 0;
+        var speed2: Double = 0;
+        if latestBitrateInfo.count > 1 {
+            speed1 = abs(Double(latestBitrateInfo[1].download) - Double(latestBitrateInfo[0].download)) / 3
+            speed2 = abs(Double(latestBitrateInfo[1].upload) - Double(latestBitrateInfo[0].upload)) / 3
+            
+            value = Double(latestBitrateInfo[1].download)
+            value2 = Double(latestBitrateInfo[1].upload)
+            if speed1 == 0 && speed1 == speed2 {
+                latestBitrateInfo.removeFirst()
+                return
+            }
+
+        }
+         
+        let onDoneAnim = {
+            self.latestBitrateInfo.removeFirst()
+            let value =  Double(self.latestBitrateInfo.first?.download ?? 0);
+            let value2 =  Double(self.latestBitrateInfo.first?.upload ?? 0)
+            self.downloadHistory.write(value)
+            self.uploadHistory.write(value2)
+        }
         
-        _ = downloadHistory.anim(to:value, speed:  max(1000, animSpeedDownload) )
-        _ = uploadHistory.anim(to: value2, speed:  max(1000, animSpeedUpload ))
+        if  downloadHistory.anim(to: value, speed:   speed1 ){
+            
+            if latestBitrateInfo.count > 1 && speed2 < speed1 {
+              
+                onDoneAnim()
+            }
+        }
+        if uploadHistory.anim(to: value2, speed:   speed2 ) {
+           if latestBitrateInfo.count > 1 && speed2 >= speed1 {
+               onDoneAnim()
+            }
+        }
     }
     
     @objc private func updateBitrate() {
@@ -103,11 +133,9 @@ class NetworkStatistics {
                                                           / timeInterval), time: time)
         
         self.traffic = latestTraffic
+           
+        self.latestBitrateInfo.append(bitrate)
         
-        animSpeedUpload = (Double(bitrate.upload) - Double(self.latestBitrateInfo.upload)) / 2
-        animSpeedDownload = (Double(bitrate.download) - Double(self.latestBitrateInfo.download)) / 2
-        
-        self.latestBitrateInfo = bitrate
         updateWithBitrate(bitrate)
     }
     
@@ -158,12 +186,12 @@ public struct LastNItemsBuffer {
     public mutating func anim(to value: Double = 0, speed: Double = 1024) -> Bool{
         var last = (array[(Swift.max(0, index - 1)) % array.count] ) ?? 0
      //   var abs = Swift.max(10, abs(value - last) / 3);
-        if last > value {
+        if last >= value {
             last = Swift.max(value , last - speed)
         } else if last < value {
             last = Swift.min(value , last + speed)
         }
         write(last )
-        return true
+        return speed > 0 && last == value
     }
 }

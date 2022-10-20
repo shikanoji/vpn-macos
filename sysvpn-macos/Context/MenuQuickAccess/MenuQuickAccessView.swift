@@ -35,8 +35,8 @@ struct MenuQuickAccessView: View {
             }
         }
         .onChange(of: appState.bitRate) { newValue in
-            viewModel.downloadSpeed = newValue.rateString(for: appState.bitRate.download)
-            viewModel.uploadSpeed = newValue.rateString(for: appState.bitRate.upload)
+            viewModel.downloadSpeed = Bitrate.rateString(for: appState.bitRate.download)
+            viewModel.uploadSpeed = Bitrate.rateString(for: appState.bitRate.upload)
         }
     }
     
