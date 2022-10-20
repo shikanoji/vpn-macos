@@ -10,7 +10,8 @@ import Foundation
 
 class GlobalAppStates: ObservableObject {
     static let shared = GlobalAppStates()
+    @Published var displayState: AppDisplayState = .disconnected
+    @Published var bitRate: Bitrate =  Bitrate(download: 0, upload: 0)
     
-    @Published var isConnected: Bool = false
     
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State var zoomValue: Double = 1
     @StateObject private var viewModel = HomeViewModel()
+    @State var localIsConnected = false
     @EnvironmentObject var appState: GlobalAppStates
     var body: some View {
         HStack(spacing: 0){
@@ -67,7 +68,7 @@ struct HomeView: View {
                     .edgesIgnoringSafeArea([.top])
                     
                     Spacer()
-                    if appState.isConnected {
+                    if localIsConnected {
                         HomeTrafficMonitorView()
                             .padding(.horizontal,50)
                             .padding(.bottom, 30)
@@ -91,6 +92,14 @@ struct HomeView: View {
             }
             
         }.frame(minWidth: 1000, minHeight: 700)
+        .onChange(of: appState.displayState) { newValue in
+            withAnimation {
+                localIsConnected = newValue == .connected
+            }
+        }
+        .onAppear() {
+            localIsConnected = appState.displayState == .connected
+        }
         
     }
 }

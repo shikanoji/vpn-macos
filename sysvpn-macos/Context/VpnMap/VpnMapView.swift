@@ -10,22 +10,18 @@ import SwiftUI
 import SwiftUITooltip
 
 struct VpnMapView: View {
+    @StateObject private var viewModel = VpnMapViewModel()
+    @StateObject private var appState = GlobalAppStates.shared
     @Binding var scale: CGFloat
-    var rescaleView: CGFloat = 1.5
+    var rescaleView: CGFloat = 2
     var numberImage = 1
     var aspecRaito: CGFloat = 1024 / 588
     var baseHeight: CGFloat = 588
     var scaleVector: CGFloat = 1
+    @State  var isShowCity = false
     @State var selectedNode: NodePoint? = nil
-    var connectPoints: [ConnectPoint] = [
-        ConnectPoint(point1: CGPoint(x: 100, y: 100), point2: CGPoint(x: 400, y: 500))
-    ]
-    var nodeList: [NodePoint] = [
-        NodePoint(point: CGPoint(x: 400, y: 500), info: NodeInfoTest(state: .activated, localtionIndex: 1)),
-        NodePoint(point: CGPoint(x: 100, y: 100), info: NodeInfoTest(state: .activeDisabled, localtionIndex: 2)),
-        NodePoint(point: CGPoint(x: 300, y: 200), info: NodeInfoTest(state: .disabled)),
-        NodePoint(point: CGPoint(x: 350, y: 220), info: NodeInfoTest(state: .normal))
-    ]
+    var connectPoints: [ConnectPoint] = [  ]
+    
     
     
     var body: some View {
@@ -34,25 +30,40 @@ struct VpnMapView: View {
                 size: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height),
                 scale: rescaleView,
                 loop: numberImage,
-                scaleVector: scaleVector * proxy.size.height / baseHeight,
+                scaleVector: scaleVector * proxy.size.height / baseHeight * rescaleView,
                 connectPoints: connectPoints,
-                nodeList: nodeList,
+                nodeList: isShowCity ? viewModel.listCity : viewModel.listCountry,
                 
                 onTouchPoint: { node in
-                    self.selectedNode = node
+                   
+                   
+                    if appState.displayState == .disconnected {
+                        self.selectedNode = node
+                    }
                 }
             )
             .scaledToFit()
             .clipShape(Rectangle())
             .modifier(ZoomModifier(contentSize: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height), screenSize: proxy.size, numberImage: numberImage, currentScale: $scale,
                                    overlayLayer: VpnMapOverlayLayer(
-                                       scaleVector: scaleVector * proxy.size.height / baseHeight, scaleValue: scale,
-                                       rescaleView: rescaleView,
-                                       nodePoint: selectedNode)))
+                                    scaleVector: scaleVector * proxy.size.height / baseHeight  * rescaleView, scaleValue: scale,
+                                    rescaleView: rescaleView,
+                                    nodePoint: selectedNode) ))
         }
         .simultaneousGesture(TapGesture().onEnded {
-            selectedNode = nil
-        }).clipped()
+            if appState.displayState == .disconnected {
+                selectedNode = nil
+            }
+        })
+        .onChange(of: scale) { newValue in
+            if appState.displayState == .disconnected {
+               // selectedNode = nil
+                isShowCity =  scale > 1.7
+            }
+        }
+        .clipped()
+        
+        
     }
 }
 
@@ -60,7 +71,7 @@ struct LoopMapView: View {
     var size: CGSize
     var scale: CGFloat = 1.5
     var loop: Int
-    var scaleVector: CGFloat = 1.5
+    var scaleVector: CGFloat = 3
     var connectPoints: [ConnectPoint]
     var nodeList: [NodePoint]
     var onTouchPoint: ((NodePoint) -> Void)?
@@ -104,36 +115,48 @@ struct VpnMapOverlayLayer: ViewModifier {
     var tooltipNodeX: CGFloat {
         return (nodePoint?.point.x ?? 0) * scaleVector * scaleValue / rescaleView
     }
-
+    
     var tooltipNodeY: CGFloat {
         return ((nodePoint?.point.y ?? 0) + 10) * scaleVector * scaleValue / rescaleView
     }
     
     var tooltipNodeName: String {
-        return nodePoint?.info.name ?? ""
+        return nodePoint?.info.locationName ?? ""
     }
-
+    
     func body(content: Content) -> some View {
-        content.overlay {
-            Spacer()
-                .frame(width: 1, height: 1, alignment: .center)
-                .tooltip(
-                    nodePoint != nil,
-                    config: AppTooltipConfig(),
-                    content: {
-                        HStack {
-                            if nodePoint?.info.image != nil {
-                                nodePoint?.info.image?.resizable().frame(width: 32, height: 32, alignment: .center)
+        VStack {
+            content.overlay {
+                Spacer()
+                    .frame(width: 1, height: 1, alignment: .center)
+                    .modifier(
+                        MapTooltipModifier(name: tooltipNodeName, enabled: nodePoint != nil, config: AppTooltipConfig(), content: {
+                            VStack {
+                                if nodePoint?.info.locationSubname != nil {
+                                    Text(nodePoint?.info.locationSubname ?? "").foregroundColor(Color.black)
+                                        .font(Font.system(size: 14, weight: .medium))
+                                    Rectangle().frame(height: 1)
+                                        .background(Asset.Colors.subTextColor.swiftUIColor)
+                                }
+                               
+                                HStack {
+                                    if nodePoint?.info.image != nil {
+                                        nodePoint?.info.image?.resizable().frame(width: 32, height: 32, alignment: .center)
+                                    }
+                                    VStack(alignment: .leading) {
+                                        Text(tooltipNodeName).foregroundColor(Color.black)
+                                            .font(Font.system(size: 14, weight: .medium))
+                                        if nodePoint?.info.locationDescription != nil {
+                                            Text(tooltipNodeName).foregroundColor(Color.black)
+                                                .font(Font.system(size: 13, weight: .regular))
+                                        }
+                                        
+                                    }
+                                }
                             }
-                            VStack(alignment: .leading) {
-                                Text(tooltipNodeName).foregroundColor(Color.black)
-                                    .font(Font.system(size: 14, weight: .medium))
-                                Text(tooltipNodeName).foregroundColor(Color.black)
-                                    .font(Font.system(size: 13, weight: .regular))
-                            }
-                        }
-                    })
-                .position(x: tooltipNodeX, y: tooltipNodeY)
+                        })
+                    )  .position(x: tooltipNodeX, y: tooltipNodeY)
+            }
         }
     }
 }

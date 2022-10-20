@@ -27,6 +27,8 @@ struct CountryCity: Codable {
   var x: Float?
   var name: String?
 
+// custom field
+   var country: CountryAvailables?
 
 
   init(from decoder: Decoder) throws {

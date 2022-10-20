@@ -29,6 +29,7 @@ protocol PropertiesManagerProtocol: AnyObject {
     
     var excludeLocalNetworks: Bool{ get }
     var killSwitch: Bool { get }
+    var intentionallyDisconnected: Bool  { get set }
     
 }
 
@@ -180,6 +181,15 @@ class PropertiesManager : PropertiesManagerProtocol {
         }
         set {
             storage.setValue(newValue?.timeIntervalSince1970, forKey: Keys.lastTimeForeground.rawValue)
+        }
+    }
+    
+    public var intentionallyDisconnected: Bool {
+        get {
+            return storage.bool(forKey: Keys.intentionallyDisconnected.rawValue)
+        }
+        set {
+            storage.setValue(newValue, forKey: Keys.intentionallyDisconnected.rawValue)
         }
     }
     

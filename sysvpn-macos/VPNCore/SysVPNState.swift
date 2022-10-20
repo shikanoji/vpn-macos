@@ -9,6 +9,30 @@
 import Foundation
 
 
+public enum AppDisplayState {
+    case connected
+    case connecting
+    case loadingConnectionInfo
+    case disconnecting
+    case disconnected
+}
+
+extension AppState {
+    func asDisplayState() -> AppDisplayState {
+        switch self {
+        case .connected:
+            return .connected
+        case .preparingConnection, .connecting:
+            return .connecting
+        case .disconnecting:
+            return .disconnecting
+        case .error, .disconnected, .aborted:
+            return .disconnected
+        }
+    }
+}
+
+
 public struct AppStateManagerNotification {
     public static var stateChange: Notification.Name = Notification.Name("AppStateManagerStateChange")
     public static var displayStateChange: Notification.Name = Notification.Name("AppStateManagerDisplayStateChange")

@@ -155,6 +155,10 @@
 		FAA35BDF28FD443E00205ECD /* IPCBaseConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAB28FD41CA00205ECD /* IPCBaseConnection.swift */; };
 		FAA35BE028FD443F00205ECD /* IPCBaseConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAB28FD41CA00205ECD /* IPCBaseConnection.swift */; };
 		FAA35BE228FD46E400205ECD /* demofile.ovpn in Resources */ = {isa = PBXBuildFile; fileRef = FAA35BE128FD46E400205ECD /* demofile.ovpn */; };
+		FAC3CB472901355B0095F30E /* MapTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC3CB462901355B0095F30E /* MapTooltipView.swift */; };
+		FADFCE7729006C7600219BB0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FADFCE7629006C7600219BB0 /* Kingfisher */; };
+		FADFCE7929006EEE00219BB0 /* BlinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFCE7829006EEE00219BB0 /* BlinkingView.swift */; };
+		FAEE1BFA28FF1A830044B5CD /* TimerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE1BF928FF1A830044B5CD /* TimerFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -364,6 +368,9 @@
 		FAA35BD328FD429300205ECD /* open_vpn_sys_extension_birdge_header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = open_vpn_sys_extension_birdge_header.h; sourceTree = "<group>"; };
 		FAA35BD428FD42BF00205ECD /* wire_guard_sys_extension_birdge_header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wire_guard_sys_extension_birdge_header.h; sourceTree = "<group>"; };
 		FAA35BE128FD46E400205ECD /* demofile.ovpn */ = {isa = PBXFileReference; lastKnownFileType = text; path = demofile.ovpn; sourceTree = "<group>"; };
+		FAC3CB462901355B0095F30E /* MapTooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTooltipView.swift; sourceTree = "<group>"; };
+		FADFCE7829006EEE00219BB0 /* BlinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingView.swift; sourceTree = "<group>"; };
+		FAEE1BF928FF1A830044B5CD /* TimerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -379,6 +386,7 @@
 				B99DB42928E449A700331AFB /* PopupView in Frameworks */,
 				FAA35B8F28FD37CE00205ECD /* TunnelKitWireGuard in Frameworks */,
 				AC09D79428BE08460078E928 /* GoogleSignInSwift in Frameworks */,
+				FADFCE7729006C7600219BB0 /* Kingfisher in Frameworks */,
 				AC09D74728BCDE080078E928 /* Alamofire in Frameworks */,
 				AC09D76128BCE0560078E928 /* SwiftyJSON in Frameworks */,
 				AC09D74C28BCDE7A0078E928 /* Moya in Frameworks */,
@@ -435,9 +443,11 @@
 		9E3756BA28E6DB6500E95C64 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				FADFCE7829006EEE00219BB0 /* BlinkingView.swift */,
 				9E3756BB28E6DB6500E95C64 /* VpnMapPointView.swift */,
 				9E3756BC28E6DB6500E95C64 /* VpnMapPointLayerView.swift */,
 				9E3756BD28E6DB6500E95C64 /* PinZoomView.swift */,
+				FAC3CB462901355B0095F30E /* MapTooltipView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -892,6 +902,7 @@
 			children = (
 				FAA35B9428FD41C800205ECD /* Thread.swift */,
 				FAA35B9528FD41C800205ECD /* Loging.swift */,
+				FAEE1BF928FF1A830044B5CD /* TimerFactory.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1006,6 +1017,7 @@
 				9E3756CB28E6DCA600E95C64 /* SwiftUITooltip */,
 				FAA35B8C28FD37C700205ECD /* TunnelKitOpenVPN */,
 				FAA35B8E28FD37CE00205ECD /* TunnelKitWireGuard */,
+				FADFCE7629006C7600219BB0 /* Kingfisher */,
 			);
 			productName = "sysvpn-macos";
 			productReference = AC09D71728BCDCD40078E928 /* sysvpn-macos.app */;
@@ -1136,6 +1148,7 @@
 				AC09D79028BE08460078E928 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				B99DB42728E449A700331AFB /* XCRemoteSwiftPackageReference "PopupView" */,
 				9E3756CA28E6DCA600E95C64 /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
+				FADFCE7529006C7600219BB0 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = AC09D71828BCDCD40078E928 /* Products */;
 			projectDirPath = "";
@@ -1242,6 +1255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAA35BBF28FD41CB00205ECD /* CoreAppConstants.swift in Sources */,
+				FAC3CB472901355B0095F30E /* MapTooltipView.swift in Sources */,
 				FAA35BC628FD41CB00205ECD /* SysVPNCore.swift in Sources */,
 				B9D7F71928D38343008B1D39 /* System.swift in Sources */,
 				B9B3704D28FE4FE70022498B /* AuthRefresh.swift in Sources */,
@@ -1255,6 +1269,7 @@
 				FAA35BD128FD41CB00205ECD /* SysVPNError.swift in Sources */,
 				FAA35BB628FD41CB00205ECD /* AppConfigManagement.swift in Sources */,
 				9E668DF828E8A6F7009CDC95 /* TabbarViews.swift in Sources */,
+				FADFCE7929006EEE00219BB0 /* BlinkingView.swift in Sources */,
 				9EC3323528C254DF00CA5DF5 /* LoginLoadingView.swift in Sources */,
 				AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */,
 				B9B3706828FEAB090022498B /* ListServerState.swift in Sources */,
@@ -1327,6 +1342,7 @@
 				B9B3705528FE4FE70022498B /* VPNServer.swift in Sources */,
 				B99DB42D28E4595800331AFB /* IpInfoModel.swift in Sources */,
 				FAA35BBB28FD41CB00205ECD /* OSLogging.swift in Sources */,
+				FAEE1BFA28FF1A830044B5CD /* TimerFactory.swift in Sources */,
 				FAA35BB728FD41CB00205ECD /* Thread.swift in Sources */,
 				B99DB42B28E455F400331AFB /* AuthenTokenModel.swift in Sources */,
 				FAA35BCF28FD41CB00205ECD /* IPCFactory.swift in Sources */,
@@ -1953,6 +1969,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		FADFCE7529006C7600219BB0 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2021,6 +2045,11 @@
 		FAA35B8E28FD37CE00205ECD /* TunnelKitWireGuard */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TunnelKitWireGuard;
+		};
+		FADFCE7629006C7600219BB0 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FADFCE7529006C7600219BB0 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

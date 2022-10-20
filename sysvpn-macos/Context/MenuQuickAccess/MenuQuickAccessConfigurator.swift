@@ -62,6 +62,11 @@ class MenuQuickAccessConfigurator {
                 self.popover.performClose(sender)
             } else {
                 self.popover.show(relativeTo: statusBarButton.bounds, of: statusBarButton, preferredEdge: NSRectEdge.minY)
+                self.popover
+                                   .contentViewController?
+                                   .view.window?
+                                   .makeKey()
+                
             }
         }
     }

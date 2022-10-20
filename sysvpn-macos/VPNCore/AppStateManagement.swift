@@ -24,55 +24,189 @@ protocol AppStateManagement {
     func disconnect(completion: @escaping () -> Void)
     
     func refreshState()
-    func connectedDate(completion: @escaping (Date?) -> Void)
     
     func checkNetworkConditionsAndCredentialsAndConnect(withConfiguration configuration: ConnectionConfiguration)
 }
 
 class SysVpnAppStateManagement : AppStateManagement {
     private var attemptingConnection = false
-    var state: AppState = .disconnected
+    private var _state: AppState = .disconnected
+    public private(set) var state: AppState {
+        get {
+            dispatchAssert(condition: .onQueue(.main))
+            return _state
+        }
+        set {
+            dispatchAssert(condition: .onQueue(.main))
+            _state = newValue
+            computeDisplayState(with: vpnManager.isLocalAgentConnected)
+        }
+    }
+    
     private var vpnManager: SysVPNManagerProtocol
-    
     var onVpnStateChanged: ((VpnState) -> Void)?
+    var displayState: AppDisplayState = .disconnected {
+        didSet {
+            print("[AppState] did changed \(displayState)")
+            GlobalAppStates.shared.displayState = displayState
+            switch displayState {
+            case  .connected:
+                startBitrateMonitor()
+            case .disconnected:
+                stopBitrateMonitor()
+            default:
+                break
+            }
+        }
+    }
+    private var lastAttemptedConfiguration: ConnectionConfiguration?
+    private var timeoutTimer: BackgroundTimer?
+    private var timerFactory = TimerFactoryImplementation()
+    var statistics: NetworkStatistics?
     
-    var displayState: AppDisplayState = .disconnected
+    private var vpnState: VpnState = .invalid {
+        didSet {
+            onVpnStateChanged?(vpnState)
+        }
+    }
+    private var stuckDisconnecting = false {
+        didSet {
+            if stuckDisconnecting == false {
+                reconnectingAfterStuckDisconnecting = false
+            }
+        }
+    }
+    private var reconnectingAfterStuckDisconnecting = false
+    
     
     init(vpnManager: SysVPNManagerProtocol) {
         self.vpnManager = vpnManager
+        handleVpnStateChange(vpnManager.state)
+        startObserving()
+    
+    }
+    
+    func startBitrateMonitor() {
+        if statistics != nil {
+            return
+        }
+        statistics = NetworkStatistics(with: 1, and: { bitrate in
+            GlobalAppStates.shared.bitRate = bitrate
+        })
+    }
+    
+    func stopBitrateMonitor() {
+        statistics?.stopGathering()
+        statistics = nil
     }
     
     func isOnDemandEnabled(handler: @escaping (Bool) -> Void) {
-        
+        vpnManager.isOnDemandEnabled(handler: handler)
     }
     
     func cancelConnectionAttempt() {
-        
+        cancelConnectionAttempt {}
     }
     
     func cancelConnectionAttempt(completion: @escaping () -> Void) {
+        state = .aborted(userInitiated: true)
+        attemptingConnection = false
+        cancelTimeout()
         
+        notifyObservers()
+        disconnect(completion: completion)
     }
     
     func prepareToConnect() {
+        if !PropertiesManager.shared.hasConnected {
+            switch vpnState {
+            case .disconnecting:
+                vpnStuck()
+                return
+            default:
+               print("first time connect")
+            }
+        }
         
+        // check cert / keychain
+        
+        if case VpnState.disconnecting = vpnState {
+            stuckDisconnecting = true
+        }
+        state = .preparingConnection
+        attemptingConnection = true
+        beginTimeoutCountdown()
+        notifyObservers()
     }
     
-    func disconnect() {
-        
+    private func vpnStuck() {
+        vpnManager.removeConfigurations(completionHandler: { [weak self] error in
+            guard let self = self else {
+                return
+            }
+
+            guard error == nil, self.reconnectingAfterStuckDisconnecting == false , let lastConfig = self.lastAttemptedConfiguration else {
+                //connect failed
+                self.connectionFailed()
+                return
+            }
+            
+            self.reconnectingAfterStuckDisconnecting = true
+        //    log.info("Attempt connection after vpn stuck", category: .connectionConnect, event: .trigger)
+            self.checkNetworkConditionsAndCredentialsAndConnect(withConfiguration: lastConfig) // Retry connection
+        })
     }
     
-    func disconnect(completion: @escaping () -> Void) {
-        
+    private func connectionFailed() {
+        state = .error(NSError(domain: "", code: 0))
+        notifyObservers()
     }
+    
+    private func beginTimeoutCountdown() {
+        cancelTimeout()
+
+        timeoutTimer = timerFactory.scheduledTimer(runAt: Date().addingTimeInterval(30),
+                                                   leeway: .seconds(5),
+                                                   queue: .main) { [weak self] in
+            self?.timeout()
+        }
+    }
+    
+    @objc private func timeout() {
+        //log.info("Connection attempt timed out", category: .connectionConnect)
+        state = .aborted(userInitiated: false)
+        attemptingConnection = false
+        cancelTimeout()
+        stopAttemptingConnection()
+        notifyObservers()
+    }
+    
+    private func stopAttemptingConnection() {
+       // log.info("Stop preparing connection", category: .connectionConnect)
+        cancelTimeout()
+        handleVpnError(vpnState)
+        disconnect()
+    }
+    
+    
+    private func cancelTimeout() {
+        timeoutTimer?.invalidate()
+    }
+    
+    public func disconnect() {
+        disconnect {}
+    }
+    
+    public func disconnect(completion: @escaping () -> Void) {
+        PropertiesManager.shared .intentionallyDisconnected = true
+        vpnManager.disconnect(completion: completion)
+    }
+    
     
     func refreshState() {
         vpnManager.refreshState()
     }
-    
-    func connectedDate(completion: @escaping (Date?) -> Void) {
-        
-    }
+  
     
     
     func checkNetworkConditionsAndCredentialsAndConnect(withConfiguration configuration: ConnectionConfiguration) {
@@ -82,7 +216,7 @@ class SysVpnAppStateManagement : AppStateManagement {
         //To-do: check reachability
         //...
         
-        
+        lastAttemptedConfiguration = configuration
         attemptingConnection = true
         
         //To-do: check config outdate
@@ -101,5 +235,140 @@ class SysVpnAppStateManagement : AppStateManagement {
         }
     }
     
+    private func notifyObservers() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else {
+                return
+            }
+            
+            NotificationCenter.default.post(name: AppStateManagerNotification.stateChange, object: self.state)
+        }
+    }
     
+    private func handleVpnError(_ vpnState: VpnState) {
+        if case VpnState.disconnecting(_) = vpnState, stuckDisconnecting {
+            vpnStuck()
+            return
+        }
+        
+        attemptingConnection = false
+        connectionFailed()
+    }
+    
+    
+    private func handleVpnStateChange(_ vpnState: VpnState) {
+        if case VpnState.disconnecting = vpnState {} else {
+            stuckDisconnecting = false
+        }
+        
+        switch vpnState {
+        case .invalid:
+            return // NEVPNManager hasn't initialised yet
+        case .disconnected:
+            if attemptingConnection {
+                state = .preparingConnection
+                return
+            } else {
+                state = .disconnected
+            }
+        case .connecting(let descriptor):
+            state = .connecting(descriptor)
+        case .connected(let descriptor):
+            PropertiesManager.shared.intentionallyDisconnected = false
+            
+            /*serviceChecker?.stop()
+            if let alertService = alertService {
+                serviceChecker = ServiceChecker(networking: networking, alertService: alertService, doh: doh)
+            }*/
+            
+            attemptingConnection = false
+            state = .connected(descriptor)
+            cancelTimeout()
+        case .reasserting:
+            return // usually this step is quick
+        case .disconnecting(let descriptor):
+            if attemptingConnection { // needs to disconnect before attempting to connect
+                if case AppState.connecting = state {
+                    stopAttemptingConnection()
+                } else {
+                    state = .preparingConnection
+                }
+            } else {
+                state = .disconnecting(descriptor)
+            }
+        case .error(let error):
+            state = .error(error)
+        }
+        /*
+        if !state.isConnected {
+            serviceChecker?.stop()
+            serviceChecker = nil
+        }*/
+        
+        notifyObservers()
+    }
+    
+    @objc private func vpnStateChanged() {
+      
+        let newState = vpnManager.state
+        switch newState {
+        case .error:
+            if case VpnState.invalid = vpnState {
+                vpnState = newState
+                return
+            } else if attemptingConnection {
+                stopAttemptingConnection()
+            }
+        default:
+            break
+        }
+        
+        vpnState = newState
+        handleVpnStateChange(newState)
+    }
+    
+    private func startObserving() {
+        vpnManager.stateChanged = { [weak self] in
+            executeOnUIThread {
+                self?.vpnStateChanged()
+            }
+        }
+        vpnManager.localAgentStateChanged = { [weak self] localAgentConnectedState in
+            executeOnUIThread {
+                self?.computeDisplayState(with: localAgentConnectedState)
+            }
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(killSwitchChanged), name: PropertiesManager.hasConnectedNotification, object: nil)
+    }
+    
+    @objc private func killSwitchChanged() {
+        if state.isConnected {
+            PropertiesManager.shared.intentionallyDisconnected = true
+            vpnManager.setOnDemand(PropertiesManager.shared.hasConnected)
+        }
+    }
+    
+    private func computeDisplayState(with localAgentConnectedState: Bool?) {
+        guard let isLocalAgentConnected = localAgentConnectedState else {
+            displayState = state.asDisplayState()
+            return
+        }
+ 
+        if !isLocalAgentConnected, case AppState.connected = state, !PropertiesManager.shared.intentionallyDisconnected {
+            //log.debug("Showing state as Loading connection info because local agent not connected yet", category: .connectionConnect)
+            displayState = .loadingConnectionInfo
+            return
+        }
+
+        displayState = state.asDisplayState()
+    }
+    
+}
+
+
+public func dispatchAssert(condition: DispatchPredicate) {
+    #if DEBUG
+    dispatchPrecondition(condition: condition)
+    #endif
 }
