@@ -18,7 +18,7 @@ struct HomeView: View {
                 .contentShape(Rectangle())
                 .zIndex(3)
             if viewModel.selectedMenuItem != .none {
-                HomeListCountryNodeView( selectedItem: $viewModel.selectedMenuItem)
+                HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listCountry)
                     .zIndex(2)
                     .transition(
                         AnyTransition.asymmetric(

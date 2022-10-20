@@ -8,25 +8,8 @@
 import Foundation
 import SwiftUI
 struct HomeListCountryNodeView : View {
-    @Binding var selectedItem: HomeMenuItem
-    var countries = [
-        HomeListCountryModel(type: .header, title: "Recent locations"),
-        HomeListCountryModel(type: .country, title: "Test1"),
-        HomeListCountryModel(type: .spacing),
-        HomeListCountryModel(type: .header, title: "Recommended"),
-        HomeListCountryModel(type: .country, title: "Test2"),
-        HomeListCountryModel(type: .country, title: "Test3"),
-        HomeListCountryModel(type: .spacing),
-        HomeListCountryModel(type: .header, title: "All countries"),
-        HomeListCountryModel(type: .country, title: "Test4"),
-        HomeListCountryModel(type: .country, title: "Test5"),
-        HomeListCountryModel(type: .country, title: "Test6"),
-        HomeListCountryModel(type: .country, title: "Test7"),
-        HomeListCountryModel(type: .country, title: "Test4"),
-        HomeListCountryModel(type: .country, title: "Test5"),
-        HomeListCountryModel(type: .country, title: "Test6"),
-        HomeListCountryModel(type: .country, title: "Test7")
-    ]
+    @Binding var selectedItem: HomeMenuItem 
+    @Binding var countries: [HomeListCountryModel]
     var body: some View {
         VStack(alignment: .leading) { 
             List(countries) {  item in
@@ -34,7 +17,7 @@ struct HomeListCountryNodeView : View {
                 case .spacing:
                     Spacer().frame(height: 30)
                 case .country:
-                    CountryItemView()
+                    CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
                 case .header:
                     VStack {
                         Text(item.title)
@@ -78,6 +61,8 @@ struct HomeListCountryModel: Identifiable {
     var id = UUID()
     var type: HomeListCountryModelType
     var title: String = ""
+    var totalCity: Int = 0
+    var imageUrl:String?
 }
 
 

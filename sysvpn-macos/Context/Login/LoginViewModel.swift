@@ -30,6 +30,26 @@ extension LoginView {
         func onLoginSuccess() {
             AppSetting.shared.isRememberLogin = isRemember
             OpenWindows.MainView.open()
+            NotificationCenter.default.post(name: .startJobUpdateCountry, object: nil)
+        }
+        
+        func loadCountry() {
+            _ = APIServiceManager.shared.getListCountry().subscribe({ result in
+                switch result {
+                case let .success(response):
+                    AppDataManager.shared.userCountry = response
+                    self.onLoginSuccess()
+                case let .failure(e):
+                    self.hideLoading()
+                    guard let error = e as? ResponseError else {
+                        self.errorMessage = L10n.Login.tryAgain
+                        self.showAlert = true
+                        return
+                    }
+                    self.errorMessage = error.message
+                    self.showAlert = true
+                }
+            })
         }
         
         func onTouchSignin() {
@@ -39,7 +59,7 @@ extension LoginView {
                 case let .success(authenModel):
                     AppDataManager.shared.userData = authenModel.user
                     AppDataManager.shared.accessToken = authenModel.tokens?.access?.token
-                    self.onLoginSuccess()
+                    self.loadCountry()
                 case let .failure(e):
                     self.hideLoading()
                     guard let error = e as? ResponseError else {

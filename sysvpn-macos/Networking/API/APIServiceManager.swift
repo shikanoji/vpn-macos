@@ -51,5 +51,9 @@ final class APIServiceManager: BaseServiceManager<APIService> {
         return request(.disconnectSession(sectionId: "", disconnectedBy: "")).handleEmptyResponse()
     }
     
+    func getStartServer() -> Single<ServerStateResult>{
+        return request(.getStartServer).handleApiResponseCodable(type: ServerStateResult.self)
+    }
+    
     
 }

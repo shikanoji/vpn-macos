@@ -9,19 +9,19 @@ import Foundation
 
 struct CountryResult: Codable {
 
-  enum CodingKeys: String, CodingKey {
-    case availableCountries
-    case settings
-    case recommendedCountries
-    case staticServers
-  }
+    enum CodingKeys: String, CodingKey {
+        case availableCountries
+        case settings
+        case recommendedCountries
+        case staticServers
+    }
 
-  var availableCountries: [CountryAvailables]?
-  var settings: CountrySettings?
-  var recommendedCountries: [CountryAvailables]?
-  var staticServers: [CountryStaticServers]?
-
-
+    var availableCountries: [CountryAvailables]?
+    var settings: CountrySettings?
+    var recommendedCountries: [CountryAvailables]?
+    var staticServers: [CountryStaticServers]?
+    var recentCountries: [CountryAvailables]?
+    
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -37,6 +37,6 @@ struct CountryResult: Codable {
     
     static func getListCountry() -> CountryResult? {
         return CountryResult.readFile(fileName: .keySaveCountry) as? CountryResult
-    }
+    } 
     
 }

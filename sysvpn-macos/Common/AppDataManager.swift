@@ -21,6 +21,7 @@ extension String {
     static var keySaveUserData = "KEY_USER_DATA"
     static var keySaveCountry = "KEY_SAVE_COUNTRY"
     static var keySaveUserSetting = "KEY_SAVE_USER_SETTING"
+    static var keySaveLastChange = "KEY_SAVE_LAST_CHANGE"
 }
 
 class AppDataManager {
@@ -173,6 +174,16 @@ class AppDataManager {
         }
     }
     
+    var lastChange: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: .keySaveLastChange)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: .keySaveLastChange)
+        }
+    }
+    
+    
     private var _userCountry: CountryResult?
     
     var userCountry: CountryResult? {
@@ -185,7 +196,24 @@ class AppDataManager {
         set {
             _userCountry = newValue
             _userCountry?.saveListCountry()
+        
+        
         }
+    }
+    
+    private var _recentCountries: [CountryAvailables]?
+    
+    func addRecentCountry(country: CountryAvailables) {
+        if (_recentCountries?.count ?? 0) >= 5 {
+            while (_recentCountries?.count ?? 0) >= 5 {
+                _recentCountries?.removeLast()
+            }
+            _recentCountries?.append(country)
+        } else {
+            _recentCountries?.append(country)
+        }
+        _userCountry?.recentCountries = _recentCountries
+        _userCountry?.saveListCountry()
     }
     
 }

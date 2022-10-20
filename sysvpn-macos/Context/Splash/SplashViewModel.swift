@@ -15,6 +15,15 @@ extension SplashView {
 
         init() {
             loadAppSetting()
+            onStartApp()
+        }
+        
+        func onStartApp() {
+            if AppDataManager.shared.isLogin {
+                NotificationCenter.default.post(name: .startJobUpdateCountry, object: nil)
+            } else {
+                NotificationCenter.default.post(name: .endJobUpdate, object: nil)
+            }
         }
         
         func loadAppSetting() {
@@ -24,6 +33,7 @@ extension SplashView {
                 case let .success(response):
                     AppDataManager.shared.saveIpInfo(info: response.ipInfo)
                     AppDataManager.shared.userSetting = response
+                    AppDataManager.shared.lastChange = response.lastChange ?? 0
                 case let .failure(e):
                     guard let error = e as? ResponseError else {
                         return

@@ -9,7 +9,8 @@ import Foundation
 struct Constant {
     struct API {
         #if DEBUG
-            static let root = "https://api.sysvpnconnect.com"
+            static let root = "https://prod.sysvpnconnect.com"
+            //static let root = "https://api.sysvpnconnect.com"
         #else
             static let root = "https://prod.sysvpnconnect.com"
         #endif
@@ -18,6 +19,7 @@ struct Constant {
             static let ipInfo = "/app/module_server/v1/app_setting/get_app_settings"
             static let listCountry = "/app/module_server/v1/country/get_list"
             static let requestCert = "/app/module_server/v1/vpn/request_certificate"
+            static let getStartServer = "/app/module_server/v1/server_stats/get_static_server_stats"
             
             
             static let logout = "/shared/module_auth/v1/logout"
