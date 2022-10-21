@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftUITooltip
 import Kingfisher
 
-protocol INodeInfo : Equatable {
+protocol INodeInfo {
     var state: VpnMapPontState { get }
     var localtionIndex: Int? { get }
     var locationName: String { get }
@@ -22,11 +22,11 @@ protocol INodeInfo : Equatable {
 
 
 extension INodeInfo {
-    static func == (lhs: any INodeInfo, rhs: any INodeInfo) -> Bool {
+    static func == (lhs: INodeInfo, rhs: INodeInfo) -> Bool {
         return lhs.locationSubname == rhs.locationSubname && rhs.locationName == lhs.locationName
     }
     
-    static func equal(lhs: any INodeInfo, rhs: any INodeInfo) -> Bool {
+    static func equal(lhs: INodeInfo, rhs: INodeInfo) -> Bool {
         return lhs.locationSubname == rhs.locationSubname && rhs.locationName == lhs.locationName
     }
 }
@@ -34,8 +34,8 @@ extension INodeInfo {
 
 struct NodePoint :  Equatable {
     var point: CGPoint
-    var info: any INodeInfo
-    init(point: CGPoint, info: any INodeInfo) {
+    var info: INodeInfo
+    init(point: CGPoint, info: INodeInfo) {
         self.point = point
         self.info = info
     }
