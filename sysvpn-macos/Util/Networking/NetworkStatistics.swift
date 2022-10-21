@@ -53,7 +53,7 @@ class NetworkStatistics {
     private var timer: Timer! = nil
     private var timer2: Timer! = nil
     private var timeInterval: TimeInterval = 1
-    private var timeIntervalGraph: TimeInterval = 0.1
+    private var timeIntervalGraph: TimeInterval = 0.2
     private var traffic: NetworkTraffic! = nil
     private var updateWithBitrate: ((Bitrate) -> Void)?
     

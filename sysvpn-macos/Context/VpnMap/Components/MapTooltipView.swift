@@ -122,10 +122,14 @@ struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
     private func dispatchAnimation() {
         if (config.enableAnimation) {
             DispatchQueue.main.asyncAfter(deadline: .now() + config.animationTime) {
-                self.animationOffset = config.animationOffset
-                self.animation = config.animation
+                withAnimation {
+                    self.animationOffset = config.animationOffset
+                    self.animation = config.animation
+                }
                 DispatchQueue.main.asyncAfter(deadline: .now() + config.animationTime*0.1) {
-                    self.animationOffset = 0
+                    withAnimation {
+                        self.animationOffset = 0
+                    }
                     
                     self.dispatchAnimation()
                 }
@@ -221,7 +225,7 @@ struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
                 .overlay(self.arrowView)
             }
             .offset(x: self.offsetHorizontal(g), y: self.offsetVertical(g))
-            .animation(self.animation)
+            //.animation(self.animation)
             .zIndex(config.zIndex)
             .onAppear {
                 self.dispatchAnimation()

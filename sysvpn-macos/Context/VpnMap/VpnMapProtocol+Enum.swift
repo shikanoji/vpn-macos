@@ -10,24 +10,43 @@ import SwiftUI
 import SwiftUITooltip
 import Kingfisher
 
-protocol INodeInfo {
+protocol INodeInfo : Equatable {
     var state: VpnMapPontState { get }
     var localtionIndex: Int? { get }
     var locationName: String { get }
     var image: KFImage? { get }
     var locationDescription: String? {get}
     var locationSubname: String? {get}
+    
 }
 
-struct NodePoint {
-    var point: CGPoint
-    var info: INodeInfo
-    init(point: CGPoint, info: INodeInfo) {
-        self.point = point
-        self.info = info
+
+extension INodeInfo {
+    static func == (lhs: any INodeInfo, rhs: any INodeInfo) -> Bool {
+        return lhs.locationSubname == rhs.locationSubname && rhs.locationName == lhs.locationName
+    }
+    
+    static func equal(lhs: any INodeInfo, rhs: any INodeInfo) -> Bool {
+        return lhs.locationSubname == rhs.locationSubname && rhs.locationName == lhs.locationName
     }
 }
 
+
+struct NodePoint :  Equatable {
+    var point: CGPoint
+    var info: any INodeInfo
+    init(point: CGPoint, info: any INodeInfo) {
+        self.point = point
+        self.info = info
+    }
+    
+    public static func ==(lhs: Self, rhs: Self) -> Bool {
+        return lhs.info.locationName == rhs.info.locationName && lhs.info.locationSubname == rhs.info.locationSubname
+    }
+ 
+}
+
+ 
 struct ConnectPoint {
     var point1: CGPoint
     var point2: CGPoint
@@ -59,6 +78,10 @@ struct ConnectPoint {
 }
 
 class NodeInfoTest: INodeInfo {
+    static func == (lhs: NodeInfoTest, rhs: NodeInfoTest) -> Bool {
+        return false
+    }
+    
     var locationDescription: String?
     
     var locationSubname: String?
@@ -132,10 +155,10 @@ public struct AppTooltipConfig: TooltipConfig {
     
     public var enableAnimation: Bool = true
     public var animationOffset: CGFloat = 10
-    public var animationTime: Double = 1
+    public var animationTime: Double = 1.5
     public var animation: Animation? = .easeInOut
 
-    public var transition: AnyTransition = .slide
+    public var transition: AnyTransition = .opacity
 
     public init() {}
 

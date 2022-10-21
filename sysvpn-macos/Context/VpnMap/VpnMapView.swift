@@ -33,12 +33,21 @@ struct VpnMapView: View {
                 scaleVector: scaleVector * proxy.size.height / baseHeight * rescaleView,
                 connectPoints: connectPoints,
                 nodeList: isShowCity ? viewModel.listCity : viewModel.listCountry,
-                
                 onTouchPoint: { node in
-                   
-                   
                     if appState.displayState == .disconnected {
                         self.selectedNode = node
+                        appState.selectedNode = node.info
+                    }
+                }, onHoverNode: {
+                    (node, hover) in
+                    if node.info.state == .disabled {
+                        return
+                    }
+                    
+                    if hover {
+                        appState.hoverNode = node
+                    } else {
+                        appState.hoverNode = nil
                     }
                 }
             )
@@ -60,7 +69,22 @@ struct VpnMapView: View {
                // selectedNode = nil
                 isShowCity =  scale > 1.7
             }
-        }
+        }.onChange(of: isShowCity, perform: { newValue in
+            selectedNode = nil
+        }).onChange(of: selectedNode, perform: { newValue in
+            appState.selectedNode = newValue?.info
+        })
+        .onChange(of: viewModel.isLoaded, perform: { newValue in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if let node =  appState.connectedNode,  appState.displayState == .connected {
+                    if let country = node as? CountryAvailables {
+                        self.selectedNode = NodePoint(point: CGPoint(x: NodePoint.convertX (country.x), y: NodePoint.convertY(country.y) ), info: country)
+                    } else  if let city = node as? CountryCity {
+                        self.selectedNode = NodePoint(point: CGPoint(x: NodePoint.convertX (city.x?.double), y: NodePoint.convertY(city.y?.double) ), info: city)
+                    }
+                }
+            }
+        })
         .clipped()
         
         
@@ -75,6 +99,7 @@ struct LoopMapView: View {
     var connectPoints: [ConnectPoint]
     var nodeList: [NodePoint]
     var onTouchPoint: ((NodePoint) -> Void)?
+    var onHoverNode: ((NodePoint, Bool) -> Void)?
     var mapLayer1: some View {
         Asset.Assets.mapLayer1.swiftUIImage.resizable()
             .frame(width: size.width * scale, height: size.height * scale)
@@ -84,7 +109,8 @@ struct LoopMapView: View {
         VpnMapPointLayerView(
             connectPoints: connectPoints, nodeList: nodeList,
             scaleVector: scaleVector,
-            onTouchPoint: onTouchPoint
+            onTouchPoint: onTouchPoint,
+            onHoverNode: onHoverNode
         )
         .frame(width: size.width * scale, height: size.height * scale)
     }
@@ -112,52 +138,94 @@ struct VpnMapOverlayLayer: ViewModifier {
     var rescaleView: CGFloat
     var nodePoint: NodePoint?
     
-    var tooltipNodeX: CGFloat {
-        return (nodePoint?.point.x ?? 0) * scaleVector * scaleValue / rescaleView
-    }
+    @StateObject var appState = GlobalAppStates.shared
     
-    var tooltipNodeY: CGFloat {
-        return ((nodePoint?.point.y ?? 0) + 10) * scaleVector * scaleValue / rescaleView
-    }
+    @State var tooltipNodeX: CGFloat = 0
+    @State  var tooltipNodeY: CGFloat  = 0
     
     var tooltipNodeName: String {
         return nodePoint?.info.locationName ?? ""
     }
     
+    var idName:String {
+        return (nodePoint?.info.locationDescription ?? "") + tooltipNodeName
+    }
+    
+    
+    var tooltipInfo : some View {
+        Spacer()
+            .frame(width: 1, height: 1, alignment: .center)
+            .modifier(
+                MapTooltipModifier(name: idName, enabled: nodePoint != nil, config: AppTooltipConfig(), content: {
+                    VStack {
+                        if nodePoint?.info.locationSubname != nil {
+                            Text(nodePoint?.info.locationSubname ?? "").foregroundColor(Color.black)
+                                .font(Font.system(size: 14, weight: .medium))
+                            Rectangle().frame(height: 1)
+                                .background(Asset.Colors.subTextColor.swiftUIColor)
+                        }
+                        HStack {
+                            if nodePoint?.info.image != nil {
+                                nodePoint?.info.image?.resizable().frame(width: 32, height: 32, alignment: .center)
+                            }
+                            VStack(alignment: .leading) {
+                                Text(tooltipNodeName).foregroundColor(Color.black)
+                                    .font(Font.system(size: 14, weight: .medium))
+                                if nodePoint?.info.locationDescription != nil {
+                                    Text(tooltipNodeName).foregroundColor(Color.black)
+                                        .font(Font.system(size: 13, weight: .regular))
+                                }
+                                
+                            }
+                        }
+                    }
+                })
+            )  .position(x: tooltipNodeX, y: tooltipNodeY)
+    }
+    
+    var tooltipConnected : some View {
+        Spacer()
+            .frame(width: 1, height: 1, alignment: .center)
+            .modifier(
+                MapTooltipModifier(name: idName, enabled: nodePoint != nil, config: AppTooltipConfig(), content: {
+                    VStack {
+                       Text("Connected")
+                            .foregroundColor(Color.black)
+                    }
+                })
+            )  .position(x: tooltipNodeX, y: tooltipNodeY)
+    }
+    
     func body(content: Content) -> some View {
         VStack {
             content.overlay {
-                Spacer()
-                    .frame(width: 1, height: 1, alignment: .center)
-                    .modifier(
-                        MapTooltipModifier(name: tooltipNodeName, enabled: nodePoint != nil, config: AppTooltipConfig(), content: {
-                            VStack {
-                                if nodePoint?.info.locationSubname != nil {
-                                    Text(nodePoint?.info.locationSubname ?? "").foregroundColor(Color.black)
-                                        .font(Font.system(size: 14, weight: .medium))
-                                    Rectangle().frame(height: 1)
-                                        .background(Asset.Colors.subTextColor.swiftUIColor)
-                                }
-                               
-                                HStack {
-                                    if nodePoint?.info.image != nil {
-                                        nodePoint?.info.image?.resizable().frame(width: 32, height: 32, alignment: .center)
-                                    }
-                                    VStack(alignment: .leading) {
-                                        Text(tooltipNodeName).foregroundColor(Color.black)
-                                            .font(Font.system(size: 14, weight: .medium))
-                                        if nodePoint?.info.locationDescription != nil {
-                                            Text(tooltipNodeName).foregroundColor(Color.black)
-                                                .font(Font.system(size: 13, weight: .regular))
-                                        }
-                                        
-                                    }
-                                }
-                            }
-                        })
-                    )  .position(x: tooltipNodeX, y: tooltipNodeY)
+                
+                if appState.displayState == .connected && appState.hoverNode != nodePoint {
+                    tooltipConnected
+                } else
+                {
+                    tooltipInfo
+                }
+            }
+        }.onChange(of: nodePoint) { newValue in
+            if nodePoint == nil {
+                updateLocation(nodePoint: newValue)
+            }
+            else {
+                withAnimation {
+                    updateLocation(nodePoint: newValue)
+                }
             }
         }
+        .onChange(of: scaleValue) { newValue in
+            updateLocation(nodePoint: nodePoint, scale: newValue)
+        }
+    }
+    
+    func updateLocation(nodePoint: NodePoint?, scale: Double? = nil) {
+        let scaleValue = scale ?? self.scaleValue
+        tooltipNodeX =  (nodePoint?.point.x ?? 0) * scaleVector * scaleValue / rescaleView
+        tooltipNodeY = ((nodePoint?.point.y ?? 0) + 10) * scaleVector * scaleValue / rescaleView
     }
 }
 

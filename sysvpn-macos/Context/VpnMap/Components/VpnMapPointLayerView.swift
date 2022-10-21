@@ -14,6 +14,7 @@ struct VpnMapPointLayerView: View {
     var nodeList: [NodePoint]
     var scaleVector: CGFloat = 1
     var onTouchPoint: ((NodePoint) -> Void)?
+    var onHoverNode: ((NodePoint, Bool) -> Void)?
     let lineGradient = Gradient(colors: [
         Asset.Colors.secondary.swiftUIColor,
         Asset.Colors.primaryColor.swiftUIColor
@@ -34,11 +35,15 @@ struct VpnMapPointLayerView: View {
             ForEach(0..<nodeList.count, id: \.self) { index in
                 VpnMapPointView(state: nodeList[index].info.state,
                                  
-                                locationIndex: nodeList[index].info.localtionIndex
+                                locationIndex: nodeList[index].info.localtionIndex,
+                                onHoverNode: { hover in
+                    onHoverNode?(nodeList[index], hover)
+                }
                 ).position(x: scalePoint(nodeList[index].point).x, y: scalePoint(nodeList[index].point).y)
                     .onTapGesture {
                         onTouchPoint?(nodeList[index])
                     }
+                    
             }
         }
     }

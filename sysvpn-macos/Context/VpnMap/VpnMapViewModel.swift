@@ -15,28 +15,31 @@ extension VpnMapView {
         
         @Published var listCity: [NodePoint] = []
         @Published var listCountry: [NodePoint] = []
+        @Published var isLoaded: Bool = false
         
         
-        func convertX(_ value: Double? , scale: Double = 1) -> CGFloat {
-            return (value ?? 0) * 0.5
-        }
-        
-        func convertY(_ value: Double? , scale: Double = 1) -> CGFloat {
-            return (value ?? 0) * 0.453
-        }
          
         init() {
+           
+            refreshApi()
+        }
+        
+        func refreshApi() {
             _ = APIServiceManager.shared.getListCountry().subscribe { event in
                 switch event {
                 case .failure(let error):
                     print(error)
+                    DispatchQueue.main.asyncAfter(deadline: .now()  + 2) { [weak self] in
+                        self?.refreshApi()
+                    }
                 case .success(let success):
                     AppDataManager.shared.userCountry = success
                 }
                 self.loadListNode()
+                self.isLoaded = true
             }
-            
         }
+        
         func loadListNode() {
             let listCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
             var listCity: [CountryCity] = [];
@@ -56,11 +59,11 @@ extension VpnMapView {
             print("contry count: \(listCountry.count)")
             
             self.listCountry = listCountry.map { country in
-                return NodePoint(point: CGPoint(x: convertX (country.x), y: convertY(country.y) ), info: country)
+                return NodePoint(point: CGPoint(x: NodePoint.convertX (country.x), y: NodePoint.convertY(country.y) ), info: country)
             }
             
             self.listCity = listCity.map({ city in
-                return NodePoint(point: CGPoint(x: convertX(Double(city.x ?? 0)), y: convertY(Double(city.y ?? 0))), info:  city)
+                return NodePoint(point: CGPoint(x: NodePoint.convertX(Double(city.x ?? 0)), y: NodePoint.convertY(Double(city.y ?? 0))), info:  city)
             })
         }
     }
@@ -68,8 +71,21 @@ extension VpnMapView {
 }
 
 
+extension NodePoint {
+    static func convertX(_ value: Double? , scale: Double = 1) -> CGFloat {
+        return (value ?? 0) * 0.5
+    }
+    
+    static func convertY(_ value: Double? , scale: Double = 1) -> CGFloat {
+        return (value ?? 0) * 0.453
+    }
+}
 
-extension CountryCity : INodeInfo {
+extension CountryCity : INodeInfo  {
+    static func == (lhs: CountryCity, rhs: CountryCity) -> Bool {
+        return CountryCity.equal(lhs: lhs, rhs: rhs)
+    }
+ 
     var locationDescription: String? {
         return nil
     }
@@ -84,13 +100,18 @@ extension CountryCity : INodeInfo {
     
     var state: VpnMapPontState {
         if GlobalAppStates.shared.displayState == .connected {
+            if let connectedNode = GlobalAppStates.shared.connectedNode {
+                if CountryAvailables.equal(lhs: connectedNode, rhs: self)  {
+                    return .activated
+                }
+            }
             return .disabled
         }
         return .normal
     }
     
     var localtionIndex: Int? {
-        return 1
+        return nil
     }
     
     var image: KFImage? {
@@ -105,6 +126,10 @@ extension CountryCity : INodeInfo {
 }
 
 extension CountryAvailables : INodeInfo {
+    static func == (lhs: CountryAvailables, rhs: CountryAvailables) -> Bool {
+        return CountryAvailables.equal(lhs: lhs, rhs: rhs)
+    }
+    
     var locationDescription: String? {
         return nil
     }
@@ -118,9 +143,16 @@ extension CountryAvailables : INodeInfo {
     }
     
     var state: VpnMapPontState {
+       
         if GlobalAppStates.shared.displayState == .connected {
+            if let connectedNode = GlobalAppStates.shared.connectedNode {
+                if CountryAvailables.equal(lhs: connectedNode, rhs: self)  {
+                    return .activated
+                }
+            }
             return .disabled
         }
+       
         return .normal
     }
     
