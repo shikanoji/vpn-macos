@@ -400,8 +400,9 @@ class SysVPNManager : SysVPNManagerProtocol {
                     }
                 }
                 
-            } catch {
+            } catch (let error){
                // log.error("\(error)", category: .ui)
+                self.setState(withError: error)
             }
         }
     }

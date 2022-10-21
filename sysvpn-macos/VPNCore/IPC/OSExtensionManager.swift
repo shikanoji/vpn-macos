@@ -50,17 +50,21 @@ class OSExtensionManager : NSObject {
         
     }
      
-     func startExtension() {
-         if let extensionIdentifier = getExtensionBundle(CoreAppConstants.NetworkExtensions.openVpn)?.bundleIdentifier {
+    func startExtension( ipcOnly:Bool = true) {
+         if let extensionIdentifier = getExtensionBundle(CoreAppConstants.SystemExtensions.openVpn)?.bundleIdentifier {
              let activationRequest = OSSystemExtensionRequest.activationRequest(forExtensionWithIdentifier: extensionIdentifier, queue: .main)
              activationRequest.delegate = self
              OSSystemExtensionManager.shared.submitRequest(activationRequest)
         }
-        if let extensionIdentifier = getExtensionBundle(CoreAppConstants.NetworkExtensions.wireguard)?.bundleIdentifier {
-             let activationRequest = OSSystemExtensionRequest.activationRequest(forExtensionWithIdentifier: extensionIdentifier, queue: .main)
-             activationRequest.delegate = self
-             OSSystemExtensionManager.shared.submitRequest(activationRequest)
+        
+        if !ipcOnly {
+            if let extensionIdentifier = getExtensionBundle(CoreAppConstants.SystemExtensions.wireguard)?.bundleIdentifier {
+                 let activationRequest = OSSystemExtensionRequest.activationRequest(forExtensionWithIdentifier: extensionIdentifier, queue: .main)
+                 activationRequest.delegate = self
+                 OSSystemExtensionManager.shared.submitRequest(activationRequest)
+            }
         }
+        
     }
 }
 
@@ -95,6 +99,7 @@ extension OSExtensionManager: OSSystemExtensionRequestDelegate {
                  withExtension extension: OSSystemExtensionProperties) -> OSSystemExtensionRequest.ReplacementAction {
 
         os_log("Replacing extension %@ version %@ with version %@", request.identifier, existing.bundleShortVersion, `extension`.bundleShortVersion)
+        IPCFactory.makeIPCService(proto: .openVPN).checkConnect()
         return .replace
     }
 }
