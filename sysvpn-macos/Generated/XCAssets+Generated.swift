@@ -56,6 +56,7 @@ internal enum Asset {
     internal static let icPower = ImageAsset(name: "ic_power")
     internal static let icSend = ImageAsset(name: "ic_send")
     internal static let icSetting = ImageAsset(name: "ic_setting")
+    internal static let icStaticServer = ImageAsset(name: "ic_static_server")
     internal static let icUnprotected = ImageAsset(name: "ic_unprotected")
     internal static let logoF1 = ImageAsset(name: "logo_f1")
     internal static let mapLayer1 = ImageAsset(name: "map_layer1")

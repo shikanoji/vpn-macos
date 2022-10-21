@@ -32,6 +32,7 @@ struct HomeLeftPanelView: View {
     }
     
     var menuSection : some View {
+        
         VStack (alignment: .leading){
             Text("Manual connection").padding(.leading, 32)
                 .font(Font.system(size: 14, weight: .regular))
@@ -40,17 +41,17 @@ struct HomeLeftPanelView: View {
                 active: selectedItem == .manualConnection,
                 icon: Asset.Assets.icLocation.swiftUIImage,
                 title: "Manual connection",
-                content: "168 locations available"
+                content: "\(viewModel.totalCountry) locations available"
             ).onTapGesture {
                 withAnimation {
-                    selectedItem = .manualConnection
+                    selectedItem = .manualConnection 
                 }
             }
             HomeMenuButtonView(
                 active: selectedItem == .staticIp,
                 icon: Asset.Assets.icIpAddress.swiftUIImage,
                 title: "Static IP",
-                content: "168 locations available"
+                content: "Personal Static IP address"
             ) .onTapGesture {
                 withAnimation {
                     selectedItem = .staticIp
@@ -151,6 +152,9 @@ struct HomeLeftPanelView: View {
                 
             }
                 
+        }
+        .onChange(of: selectedItem) { newValue in
+            
         }
     }
 }

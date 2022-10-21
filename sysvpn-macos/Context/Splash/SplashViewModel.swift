@@ -29,7 +29,7 @@ extension SplashView {
         func loadAppSetting() {
            _ = APIServiceManager.shared.getAppSetting().subscribe { event in
                if AppDataManager.shared.isLogin {
-                   OpenWindows.MainView.open()
+                   self.loadCountry()
                } else {
                    OpenWindows.LoginView.open()
                }
@@ -46,6 +46,18 @@ extension SplashView {
                     print(error)
                 }
             }
+        }
+        
+        func loadCountry() {
+            _ = APIServiceManager.shared.getListCountry().subscribe({ result in
+                switch result {
+                case let .success(response):
+                    AppDataManager.shared.userCountry = response
+                    OpenWindows.MainView.open()
+                case .failure(_):
+                    break
+                }
+            })
         }
     }
 }

@@ -17,7 +17,13 @@ struct HomeListCountryNodeView : View {
                 case .spacing:
                     Spacer().frame(height: 30)
                 case .country:
-                    CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
+                    if selectedItem == .manualConnection {
+                        CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
+                    } else if selectedItem == .staticIp {
+                        StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber)
+                    } else if selectedItem == .multiHop {
+                        CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
+                    }
                 case .header:
                     VStack {
                         Text(item.title)
@@ -63,6 +69,8 @@ struct HomeListCountryModel: Identifiable {
     var title: String = ""
     var totalCity: Int = 0
     var imageUrl:String?
+    var cityName: String = ""
+    var serverNumber: Int = 0
 }
 
 
