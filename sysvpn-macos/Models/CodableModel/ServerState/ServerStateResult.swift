@@ -25,20 +25,19 @@ struct ServerStateResult: Codable {
     
     func updateStarCountry() {
         var coutryResult = AppDataManager.shared.userCountry
-        var newListServer = [CountryStaticServers]()
         guard let listData = listServer else {
             return
         }
-        for server in listData {
-            var item = coutryResult?.staticServers?.filter({ data in
-                return data.serverId == server.serverId
+        let length = coutryResult?.staticServers?.count ?? 0
+        
+        for i in 0 ..< length {
+            let data = listData.filter( { item in
+                return item.serverId == coutryResult?.staticServers![i].serverId
             }).first
-            if item != nil {
-                item?.serverId = server.serverId
-                newListServer.append(item!)
+            if data != nil {
+                coutryResult?.staticServers![i].score = data?.score
             }
         }
-        coutryResult?.staticServers = newListServer
         AppDataManager.shared.userCountry = coutryResult
     }
 

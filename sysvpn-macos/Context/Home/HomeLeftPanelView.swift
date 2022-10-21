@@ -150,11 +150,7 @@ struct HomeLeftPanelView: View {
                     )
                     .edgesIgnoringSafeArea([.top])
                 
-            }
-                
-        }
-        .onChange(of: selectedItem) { newValue in
-            
+            } 
         }
     }
 }

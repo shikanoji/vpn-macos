@@ -20,25 +20,38 @@ struct HomeListCountryNodeView : View {
                     if selectedItem == .manualConnection {
                         CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
                     } else if selectedItem == .staticIp {
-                        StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber)
+                        StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar)
                     } else if selectedItem == .multiHop {
                         CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
                     }
                 case .header:
-                    VStack {
-                        Text(item.title)
-                            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                            .font(Font.system(size: 14, weight: .regular))
-                        Spacer().frame(height: 21)
+                    if selectedItem == .manualConnection {
+                        VStack {
+                            Text(item.title)
+                                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                                .font(Font.system(size: 14, weight: .regular))
+                            Spacer().frame(height: 21)
+                        }
+                    } else if selectedItem == .staticIp {
+                        HStack {
+                            Text(item.title)
+                                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                                .font(Font.system(size: 14, weight: .regular))
+                            Spacer()
+                            Text("CURRENT LOAD")
+                                .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
+                                .font(Font.system(size: 11, weight: .medium))
+                        }.padding(.bottom, 16)
                     }
                 }
             }
             .modifier(ListViewModifier())
+            .animation(nil, value: UUID())
             
              
         }
         
-        .padding(.horizontal, 23)
+        .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
         .background(Asset.Colors.backgroundColor.swiftUIColor)
         
@@ -71,6 +84,7 @@ struct HomeListCountryModel: Identifiable {
     var imageUrl:String?
     var cityName: String = ""
     var serverNumber: Int = 0
+    var serverStar: Int = 1
 }
 
 

@@ -13,12 +13,13 @@ extension HomeView {
             @Published var dataServer: [HomeListCountryModel]
             var isConnected: Bool = false
             var listCountry: [HomeListCountryModel]
-            var staticServer: [HomeListCountryModel]
+            var listStaticServer: [HomeListCountryModel]
             init() {
                 dataServer = []
                 listCountry = []
-                staticServer = []
+                listStaticServer = []
                 getListCountry()
+                getListStaticServer()
                 dataServer = listCountry
             }
             
@@ -54,8 +55,35 @@ extension HomeView {
                 }
             }
             
+            func getListStaticServer(firstLoadData: Bool = true) {
+                listStaticServer.removeAll()
+                let staticServer = AppDataManager.shared.userCountry?.staticServers ?? []
+                if staticServer.count  > 0 {
+                    listStaticServer.append(HomeListCountryModel(type: .header, title: "Static ip"))
+                    for item in staticServer {
+                        var score = item.score ?? 1
+                        if !firstLoadData {
+                            score = score + 5
+                        }
+                        let staticItem = HomeListCountryModel(type: .country, title: item.countryName ?? "", imageUrl: item.flag, cityName: item.cityName ?? "", serverNumber: item.serverNumber ?? 1, serverStar: score + 1)
+                        listStaticServer.append(staticItem)
+                    }
+                    listStaticServer.append(HomeListCountryModel(type: .spacing))
+                }
+                if !firstLoadData {
+                    dataServer = listStaticServer
+                }
+            }
+            
             func onChangeState() {
-                
+                print("selectedMenuItem: \(selectedMenuItem)")
+                if selectedMenuItem == .staticIp {
+                    dataServer = listStaticServer
+                } else if selectedMenuItem == .manualConnection {
+                    dataServer = listCountry
+                } else if selectedMenuItem == .multiHop {
+                    
+                }
             }
             
             

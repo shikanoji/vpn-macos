@@ -664,6 +664,13 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		B9721636290287FA002E9ABE /* WireGuard */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WireGuard;
+			sourceTree = "<group>";
+		};
 		B99DB42328E4496300331AFB /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -708,6 +715,7 @@
 		B9B3703128FE4FE70022498B /* CodableModel */ = {
 			isa = PBXGroup;
 			children = (
+				B9721636290287FA002E9ABE /* WireGuard */,
 				B9B3706528FEAAF90022498B /* ServerState */,
 				B9B3703228FE4FE70022498B /* BaseCodable.swift */,
 				B9B3703328FE4FE70022498B /* Auth */,

@@ -65,7 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func onStartApp() {
         NotificationCenter.default.addObserver(self, selector: #selector(onStartJob), name: .startJobUpdateCountry, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(onStartJob), name: .endJobUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onEndJob), name: .endJobUpdate, object: nil)
         timmerAppSetting?.invalidate()
         timmerAppSetting = Timer.scheduledTimer(timeInterval: 1000.0, target: self, selector: #selector(onReloadAppSetting), userInfo: nil, repeats: true)
     }
@@ -94,7 +94,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let timmer = self.timmerJob {
           timmer.invalidate()
         }
-        timmerJob = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
+        timmerJob = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
     }
     
     @objc func onEndJob(_ notification: Notification) {
@@ -106,11 +106,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func onLoadApiUpdateStar() {
+        
         if AppDataManager.shared.userCountry != nil { 
             _ = APIServiceManager.shared.getStartServer().subscribe({ result in
                 switch result {
                 case let .success(response):
                     response.updateStarCountry() 
+                    NotificationCenter.default.post(name: .reloadServerStar, object: nil)
                 case .failure(_):
                     break
                 }

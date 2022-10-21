@@ -15,7 +15,7 @@ extension SplashView {
 
         init() {
             loadAppSetting()
-            onStartApp()
+            
         }
         
         func onStartApp() {
@@ -28,12 +28,13 @@ extension SplashView {
         
         func loadAppSetting() {
            _ = APIServiceManager.shared.getAppSetting().subscribe { event in
+              
                if AppDataManager.shared.isLogin {
                    self.loadCountry()
                } else {
                    OpenWindows.LoginView.open()
                }
-                
+               self.onStartApp()
                 switch event {
                 case let .success(response):
                     AppDataManager.shared.saveIpInfo(info: response.ipInfo)

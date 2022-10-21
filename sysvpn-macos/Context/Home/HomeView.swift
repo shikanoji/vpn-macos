@@ -12,6 +12,8 @@ struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @State var localIsConnected = false
     @EnvironmentObject var appState: GlobalAppStates
+    let pub = NotificationCenter.default
+        .publisher(for: .reloadServerStar)
     var body: some View {
         HStack(spacing: 0){
             HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem)
@@ -19,14 +21,19 @@ struct HomeView: View {
                 .contentShape(Rectangle())
                 .zIndex(3)
             if viewModel.selectedMenuItem != .none {
-                HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listCountry)
+                HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.dataServer)
                     .zIndex(2)
                     .transition(
                         AnyTransition.asymmetric(
                         insertion: .move(edge: .leading),
                         removal: .move(edge: .leading)
-                        
                     ))
+                    .onReceive(pub) { _ in
+                        if viewModel.selectedMenuItem == .staticIp {
+                            viewModel.getListStaticServer(firstLoadData: false)
+                        }
+                        
+                    }
             }
             VpnMapView(
                 scale: $zoomValue.cgFloat()
@@ -101,7 +108,7 @@ struct HomeView: View {
             localIsConnected = appState.displayState == .connected 
         }
         .onChange(of: viewModel.selectedMenuItem) { newValue in
-            
+            viewModel.onChangeState()
         }
         
     }
