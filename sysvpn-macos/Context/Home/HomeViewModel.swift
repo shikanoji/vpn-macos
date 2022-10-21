@@ -80,6 +80,7 @@ extension HomeLeftPanelView {
             DispatchQueue.main.async {
                 dj.vpnCore.quickConnect()
             }
+            GlobalAppStates.shared.connectedNode =  GlobalAppStates.shared.selectedNode
         }
         
        

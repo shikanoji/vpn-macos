@@ -98,7 +98,7 @@ struct HomeView: View {
             }
         }
         .onAppear() {
-            localIsConnected = appState.displayState == .connected
+            localIsConnected = appState.displayState == .connected 
         }
         .onChange(of: viewModel.selectedMenuItem) { newValue in
             

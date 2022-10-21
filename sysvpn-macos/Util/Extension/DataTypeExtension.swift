@@ -14,3 +14,9 @@ extension Binding where Value == Double {
             set: { self.wrappedValue = Double($0)})
     }
 }
+
+extension Float {
+  var  double: Double {
+        return Double(self)
+    }
+}

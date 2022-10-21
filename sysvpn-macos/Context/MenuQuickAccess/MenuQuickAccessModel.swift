@@ -41,7 +41,7 @@ extension MenuQuickAccessView {
         }
         
         func onOpenApp() {
-            NSApp.setActivationPolicy(.regular)
+           _ = NSApp.setActivationPolicy(.regular)
             DispatchQueue.main.async {
                 if let window = NSApp.mainWindow {
                     window.orderFrontRegardless()

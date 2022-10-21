@@ -63,8 +63,9 @@ struct MenuQuickAccessView: View {
                 Button {
                      
                 } label: {
-                    Text("• • •")
-                        .font(Font.system(size: 14, weight: .semibold))
+                    AppActivityIndicator().padding(.vertical, 2)
+                  //  Text("• • •")
+                  //      .font(Font.system(size: 14, weight: .semibold))
                 }.buttonStyle(LoginButtonCTAStyle(bgColor: Color.white))
             } else {
                 Button {
@@ -139,8 +140,8 @@ struct MenuQuickAccessView: View {
                     Button {
                         
                     } label: {
-                        Text("• • •")
-                            .font(Font.system(size: 14, weight: .semibold))
+                        AppActivityIndicator().padding(.vertical, 2)
+                         //   .font(Font.system(size: 14, weight: .semibold))
                     }
                     .frame(width: 120)
                     .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
