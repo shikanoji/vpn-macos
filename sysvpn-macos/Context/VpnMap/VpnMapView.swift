@@ -220,9 +220,13 @@ struct VpnMapOverlayLayer: ViewModifier {
         .onChange(of: scaleValue) { newValue in
             updateLocation(nodePoint: nodePoint, scale: newValue)
         }
+        .onChange(of: scaleVector) { newValue in
+            updateLocation(nodePoint: nodePoint, vector: newValue)
+        }
     }
     
-    func updateLocation(nodePoint: NodePoint?, scale: Double? = nil) {
+    func updateLocation(nodePoint: NodePoint?, scale: Double? = nil, vector: Double? = nil) {
+        let scaleVector = vector ?? self.scaleVector
         let scaleValue = scale ?? self.scaleValue
         tooltipNodeX =  (nodePoint?.point.x ?? 0) * scaleVector * scaleValue / rescaleView
         tooltipNodeY = ((nodePoint?.point.y ?? 0) + 10) * scaleVector * scaleValue / rescaleView

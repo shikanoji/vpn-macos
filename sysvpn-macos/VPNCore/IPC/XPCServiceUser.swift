@@ -12,6 +12,7 @@ import Foundation
 class XPCServiceUser {
     private let machServiceName: String
     private let log: (String) -> Void
+    public var isConnected: Bool = false
 
     private var currentConnection: NSXPCConnection? {
         willSet {
@@ -64,6 +65,14 @@ extension XPCServiceUser {
         return providerProxy
     }
     
+    func checkConnect() {
+        getLogs { data in
+            if data != nil {
+                self.isConnected = true
+                print("[IPC] check connected success")
+            }
+        }
+    }
     func getLogs(completionHandler: @escaping (Data?) -> Void) {
         let providerProxy = getProviderProxy()
         providerProxy?.getLogs(completionHandler)

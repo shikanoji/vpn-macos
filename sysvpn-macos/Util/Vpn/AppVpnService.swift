@@ -15,9 +15,11 @@ class AppVpnService: SysVPNService {
         let isUseUDP = userSetting?.appSettings?.settingVpn?.defaultProtocol?.contains("udp") ?? false
         let transportProtocol = isUseUDP ? OpenVpnTransport.udp : OpenVpnTransport.tcp
         let defaultTech = isWireGuard ? VpnProtocol.wireGuard : VpnProtocol.openVpn(transportProtocol)
+       // let defaultTech = VpnProtocol.wireGuard
         let vpnParam = VpnParamRequest()
         
         vpnParam.tech = isWireGuard ? .wg : .ovpn
+       // vpnParam.tech = .wg
         vpnParam.proto = userSetting?.appSettings?.settingVpn?.defaultProtocol ?? "tcp"
         vpnParam.dev = "tun"
         vpnParam.isHop = (params?.isHop ?? false) ? 1 : 0
@@ -39,13 +41,13 @@ class AppVpnService: SysVPNService {
         _ = APIServiceManager.shared.onRequestCert(param: vpnParam).subscribe{ event in
            
             switch event {
-            case let .success(response):
-                let strConfig = response.parseVpnConfig()
-                let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech)
-                callback?(.success(result))
-            case let .failure(e):
-                print("[ERROR]: \(e)")
-                callback?(.failure(e))
+                case let .success(response):
+                    let strConfig = response.parseVpnConfig()
+                    let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech)
+                    callback?(.success(result))
+                case let .failure(e):
+                    print("[ERROR]: \(e)")
+                    callback?(.failure(e))
             }
         }
         

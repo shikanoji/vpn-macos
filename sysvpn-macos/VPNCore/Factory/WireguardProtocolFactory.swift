@@ -7,7 +7,10 @@
 //
 
 import Foundation
-
+import TunnelKitWireGuardCore
+import TunnelKitWireGuardAppExtension
+import WireGuardKit
+import TunnelKitWireGuardManager
 import Foundation
 import NetworkExtension
 
@@ -44,11 +47,8 @@ class WireguardProtocolFactory {
 
 
 extension WireguardProtocolFactory: VpnProtocolFactory {
-     func create(_ configuration: SysVpnManagerConfiguration) throws -> NEVPNProtocol {
-        let protocolConfiguration = NETunnelProviderProtocol()
-        protocolConfiguration.providerBundleIdentifier = bundleId
-      //  protocolConfiguration.serverAddress = configuration.entryServerAddress
-        return protocolConfiguration
+     func create(_ configuration: SysVpnManagerConfiguration) throws -> NEVPNProtocol { 
+         return try getWireguardConfig(for: configuration).asTunnelProtocol(withBundleIdentifier: bundleId, extra: configuration.extra)
     }
     
      func vpnProviderManager(for requirement: VpnProviderManagerRequirement, completion: @escaping (NEVPNManagerWrapper?, Error?) -> Void) {
@@ -73,4 +73,9 @@ extension WireguardProtocolFactory: VpnProtocolFactory {
     }
  
 
+    
+     func getWireguardConfig(for configuration: SysVpnManagerConfiguration) throws -> WireGuard.ProviderConfiguration {
+         var cfg = try WireGuard.Configuration(wgQuickConfig: configuration.connection)
+         return WireGuard.ProviderConfiguration("WireGuard", appGroup: appGroup, configuration: cfg)
+    }
 }

@@ -32,9 +32,23 @@ public class CoreAppConstants {
     }
      
     struct NetworkExtensions {
+        /*
         static let openVpn = "\(appBundleId).OpenVpnSysExtension"
         static let wireguard = "\(appBundleId).WireGuardSysExtension"
+         */
+        static let openVpn = "\(appBundleId).OpenVpnAppExtension"
+        static let wireguard = "\(appBundleId).WireGuardAppExtension"
     }
+    
+    
+   struct SystemExtensions {
+       /*
+       static let openVpn = "\(appBundleId).OpenVpnSysExtension"
+       static let wireguard = "\(appBundleId).WireGuardSysExtension"
+        */
+       static let openVpn = "\(appBundleId).OpenVpnAppExtension"
+       static let wireguard = "\(appBundleId).WireGuardAppExtension"
+   }
      
 }
 
@@ -43,6 +57,8 @@ extension String {
         var result = self.replacingOccurrences(of: ".widget", with: "")
         result = result.replacingOccurrences(of: ".OpenVpnSysExtension", with: "")
         result = result.replacingOccurrences(of: ".WireGuardSysExtension", with: "")
+        result = result.replacingOccurrences(of: ".OpenVpnAppExtension", with: "")
+        result = result.replacingOccurrences(of: ".WireGuardAppExtension", with: "")
         return result
     }
 }

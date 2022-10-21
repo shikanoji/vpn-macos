@@ -31,7 +31,7 @@ class OpenVpnProtocolFactory {
 extension OpenVpnProtocolFactory: VpnProtocolFactory {
     
     func create(_ configuration: SysVpnManagerConfiguration) throws -> NEVPNProtocol {
-        let openVpnConfig = getOpenVpnConfig(for: configuration)
+        let openVpnConfig = try getOpenVpnConfig(for: configuration)
         /*let generator = tunnelProviderGenerator(for: openVpnConfig)
         let neProtocol = try generator.generatedTunnelProtocol(withBundleIdentifier: bundleId, appGroup: appGroup, context: bundleId, username: configuration.username)*/
         var vpnProto =  try openVpnConfig.asTunnelProtocol(withBundleIdentifier: bundleId, extra: configuration.extra) 
@@ -56,9 +56,9 @@ extension OpenVpnProtocolFactory: VpnProtocolFactory {
     }
     
     
-     func getOpenVpnConfig(for configuration: SysVpnManagerConfiguration) -> OpenVPN.ProviderConfiguration {
+     func getOpenVpnConfig(for configuration: SysVpnManagerConfiguration) throws -> OpenVPN.ProviderConfiguration {
         
-         let cfg = (try! OpenVPN.ConfigurationParser.parsed(fromContents: configuration.connection)).configuration
+         let cfg = (try OpenVPN.ConfigurationParser.parsed(fromContents: configuration.connection)).configuration
          var providerConfiguration = OpenVPN.ProviderConfiguration(configuration.adapterTitle, appGroup: appGroup, configuration: cfg)
         providerConfiguration.shouldDebug = true
         providerConfiguration.masksPrivateData = false
