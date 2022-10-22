@@ -32,13 +32,13 @@ struct HomeConnectionButtonView : View {
         VStack {
             nodeIcon
             Spacer().frame(height: 20)
-            HStack {
+            HStack (spacing: 5)  {
                 Text("VPN IP: ").font(.system(size: 14))
                 Text(appState.serverInfo?.ipAddress ?? "0.0.0.0")
                     .font(.system(size: 14, weight: .semibold))
             }
             Spacer().frame(height: 10)
-            HStack {
+            HStack (spacing: 5) {
                 Text("Location: ")
                     .font(.system(size: 14))
                 Text(appState.connectedNode?.locationSubname ?? appState.connectedNode?.locationName ?? "")

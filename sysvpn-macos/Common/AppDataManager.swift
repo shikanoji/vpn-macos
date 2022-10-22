@@ -226,7 +226,9 @@ class AppDataManager {
     }
     func getNodeByServerInfo(server: VPNServer) -> INodeInfo? {
        guard let country =  userCountry?.availableCountries?.first(where: { ct in
-            return ct.id == server.id
+           return ct.city?.contains(where: { city in
+               return city.id == server.cityId
+           }) ?? false
        }) else {
            return getStaticNodeByServerInfo(server: server)
        }
@@ -236,8 +238,10 @@ class AppDataManager {
         }) else {
             return country
         }
+        var updateCity = city
+        updateCity.country = country
         
-        return city
+        return updateCity
     }
 }
 
