@@ -9,11 +9,12 @@ import Foundation
 import SwiftUI
 
 struct HomeAlertConnectionView : View {
+    @EnvironmentObject var appState: GlobalAppStates
     var body: some View {
         HStack(spacing: 16) {
             Asset.Assets.icUnprotected.swiftUIImage
             VStack(alignment: .leading) {
-                Text("Your IP: 199.199.199.8 - Unprotected")
+                Text("Your IP: \( appState.userIpAddress ) - Unprotected")
                 Text("Connect to VPN to online sercurity")
             }.foregroundColor(Color.white)
             Spacer()

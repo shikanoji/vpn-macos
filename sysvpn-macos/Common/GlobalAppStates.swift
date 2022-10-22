@@ -16,4 +16,7 @@ class GlobalAppStates: ObservableObject {
     @Published var selectedNode:  INodeInfo? = nil
     @Published var hoverNode: NodePoint? = nil
     @Published var serverInfo: VPNServer? = nil
+    var userIpAddress: String {
+        return AppDataManager.shared.userIp
+    }
 }

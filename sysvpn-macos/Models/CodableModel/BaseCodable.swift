@@ -35,7 +35,7 @@ extension Encodable {
         if let encoded = try? encoder.encode(self) {
             print("[CacheConfig] save data to file \(fileName) success")
             let directory = saveFilePath();
-            if FileManager.default.exist(atUrl: directory) {
+            if !FileManager.default.exist(atUrl: directory) {
                 try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
             }
             let urlFile = directory.appendingPathComponent(fileName)

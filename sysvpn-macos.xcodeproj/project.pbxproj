@@ -155,6 +155,7 @@
 		FAA35BDF28FD443E00205ECD /* IPCBaseConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAB28FD41CA00205ECD /* IPCBaseConnection.swift */; };
 		FAA35BE028FD443F00205ECD /* IPCBaseConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BAB28FD41CA00205ECD /* IPCBaseConnection.swift */; };
 		FAA35BE228FD46E400205ECD /* demofile.ovpn in Resources */ = {isa = PBXBuildFile; fileRef = FAA35BE128FD46E400205ECD /* demofile.ovpn */; };
+		FABBB8D129042C8700595D95 /* VpnMapOverlayLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABBB8D029042C8700595D95 /* VpnMapOverlayLayerView.swift */; };
 		FAC3CB472901355B0095F30E /* MapTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC3CB462901355B0095F30E /* MapTooltipView.swift */; };
 		FADFCE7729006C7600219BB0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FADFCE7629006C7600219BB0 /* Kingfisher */; };
 		FADFCE7929006EEE00219BB0 /* BlinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFCE7829006EEE00219BB0 /* BlinkingView.swift */; };
@@ -393,6 +394,7 @@
 		FAA35BD328FD429300205ECD /* open_vpn_sys_extension_birdge_header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = open_vpn_sys_extension_birdge_header.h; sourceTree = "<group>"; };
 		FAA35BD428FD42BF00205ECD /* wire_guard_sys_extension_birdge_header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wire_guard_sys_extension_birdge_header.h; sourceTree = "<group>"; };
 		FAA35BE128FD46E400205ECD /* demofile.ovpn */ = {isa = PBXFileReference; lastKnownFileType = text; path = demofile.ovpn; sourceTree = "<group>"; };
+		FABBB8D029042C8700595D95 /* VpnMapOverlayLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnMapOverlayLayerView.swift; sourceTree = "<group>"; };
 		FAC3CB462901355B0095F30E /* MapTooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTooltipView.swift; sourceTree = "<group>"; };
 		FADFCE7829006EEE00219BB0 /* BlinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingView.swift; sourceTree = "<group>"; };
 		FAEE1BF928FF1A830044B5CD /* TimerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerFactory.swift; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 				9E3756BB28E6DB6500E95C64 /* VpnMapPointView.swift */,
 				9E3756BC28E6DB6500E95C64 /* VpnMapPointLayerView.swift */,
 				9E3756BD28E6DB6500E95C64 /* PinZoomView.swift */,
+				FABBB8D029042C8700595D95 /* VpnMapOverlayLayerView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1506,6 +1509,7 @@
 				FAA35BCF28FD41CB00205ECD /* IPCFactory.swift in Sources */,
 				B99DB43228E5896900331AFB /* SplashViewModel.swift in Sources */,
 				B9D7F70E28D21421008B1D39 /* HomeView.swift in Sources */,
+				FABBB8D129042C8700595D95 /* VpnMapOverlayLayerView.swift in Sources */,
 				AC09D7A228BF0FEE0078E928 /* APIService.swift in Sources */,
 				AC09D79928BE0F340078E928 /* XCAssets+Generated.swift in Sources */,
 				FAA35BB928FD41CB00205ECD /* AppStateManagement.swift in Sources */,

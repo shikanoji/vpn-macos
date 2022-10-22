@@ -10,7 +10,7 @@ import SwiftUI
 import Kingfisher
 
 struct HomeConnectionButtonView : View {
-    @StateObject var appState: GlobalAppStates = GlobalAppStates.shared
+    @EnvironmentObject var appState: GlobalAppStates
     var onTap: ( () -> Void)?
    @State var displayAppState: AppDisplayState = .disconnected
    @State var lastAppState: AppDisplayState = .disconnected
