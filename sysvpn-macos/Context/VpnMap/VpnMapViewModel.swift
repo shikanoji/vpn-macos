@@ -221,7 +221,12 @@ extension INodeInfo {
         if let country = self as? CountryAvailables {
             return  NodePoint(point: CGPoint(x: NodePoint.convertX (country.x), y: NodePoint.convertY(country.y) ), info: country, locationDescription: content)
         } else  if let city = self as? CountryCity {
-            return  NodePoint(point: CGPoint(x: NodePoint.convertX (city.x?.double), y: NodePoint.convertY(city.y?.double) ), info: city, locationDescription: content)
+            let l1Point = CGPoint(x: NodePoint.convertX (city.x?.double), y: NodePoint.convertY(city.y?.double) )
+            var l2Point:CGPoint? = nil
+            if let country = city.country {
+                l2Point = CGPoint(x: NodePoint.convertX (country.x), y: NodePoint.convertY(country.y) )
+            } 
+            return  NodePoint(point: l1Point, info: city, locationDescription: content, l2Point: l2Point)
         } else  if let staticServer = self as? CountryStaticServers {
             return  NodePoint(point: CGPoint(x: NodePoint.convertX (staticServer.x), y: NodePoint.convertY(staticServer.y) ), info: staticServer, locationDescription: content)
         }

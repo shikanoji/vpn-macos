@@ -49,7 +49,8 @@ struct VpnMapView: View {
                     } else {
                         appState.hoverNode = nil
                     }
-                }
+                },
+                isShowCity: isShowCity
             )
             .scaledToFit()
             .clipShape(Rectangle())
@@ -58,7 +59,9 @@ struct VpnMapView: View {
                                    overlayLayer: VpnMapOverlayLayer(
                                     scaleVector: scaleVector * proxy.size.height / baseHeight  * rescaleView, scaleValue: scale,
                                     rescaleView: rescaleView,
-                                    nodePoint: selectedNode) ))
+                                    nodePoint: selectedNode,
+                                    isShowCity: isShowCity
+                                   ) ))
       
         .simultaneousGesture(TapGesture().onEnded {
             if appState.displayState == .disconnected {
@@ -67,12 +70,11 @@ struct VpnMapView: View {
         })
         .clipped()
         .onChange(of: scale) { newValue in
-            if appState.displayState == .disconnected {
-               // selectedNode = nil
-                isShowCity =  scale > 1.5
-            }
+            isShowCity =  scale > 1.5
         }.onChange(of: isShowCity, perform: { newValue in
-            selectedNode = nil
+            if appState.displayState != .connected {
+                selectedNode = nil
+            }
         }).onChange(of: selectedNode, perform: { newValue in
             appState.selectedNode = newValue?.info
             updateCameraPosition = newValue?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
@@ -112,6 +114,7 @@ struct LoopMapView: View {
     var nodeList: [NodePoint]
     var onTouchPoint: ((NodePoint) -> Void)?
     var onHoverNode: ((NodePoint, Bool) -> Void)?
+    var isShowCity: Bool = false
     var mapLayer1: some View {
         Asset.Assets.mapLayer1.swiftUIImage.resizable()
             .frame(width: size.width * scale, height: size.height * scale)
@@ -123,7 +126,8 @@ struct LoopMapView: View {
             connectPoints: connectPoints, nodeList: nodeList,
             scaleVector: scaleVector,
             onTouchPoint: onTouchPoint,
-            onHoverNode: onHoverNode
+            onHoverNode: onHoverNode,
+            isShowCity: isShowCity
         )
         .frame(width: size.width * scale, height: size.height * scale)
     }

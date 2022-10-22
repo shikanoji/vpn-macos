@@ -24,7 +24,7 @@ final class APIServiceManager: BaseServiceManager<APIService> {
      
  
     func onLogin(email: String, password: String) -> Single<AuthResult> {
-        return request(.login(email: email, password: password)).handleApiResponseCodable(type: AuthResult.self) 
+        return requestIPC(.login(email: email, password: password)).handleApiResponseCodable(type: AuthResult.self) 
     }
     
     func getAppSetting() -> Single<AppSettingResult> {
@@ -32,15 +32,15 @@ final class APIServiceManager: BaseServiceManager<APIService> {
     }
     
     func getAppSettingFirstOpen() -> Single<AppSettingResult> {
-        return request(.getAppSettings).handleApiResponseCodable(type: AppSettingResult.self)
+        return requestIPC(.getAppSettings).handleApiResponseCodable(type: AppSettingResult.self)
     }
     
     func getListCountry()  -> Single<CountryResult> {
-        return request(.getListCountry).handleApiResponseCodable(type: CountryResult.self)
+        return requestIPC(.getListCountry).handleApiResponseCodable(type: CountryResult.self)
     }
     
     func onLogout() -> Single<Bool> {
-        return request(.logout).handleEmptyResponse() 
+        return requestIPC(.logout).handleEmptyResponse()
     }
     
     func onRequestCert(param: VpnParamRequest) -> Single<VPNResult> {
@@ -48,7 +48,7 @@ final class APIServiceManager: BaseServiceManager<APIService> {
     }
     
     func onDisconnect() -> Single<Bool>{
-        return request(.disconnectSession(sectionId: "", disconnectedBy: "")).handleEmptyResponse()
+        return requestIPC(.disconnectSession(sectionId: "", disconnectedBy: "")).handleEmptyResponse()
     }
     
     func getStartServer() -> Single<ServerStateResult>{

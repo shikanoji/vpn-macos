@@ -16,6 +16,7 @@ struct VpnMapPointLayerView: View {
     var scaleVector: CGFloat = 1
     var onTouchPoint: ((NodePoint) -> Void)?
     var onHoverNode: ((NodePoint, Bool) -> Void)?
+    var isShowCity: Bool = false
     let lineGradient = Gradient(colors: [
         Asset.Colors.secondary.swiftUIColor,
         Asset.Colors.primaryColor.swiftUIColor
@@ -56,18 +57,30 @@ struct VpnMapPointLayerView: View {
                     
             }
             
-            if normalState == .disabled, let connectedNodeInfo = connectedNodeInfo, let node = connectedNodeInfo.toNodePoint() {
+            if normalState == .disabled, let connectedNodeInfo = connectedNodeInfo, let node = connectedNodeInfo.toNodePoint(), let nodePos = computNodePointPos(node: node) {
+              
+                
                 VpnMapPointView(state:  .activated,
                                 locationIndex: node.info.localtionIndex,
                                 onHoverNode: { hover in
                     onHoverNode?(node, hover)
                 }
-                ).position(x: scalePoint(node.point).x, y: scalePoint(node.point).y)
-                    .onTapGesture { 
+                ).position(x: nodePos.x, y: nodePos.y)
+                    .onTapGesture {
                         onTouchPoint?(node)
                 }
             }
         }
+    }
+    
+    func computNodePointPos(node: NodePoint) -> CGPoint {
+        var point: CGPoint = scalePoint(node.point)
+        if !isShowCity {
+            if let l2Point = node.l2Point {
+                point = scalePoint(l2Point)
+            }
+        }
+        return point
     }
 }
 

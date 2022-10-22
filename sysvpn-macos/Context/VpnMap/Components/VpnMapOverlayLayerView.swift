@@ -13,6 +13,7 @@ struct VpnMapOverlayLayer: ViewModifier {
     var scaleValue: CGFloat
     var rescaleView: CGFloat
     var nodePoint: NodePoint?
+    var isShowCity: Bool = false
     
     @EnvironmentObject var appState: GlobalAppStates
     
@@ -103,17 +104,30 @@ struct VpnMapOverlayLayer: ViewModifier {
         }
         .onChange(of: scaleVector) { newValue in
             updateLocation(nodePoint: nodePoint, vector: newValue)
+        }.onChange(of: isShowCity) { newValue in
+            updateLocation(nodePoint: nodePoint, vector: scaleVector,isShowCity: newValue)
         }
     }
     
-    func updateLocation(nodePoint: NodePoint?, scale: Double? = nil, vector: Double? = nil) {
-        if nodePoint == nil {
+    func updateLocation(nodePoint: NodePoint?, scale: Double? = nil, vector: Double? = nil, isShowCity: Bool? = nil) {
+        guard let node = nodePoint else {
             return
         }
+        let point = computNodePointPos(node: node, isShowCity: isShowCity ?? self.isShowCity)
         let scaleVector = vector ?? self.scaleVector
         let scaleValue = scale ?? self.scaleValue
-        tooltipNodeX =  (nodePoint?.point.x ?? 0) * scaleVector * scaleValue / rescaleView
-        tooltipNodeY = ((nodePoint?.point.y ?? 0) + 10) * scaleVector * scaleValue / rescaleView
+        tooltipNodeX =  point.x * scaleVector * scaleValue / rescaleView
+        tooltipNodeY = (point.y + 10) * scaleVector * scaleValue / rescaleView
+    }
+    
+    func computNodePointPos(node: NodePoint, isShowCity: Bool) -> CGPoint {
+        var point: CGPoint = node.point
+        if !isShowCity {
+            if let l2Point = node.l2Point {
+                point = l2Point
+            }
+        }
+        return point
     }
 }
 

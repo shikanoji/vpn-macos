@@ -34,10 +34,12 @@ extension INodeInfo {
 
 struct NodePoint :  Equatable {
     var point: CGPoint
+    var l2Point: CGPoint?
     var info: INodeInfo
     var locationDescription: String?
-    init(point: CGPoint, info: INodeInfo, locationDescription: String? = nil) {
+    init(point: CGPoint, info: INodeInfo, locationDescription: String? = nil, l2Point: CGPoint? = nil) {
         self.point = point
+        self.l2Point = l2Point
         self.info = info
         self.locationDescription = locationDescription
     }
