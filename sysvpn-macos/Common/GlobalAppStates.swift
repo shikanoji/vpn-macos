@@ -15,4 +15,5 @@ class GlobalAppStates: ObservableObject {
     @Published var connectedNode: INodeInfo? = nil
     @Published var selectedNode:  INodeInfo? = nil
     @Published var hoverNode: NodePoint? = nil
+    @Published var serverInfo: VPNServer? = nil
 }

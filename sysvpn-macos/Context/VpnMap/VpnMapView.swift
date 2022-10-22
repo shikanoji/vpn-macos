@@ -21,12 +21,14 @@ struct VpnMapView: View {
     @State  var isShowCity = false
     @State var selectedNode: NodePoint? = nil
     var connectPoints: [ConnectPoint] = [  ]
+    @State  var updateCameraPosition: CGPoint? = .zero;
     
     
     
     var body: some View {
         GeometryReader { proxy in
             LoopMapView(
+                connectedNodeInfo: appState.connectedNode,
                 size: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height),
                 scale: rescaleView,
                 loop: numberImage,
@@ -54,16 +56,18 @@ struct VpnMapView: View {
             .scaledToFit()
             .clipShape(Rectangle())
             .modifier(ZoomModifier(contentSize: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height), screenSize: proxy.size, numberImage: numberImage, currentScale: $scale,
+                                   cameraPosition: $updateCameraPosition,
                                    overlayLayer: VpnMapOverlayLayer(
                                     scaleVector: scaleVector * proxy.size.height / baseHeight  * rescaleView, scaleValue: scale,
                                     rescaleView: rescaleView,
                                     nodePoint: selectedNode) ))
-        }
+      
         .simultaneousGesture(TapGesture().onEnded {
             if appState.displayState == .disconnected {
                 selectedNode = nil
             }
         })
+        .clipped()
         .onChange(of: scale) { newValue in
             if appState.displayState == .disconnected {
                // selectedNode = nil
@@ -73,25 +77,34 @@ struct VpnMapView: View {
             selectedNode = nil
         }).onChange(of: selectedNode, perform: { newValue in
             appState.selectedNode = newValue?.info
+            updateCameraPosition = newValue?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
+        })
+        .onChange(of: appState.displayState, perform: { newValue in
+            if appState.displayState == .connected  || appState.displayState == .connecting {
+                if appState.connectedNode != nil {
+                    selectedNode = appState.connectedNode?.toNodePoint(appState.serverInfo?.ipAddress)
+                } else {
+                    selectedNode = nil
+                }
+            }else {
+                selectedNode = nil
+            }
         })
         .onChange(of: viewModel.isLoaded, perform: { newValue in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 if let node =  appState.connectedNode,  appState.displayState == .connected {
-                    if let country = node as? CountryAvailables {
-                        self.selectedNode = NodePoint(point: CGPoint(x: NodePoint.convertX (country.x), y: NodePoint.convertY(country.y) ), info: country)
-                    } else  if let city = node as? CountryCity {
-                        self.selectedNode = NodePoint(point: CGPoint(x: NodePoint.convertX (city.x?.double), y: NodePoint.convertY(city.y?.double) ), info: city)
-                    }
+                    self.selectedNode = node.toNodePoint(appState.serverInfo?.ipAddress)
                 }
             }
         })
-        .clipped()
         
         
+    }
     }
 }
 
 struct LoopMapView: View {
+    var connectedNodeInfo : INodeInfo?
     var size: CGSize
     var scale: CGFloat = 1.5
     var loop: Int
@@ -107,6 +120,7 @@ struct LoopMapView: View {
     
     var pointLayer: some View {
         VpnMapPointLayerView(
+            connectedNodeInfo: connectedNodeInfo,
             connectPoints: connectPoints, nodeList: nodeList,
             scaleVector: scaleVector,
             onTouchPoint: onTouchPoint,
@@ -151,6 +165,10 @@ struct VpnMapOverlayLayer: ViewModifier {
         return (nodePoint?.info.locationDescription ?? "") + tooltipNodeName
     }
     
+    var localDescription: String? {
+        return nodePoint?.locationDescription
+    }
+    
     
     var tooltipInfo : some View {
         Spacer()
@@ -171,8 +189,8 @@ struct VpnMapOverlayLayer: ViewModifier {
                             VStack(alignment: .leading) {
                                 Text(tooltipNodeName).foregroundColor(Color.black)
                                     .font(Font.system(size: 14, weight: .medium))
-                                if nodePoint?.info.locationDescription != nil {
-                                    Text(tooltipNodeName).foregroundColor(Color.black)
+                                if localDescription != nil {
+                                    Text(localDescription ?? "").foregroundColor(Color.black)
                                         .font(Font.system(size: 13, weight: .regular))
                                 }
                                 
@@ -209,7 +227,7 @@ struct VpnMapOverlayLayer: ViewModifier {
             }
         }.onChange(of: nodePoint) { newValue in
             if nodePoint == nil {
-                updateLocation(nodePoint: newValue)
+                self.updateLocation(nodePoint: newValue)
             }
             else {
                 withAnimation {
@@ -226,6 +244,9 @@ struct VpnMapOverlayLayer: ViewModifier {
     }
     
     func updateLocation(nodePoint: NodePoint?, scale: Double? = nil, vector: Double? = nil) {
+        if nodePoint == nil {
+            return
+        }
         let scaleVector = vector ?? self.scaleVector
         let scaleValue = scale ?? self.scaleValue
         tooltipNodeX =  (nodePoint?.point.x ?? 0) * scaleVector * scaleValue / rescaleView
@@ -237,5 +258,11 @@ struct VpnMapView_Previews: PreviewProvider {
     @State static var value: CGFloat = 1
     static var previews: some View {
         VpnMapView(scale: $value)
+    }
+}
+
+extension CGPoint {
+    func toScalePoint(scaleVector: Double) -> CGPoint {
+        return CGPoint(x: x * scaleVector  , y: y * scaleVector )
     }
 }

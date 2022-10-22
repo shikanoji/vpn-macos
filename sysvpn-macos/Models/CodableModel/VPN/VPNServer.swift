@@ -22,6 +22,9 @@ struct VPNServer: Codable {
   var id: Int?
 
 
+    init() {
+        
+    }
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)

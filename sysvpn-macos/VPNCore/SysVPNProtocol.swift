@@ -114,6 +114,7 @@ struct ConnectionConfiguration : Codable  {
     var connectionDetermine: PrepareConnecitonStringResult
     var connectionParam: SysVPNConnectParams?
     var vpnProtocol: VpnProtocol
+    var serverInfo: VPNServer
 }
  
 protocol SysVpnService {

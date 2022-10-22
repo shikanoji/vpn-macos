@@ -74,7 +74,7 @@ class SysVPNCore : SysVPNGatewayProtocol {
                     self?.disconnect()
                 }
             case .success(let result):
-                let connectionConfig = ConnectionConfiguration(connectionDetermine: result, connectionParam: request.params, vpnProtocol: result.vpnProtocol)
+                let connectionConfig = ConnectionConfiguration(connectionDetermine: result, connectionParam: request.params, vpnProtocol: result.vpnProtocol, serverInfo: result.serverInfo )
                 self.lastConnectionConiguration = connectionConfig
                 print("[VPN-Core] request determine vpn config success")
                 DispatchQueue.main.async { [weak self] in

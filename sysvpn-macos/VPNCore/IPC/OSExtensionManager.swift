@@ -80,6 +80,7 @@ extension OSExtensionManager: OSSystemExtensionRequestDelegate {
 
             return
         }
+        IPCFactory.makeIPCService(proto: .openVPN).checkConnect()
     }
 
     func request(_ request: OSSystemExtensionRequest, didFailWithError error: Error) {

@@ -167,6 +167,7 @@
 		FAFAAE4329028131006A69E3 /* WireGuardAppExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FAFAAE3A29028131006A69E3 /* WireGuardAppExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FAFAAE48290281BC006A69E3 /* TunnelKitOpenVPNAppExtension in Frameworks */ = {isa = PBXBuildFile; productRef = FAFAAE47290281BC006A69E3 /* TunnelKitOpenVPNAppExtension */; };
 		FAFAAE4A290281C1006A69E3 /* TunnelKitWireGuardAppExtension in Frameworks */ = {isa = PBXBuildFile; productRef = FAFAAE49290281C1006A69E3 /* TunnelKitWireGuardAppExtension */; };
+		FAFAAE4D2902962A006A69E3 /* HomeConnectionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFAAE4C2902962A006A69E3 /* HomeConnectionButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -403,6 +404,7 @@
 		FAFAAE3D29028131006A69E3 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
 		FAFAAE3F29028131006A69E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAFAAE4029028131006A69E3 /* WireGuardAppExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WireGuardAppExtension.entitlements; sourceTree = "<group>"; };
+		FAFAAE4C2902962A006A69E3 /* HomeConnectionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeConnectionButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -493,11 +495,9 @@
 		9E3756BA28E6DB6500E95C64 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				FADFCE7829006EEE00219BB0 /* BlinkingView.swift */,
 				9E3756BB28E6DB6500E95C64 /* VpnMapPointView.swift */,
 				9E3756BC28E6DB6500E95C64 /* VpnMapPointLayerView.swift */,
 				9E3756BD28E6DB6500E95C64 /* PinZoomView.swift */,
-				FAC3CB462901355B0095F30E /* MapTooltipView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -531,6 +531,7 @@
 				9E668DFB28E8A9E2009CDC95 /* HomeChartViews.swift */,
 				9E668DFF28E8B30A009CDC95 /* HomeAlertConnectionView.swift */,
 				9E668E0128E8BC62009CDC95 /* CountryItemView.swift */,
+				FAFAAE4C2902962A006A69E3 /* HomeConnectionButtonView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -676,6 +677,7 @@
 		AC09D79B28BE10660078E928 /* Context */ = {
 			isa = PBXGroup;
 			children = (
+				FAFAAE4B29029544006A69E3 /* SharedView */,
 				9E3756B728E6DB6500E95C64 /* VpnMap */,
 				B99DB43328E594F200331AFB /* MenuQuickAccess */,
 				B99DB42E28E5861A00331AFB /* Splash */,
@@ -1045,6 +1047,15 @@
 				FAFAAE4029028131006A69E3 /* WireGuardAppExtension.entitlements */,
 			);
 			path = WireGuardAppExtension;
+			sourceTree = "<group>";
+		};
+		FAFAAE4B29029544006A69E3 /* SharedView */ = {
+			isa = PBXGroup;
+			children = (
+				FADFCE7829006EEE00219BB0 /* BlinkingView.swift */,
+				FAC3CB462901355B0095F30E /* MapTooltipView.swift */,
+			);
+			path = SharedView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1457,6 +1468,7 @@
 				FAA35BC128FD41CB00205ECD /* SysVPNState.swift in Sources */,
 				FAA35BC328FD41CB00205ECD /* SysVPNCredential.swift in Sources */,
 				AC09D79E28BE12480078E928 /* BaseServiceManager.swift in Sources */,
+				FAFAAE4D2902962A006A69E3 /* HomeConnectionButtonView.swift in Sources */,
 				B9B3704A28FE4FE70022498B /* BaseCodable.swift in Sources */,
 				9EB62F8828E8033600351D98 /* HomeViewModel.swift in Sources */,
 				B9B3705128FE4FE70022498B /* AppSettingResult.swift in Sources */,

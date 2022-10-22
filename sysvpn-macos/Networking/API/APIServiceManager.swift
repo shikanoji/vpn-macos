@@ -28,7 +28,7 @@ final class APIServiceManager: BaseServiceManager<APIService> {
     }
     
     func getAppSetting() -> Single<AppSettingResult> {
-        return request(.getAppSettings).handleApiResponseCodable(type: AppSettingResult.self)
+        return requestIPC(.getAppSettings).handleApiResponseCodable(type: AppSettingResult.self)
     }
     
     func getAppSettingFirstOpen() -> Single<AppSettingResult> {
@@ -44,7 +44,7 @@ final class APIServiceManager: BaseServiceManager<APIService> {
     }
     
     func onRequestCert(param: VpnParamRequest) -> Single<VPNResult> {
-        return request(.requestCert(vpnParam: param)).handleApiResponseCodable(type: VPNResult.self)
+        return requestIPC(.requestCert(vpnParam: param)).handleApiResponseCodable(type: VPNResult.self)
     }
     
     func onDisconnect() -> Single<Bool>{
@@ -52,7 +52,7 @@ final class APIServiceManager: BaseServiceManager<APIService> {
     }
     
     func getStartServer() -> Single<ServerStateResult>{
-        return request(.getStartServer).handleApiResponseCodable(type: ServerStateResult.self)
+        return requestIPC(.getStartServer).handleApiResponseCodable(type: ServerStateResult.self)
     }
     
     

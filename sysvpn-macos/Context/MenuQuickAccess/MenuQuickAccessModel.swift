@@ -37,6 +37,7 @@ extension MenuQuickAccessView {
         }
         
         func onQuit() {
+            AppDataManager.shared.accessToken = ""
             NSApp.terminate(nil)
         }
         

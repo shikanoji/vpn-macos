@@ -17,7 +17,7 @@ class XPCServiceUser {
     private var currentConnection: NSXPCConnection? {
         willSet {
             if newValue == nil {
-                currentConnection?.invalidate()
+              //  currentConnection?.invalidate()
             }
         }
     }
@@ -33,7 +33,14 @@ class XPCServiceUser {
     // MARK: - Private
 
     private var connection: NSXPCConnection {
+        if let currentConnection = currentConnection {
+            return currentConnection
+        }
         
+      return createConnection()
+    }
+    
+    private func createConnection() -> NSXPCConnection {
         let newConnection = NSXPCConnection(machServiceName: machServiceName, options: [])
 
         // The exported object is the delegate.
@@ -54,10 +61,11 @@ class XPCServiceUser {
 
 extension XPCServiceUser {
     
-    func getProviderProxy() -> ProviderCommunication? {
+    func getProviderProxy(retry: Bool = true) -> ProviderCommunication? {
         guard let providerProxy = connection.remoteObjectProxyWithErrorHandler({ registerError in
             self.log("Failed to get remote object proxy \(self.machServiceName): \(String(describing: registerError))")
             self.currentConnection = nil
+            _ = self.createConnection()
         }) as? ProviderCommunication else {
             self.log("Failed to create a remote object proxy for the provider: \(machServiceName)")
             return nil
@@ -109,6 +117,9 @@ extension XPCServiceUser {
                 let response = XPCHttpResponse(statusCode: requestStatusCode, data:data[HttpFieldName.data.rawValue] as? Data, error: requestError)
                 completion(response)
             })
+        } else {
+            let response = XPCHttpResponse(statusCode: -1, data: nil, error:  NSError(domain: MoyaIPCErrorDomain.unknownError, code: -1 ))
+            completion(response)
         }
     }
     

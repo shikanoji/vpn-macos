@@ -24,7 +24,7 @@ extension HomeView {
             }
             
             func getListCountry() {
-                let availableCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
+                
                 let recommendCountry = AppDataManager.shared.userCountry?.recommendedCountries ?? []
                 let recentCountry = AppDataManager.shared.userCountry?.recentCountries ?? []
                 if recentCountry.count  > 0 {
@@ -45,6 +45,12 @@ extension HomeView {
                     listCountry.append(HomeListCountryModel(type: .spacing))
                 }
                 
+                updateAvailableContry()
+            }
+            
+            func updateAvailableContry() {
+                listCountry = []
+                let availableCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
                 if availableCountry.count  > 0 {
                     listCountry.append(HomeListCountryModel(type: .header, title: "All countries"))
                     for item in availableCountry {
@@ -81,6 +87,10 @@ extension HomeView {
                     dataServer = listStaticServer
                 } else if selectedMenuItem == .manualConnection {
                     dataServer = listCountry
+                    if listCountry.isEmpty {
+                        updateAvailableContry()
+                        dataServer = listCountry
+                    }
                 } else if selectedMenuItem == .multiHop {
                     
                 }
@@ -104,11 +114,18 @@ extension HomeLeftPanelView {
         }
         
         func onTapConnect() {
-            let dj = DependencyContainer.shared 
-            DispatchQueue.main.async {
-                dj.vpnCore.quickConnect()
+            if GlobalAppStates.shared.displayState == .disconnected {
+                let dj = DependencyContainer.shared
+                DispatchQueue.main.async {
+                    dj.vpnCore.quickConnect()
+                } 
+            } else {
+                if GlobalAppStates.shared.displayState == .disconnecting {
+                    return
+                }
+                DependencyContainer.shared.vpnCore.disconnect()
             }
-            GlobalAppStates.shared.connectedNode =  GlobalAppStates.shared.selectedNode
+            
         }
         
        

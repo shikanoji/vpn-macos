@@ -195,9 +195,7 @@ class AppDataManager {
         }
         set {
             _userCountry = newValue
-            _userCountry?.saveListCountry()
-        
-        
+            _userCountry?.saveListCountry() 
         }
     }
     
@@ -216,4 +214,30 @@ class AppDataManager {
         _userCountry?.saveListCountry()
     }
     
+    
+    func getStaticNodeByServerInfo(server: VPNServer) -> INodeInfo? {
+        if let node = userCountry?.staticServers?.first(where: { sInfo in
+            return sInfo.serverId == server.id
+        }) {
+            return node
+        }
+        
+        return nil
+    }
+    func getNodeByServerInfo(server: VPNServer) -> INodeInfo? {
+       guard let country =  userCountry?.availableCountries?.first(where: { ct in
+            return ct.id == server.id
+       }) else {
+           return getStaticNodeByServerInfo(server: server)
+       }
+        
+        guard let city =  country.city?.first(where: { city in
+            return city.id == server.cityId
+        }) else {
+            return country
+        }
+        
+        return city
+    }
 }
+

@@ -20,16 +20,23 @@ struct ZoomModifier: ViewModifier {
     @State var isDrag = false
     @State private var offset = CGSize.zero
     @State private var lastOffset = CGSize.zero
- 
+    @Binding var cameraPosition: CGPoint?
+    
     var overlayLayer: VpnMapOverlayLayer
     
-    init(contentSize: CGSize, screenSize: CGSize, numberImage: Int = 3, currentScale: Binding<CGFloat>, overlayLayer: VpnMapOverlayLayer) {
+    init(contentSize: CGSize, screenSize: CGSize, numberImage: Int = 3, currentScale: Binding<CGFloat>, cameraPosition: Binding<CGPoint?>, overlayLayer: VpnMapOverlayLayer) {
         self.contentSize = contentSize
         self.numberImage = CGFloat(numberImage)
         self.screenSize = screenSize
         self.overlayLayer = overlayLayer
+        
         _currentScale = currentScale
+        _cameraPosition = cameraPosition
+        
+        
         self.lastScaleValue = currentScale.wrappedValue
+       // self.cameraPosition = cameraPosition.wrappedValue
+        
     }
     
     func calcOffset(newOffset: CGSize, skipCheckPosition: Bool = false) {
@@ -76,28 +83,39 @@ struct ZoomModifier: ViewModifier {
      
     func body(content: Content) -> some View {
         ScrollView([.horizontal, .vertical], showsIndicators: false) {
-            content
-                .frame(width: contentSize.width * currentScale * numberImage, height: contentSize.height * currentScale, alignment: .center)
-                .modifier(PinchToZoom(minScale: min, maxScale: max, scale: $currentScale))
-                .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
-                                
-                    .onChanged { val in
-                        if isDrag == false {
-                            lastOffset = offset
+            ScrollViewReader { scrollProxy in
+                content
+                    .frame(width: contentSize.width * currentScale * numberImage, height: contentSize.height * currentScale, alignment: .center)
+                    .modifier(PinchToZoom(minScale: min, maxScale: max, scale: $currentScale))
+                    .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
+                             
+                        .onChanged { val in
+                            if isDrag == false {
+                                lastOffset = offset
+                            }
+                            isDrag = true
+                            offset.width = lastOffset.width + val.translation.width
+                            offset.height = lastOffset.height + val.translation.height
+                            calcOffset(newOffset: offset)
                         }
-                        isDrag = true
-                        offset.width = lastOffset.width + val.translation.width
-                        offset.height = lastOffset.height + val.translation.height
-                        calcOffset(newOffset: offset)
+                        .onEnded { _ in
+                            isDrag = false
+                        }
+                    ).modifier(overlayLayer)
+                    .onChange(of: currentScale) { newValue in
+                        
+                        onScaleCalcOffset(value: newValue)
+                    }.onChange(of: cameraPosition) { newValue in
+                        guard let value = newValue else {
+                            return
+                        }
+                        withAnimation {
+                            offset.width =  screenSize.width / 2 -  value.x * currentScale
+                            offset.height =  screenSize.height / 2 -  value.y  * currentScale 
+                            calcOffset(newOffset: offset)
+                        }
                     }
-                    .onEnded { _ in
-                        isDrag = false
-                    }
-                ).modifier(overlayLayer)
-                .onChange(of: currentScale) { newValue in
-                   
-                    onScaleCalcOffset(value: newValue)
-                }
+            }
                 
         }.content.offset(offset)
             .onAppear {

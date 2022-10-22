@@ -7,9 +7,17 @@
 //
 
 import Foundation
+import os.log
 
 class IPCNetworkExtension: XPCBaseService {
-    lazy var httpService = IPCHttpServiceService.init(session: URLSession.shared)
+    lazy var urlConfiguration = {
+        let urlconfig = URLSessionConfiguration.default
+        urlconfig.timeoutIntervalForRequest = 10
+        urlconfig.timeoutIntervalForResource = 10
+        return urlconfig
+    }()
+    
+    lazy var httpService = IPCHttpServiceService.init(session: URLSession(configuration: urlConfiguration))
     
     override func getLogs(_ completionHandler: @escaping (Data?) -> Void) {
         completionHandler("ok".data(using: .utf8))
@@ -37,6 +45,8 @@ class IPCNetworkExtension: XPCBaseService {
          
         Task {
             do {
+               // os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "start request")
+
                 let response = try await httpService.performRequest(urlRequest: finalRequest)
                 if let data = response {
                     completionHandler([
@@ -48,14 +58,17 @@ class IPCNetworkExtension: XPCBaseService {
                         HttpFieldName.statusCode.rawValue: 200 as NSObject
                     ])
                 }
-                
+                os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default,"success")
+
             } catch let e {
-                let error = e as NSError 
-                completionHandler([
-                    HttpFieldName.statusCode.rawValue: error.code as NSObject,
-                    HttpFieldName.error.rawValue: error.domain as NSObject,
-                ])
-                
+                os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, e.localizedDescription)
+
+                if let error = e as? NSError  {
+                    completionHandler([
+                        HttpFieldName.statusCode.rawValue: error.code as NSObject,
+                        HttpFieldName.error.rawValue: error.domain as NSObject,
+                    ])
+                }
             } 
         }
     }

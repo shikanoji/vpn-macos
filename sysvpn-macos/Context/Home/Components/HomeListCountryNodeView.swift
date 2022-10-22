@@ -11,6 +11,7 @@ struct HomeListCountryNodeView : View {
     @Binding var selectedItem: HomeMenuItem 
     @Binding var countries: [HomeListCountryModel]
     var body: some View {
+        
         VStack(alignment: .leading) { 
             List(countries) {  item in
                 switch item.type {

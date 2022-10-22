@@ -28,7 +28,7 @@ class AppVpnService: SysVPNService {
         
         switch connectType {
         case .quick:
-            vpnParam.serverId = 14
+            vpnParam.serverId = 29
         case let .serverId(id):
             vpnParam.serverId = id
         case let .countryId(id):
@@ -43,7 +43,7 @@ class AppVpnService: SysVPNService {
             switch event {
                 case let .success(response):
                     let strConfig = response.parseVpnConfig()
-                    let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech)
+                let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech, serverInfo: response.server ?? VPNServer() )
                     callback?(.success(result))
                 case let .failure(e):
                     print("[ERROR]: \(e)")

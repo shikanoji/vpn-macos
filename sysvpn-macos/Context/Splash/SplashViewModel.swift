@@ -31,6 +31,7 @@ extension SplashView {
               
                if AppDataManager.shared.isLogin {
                    self.loadCountry()
+                   OpenWindows.MainView.open()
                } else {
                    OpenWindows.LoginView.open()
                }
@@ -54,7 +55,6 @@ extension SplashView {
                 switch result {
                 case let .success(response):
                     AppDataManager.shared.userCountry = response
-                    OpenWindows.MainView.open()
                 case .failure(_):
                     break
                 }

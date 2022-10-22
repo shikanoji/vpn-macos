@@ -10,8 +10,9 @@ import SwiftUI
 import SwiftUITooltip
 
 struct VpnMapPointLayerView: View {
+    var connectedNodeInfo: INodeInfo?
     var connectPoints: [ConnectPoint]
-    var nodeList: [NodePoint]
+    var nodeList: [NodePoint] 
     var scaleVector: CGFloat = 1
     var onTouchPoint: ((NodePoint) -> Void)?
     var onHoverNode: ((NodePoint, Bool) -> Void)?
@@ -24,6 +25,14 @@ struct VpnMapPointLayerView: View {
         return CGPoint(x: point.x * scaleVector, y: point.y * scaleVector)
     }
     
+    var normalState: VpnMapPontState {
+        if GlobalAppStates.shared.displayState == .connected || GlobalAppStates.shared.displayState == .connecting {
+            return .disabled
+        }
+        return .normal
+    }
+    
+    
     var body: some View {
         ZStack(alignment: .topLeading) {
             Canvas { context, _ in
@@ -32,9 +41,9 @@ struct VpnMapPointLayerView: View {
                 }
             }
             
+            
             ForEach(0..<nodeList.count, id: \.self) { index in
-                VpnMapPointView(state: nodeList[index].info.state,
-                                 
+                VpnMapPointView(state: normalState,
                                 locationIndex: nodeList[index].info.localtionIndex,
                                 onHoverNode: { hover in
                     onHoverNode?(nodeList[index], hover)
@@ -42,8 +51,21 @@ struct VpnMapPointLayerView: View {
                 ).position(x: scalePoint(nodeList[index].point).x, y: scalePoint(nodeList[index].point).y)
                     .onTapGesture {
                         onTouchPoint?(nodeList[index])
+                        print("location: \( scalePoint(nodeList[index].point).x )")
                     }
                     
+            }
+            
+            if normalState == .disabled, let connectedNodeInfo = connectedNodeInfo, let node = connectedNodeInfo.toNodePoint() {
+                VpnMapPointView(state:  .activated,
+                                locationIndex: node.info.localtionIndex,
+                                onHoverNode: { hover in
+                    onHoverNode?(node, hover)
+                }
+                ).position(x: scalePoint(node.point).x, y: scalePoint(node.point).y)
+                    .onTapGesture { 
+                        onTouchPoint?(node)
+                }
             }
         }
     }

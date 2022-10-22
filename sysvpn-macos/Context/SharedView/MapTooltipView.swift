@@ -210,6 +210,7 @@ struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
                         RoundedRectangle(cornerRadius: config.borderRadius)
                             .foregroundColor(config.backgroundColor)
                     )
+                    
                     .mask(self.arrowCutoutMask)
                 
                 ZStack {
@@ -228,7 +229,7 @@ struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
             //.animation(self.animation)
             .zIndex(config.zIndex)
             .onAppear {
-                self.dispatchAnimation()
+             //   self.dispatchAnimation()
             }
         }
     }
@@ -237,6 +238,6 @@ struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .overlay(enabled ? tooltipBody.transition(config.transition) : nil)
+            .overlay(tooltipBody.transition(config.transition).opacity(enabled ? 1 : 0))
     }
 }

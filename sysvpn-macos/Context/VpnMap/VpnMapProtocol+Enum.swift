@@ -35,9 +35,11 @@ extension INodeInfo {
 struct NodePoint :  Equatable {
     var point: CGPoint
     var info: INodeInfo
-    init(point: CGPoint, info: INodeInfo) {
+    var locationDescription: String?
+    init(point: CGPoint, info: INodeInfo, locationDescription: String? = nil) {
         self.point = point
         self.info = info
+        self.locationDescription = locationDescription
     }
     
     public static func ==(lhs: Self, rhs: Self) -> Bool {

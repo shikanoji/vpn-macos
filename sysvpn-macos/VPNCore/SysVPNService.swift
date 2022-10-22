@@ -19,6 +19,7 @@ struct PrepareConnecitonStringResult : Codable  {
     var connectionString: String
     var vpnProtocol: VpnProtocol
     var disconnectParam: DisconnectVPNParams?
+    var serverInfo: VPNServer
 }
 
 protocol SysVPNServiceFactory {
@@ -34,7 +35,7 @@ protocol SysVPNService {
 class MockVPNService : SysVPNService {
     func prepareConection(connectType: ConnectionType, params: SysVPNConnectParams?, callback: SysVPNPrepareConnecitonStringCallback?) {
          
-        let result = PrepareConnecitonStringResult(connectionString: MockVPNService.getText() , vpnProtocol: .openVpn(.udp) )
+        let result = PrepareConnecitonStringResult(connectionString: MockVPNService.getText() , vpnProtocol: .openVpn(.udp), serverInfo: VPNServer() )
         
         callback?(.success(result))
     }

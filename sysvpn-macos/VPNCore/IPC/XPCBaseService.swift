@@ -87,7 +87,7 @@ extension XPCBaseService: NSXPCListenerDelegate {
         }
 
         if self.currentConnection != nil {
-            self.currentConnection?.invalidate()
+           // self.currentConnection?.invalidate()
             self.currentConnection = nil
         }
 

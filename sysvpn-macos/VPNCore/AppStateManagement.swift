@@ -269,6 +269,7 @@ class SysVpnAppStateManagement : AppStateManagement {
                 state = .preparingConnection
                 return
             } else {
+                updateUIDisconnectedInfo()
                 state = .disconnected
             }
         case .connecting(let descriptor):
@@ -280,9 +281,10 @@ class SysVpnAppStateManagement : AppStateManagement {
             if let alertService = alertService {
                 serviceChecker = ServiceChecker(networking: networking, alertService: alertService, doh: doh)
             }*/
-            
+            updateUIConnectedInfo()
             attemptingConnection = false
             state = .connected(descriptor)
+           
             cancelTimeout()
         case .reasserting:
             return // usually this step is quick
@@ -308,6 +310,17 @@ class SysVpnAppStateManagement : AppStateManagement {
         notifyObservers()
     }
     
+    private func updateUIConnectedInfo() {
+        guard let lastConfig = lastAttemptedConfiguration else {
+            return
+        }
+        GlobalAppStates.shared.serverInfo =  lastConfig.serverInfo;
+        GlobalAppStates.shared.connectedNode = AppDataManager.shared.getNodeByServerInfo(server: lastConfig.serverInfo)
+    }
+    
+    private func updateUIDisconnectedInfo() {
+        GlobalAppStates.shared.connectedNode = nil
+    }
     @objc private func vpnStateChanged() {
       
         let newState = vpnManager.state

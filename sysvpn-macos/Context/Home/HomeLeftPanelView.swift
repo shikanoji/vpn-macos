@@ -20,14 +20,12 @@ struct HomeLeftPanelView: View {
     var iconSize: CGFloat = 32
     var quickConnectButton: some View {
         VStack {
-            Text("Quick Connect")
-            Spacer().frame( height: 20)
-            Asset.Assets.icPower.swiftUIImage.resizable().frame(width: 100, height: 100)
-                .onTapGesture {
-                    viewModel.onTapConnect()
-                }
+            HomeConnectionButtonView {
+                viewModel.onTapConnect()
+            }
         }
         .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.horizontal,30)
         
     }
     
@@ -137,7 +135,7 @@ struct HomeLeftPanelView: View {
             settingSection
             Spacer().frame(height: 20)
             Divider().padding([.leading, .trailing], 20)
-            footerSection
+          //  footerSection
         }.background {
             ZStack {
                 Rectangle().foregroundColor(Asset.Colors.backgroundColor.swiftUIColor)

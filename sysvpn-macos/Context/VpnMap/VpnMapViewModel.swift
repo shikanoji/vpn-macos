@@ -81,7 +81,51 @@ extension NodePoint {
     }
 }
 
-extension CountryCity : INodeInfo  {
+extension CountryStaticServers: INodeInfo, Equatable {
+    static func == (lhs: CountryStaticServers, rhs: CountryStaticServers) -> Bool {
+        return CountryStaticServers.equal(lhs: lhs, rhs: rhs)
+    }
+    var state: VpnMapPontState {
+        if GlobalAppStates.shared.displayState == .connected {
+            if let connectedNode = GlobalAppStates.shared.connectedNode {
+                if CountryAvailables.equal(lhs: connectedNode, rhs: self)  {
+                    return .activated
+                }
+            }
+            return .disabled
+        }
+        return .normal
+    }
+    
+    var localtionIndex: Int? {
+        return nil
+    }
+    
+    var locationName: String {
+        return self.countryName ?? ""
+    }
+    
+    var image: Kingfisher.KFImage? {
+        guard let flagUrl = self.flag,  let url = URL(string: flagUrl ) else {
+            return nil
+        }
+        return  KFImage.url(url).placeholder { progress in
+            ProgressView().progressViewStyle(CircularProgressViewStyle())
+
+        }
+    }
+    
+    var locationDescription: String? {
+        return nil
+    }
+    
+    var locationSubname: String? {
+        return nil
+    }
+     
+    
+}
+extension CountryCity : INodeInfo, Equatable  {
     static func == (lhs: CountryCity, rhs: CountryCity) -> Bool {
         return CountryCity.equal(lhs: lhs, rhs: rhs)
     }
@@ -125,7 +169,7 @@ extension CountryCity : INodeInfo  {
     }
 }
 
-extension CountryAvailables : INodeInfo {
+extension CountryAvailables : INodeInfo, Equatable {
     static func == (lhs: CountryAvailables, rhs: CountryAvailables) -> Bool {
         return CountryAvailables.equal(lhs: lhs, rhs: rhs)
     }
@@ -168,5 +212,19 @@ extension CountryAvailables : INodeInfo {
             ProgressView().progressViewStyle(CircularProgressViewStyle())
 
         }
+    }
+}
+
+
+extension INodeInfo {
+    func toNodePoint (_ content: String? = nil) -> NodePoint {
+        if let country = self as? CountryAvailables {
+            return  NodePoint(point: CGPoint(x: NodePoint.convertX (country.x), y: NodePoint.convertY(country.y) ), info: country, locationDescription: content)
+        } else  if let city = self as? CountryCity {
+            return  NodePoint(point: CGPoint(x: NodePoint.convertX (city.x?.double), y: NodePoint.convertY(city.y?.double) ), info: city, locationDescription: content)
+        } else  if let staticServer = self as? CountryStaticServers {
+            return  NodePoint(point: CGPoint(x: NodePoint.convertX (staticServer.x), y: NodePoint.convertY(staticServer.y) ), info: staticServer, locationDescription: content)
+        }
+        return NodePoint(point: .zero, info: NodeInfoTest(state: .disabled))
     }
 }
