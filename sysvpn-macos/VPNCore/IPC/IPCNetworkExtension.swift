@@ -8,8 +8,11 @@
 
 import Foundation
 import os.log
+import TunnelKitManager
 
 class IPCNetworkExtension: XPCBaseService {
+    let userDefaults = UserDefaults(suiteName: CoreAppConstants.AppGroups.main )
+
     lazy var urlConfiguration = {
         let urlconfig = URLSessionConfiguration.default
         urlconfig.timeoutIntervalForRequest = 10
@@ -18,6 +21,23 @@ class IPCNetworkExtension: XPCBaseService {
     }()
     
     lazy var httpService = IPCHttpServiceService.init(session: URLSession(configuration: urlConfiguration))
+    
+    override func setProtocol(vpnProtocol: String) {
+      
+        var isSuccess = false
+    
+        if vpnProtocol == "openVPN" { 
+            userDefaults?.set("openVPN", forKey:  "vpnProtocol")
+        }
+        else {
+            userDefaults?.set("wireGuard", forKey:  "vpnProtocol")
+        }
+        isSuccess = userDefaults != nil
+        
+        
+        os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default,"set protocol \(vpnProtocol) \(isSuccess ? "success" : "failed")")
+
+    }
     
     override func getLogs(_ completionHandler: @escaping (Data?) -> Void) {
         completionHandler("ok".data(using: .utf8))

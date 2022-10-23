@@ -36,6 +36,7 @@ struct SplashView: View {
             withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
                 animate.toggle()
             }
+            model.initData()
         }
     }
 }

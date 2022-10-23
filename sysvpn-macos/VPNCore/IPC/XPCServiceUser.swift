@@ -13,11 +13,13 @@ class XPCServiceUser {
     private let machServiceName: String
     private let log: (String) -> Void
     public var isConnected: Bool = false
+    
+    private var isCheckingConnection = false
 
     private var currentConnection: NSXPCConnection? {
         willSet {
             if newValue == nil {
-              //  currentConnection?.invalidate()
+                currentConnection?.invalidate()
             }
         }
     }
@@ -46,12 +48,36 @@ class XPCServiceUser {
         // The exported object is the delegate.
         newConnection.exportedInterface = NSXPCInterface(with: AppCommunication.self)
         newConnection.exportedObject = self
+        newConnection.invalidationHandler = { [weak self] in
+            print("invalidationHandler")
+            if self?.isCheckingConnection != false {
+                return
+            }
+            self?.isConnected = false
+            DispatchQueue.main.async {
+                self?.checkConnect()
+            }
+        }
 
+        newConnection.interruptionHandler = { [weak self] in
+            print("interruptionHandler")
+            if self?.isCheckingConnection != false {
+                return
+            }
+            self?.isCheckingConnection = true
+            self?.isConnected = false
+            self?.createConnection()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self?.checkConnect()
+            }
+        }
         // The remote object is the provider's IPCConnection instance.
         newConnection.remoteObjectInterface = NSXPCInterface(with: ProviderCommunication.self)
 
         currentConnection = newConnection
         newConnection.resume()
+        
+        
 
         return newConnection
     }
@@ -61,10 +87,11 @@ class XPCServiceUser {
 
 extension XPCServiceUser {
     
-    func getProviderProxy(retry: Bool = true) -> ProviderCommunication? {
+    func getProviderProxy(retry: Bool = true, onError: (() -> Void)? = nil) -> ProviderCommunication? {
         guard let providerProxy = connection.remoteObjectProxyWithErrorHandler({ registerError in
             self.log("Failed to get remote object proxy \(self.machServiceName): \(String(describing: registerError))")
             self.currentConnection = nil
+            onError?()
             _ = self.createConnection()
         }) as? ProviderCommunication else {
             self.log("Failed to create a remote object proxy for the provider: \(machServiceName)")
@@ -73,23 +100,36 @@ extension XPCServiceUser {
         return providerProxy
     }
     
-    func checkConnect() {
+    func checkConnect(completion: (()->Void)? = nil) {
+        isCheckingConnection = true
         getLogs { data in
             if data != nil {
                 self.isConnected = true
                 print("[IPC] check connected success")
             }
+            self.isCheckingConnection = false
+            completion?()
         }
     }
     func getLogs(completionHandler: @escaping (Data?) -> Void) {
-        let providerProxy = getProviderProxy()
+        let providerProxy = getProviderProxy(onError: {
+            completionHandler(nil)
+        })
         providerProxy?.getLogs(completionHandler)
         
     }
     
+    func setProtocol( _ nameProtocol: String) {
+        let providerProxy = getProviderProxy()
+        providerProxy?.setProtocol(vpnProtocol: nameProtocol)
+    }
+    
     
     func request(urlRequest: URLRequest, completion: @escaping (XPCHttpResponse)-> Void ) {
-        if let providerProxy = getProviderProxy() {
+        if let providerProxy = getProviderProxy(onError: {
+            let response = XPCHttpResponse(statusCode: -1, data: nil, error:  NSError(domain: MoyaIPCErrorDomain.unknownError, code: -1 ))
+            completion(response)
+        }) {
             var request:[String: NSObject] = [
                 HttpFieldName.method.rawValue : (urlRequest.method?.rawValue ?? "GET") as NSObject,
                 HttpFieldName.headers.rawValue : (urlRequest.allHTTPHeaderFields ?? [:]) as NSObject

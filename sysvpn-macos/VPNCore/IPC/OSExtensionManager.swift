@@ -14,7 +14,8 @@ import SystemExtensions
 import os.log
 class OSExtensionManager : NSObject {
     static let shared = OSExtensionManager()
-    
+    var isReady = false
+    var onReady: (()->Void)?
     func getExtensionBundle (_ tunnel: String) -> Bundle? {
         let extensionsDirectoryURL = URL(fileURLWithPath: "Contents/Library/SystemExtensions", relativeTo: Bundle.main.bundleURL)
         let extensionURLs: [URL]
@@ -74,19 +75,25 @@ extension OSExtensionManager: OSSystemExtensionRequestDelegate {
     // MARK: OSSystemExtensionActivationRequestDelegate
 
     func request(_ request: OSSystemExtensionRequest, didFinishWithResult result: OSSystemExtensionRequest.Result) {
-
+        if !isReady {
+            isReady = true
+            onReady?()
+        }
         guard result == .completed else {
             os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "Unexpected result \(result.rawValue) for system extension request")
 
             return
         }
-        IPCFactory.makeIPCService(proto: .openVPN).checkConnect()
     }
 
     func request(_ request: OSSystemExtensionRequest, didFailWithError error: Error) {
 
        // os_log("System extension request failed: %@", error.localizedDescription)
         os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "System extension request failed: \(error.localizedDescription)")
+        if !isReady {
+            isReady = true
+            onReady?()
+        }
     }
 
     func requestNeedsUserApproval(_ request: OSSystemExtensionRequest) {
@@ -100,7 +107,6 @@ extension OSExtensionManager: OSSystemExtensionRequestDelegate {
                  withExtension extension: OSSystemExtensionProperties) -> OSSystemExtensionRequest.ReplacementAction {
 
         os_log("Replacing extension %@ version %@ with version %@", request.identifier, existing.bundleShortVersion, `extension`.bundleShortVersion)
-        IPCFactory.makeIPCService(proto: .openVPN).checkConnect()
         return .replace
     }
 }

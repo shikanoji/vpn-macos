@@ -38,7 +38,7 @@ class BaseServiceManager<API: TargetType> {
     }
     
     func requestIPC(_ api: API) -> Single<Response> {
-        if !(IPCFactory.makeIPCService(proto: .openVPN).isConnected) {
+        if !(IPCFactory.makeIPCRequestService().isConnected) {
             return provider.rx.request(api)
         }
         return provider.rx.requestIPC(api)

@@ -44,7 +44,7 @@ import TunnelKitOpenVPNManager
 
 private let log = SwiftyBeaver.self
 
-class ConnectionStrategy {
+public class ConnectionStrategy {
     private var remotes: [ResolvedRemote]
 
     private var currentRemoteIndex: Int
@@ -56,7 +56,7 @@ class ConnectionStrategy {
         return remotes[currentRemoteIndex]
     }
 
-    init(configuration: OpenVPN.Configuration) {
+    public  init(configuration: OpenVPN.Configuration) {
         guard var remotes = configuration.remotes, !remotes.isEmpty else {
             fatalError("No remotes provided")
         }
@@ -67,7 +67,7 @@ class ConnectionStrategy {
         currentRemoteIndex = 0
     }
 
-    func hasEndpoints() -> Bool {
+    public func hasEndpoints() -> Bool {
         guard let remote = currentRemote else {
             return false
         }
@@ -75,7 +75,7 @@ class ConnectionStrategy {
     }
 
     @discardableResult
-    func tryNextEndpoint() -> Bool {
+    public func tryNextEndpoint() -> Bool {
         guard let remote = currentRemote else {
             return false
         }
@@ -93,7 +93,7 @@ class ConnectionStrategy {
         return true
     }
     
-    func createSocket(
+    public func createSocket(
         from provider: NEProvider,
         timeout: Int,
         queue: DispatchQueue,
@@ -127,7 +127,7 @@ class ConnectionStrategy {
 }
 
 private extension NEProvider {
-    func createSocket(to endpoint: Endpoint) -> GenericSocket {
+    public  func createSocket(to endpoint: Endpoint) -> GenericSocket {
         let ep = NWHostEndpoint(hostname: endpoint.address, port: "\(endpoint.proto.port)")
         switch endpoint.proto.socketType {
         case .udp, .udp4, .udp6:

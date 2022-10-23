@@ -8,11 +8,9 @@
 import Foundation
 import NetworkExtension
 import os.log
-
-os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "Start up")
-
+ 
 let ipc = IPCNetworkExtension(withExtension:  IPCHelper.extensionMachServiceName(from: Bundle.main), logger: {
-        os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, $0)
+        os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC-OP", category: "IPC"), type: .default, $0)
 })
  
 autoreleasepool {

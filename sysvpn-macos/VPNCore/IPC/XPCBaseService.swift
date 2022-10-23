@@ -39,7 +39,11 @@ extension XPCBaseService: ProviderCommunication {
    
     func getLogs(_ completionHandler: @escaping (Data?) -> Void) {
         log("This is just a placeholder! Add `getLogs` in each implementation.")
-    } 
+    }
+    
+    func setProtocol(vpnProtocol: String) {
+        log("This is just a placeholder! Add `setProtocol` in each implementation.")
+    }
 }
 
 extension XPCBaseService: NSXPCListenerDelegate {

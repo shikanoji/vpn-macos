@@ -133,6 +133,14 @@ enum VpnProtocol : Codable {
             try container.encode(2, forKey: .rawValue)
         }
     }
+    var name: String {
+        switch self {
+        case .openVpn:
+           return "openVPN"
+        case .wireGuard:
+            return "wireGuard"
+        }
+    }
 }
 
 extension VpnProtocol: Equatable {

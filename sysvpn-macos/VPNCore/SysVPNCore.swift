@@ -71,12 +71,13 @@ class SysVPNCore : SysVPNGatewayProtocol {
                 print("[VPN-Core] request determine vpn config failed \(e) ")
                 DispatchQueue.main.async { [weak self] in
                     //To-do: push error
-                    self?.disconnect()
+                    self?.stopConnecting(userInitiated: false)
                 }
             case .success(let result):
                 let connectionConfig = ConnectionConfiguration(connectionDetermine: result, connectionParam: request.params, vpnProtocol: result.vpnProtocol, serverInfo: result.serverInfo )
                 self.lastConnectionConiguration = connectionConfig
                 print("[VPN-Core] request determine vpn config success")
+                IPCFactory.makeIPCRequestService().setProtocol(result.vpnProtocol.name)
                 DispatchQueue.main.async { [weak self] in
                     self?.appStateManager.checkNetworkConditionsAndCredentialsAndConnect(withConfiguration: connectionConfig)
                 }

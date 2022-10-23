@@ -14,7 +14,16 @@ extension SplashView {
         @Published var logoSize = CGSize(width: 100, height: 116)
 
         init() {
-            loadAppSetting()
+         
+            OSExtensionManager.shared.onReady = {
+                let ipc = IPCFactory.makeIPCRequestService()
+                ipc.checkConnect() { 
+                    self.loadAppSetting()
+                }
+            }
+        }
+        func initData() {
+            
             
         }
         

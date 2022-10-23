@@ -46,6 +46,7 @@ struct MoyaIPCErrorDomain {
 @objc protocol ProviderCommunication {
     func getLogs( _ completionHandler: @escaping (Data?) -> Void)
     func request(request: [String: NSObject], completionHandler: @escaping ([String: NSObject])-> Void)
+    func setProtocol(vpnProtocol: String)
 }
 
 /// Provider -> App IPC
