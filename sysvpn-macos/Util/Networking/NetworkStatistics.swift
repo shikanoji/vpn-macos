@@ -17,13 +17,13 @@ struct Bitrate : Equatable {
         
         switch rate {
         case let rate where rate >= UInt32(pow(1024.0, 3)):
-            rateString = "\(String(format: "%.1f", Double(rate) / pow(1024.0, 3)))gb/s"
+            rateString = "\(String(format: "%.1f", Double(rate) / pow(1024.0, 3))) GB/s"
         case let rate where rate >= UInt32(pow(1024.0, 2)):
-            rateString = "\(String(format: "%.1f", Double(rate) / pow(1024.0, 2)))mb/s"
+            rateString = "\(String(format: "%.1f", Double(rate) / pow(1024.0, 2))) MB/s"
         case let rate where rate >= 1024:
-            rateString = "\(String(format: "%.1f", Double(rate) / 1024.0))kb/s"
+            rateString = "\(String(format: "%.1f", Double(rate) / 1024.0)) KB/s"
         default:
-            rateString = "\(String(format: "%.1f", Double(rate)))b/s"
+            rateString = "\(String(format: "%.1f", Double(rate))) B/s"
         }
         
         return rateString

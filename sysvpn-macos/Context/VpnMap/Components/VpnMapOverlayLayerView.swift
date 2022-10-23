@@ -13,6 +13,7 @@ struct VpnMapOverlayLayer: ViewModifier {
     var scaleValue: CGFloat
     var rescaleView: CGFloat
     var nodePoint: NodePoint?
+    var connectedNode: NodePoint?
     var isShowCity: Bool = false
     
     @EnvironmentObject var appState: GlobalAppStates
@@ -20,6 +21,11 @@ struct VpnMapOverlayLayer: ViewModifier {
     @State var tooltipNodeX: CGFloat = 0
     @State  var tooltipNodeY: CGFloat  = 0
     
+    @State var connectedPosition: CGPoint = CGPoint.zero
+    
+    var computedScale: Double  {
+        return  scaleVector * scaleValue / rescaleView
+    }
     var tooltipNodeName: String {
         return nodePoint?.info.locationName ?? ""
     }
@@ -33,60 +39,64 @@ struct VpnMapOverlayLayer: ViewModifier {
     }
     
     
+    
     var tooltipInfo : some View {
         Spacer()
             .frame(width: 1, height: 1, alignment: .center)
             .modifier(
-                MapTooltipModifier(name: idName, enabled: nodePoint != nil, config: AppTooltipConfig(), content: {
-                    VStack {
-                        if nodePoint?.info.locationSubname != nil {
-                            Text(nodePoint?.info.locationSubname ?? "").foregroundColor(Color.black)
-                                .font(Font.system(size: 14, weight: .medium))
-                            Rectangle().frame(height: 1)
-                                .background(Asset.Colors.subTextColor.swiftUIColor)
-                        }
-                        HStack {
-                            if nodePoint?.info.image != nil {
-                                nodePoint?.info.image?.resizable().frame(width: 32, height: 32, alignment: .center)
-                            }
-                            VStack(alignment: .leading) {
-                                Text(tooltipNodeName).foregroundColor(Color.black)
-                                    .font(Font.system(size: 14, weight: .medium))
-                                if localDescription != nil {
-                                    Spacer().frame(height: 5)
-                                    Text(localDescription ?? "").foregroundColor(Color.black)
-                                        .font(Font.system(size: 13, weight: .regular))
-                                }
-                                
-                            }
-                        }
+                MapTooltipModifier(name: idName, enabled: nodePoint != nil && nodePoint != connectedNode, config: AppTooltipConfig(), content: {
+                    if let nodePoint = nodePoint {
+                        MapTooltipLocalInfo(nodePoint: nodePoint, tooltipNodeName: tooltipNodeName, tooltipDesc: localDescription)
+
+                    } else {
+                        Spacer().frame(width: 100, height: 10)
                     }
                 })
             )  .position(x: tooltipNodeX, y: tooltipNodeY)
     }
     
-    var tooltipConnected : some View {
+    var tooltipConnectedText: some View {
         Spacer()
             .frame(width: 1, height: 1, alignment: .center)
             .modifier(
-                MapTooltipModifier(name: idName, enabled: nodePoint != nil, config: AppTooltipConfig(), content: {
+                MapTooltipModifier(name: "connected", enabled: connectedNode != nil, config: AppTooltipConfig(), content: {
                     VStack {
                        Text("Connected")
                             .foregroundColor(Color.black)
                     }
                 })
-            )  .position(x: tooltipNodeX, y: tooltipNodeY)
+            )
+            .offset(CGSize(width: 0, height: 10 * scaleValue ))
+            .position(connectedPosition.toScalePoint(scaleVector: computedScale))
+    }
+    
+    var tooltipConnectedNode: some View {
+        Spacer()
+            .frame(width: 1, height: 1, alignment: .center)
+            .modifier(
+                    MapTooltipModifier(name: connectedNode?.info.locationName ?? "",
+                                       enabled: appState.displayState == .connected,
+                                       config: AppTooltipConfig(),
+                                       content: {
+                                           if let node = connectedNode {
+                                               MapTooltipLocalInfo(nodePoint: node, tooltipNodeName: node.info.locationName , tooltipDesc: node.locationDescription)
+                                           } else {
+                                               Spacer().frame(width: 100, height: 10)
+                                           }
+                                           
+                    })
+            )
+            .offset(CGSize(width: 0, height: 10 * scaleValue ))
+            .position(connectedPosition.toScalePoint(scaleVector: computedScale))
     }
     
     func body(content: Content) -> some View {
         VStack {
             content.overlay {
-                
-                if appState.displayState == .connected && appState.hoverNode != nodePoint {
-                    tooltipConnected
-                } else
-                {
-                    tooltipInfo
+                tooltipInfo
+                if appState.displayState == .connected {
+                    tooltipConnectedText.opacity(appState.hoverNode != connectedNode ? 1 : 0)
+                    tooltipConnectedNode.opacity(appState.hoverNode != connectedNode ? 0 : 1)
                 }
             }
         }.onChange(of: nodePoint) { newValue in
@@ -106,6 +116,14 @@ struct VpnMapOverlayLayer: ViewModifier {
             updateLocation(nodePoint: nodePoint, vector: newValue)
         }.onChange(of: isShowCity) { newValue in
             updateLocation(nodePoint: nodePoint, vector: scaleVector,isShowCity: newValue)
+            if let node = connectedNode {
+                connectedPosition = computNodePointPos(node: node, isShowCity: newValue)
+
+            }
+        }.onChange(of: connectedNode) { newValue in
+            if let node = newValue {
+                connectedPosition = computNodePointPos(node: node, isShowCity: isShowCity)
+            }
         }
     }
     
@@ -128,6 +146,38 @@ struct VpnMapOverlayLayer: ViewModifier {
             }
         }
         return point
+    }
+}
+
+
+struct MapTooltipLocalInfo: View {
+    var nodePoint: NodePoint
+    var tooltipNodeName: String
+    var tooltipDesc: String?
+    var body: some View {
+        VStack {
+            if nodePoint.info.locationSubname != nil {
+                Text(nodePoint.info.locationSubname ?? "").foregroundColor(Color.black)
+                    .font(Font.system(size: 14, weight: .medium))
+                Rectangle().frame(height: 1)
+                    .background(Asset.Colors.subTextColor.swiftUIColor)
+            }
+            HStack {
+                if nodePoint.info.image != nil {
+                    nodePoint.info.image?.resizable().frame(width: 32, height: 32, alignment: .center)
+                }
+                VStack(alignment: .leading) {
+                    Text(tooltipNodeName).foregroundColor(Color.black)
+                        .font(Font.system(size: 14, weight: .medium))
+                    if tooltipDesc != nil {
+                        Spacer().frame(height: 5)
+                        Text(tooltipDesc ?? "").foregroundColor(Color.black)
+                            .font(Font.system(size: 13, weight: .regular))
+                    }
+                    
+                }
+            }
+        }
     }
 }
 

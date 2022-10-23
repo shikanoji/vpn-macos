@@ -135,6 +135,7 @@ struct HomeLeftPanelView: View {
             settingSection
             Spacer().frame(height: 20)
             Divider().padding([.leading, .trailing], 20)
+            Spacer()
           //  footerSection
         }.background {
             ZStack {

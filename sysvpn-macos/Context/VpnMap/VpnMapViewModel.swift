@@ -16,8 +16,6 @@ extension VpnMapView {
         @Published var listCity: [NodePoint] = []
         @Published var listCountry: [NodePoint] = []
         @Published var isLoaded: Bool = false
-        
-        
          
         init() {
            

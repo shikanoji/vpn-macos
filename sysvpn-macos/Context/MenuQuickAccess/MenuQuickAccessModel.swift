@@ -24,8 +24,8 @@ extension MenuQuickAccessView {
             userIp = "IP: \(AppDataManager.shared.userIp) -"
             location = AppDataManager.shared.isConnect ? L10n.Login.titleNotConnect : "Location: \(AppDataManager.shared.userCity)"
             tabIndex = 0
-            downloadSpeed = "0b/s"
-            uploadSpeed = "0b/s"
+            downloadSpeed = "0 B/s"
+            uploadSpeed = "0 B/s"
         }
         
         func onTouchConnect() {

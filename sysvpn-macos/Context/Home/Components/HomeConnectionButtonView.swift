@@ -108,7 +108,7 @@ struct HomeConnectionButtonView : View {
                     onTap?()
                 }
             }
-            Spacer()
+            Spacer().frame(maxHeight: 70)
                 
         }.onChange(of: appState.displayState) { newValue in
            
