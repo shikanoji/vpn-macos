@@ -8,12 +8,11 @@
 import Foundation
 
 class AppVpnService: SysVPNService {
-    var wireGuard = false
+ 
     func prepareConection(connectType: ConnectionType, params: SysVPNConnectParams?, callback: SysVPNPrepareConnecitonStringCallback?) {
-        wireGuard = !wireGuard
         
         let userSetting = AppDataManager.shared.userSetting
-        let isWireGuard = wireGuard //userSetting?.appSettings?.settingVpn?.defaultTech?.contains("wg") ?? false
+        let isWireGuard = userSetting?.appSettings?.settingVpn?.defaultTech?.contains("wg") ?? true
         let isUseUDP = userSetting?.appSettings?.settingVpn?.defaultProtocol?.contains("udp") ?? false
         let transportProtocol = isUseUDP ? OpenVpnTransport.udp : OpenVpnTransport.tcp
         let defaultTech = isWireGuard ? VpnProtocol.wireGuard : VpnProtocol.openVpn(transportProtocol)
