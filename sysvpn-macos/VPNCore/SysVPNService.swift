@@ -12,7 +12,8 @@ typealias SysVPNPrepareConnecitonStringCallback = (Result<PrepareConnecitonStrin
 
 
 struct DisconnectVPNParams: Codable {
-    var sessionId:String
+    var sessionId: String
+    var disconnectedBy: String
 }
 
 struct PrepareConnecitonStringResult : Codable  {

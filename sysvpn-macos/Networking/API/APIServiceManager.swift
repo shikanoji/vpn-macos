@@ -46,9 +46,9 @@ final class APIServiceManager: BaseServiceManager<APIService> {
     func onRequestCert(param: VpnParamRequest) -> Single<VPNResult> {
         return requestIPC(.requestCert(vpnParam: param)).handleApiResponseCodable(type: VPNResult.self)
     }
-    
-    func onDisconnect() -> Single<Bool>{
-        return requestIPC(.disconnectSession(sectionId: "", disconnectedBy: "")).handleEmptyResponse()
+     
+    func onDisconnect(sectionId: String, disconnectedBy: String) -> Single<Bool>{
+        return request(.disconnectSession(sectionId: sectionId, disconnectedBy: disconnectedBy)).handleEmptyResponse()
     }
     
     func getStartServer() -> Single<ServerStateResult>{
@@ -56,7 +56,8 @@ final class APIServiceManager: BaseServiceManager<APIService> {
     }
     
     func onRequestCertWireGuard(param: VpnParamRequest)  -> Single<WireGuardResult> {
-        return request(.requestCert(vpnParam: param)).handleApiResponseCodable(type: WireGuardResult.self)
+        return requestIPC(.requestCert(vpnParam: param)).handleApiResponseCodable(type: WireGuardResult.self)
     }
+     
      
 }
