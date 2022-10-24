@@ -52,6 +52,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         })
          */ 
         onStartApp()
+        testVPN()
+    }
+    
+    func testVPN() {
+        
+        let vpnParam = VpnParamRequest()
+        vpnParam.tech = .wg
+        vpnParam.proto = "tcp"
+        vpnParam.dev = "tun"
+        vpnParam.isHop = 0
+        vpnParam.cybersec = 0
+        vpnParam.countryId = 111
+            
+        _ = APIServiceManager.shared.onRequestCertWireGuard(param: vpnParam).subscribe{ event in
+            switch event {
+                case let .success(response):
+                    let strConfig = response.parseVpnConfig()
+                print("[CONFIG]: \(strConfig)")
+                case let .failure(e):
+                    print("[ERROR]: \(e)")
+            }
+        }
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -94,7 +116,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let timmer = self.timmerJob {
           timmer.invalidate()
         }
-        timmerJob = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
+        timmerJob = Timer.scheduledTimer(timeInterval: 20.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
     }
     
     @objc func onEndJob(_ notification: Notification) {
