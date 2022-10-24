@@ -55,5 +55,8 @@ final class APIServiceManager: BaseServiceManager<APIService> {
         return requestIPC(.getStartServer).handleApiResponseCodable(type: ServerStateResult.self)
     }
     
-    
+    func onRequestCertWireGuard(param: VpnParamRequest)  -> Single<WireGuardResult> {
+        return request(.requestCert(vpnParam: param)).handleApiResponseCodable(type: WireGuardResult.self)
+    }
+     
 }

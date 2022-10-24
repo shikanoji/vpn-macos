@@ -65,6 +65,9 @@
 		AC09D7A528BF10D30078E928 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A428BF10D30078E928 /* Constant.swift */; };
 		AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A628BF13400078E928 /* AppSetting.swift */; };
 		B972163528FFF1DD002E9ABE /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163428FFF1DD002E9ABE /* NotificationExtension.swift */; };
+		B972163C29028862002E9ABE /* WireGuardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163829028862002E9ABE /* WireGuardResult.swift */; };
+		B972163D29028862002E9ABE /* WireGuardInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163929028862002E9ABE /* WireGuardInterface.swift */; };
+		B972163E29028862002E9ABE /* WireGuardPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163A29028862002E9ABE /* WireGuardPeer.swift */; };
 		B991D52A28E6CE9300BFB6E4 /* MenuQuickAccessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B991D52928E6CE9300BFB6E4 /* MenuQuickAccessModel.swift */; };
 		B99DB42628E4496300331AFB /* AppAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DB42528E4496300331AFB /* AppAlertView.swift */; };
 		B99DB42928E449A700331AFB /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = B99DB42828E449A700331AFB /* PopupView */; };
@@ -319,6 +322,9 @@
 		AC09D7A428BF10D30078E928 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		AC09D7A628BF13400078E928 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
 		B972163428FFF1DD002E9ABE /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
+		B972163829028862002E9ABE /* WireGuardResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireGuardResult.swift; sourceTree = "<group>"; };
+		B972163929028862002E9ABE /* WireGuardInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireGuardInterface.swift; sourceTree = "<group>"; };
+		B972163A29028862002E9ABE /* WireGuardPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireGuardPeer.swift; sourceTree = "<group>"; };
 		B991D52928E6CE9300BFB6E4 /* MenuQuickAccessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuQuickAccessModel.swift; sourceTree = "<group>"; };
 		B99DB42528E4496300331AFB /* AppAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppAlertView.swift; sourceTree = "<group>"; };
 		B99DB42A28E455F400331AFB /* AuthenTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenTokenModel.swift; sourceTree = "<group>"; };
@@ -744,6 +750,9 @@
 		B9721636290287FA002E9ABE /* WireGuard */ = {
 			isa = PBXGroup;
 			children = (
+				B972163929028862002E9ABE /* WireGuardInterface.swift */,
+				B972163A29028862002E9ABE /* WireGuardPeer.swift */,
+				B972163829028862002E9ABE /* WireGuardResult.swift */,
 			);
 			path = WireGuard;
 			sourceTree = "<group>";
@@ -1516,14 +1525,17 @@
 				9E3756C628E6DB9400E95C64 /* TrackinAreaView.swift in Sources */,
 				AC09D71B28BCDCD40078E928 /* sysvpn_macosApp.swift in Sources */,
 				FA12F19D28FDAE9D009753EE /* SystemNetworkingMonitor.swift in Sources */,
+				B972163C29028862002E9ABE /* WireGuardResult.swift in Sources */,
 				FAA35BC028FD41CB00205ECD /* SysVPNProtocol.swift in Sources */,
 				FA12F19F28FDB61A009753EE /* NetworkStatistics.swift in Sources */,
 				AC09D7A028BF0F970078E928 /* APIServiceManager.swift in Sources */,
 				FAA35BC528FD41CB00205ECD /* SysVPNService.swift in Sources */,
+				B972163E29028862002E9ABE /* WireGuardPeer.swift in Sources */,
 				9E668DFE28E8AF9F009CDC95 /* GlobalAppStates.swift in Sources */,
 				B9B3705328FE4FE70022498B /* AppSettingVpn.swift in Sources */,
 				9E668E0228E8BC62009CDC95 /* CountryItemView.swift in Sources */,
 				B9B3705A28FE4FE80022498B /* CountrySettings.swift in Sources */,
+				B972163D29028862002E9ABE /* WireGuardInterface.swift in Sources */,
 				B9D7F71728D3324C008B1D39 /* UserModel.swift in Sources */,
 				B9B3705528FE4FE70022498B /* VPNServer.swift in Sources */,
 				B99DB42D28E4595800331AFB /* IpInfoModel.swift in Sources */,

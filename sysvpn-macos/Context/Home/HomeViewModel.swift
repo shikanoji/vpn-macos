@@ -67,10 +67,7 @@ extension HomeView {
                 if staticServer.count  > 0 {
                     listStaticServer.append(HomeListCountryModel(type: .header, title: "Static ip"))
                     for item in staticServer {
-                        var score = item.score ?? 1
-                        if !firstLoadData {
-                            score = score + 5
-                        }
+                        var score = item.score ?? 1 
                         let staticItem = HomeListCountryModel(type: .country, title: item.countryName ?? "", imageUrl: item.flag, cityName: item.cityName ?? "", serverNumber: item.serverNumber ?? 1, serverStar: score + 1)
                         listStaticServer.append(staticItem)
                     }

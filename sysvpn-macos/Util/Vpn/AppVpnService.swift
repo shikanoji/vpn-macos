@@ -24,11 +24,10 @@ class AppVpnService: SysVPNService {
         vpnParam.dev = "tun"
         vpnParam.isHop = (params?.isHop ?? false) ? 1 : 0
         vpnParam.cybersec = 0
-       
         
         switch connectType {
         case .quick:
-            vpnParam.serverId = 29
+            vpnParam.serverId = 46
         case let .serverId(id):
             vpnParam.serverId = id
         case let .countryId(id):
@@ -38,21 +37,31 @@ class AppVpnService: SysVPNService {
         case let .lastSessionCode(code):
             vpnParam.prevSessionId = code
         }
-        _ = APIServiceManager.shared.onRequestCert(param: vpnParam).subscribe{ event in
-           
-            switch event {
-                case let .success(response):
-                    let strConfig = response.parseVpnConfig()
-                let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech, serverInfo: response.server ?? VPNServer() )
-                    callback?(.success(result))
-                case let .failure(e):
-                    print("[ERROR]: \(e)")
-                    callback?(.failure(e))
+        if isWireGuard {
+            _ = APIServiceManager.shared.onRequestCertWireGuard(param: vpnParam).subscribe{ event in
+                switch event {
+                    case let .success(response):
+                        let strConfig = response.parseVpnConfig()
+                        let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech, serverInfo: response.server ?? VPNServer())
+                        callback?(.success(result))
+                    case let .failure(e):
+                        print("[ERROR]: \(e)")
+                        callback?(.failure(e))
+                }
+            }
+        } else {
+            _ = APIServiceManager.shared.onRequestCert(param: vpnParam).subscribe{ event in
+                switch event {
+                    case let .success(response):
+                        let strConfig = response.parseVpnConfig()
+                        let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech, serverInfo: response.server ?? VPNServer())
+                        callback?(.success(result))
+                    case let .failure(e):
+                        print("[ERROR]: \(e)")
+                        callback?(.failure(e))
+                }
             }
         }
-        
-        
-        
         
     }
     

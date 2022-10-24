@@ -8,8 +8,8 @@
 import Foundation
 
 extension String {
-    static var keySaveRefreshToken = "USER_REFRESH_TOKEN"
-    static var keySaveAccessToken = "USER_ACCESS_TOKEN"
+    static var keySaveRefreshToken = "USER_REFRESH_TOKEN_TEST_1"
+    static var keySaveAccessToken = "USER_ACCESS_TOKEN_TEST_1"
     static var keyUserIP = "USER_IP"
     static var keyUserCity = "USER_CITY"
     static var keyUserCountryCode = "USER_COUNTRY_CODE"
