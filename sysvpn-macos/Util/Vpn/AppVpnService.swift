@@ -42,7 +42,8 @@ class AppVpnService: SysVPNService {
                 switch event {
                     case let .success(response):
                         let strConfig = response.parseVpnConfig()
-                        let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech)
+                        let disconnectParam = DisconnectVPNParams(sessionId: response.sessionId ?? "", disconnectedBy: "")
+                        let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech, disconnectParam: disconnectParam)
                         callback?(.success(result))
                     case let .failure(e):
                         print("[ERROR]: \(e)")
@@ -54,7 +55,8 @@ class AppVpnService: SysVPNService {
                 switch event {
                     case let .success(response):
                         let strConfig = response.parseVpnConfig()
-                        let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech)
+                        let disconnectParam = DisconnectVPNParams(sessionId: response.sessionId ?? "", disconnectedBy: "")
+                        let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech, disconnectParam: disconnectParam)
                         callback?(.success(result))
                     case let .failure(e):
                         print("[ERROR]: \(e)")
@@ -66,7 +68,15 @@ class AppVpnService: SysVPNService {
     }
     
     func disconnectLastSession(disconnectParam: DisconnectVPNParams?, callback: ((Result<Bool, Error>) -> Void)?) {
-        
+        _ = APIServiceManager.shared.onDisconnect(sectionId: disconnectParam?.sessionId ?? "", disconnectedBy: disconnectParam?.disconnectedBy ?? "").subscribe{ event in
+            switch event {
+                case .success(_):
+                    callback?(.success(true))
+                case let .failure(e):
+                    print("[ERROR]: \(e)")
+                    callback?(.failure(e))
+            }
+        }
     }
     
 }
