@@ -15,7 +15,7 @@ struct VpnMapView: View {
     @Binding var scale: CGFloat
     var rescaleView: CGFloat = 2
     var numberImage = 1
-    var aspecRaito: CGFloat = 1024 / 588
+    var aspecRaito: CGFloat =  2048 / 1588
     var baseHeight: CGFloat = 588
     var scaleVector: CGFloat = 1
     @State  var isShowCity = false
@@ -30,7 +30,7 @@ struct VpnMapView: View {
                 connectedNodeInfo: appState.connectedNode,
                 size: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height),
                 scale: rescaleView,
-                loop: numberImage,
+                loop: numberImage,  
                 scaleVector: scaleVector * proxy.size.height / baseHeight * rescaleView,
                 connectPoints: connectPoints,
                 nodeList: isShowCity ? viewModel.listCity : viewModel.listCountry,
@@ -65,7 +65,7 @@ struct VpnMapView: View {
         .simultaneousGesture(TapGesture().onEnded {
             selectedNode = nil
         })
-        .clipped()
+       // .clipped()
         .onChange(of: scale) { newValue in
             isShowCity =  scale > 1.5
         }.onChange(of: isShowCity, perform: { newValue in
@@ -95,6 +95,7 @@ struct VpnMapView: View {
             }
         })
     }
+        .clipped()
     }
 }
 
@@ -112,6 +113,7 @@ struct LoopMapView: View {
     var mapLayer1: some View {
         Asset.Assets.mapLayer1.swiftUIImage.resizable()
             .frame(width: size.width * scale, height: size.height * scale)
+            
     }
     
     var pointLayer: some View {
@@ -124,6 +126,7 @@ struct LoopMapView: View {
             isShowCity: isShowCity
         )
         .frame(width: size.width * scale, height: size.height * scale)
+       
     }
     
     var body: some View {

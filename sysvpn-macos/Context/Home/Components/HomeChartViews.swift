@@ -64,8 +64,8 @@ struct TrafficLineChartView : View {
             
             ZStack {
                 ChartLineBackground().stroke(Color.white.opacity(0.05), lineWidth: 1.0)
-                LineShape(yValues: list2, scaleFactor: height / max(2, maxValue) ).stroke(Color(rgb: 0x464859), lineWidth: 1.0)
-                LineShape(yValues: list, scaleFactor: height / max(2, maxValue) ).stroke(Asset.Colors.primaryColor.swiftUIColor, lineWidth: 1.0)
+                LineShape(yValues: list, scaleFactor: height / max(2, maxValue) ).stroke(Color(rgb: 0x464859), lineWidth: 1.0)
+                LineShape(yValues: list2 , scaleFactor: height / max(2, maxValue) ).stroke(Asset.Colors.primaryColor.swiftUIColor, lineWidth: 1.0)
                 
             }.frame( height: height)
                 .padding(.top, 5)

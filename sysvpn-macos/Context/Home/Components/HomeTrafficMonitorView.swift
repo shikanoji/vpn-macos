@@ -63,9 +63,12 @@ struct HomeTrafficChartView : View {
         VStack {
             HStack {
                 HStack {
+                    Asset.Assets.icArrowDown.swiftUIImage.renderingMode(.template)
+                        .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
                     Text("Down Speed: \(Bitrate.rateString(for: bitRate.download))")
                 }
                 HStack {
+                    Asset.Assets.icArrowUp.swiftUIImage.renderingMode(.template)
                     Text("Up Speed: \(Bitrate.rateString(for: bitRate.upload))")
                 }
                 Spacer()
@@ -90,6 +93,6 @@ struct HomeTrafficChartView : View {
 struct HomeTraficMonitorView_Previews: PreviewProvider {
 
     static var previews: some View {
-        HomeTrafficMonitorView()
+        HomeTrafficMonitorView().environmentObject(GlobalAppStates.shared)
     }
 }

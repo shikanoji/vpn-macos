@@ -76,4 +76,15 @@ class MenuQuickAccessConfigurator {
        
         MenuQuickAccessConfigurator.shared.popover.performClose(nil)
     }
+    
+    func show() {
+        if let statusBarButton = statusItem.button {
+            statusBarButton.isHidden = false
+        }
+    }
+    func hide() {
+        if let statusBarButton = statusItem.button {
+            statusBarButton.isHidden = true
+        }
+    }
 }

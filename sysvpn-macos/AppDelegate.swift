@@ -18,10 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statistics: NetworkStatistics?
     
     func applicationDidFinishLaunching(_: Notification) {
-        #if !targetEnvironment(simulator)
-                NSApp.activate(ignoringOtherApps: false)
-                menuExtrasConfigurator = .init()
-        #endif
+       
         
         // demo install extension vpn
        OSExtensionManager.shared.startExtension()
@@ -30,28 +27,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 print("readdy")
             }
         }
-        /*
-        let dj = DependencyContainer.shared
-        // demo connect vpn
-        
-        DispatchQueue.main.async {
-            dj.vpnManager.whenReady(queue: DispatchQueue.main) {
-                dj.vpnCore.quickConnect()
-            }
-        }
-       
-        // demo xpc vpn
-        IPCFactory.makeIPCService(proto: .openVPN).getLogs { data in
-            print("[VPN] ===  \(data)")
-        }
-        /// demo get bit rate
-        statistics = NetworkStatistics(with: 1, and: { bitrate in
-            let download = bitrate.rateString(for: bitrate.download)
-            let upload = bitrate.rateString(for: bitrate.upload)
-            print ("bitrate :\(download) \(upload)")
-        })
-         */ 
         onStartApp()
+    }
+    
+    func setupMenu() {
+        #if !targetEnvironment(simulator)
+                NSApp.activate(ignoringOtherApps: false)
+        if menuExtrasConfigurator == nil {
+            
+            menuExtrasConfigurator = .init()
+        } else {
+            menuExtrasConfigurator?.show()
+        }
+        #endif
+    }
+    
+    func removeMenu() {
+        menuExtrasConfigurator?.hide()
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -91,6 +83,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func onStartJob(_ notification: Notification) {
+        setupMenu()
         if let timmer = self.timmerJob {
           timmer.invalidate()
         }
@@ -103,6 +96,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             timmerJob = nil
         }
         timmerJob = nil
+        removeMenu()
     }
     
     @objc func onLoadApiUpdateStar() {
@@ -117,11 +111,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     break
                 }
             })
-        }
-        
-        _ = APIServiceManager.shared.getAppSetting().subscribe { event in
-            
-        }
+        } 
     }
     
     func onReloadCountry() {

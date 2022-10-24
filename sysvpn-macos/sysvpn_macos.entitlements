@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>com.apple.developer.aps-environment</key>
+	<string>development</string>
 	<key>com.apple.developer.networking.networkextension</key>
 	<array>
 		<string>packet-tunnel-provider</string>
@@ -17,9 +19,9 @@
 	<key>com.apple.security.network.client</key>
 	<true/>
 	<key>com.apple.security.temporary-exception.mach-lookup.global-name</key>
-	<array> 
+	<array>
 		<string>J953BZ6B49.group.com.syspvn.macos.openvpn</string>
-        <string>J953BZ6B49.group.com.syspvn.macos.wireguard</string>
+		<string>J953BZ6B49.group.com.syspvn.macos.wireguard</string>
 	</array>
 </dict>
 </plist>

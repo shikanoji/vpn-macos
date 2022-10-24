@@ -67,7 +67,7 @@ struct HomeView: View {
                 VStack {
                     HStack {
                         Spacer()
-                        HomeZoomSliderView(value: $zoomValue, step: 0.1, sliderRange: 1...1.5)
+                        HomeZoomSliderView(value: $zoomValue, step: 0.1, sliderRange: 1...2)
                             .frame(width: 112, height: 24, alignment: .center)
                         Spacer().frame(width: 16)
                     }

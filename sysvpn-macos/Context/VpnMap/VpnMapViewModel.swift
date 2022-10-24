@@ -71,11 +71,11 @@ extension VpnMapView {
 
 extension NodePoint {
     static func convertX(_ value: Double? , scale: Double = 1) -> CGFloat {
-        return (value ?? 0) * 0.5
+        return (value ?? 0) * 588/1588
     }
     
     static func convertY(_ value: Double? , scale: Double = 1) -> CGFloat {
-        return (value ?? 0) * 0.453
+        return (value ?? 0) * 588/1588
     }
 }
 

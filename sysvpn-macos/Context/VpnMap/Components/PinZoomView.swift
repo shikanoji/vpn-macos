@@ -56,9 +56,14 @@ struct ZoomModifier: ViewModifier {
             if offset.width > 0 {
                 offset.width = 0
             }
-            if abs(offset.width) + screenSize.width > newContentWidth {
-                offset.width = (newContentWidth - screenSize.width) * -1
+            if  screenSize.width  >= newContentWidth {
+                offset.width = (screenSize.width  - newContentWidth ) / 2
+            } else {
+                if abs(offset.width) + screenSize.width > newContentWidth {
+                    offset.width = (newContentWidth - screenSize.width) * -1
+                }
             }
+            
         }
       
         if offset.height * -1 > newContentHeight - contentSize.height {
@@ -79,48 +84,57 @@ struct ZoomModifier: ViewModifier {
         offset.height += (currentHeight - nextHeight) / (2 - percent)
         calcOffset(newOffset: offset, skipCheckPosition: lastScaleValue > 0.9)
         self.lastScaleValue = value
+        
+        print( offset.width)
     }
      
     func body(content: Content) -> some View {
         ScrollView([.horizontal, .vertical], showsIndicators: false) {
             ScrollViewReader { scrollProxy in
-                content
-                    .frame(width: contentSize.width * currentScale * numberImage, height: contentSize.height * currentScale, alignment: .center)
-                    .modifier(PinchToZoom(minScale: min, maxScale: max, scale: $currentScale))
-                    .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
-                             
-                        .onChanged { val in
-                            if isDrag == false {
-                                lastOffset = offset
+                HStack{
+                    content
+                        .frame(width: contentSize.width * currentScale * numberImage, height: contentSize.height * currentScale, alignment: .center)
+                        .modifier(PinchToZoom(minScale: min, maxScale: max, scale: $currentScale))
+                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
+                                 
+                            .onChanged { val in
+                                if isDrag == false {
+                                    lastOffset = offset
+                                }
+                                isDrag = true
+                                offset.width = lastOffset.width + val.translation.width
+                                offset.height = lastOffset.height + val.translation.height
+                                calcOffset(newOffset: offset)
                             }
-                            isDrag = true
-                            offset.width = lastOffset.width + val.translation.width
-                            offset.height = lastOffset.height + val.translation.height
-                            calcOffset(newOffset: offset)
+                            .onEnded { _ in
+                                isDrag = false
+                            }
+                        )
+                        .modifier(overlayLayer)
+                        .onChange(of: currentScale) { newValue in
+                            onScaleCalcOffset(value: newValue)
+                         
                         }
-                        .onEnded { _ in
-                            isDrag = false
+                        .onChange(of: screenSize, perform: { newValue in
+                            calcOffset(newOffset: offset, skipCheckPosition: true)
+                        })
+                        .onChange(of: cameraPosition) { newValue in
+                            guard let value = newValue else {
+                                return
+                            }
+                            withAnimation {
+                                offset.width =  screenSize.width / 2 -  value.x * currentScale
+                                offset.height =  screenSize.height / 2 -  value.y  * currentScale
+                                calcOffset(newOffset: offset)
+                            }
                         }
-                    ).modifier(overlayLayer)
-                    .onChange(of: currentScale) { newValue in
-                        
-                        onScaleCalcOffset(value: newValue)
-                    }.onChange(of: cameraPosition) { newValue in
-                        guard let value = newValue else {
-                            return
-                        }
-                        withAnimation {
-                            offset.width =  screenSize.width / 2 -  value.x * currentScale
-                            offset.height =  screenSize.height / 2 -  value.y  * currentScale 
-                            calcOffset(newOffset: offset)
-                        }
-                    }
-            }
+                }
+            } 
                 
         }.content.offset(offset)
             .onAppear {
                 offset.width = contentSize.width * -1 * floor(numberImage / 2)
-            }
+        }
     }
 }
 
