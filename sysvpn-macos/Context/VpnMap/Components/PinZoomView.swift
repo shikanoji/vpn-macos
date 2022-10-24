@@ -83,9 +83,7 @@ struct ZoomModifier: ViewModifier {
         offset.width += (currentWidth - nextWith) / (2 - percent)
         offset.height += (currentHeight - nextHeight) / (2 - percent)
         calcOffset(newOffset: offset, skipCheckPosition: lastScaleValue > 0.9)
-        self.lastScaleValue = value
-        
-        print( offset.width)
+        self.lastScaleValue = value 
     }
      
     func body(content: Content) -> some View {

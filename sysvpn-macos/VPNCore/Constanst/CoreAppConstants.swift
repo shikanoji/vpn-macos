@@ -38,7 +38,8 @@ public class CoreAppConstants {
          */
         //static let openVpn = "\(appBundleId).OpenVpnAppExtension"
         static let openVpn = "\(appBundleId).OpenVpnSysExtension"
-        static let wireguard = "\(appBundleId).WireGuardAppExtension"
+      //  static let wireguard = "\(appBundleId).WireGuardAppExtension"
+        static let wireguard = "\(appBundleId).OpenVpnSysExtension"
     }
     
     

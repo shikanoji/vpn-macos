@@ -8,18 +8,20 @@
 import Foundation
 
 class AppVpnService: SysVPNService {
-    
+    var wireGuard = false
     func prepareConection(connectType: ConnectionType, params: SysVPNConnectParams?, callback: SysVPNPrepareConnecitonStringCallback?) {
+        wireGuard = !wireGuard
+        
         let userSetting = AppDataManager.shared.userSetting
-        let isWireGuard = userSetting?.appSettings?.settingVpn?.defaultTech?.contains("wg") ?? false
+        let isWireGuard = wireGuard //userSetting?.appSettings?.settingVpn?.defaultTech?.contains("wg") ?? false
         let isUseUDP = userSetting?.appSettings?.settingVpn?.defaultProtocol?.contains("udp") ?? false
         let transportProtocol = isUseUDP ? OpenVpnTransport.udp : OpenVpnTransport.tcp
         let defaultTech = isWireGuard ? VpnProtocol.wireGuard : VpnProtocol.openVpn(transportProtocol)
-       // let defaultTech = VpnProtocol.wireGuard
+      //  let defaultTech = VpnProtocol.wireGuard
         let vpnParam = VpnParamRequest()
         
         vpnParam.tech = isWireGuard ? .wg : .ovpn
-       // vpnParam.tech = .wg
+
         vpnParam.proto = userSetting?.appSettings?.settingVpn?.defaultProtocol ?? "tcp"
         vpnParam.dev = "tun"
         vpnParam.isHop = (params?.isHop ?? false) ? 1 : 0
@@ -42,7 +44,7 @@ class AppVpnService: SysVPNService {
                 switch event {
                     case let .success(response):
                         let strConfig = response.parseVpnConfig()
-                        let disconnectParam = DisconnectVPNParams(sessionId: response.sessionId ?? "", disconnectedBy: "")
+                        let disconnectParam = DisconnectVPNParams(sessionId: response.sessionId ?? "", disconnectedBy: "client")
                         let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech, disconnectParam: disconnectParam, serverInfo: response.server ?? VPNServer())
                         callback?(.success(result))
                     case let .failure(e):
@@ -55,7 +57,7 @@ class AppVpnService: SysVPNService {
                 switch event {
                     case let .success(response):
                         let strConfig = response.parseVpnConfig()
-                        let disconnectParam = DisconnectVPNParams(sessionId: response.sessionId ?? "", disconnectedBy: "")
+                        let disconnectParam = DisconnectVPNParams(sessionId: response.sessionId ?? "", disconnectedBy: "client")
                         let result = PrepareConnecitonStringResult(connectionString: strConfig, vpnProtocol: defaultTech, disconnectParam: disconnectParam, serverInfo: response.server ?? VPNServer())
                         callback?(.success(result))
                     case let .failure(e):
