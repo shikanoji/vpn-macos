@@ -9,13 +9,13 @@ import Foundation
 import SwiftUI
 
 struct HomeMenuButtonView : View {
-    var iconSize: CGFloat = 32
-    var titleSpacing: CGFloat = 24
+    var iconSize: CGFloat = 24
+    var titleSpacing: CGFloat = 16
     var active: Bool = true
     var icon: Image? = Asset.Assets.icLocation.swiftUIImage
     var title: String = "Button Title"
     var content: String = "Button description"
-    var padding: EdgeInsets = EdgeInsets(top: 18, leading: 30, bottom: 18, trailing: 30)
+    var padding: EdgeInsets = EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16)
     var activeColor: Color = Asset.Colors.primaryColor.swiftUIColor
     var normalColor: Color = Color.white
     var body: some View {
@@ -28,10 +28,10 @@ struct HomeMenuButtonView : View {
                 VStack(alignment: .leading) {
                     Text(title)
                         .foregroundColor( active ? activeColor : normalColor)
-                        .font(Font.system(size: 16, weight: .bold))
+                        .font(Font.system(size: 14, weight: .semibold))
                     Spacer().frame(height: 4)
                     Text(content)
-                        .font(Font.system(size: 14, weight: .regular))
+                        .font(Font.system(size: 12, weight: .regular))
                         .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
                 }
             }.padding(padding)

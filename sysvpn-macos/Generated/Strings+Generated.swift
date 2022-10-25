@@ -16,8 +16,37 @@ public enum L10n {
     /// 
     ///   Created by Nguyen Dinh Thach on 30/08/2022.
     public static let hello = L10n.tr("Global", "hello", fallback: "Hello")
+    /// Help Center
+    public static let helpCenter = L10n.tr("Global", "helpCenter", fallback: "Help Center")
+    /// Location:
+    public static let labelLocation = L10n.tr("Global", "labelLocation", fallback: "Location:")
+    /// VPN IP:
+    public static let labelVPNIP = L10n.tr("Global", "labelVPNIP", fallback: "VPN IP:")
     /// Location Map
     public static let locationMap = L10n.tr("Global", "locationMap", fallback: "Location Map")
+    /// locations available
+    public static let manualCDesc = L10n.tr("Global", "manualCDesc", fallback: "locations available")
+    /// Manual connection
+    public static let manualConnection = L10n.tr("Global", "manualConnection", fallback: "Manual connection")
+    /// MultiHop
+    public static let multiHop = L10n.tr("Global", "multiHop", fallback: "MultiHop")
+    /// locations available
+    public static let multiHopDesc = L10n.tr("Global", "multiHopDesc", fallback: "locations available")
+    /// Quick
+    /// Connect
+    public static let quickConnect = L10n.tr("Global", "quickConnect", fallback: "Quick\nConnect")
+    /// Setting
+    public static let setting = L10n.tr("Global", "setting", fallback: "Setting")
+    /// Static IP
+    public static let staticIP = L10n.tr("Global", "staticIP", fallback: "Static IP")
+    /// Personal Static IP address
+    public static let staticIPDesc = L10n.tr("Global", "staticIPDesc", fallback: "Personal Static IP address")
+    /// Sysvpn Configuration
+    public static let sysvpnConfiguration = L10n.tr("Global", "sysvpnConfiguration", fallback: "Sysvpn Configuration")
+    /// VPN Connected
+    public static let vpnConnected = L10n.tr("Global", "vpnConnected", fallback: "VPN Connected")
+    /// VPN not connected
+    public static let vpnNotConnected = L10n.tr("Global", "vpnNotConnected", fallback: "VPN not connected")
   }
   public enum Login {
     /// All Country

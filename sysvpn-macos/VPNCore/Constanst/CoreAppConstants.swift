@@ -37,16 +37,17 @@ public class CoreAppConstants {
         static let wireguard = "\(appBundleId).WireGuardSysExtension"
          */
         //static let openVpn = "\(appBundleId).OpenVpnAppExtension"
-        static let openVpn = "\(appBundleId).OpenVpnSysExtension"
+        static let openVpn = "\(appBundleId).OpenVpnAppExtension"
       //  static let wireguard = "\(appBundleId).WireGuardAppExtension"
-        static let wireguard = "\(appBundleId).OpenVpnSysExtension"
+        static let wireguard = "\(appBundleId).WireGuardAppExtension"
     }
     
     
    struct SystemExtensions {
    
        static let openVpn = "\(appBundleId).OpenVpnSysExtension"
-       static let wireguard = "\(appBundleId).WireGuardSysExtension"
+       static let wireguard = "\(appBundleId).OpenVpnSysExtension"
+      // static let wireguard = "\(appBundleId).WireGuardSysExtension"
        
    }
      

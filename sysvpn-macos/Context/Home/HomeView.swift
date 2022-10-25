@@ -17,7 +17,7 @@ struct HomeView: View {
     var body: some View {
         HStack(spacing: 0){
             HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem)
-                .frame(width: 300)
+                .frame(width: 240)
                 .contentShape(Rectangle())
                 .zIndex(3)
             if viewModel.selectedMenuItem != .none {
@@ -49,6 +49,7 @@ struct HomeView: View {
                                 ], startPoint: UnitPoint.top, endPoint: UnitPoint.bottom)
                             ).frame(height: 100)
                         Text(L10n.Global.locationMap)
+                            .font(.system(size: 20, weight: .thin))
                     }
                     Spacer()
                     Rectangle()
@@ -98,7 +99,7 @@ struct HomeView: View {
                 }
             }
             
-        }.frame(minWidth: 1000, minHeight: 700)
+        }.frame(minWidth: 1000, minHeight: 650)
         .onChange(of: appState.displayState) { newValue in
             withAnimation {
                 localIsConnected = newValue == .connected

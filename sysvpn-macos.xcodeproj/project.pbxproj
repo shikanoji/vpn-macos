@@ -188,6 +188,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9E4A04382907D10C00B059EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC09D70F28BCDCD40078E928 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FAA35B8628FD35A400205ECD;
+			remoteInfo = WireGuardKitGo;
+		};
 		AC09D72928BCDCD80078E928 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC09D70F28BCDCD40078E928 /* Project object */;
@@ -1261,6 +1268,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				9E4A04392907D10C00B059EA /* PBXTargetDependency */,
 			);
 			name = WireGuardAppExtension;
 			packageProductDependencies = (
@@ -1638,6 +1646,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		9E4A04392907D10C00B059EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FAA35B8628FD35A400205ECD /* WireGuardKitGo */;
+			targetProxy = 9E4A04382907D10C00B059EA /* PBXContainerItemProxy */;
+		};
 		AC09D72A28BCDCD80078E928 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AC09D71628BCDCD40078E928 /* sysvpn-macos */;
@@ -2110,6 +2123,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.syspvn.client.macos.OpenVpnAppExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -2139,6 +2153,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.syspvn.client.macos.OpenVpnAppExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

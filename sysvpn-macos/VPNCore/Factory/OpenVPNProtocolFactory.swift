@@ -14,14 +14,18 @@ import NetworkExtension
 
 class OpenVpnProtocolFactory {
     private let debugLogFormat = "$Dyyyy-MM-dd'T'HH:mm:ss.SSSZ$d $L protocol $N.$F:$l - $M"
-    private let bundleId: String
+    var  bundleId: String
+    {
+        if  IPCFactory.makeIPCRequestService().isConnected {
+            return CoreAppConstants.SystemExtensions.openVpn
+        }
+        return CoreAppConstants.NetworkExtensions.openVpn
+    }
     private let appGroup: String
     private let vpnManagerFactory: NETunnelProviderManagerWrapperFactory
     private var vpnManager: NEVPNManagerWrapper?
-    public init(bundleId: String,
-                appGroup: String,
+    public init(appGroup: String,
                 vpnManagerFactory: NETunnelProviderManagerWrapperFactory) {
-        self.bundleId = bundleId
         self.appGroup = appGroup
         self.vpnManagerFactory = vpnManagerFactory
     }
@@ -34,7 +38,7 @@ extension OpenVpnProtocolFactory: VpnProtocolFactory {
         let openVpnConfig = try getOpenVpnConfig(for: configuration)
         /*let generator = tunnelProviderGenerator(for: openVpnConfig)
         let neProtocol = try generator.generatedTunnelProtocol(withBundleIdentifier: bundleId, appGroup: appGroup, context: bundleId, username: configuration.username)*/
-        var vpnProto =  try openVpnConfig.asTunnelProtocol(withBundleIdentifier: bundleId, extra: configuration.extra) 
+        let vpnProto =  try openVpnConfig.asTunnelProtocol(withBundleIdentifier: bundleId, extra: configuration.extra)
         return vpnProto
     }
     

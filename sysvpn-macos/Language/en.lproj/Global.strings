@@ -7,3 +7,20 @@
 */
 "hello" = "Hello";
 "locationMap" = "Location Map";
+"vpnConnected" = "VPN Connected";
+"vpnNotConnected" = "VPN not connected";
+"quickConnect" = "Quick\nConnect";
+"labelLocation" = "Location:";
+"labelVPNIP" = "VPN IP:";
+"manualConnection" = "Manual connection";
+
+"manualCDesc" = "locations available";
+
+"staticIP" = "Static IP";
+"staticIPDesc" = "Personal Static IP address";
+
+"multiHop" = "MultiHop";
+"multiHopDesc" = "locations available";
+"sysvpnConfiguration" = "Sysvpn Configuration";
+"setting" = "Setting";
+"helpCenter" = "Help Center";
