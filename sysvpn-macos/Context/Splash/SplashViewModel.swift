@@ -40,6 +40,7 @@ extension SplashView {
               
                if AppDataManager.shared.isLogin {
                    self.loadCountry()
+                   self.loadListMultiHop()
                    OpenWindows.MainView.open()
                } else {
                    OpenWindows.LoginView.open()
@@ -64,6 +65,17 @@ extension SplashView {
                 switch result {
                 case let .success(response):
                     AppDataManager.shared.userCountry = response
+                case .failure(_):
+                    break
+                }
+            })
+        }
+        
+        func loadListMultiHop() {
+            _ = APIServiceManager.shared.getListMultiHop().subscribe({ result in
+                switch result {
+                case let .success(response):
+                    AppDataManager.shared.mutilHopServer = response
                 case .failure(_):
                     break
                 }

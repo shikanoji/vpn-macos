@@ -20,6 +20,7 @@ struct Constant {
             static let listCountry = "/app/module_server/v1/country/get_list"
             static let requestCert = "/app/module_server/v1/vpn/request_certificate"
             static let getStartServer = "/app/module_server/v1/server_stats/get_static_server_stats"
+            static let mutilHopServer = "/app/module_server/v1/multi_hop/get_list"
             
             
             static let logout = "/shared/module_auth/v1/logout"

@@ -20,8 +20,7 @@ final class APIServiceManager: BaseServiceManager<APIService> {
 //        self.provider = MoyaProvider<APIService>(requestClosure: MoyaProvider<APIService>.endpointResolver(), plugins: [plugin])
 //        self.provider.session.sessionConfiguration.timeoutIntervalForRequest = 10
 //        self.provider.session.sessionConfiguration.timeoutIntervalForResource = 10
-//    }
-     
+//    } 
  
     func onLogin(email: String, password: String) -> Single<AuthResult> {
         return requestIPC(.login(email: email, password: password)).handleApiResponseCodable(type: AuthResult.self) 
@@ -55,8 +54,12 @@ final class APIServiceManager: BaseServiceManager<APIService> {
         return requestIPC(.getStartServer).handleApiResponseCodable(type: ServerStateResult.self)
     }
     
-    func onRequestCertWireGuard(param: VpnParamRequest)  -> Single<WireGuardResult> {
+    func onRequestCertWireGuard(param: VpnParamRequest) -> Single<WireGuardResult> {
         return requestIPC(.requestCert(vpnParam: param)).handleApiResponseCodable(type: WireGuardResult.self)
+    }
+    
+    func getListMultiHop() -> Single<MultiHopResult> {
+        return requestIPC(.getListMutilHop).handleApiResponseCodable(type: MultiHopResult.self)
     }
      
      
