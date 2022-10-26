@@ -24,9 +24,15 @@ extension HomeView {
             }
             
             func getListCountry() {
-                
+                updateAvailableContry() 
+            }
+            
+            func updateAvailableContry() {
+                listCountry = []
+                let availableCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
                 let recommendCountry = AppDataManager.shared.userCountry?.recommendedCountries ?? []
                 let recentCountry = AppDataManager.shared.userCountry?.recentCountries ?? []
+                
                 if recentCountry.count  > 0 {
                     listCountry.append(HomeListCountryModel(type: .header, title: "Recent locations"))
                     for item in recentCountry {
@@ -44,13 +50,6 @@ extension HomeView {
                     }
                     listCountry.append(HomeListCountryModel(type: .spacing))
                 }
-                
-                updateAvailableContry()
-            }
-            
-            func updateAvailableContry() {
-                listCountry = []
-                let availableCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
                 if availableCountry.count  > 0 {
                     listCountry.append(HomeListCountryModel(type: .header, title: "All countries"))
                     for item in availableCountry {
@@ -67,7 +66,7 @@ extension HomeView {
                 if staticServer.count  > 0 {
                     listStaticServer.append(HomeListCountryModel(type: .header, title: "Static ip"))
                     for item in staticServer {
-                        var score = item.score ?? 1 
+                        let score = item.score ?? 1 
                         let staticItem = HomeListCountryModel(type: .country, title: item.countryName ?? "", imageUrl: item.flag, cityName: item.cityName ?? "", serverNumber: item.serverNumber ?? 1, serverStar: score + 1)
                         listStaticServer.append(staticItem)
                     }
@@ -76,6 +75,10 @@ extension HomeView {
                 if !firstLoadData {
                     dataServer = listStaticServer
                 }
+            }
+            
+            func getListMultiHop() {
+                
             }
             
             func onChangeState() {
