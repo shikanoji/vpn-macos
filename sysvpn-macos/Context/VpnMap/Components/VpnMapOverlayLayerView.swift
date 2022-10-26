@@ -17,6 +17,7 @@ struct VpnMapOverlayLayer: ViewModifier {
     var isShowCity: Bool = false
     
     @EnvironmentObject var appState: GlobalAppStates
+    @EnvironmentObject var mapState: MapAppStates
     
     @State var tooltipNodeX: CGFloat = 0
     @State  var tooltipNodeY: CGFloat  = 0
@@ -90,14 +91,17 @@ struct VpnMapOverlayLayer: ViewModifier {
             .position(connectedPosition.toScalePoint(scaleVector: computedScale))
     }
     
+    var isShowConnectedNode: Bool {
+        return appState.displayState == .connected && !(mapState.connectedNode is MultiHopResult)
+    }
     func body(content: Content) -> some View {
         VStack {
             content.overlay {
                 tooltipInfo
-                if appState.displayState == .connected {
-                    tooltipConnectedText.opacity(appState.hoverNode != connectedNode ? 1 : 0)
-                    tooltipConnectedNode.opacity(appState.hoverNode != connectedNode ? 0 : 1)
-                }
+                
+                tooltipConnectedText.opacity( (isShowConnectedNode && mapState.hoverNode != connectedNode ) ? 1 : 0)
+                tooltipConnectedNode.opacity( (!isShowConnectedNode || mapState.hoverNode != connectedNode ) ? 0 : 1)
+                
             }
         }.onChange(of: nodePoint) { newValue in
             if nodePoint == nil {

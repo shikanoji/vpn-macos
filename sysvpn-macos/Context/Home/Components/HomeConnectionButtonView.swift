@@ -11,13 +11,36 @@ import Kingfisher
 
 struct HomeConnectionButtonView : View {
     @EnvironmentObject var appState: GlobalAppStates
+    @EnvironmentObject var mapState: MapAppStates
+    
     var onTap: ( () -> Void)?
    @State var displayAppState: AppDisplayState = .disconnected
    @State var lastAppState: AppDisplayState = .disconnected
     
     var nodeIcon : some View {
         HStack {
-            if let image = appState.connectedNode?.image {
+            if let multipleHop = mapState.connectedNode as? MultiHopResult ,
+               let image1 = multipleHop.entry?.country?.image,
+               let image2 = multipleHop.exit?.country?.image
+            {
+                ZStack {
+                    image1.resizable()
+                        .frame(width: 46,height: 46)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 23).stroke(style: .init(lineWidth: 4))
+                                .foregroundColor(.white)
+                        }.transformEffect(.init(translationX: -20, y: 0))
+                        .opacity(0.3)
+                    image2.resizable()
+                        .frame(width: 66,height: 66)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 33).stroke(style: .init(lineWidth: 4))
+                                .foregroundColor(.white)
+                        }.transformEffect(.init(translationX: 20, y: 0))
+                }
+               
+            } else
+            if let image = mapState.connectedNode?.image {
                 image.resizable()
                     .frame(width: 66,height: 66)
                     .overlay {
@@ -28,20 +51,21 @@ struct HomeConnectionButtonView : View {
             }
         }
     }
+    
     var connectedButtonView : some View {
         VStack {
             nodeIcon
             Spacer().frame(height: 20)
             HStack (spacing: 5)  {
                 Text(L10n.Global.labelVPNIP).font(.system(size: 14))
-                Text(appState.serverInfo?.ipAddress ?? "0.0.0.0")
+                Text(mapState.serverInfo?.ipAddress ?? "0.0.0.0")
                     .font(.system(size: 12, weight: .semibold))
             }
             Spacer().frame(height: 6)
             HStack (spacing: 5) {
                 Text(L10n.Global.labelLocation)
                     .font(.system(size: 12))
-                Text(appState.connectedNode?.locationSubname ?? appState.connectedNode?.locationName ?? "")
+                Text(mapState.connectedNode?.locationSubname ?? mapState.connectedNode?.locationName ?? "")
                     .font(.system(size: 12, weight: .semibold))
             }
             
@@ -51,7 +75,6 @@ struct HomeConnectionButtonView : View {
                     
                 } label: {
                     AppActivityIndicator()
-                     //   .font(Font.system(size: 14, weight: .semibold))
                 }
                 .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
             } else {
@@ -144,6 +167,7 @@ struct HomeConnectionButtonView_Previews: PreviewProvider {
     static var previews: some View {
         HomeConnectionButtonView( displayAppState: .connected)
             .environmentObject(GlobalAppStates.shared)
+            .environmentObject(MapAppStates.shared)
             .frame(width: 240, height: 400)
     }
 }

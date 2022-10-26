@@ -12,7 +12,7 @@ import SwiftUITooltip
 struct VpnMapPointLayerView: View {
     var connectedNodeInfo: INodeInfo?
     var connectPoints: [ConnectPoint]
-    var nodeList: [NodePoint] 
+    var nodeList: [NodePoint]
     var scaleVector: CGFloat = 1
     var onTouchPoint: ((NodePoint) -> Void)?
     var onHoverNode: ((NodePoint, Bool) -> Void)?
@@ -33,16 +33,9 @@ struct VpnMapPointLayerView: View {
         return .normal
     }
     
-    
+   
     var body: some View {
         ZStack(alignment: .topLeading) {
-            Canvas { context, _ in
-                connectPoints.forEach { point in
-                    context.stroke(point.buildPath(scale: scaleVector), with: .linearGradient(lineGradient, startPoint: scalePoint(point.point1), endPoint: scalePoint(point.point2)), lineWidth: 2)
-                }
-            }
-            
-            
             ForEach(0..<nodeList.count, id: \.self) { index in
                 VpnMapPointView(state: normalState,
                                 locationIndex: nodeList[index].info.localtionIndex,
@@ -54,20 +47,54 @@ struct VpnMapPointLayerView: View {
                         onTouchPoint?(nodeList[index])
                         print("location: \( scalePoint(nodeList[index].point).x )")
                     }
-                    
+                
             }
             
-            if normalState == .disabled, let connectedNodeInfo = connectedNodeInfo, let node = connectedNodeInfo.toNodePoint(), let nodePos = computNodePointPos(node: node) {
-              
-                
-                VpnMapPointView(state:  .activated,
-                                locationIndex: node.info.localtionIndex,
-                                onHoverNode: { hover in
-                    onHoverNode?(node, hover)
+            if normalState == .disabled, let connectedNodeInfo = connectedNodeInfo  {
+               // multiple hop connected node point
+                if let multipleHop = connectedNodeInfo as? MultiHopResult {
+      
+                    if let entryNode = multipleHop.entry?.city?.toNodePoint(), let nodePos  = computNodePointPos(node: entryNode) , let exitNode = multipleHop.exit?.city?.toNodePoint(), let nodePos2  = computNodePointPos(node: exitNode)  {
+                        
+                        let connectPoint = ConnectPoint(point1: nodePos, point2: nodePos2)
+                        Canvas { context, _ in
+                            context.stroke(connectPoint.buildPath(scale: 1), with: .linearGradient(lineGradient, startPoint: connectPoint.point1, endPoint: connectPoint.point2), lineWidth: 2)
+                        }
+                        .allowsHitTesting(false)
+                        
+                        VpnMapPointView(state:  .activeDisabled,
+                                        locationIndex: 1,
+                                        onHoverNode: { hover in
+                            onHoverNode?(entryNode, hover)
+                        }
+                        ).position(x: nodePos.x, y: nodePos.y)
+                            .onTapGesture {
+                                onTouchPoint?(entryNode)
+                        }
+                        
+                        VpnMapPointView(state:  .activated,
+                                        locationIndex: 2,
+                                        onHoverNode: { hover in
+                            onHoverNode?(exitNode, hover)
+                        }
+                        ).position(x: nodePos2.x, y: nodePos2.y)
+                            .onTapGesture {
+                                onTouchPoint?(exitNode)
+                        }
+                    }
+                     
                 }
-                ).position(x: nodePos.x, y: nodePos.y)
-                    .onTapGesture {
-                        onTouchPoint?(node)
+                // single connected node point
+                else if let node = connectedNodeInfo.toNodePoint(), let nodePos = computNodePointPos(node: node) {
+                    VpnMapPointView(state:  .activated,
+                                    locationIndex: node.info.localtionIndex,
+                                    onHoverNode: { hover in
+                        onHoverNode?(node, hover)
+                    }
+                    ).position(x: nodePos.x, y: nodePos.y)
+                        .onTapGesture {
+                            onTouchPoint?(node)
+                    }
                 }
             }
         }

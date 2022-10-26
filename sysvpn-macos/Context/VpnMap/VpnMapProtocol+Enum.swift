@@ -17,7 +17,7 @@ protocol INodeInfo {
     var image: KFImage? { get }
     var locationDescription: String? {get}
     var locationSubname: String? {get}
-    
+    var cacheNode: NodePoint? {get set}
 }
 
 
@@ -58,26 +58,30 @@ struct ConnectPoint {
     func buildPath(scale: CGFloat) -> Path {
         let point1 = CGPoint(x: self.point1.x * scale, y: self.point1.y * scale)
         let point2 = CGPoint(x: self.point2.x * scale, y: self.point2.y * scale)
-        
-        var line = Path()
-        line.move(to: point1)
-        let vec = CGPoint(x: point2.x - point1.x, y: point2.y - point1.y)
-        let direction = min(1, (point2.x - point1.x) / abs(point2.x - point1.x))
-        var y2: CGFloat = vec.x / vec.y
-        var x2: CGFloat = 2
-        if vec.y == 0 {
-            y2 = -2
-        }
-        if vec.x == 0 {
-            x2 = -2
-            y2 = -2
-        }
-        let length2 = sqrt(y2 * y2 + x2 * x2)
-        let length = sqrt(vec.x * vec.x + vec.y * vec.y) * 0.5 * direction
-        let vec2 = CGPoint(x: x2 / length2 * length, y: y2 / length2 * length)
-        line.addQuadCurve(to: point2, control: CGPoint(x: point1.x + vec2.x, y: point1.y + vec2.y))
-        
-        return line
+         
+        return generateSpecialCurve(from: point1, to: point2, bendFactor: -0.2, thickness: 1)
+    }
+    
+    func generateSpecialCurve(from: CGPoint, to: CGPoint, bendFactor: CGFloat, thickness: CGFloat) -> Path {
+
+        let center = CGPoint(x: (from.x+to.x)*0.5, y: (from.y+to.y)*0.5)
+        let normal = CGPoint(x: -(from.y-to.y), y: (from.x-to.x))
+        let normalNormalized: CGPoint = {
+            let normalSize = sqrt(normal.x*normal.x + normal.y*normal.y)
+            guard normalSize > 0.0 else { return .zero }
+            return CGPoint(x: normal.x/normalSize, y: normal.y/normalSize)
+        }()
+
+        var path = Path()
+
+        path.move(to: from)
+
+        let midControlPoint: CGPoint = CGPoint(x: center.x + normal.x*bendFactor, y: center.y + normal.y*bendFactor)
+        let closeControlPoint: CGPoint = CGPoint(x: midControlPoint.x + normalNormalized.x*thickness*0.5, y: midControlPoint.y + normalNormalized.y*thickness*0.5)
+        let farControlPoint: CGPoint = CGPoint(x: midControlPoint.x - normalNormalized.x*thickness*0.5, y: midControlPoint.y - normalNormalized.y*thickness*0.5)
+        path.addQuadCurve(to: to, control: closeControlPoint)
+        path.addQuadCurve(to: from, control: farControlPoint)
+        return path
     }
 }
 
@@ -85,7 +89,7 @@ class NodeInfoTest: INodeInfo {
     static func == (lhs: NodeInfoTest, rhs: NodeInfoTest) -> Bool {
         return false
     }
-    
+    var cacheNode: NodePoint? 
     var locationDescription: String?
     
     var locationSubname: String?

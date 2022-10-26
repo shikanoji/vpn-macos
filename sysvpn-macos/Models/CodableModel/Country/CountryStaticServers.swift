@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CountryStaticServers: Codable {
+class CountryStaticServers: Codable {
 
   enum CodingKeys: String, CodingKey {
     case countryId
@@ -40,8 +40,10 @@ struct CountryStaticServers: Codable {
     var y: Double?
     var score: Int?
 
+    //custom
+    var cacheNode: NodePoint?
 
-  init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     countryId = try container.decodeIfPresent(Int.self, forKey: .countryId)
     serverNumber = try container.decodeIfPresent(Int.self, forKey: .serverNumber)

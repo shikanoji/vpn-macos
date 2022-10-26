@@ -79,8 +79,7 @@ struct BlinkingView: View {
             scaleRange: (-0.5...0.5),
             opacityRange:  (1...1),
             color: color
-        )
-        
+        ) 
             .onAppear { animate = true }
             .onDisappear { animate = false }
             .aspectRatio(contentMode: .fit)

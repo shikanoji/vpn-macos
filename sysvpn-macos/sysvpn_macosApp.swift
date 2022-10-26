@@ -37,6 +37,7 @@ struct sysvpn_macosApp: App {
                     }
                 }.environmentObject(GlobalAppStates.shared)
                 .environmentObject(NetworkAppStates.shared)
+                .environmentObject(MapAppStates.shared)
             }
         }.windowStyle(HiddenTitleBarWindowStyle())
             .commands {

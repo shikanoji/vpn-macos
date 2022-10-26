@@ -23,6 +23,7 @@ extension String {
     static var keySaveUserSetting = "KEY_SAVE_USER_SETTING"
     static var keySaveLastChange = "KEY_SAVE_LAST_CHANGE"
     static var keySaveMutilHop = "KEY_SAVE_MULTI_HOP"
+    static var keyIsMultiplehop = "KEY_IS_MULTI_HOP"
 }
 
 class AppDataManager {
@@ -151,6 +152,15 @@ class AppDataManager {
         }
     }
     
+    var isMultipleHop: Bool {
+        get { 
+            return UserDefaults.standard.bool(forKey: .keyIsMultiplehop)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: .keyIsMultiplehop)
+        }
+    }
+    
     func saveIpInfo(info: AppSettingIpInfo?) {
         userIp = info?.ip ?? "127.0.0.1"
         userCity = info?.city ?? "Ha Noi"
@@ -216,18 +226,19 @@ class AppDataManager {
     }
     
     
-    private var _mutilHopServer: MultiHopResult?
+    private var _mutilHopServer: [MultiHopResult]?
     
-    var mutilHopServer: MultiHopResult? {
+    var mutilHopServer: [MultiHopResult]? {
         get {
             if _mutilHopServer == nil {
-                _mutilHopServer = MultiHopResult.getListMultiHop()
+                _mutilHopServer = MultiHopSaveWraper.getListMultiHop()?.hop
             }
             return _mutilHopServer
         }
         set {
             _mutilHopServer = newValue
-            _mutilHopServer?.saveListMultiHop()
+            let value = MultiHopSaveWraper(hop: newValue);
+            value.saveListMultiHop()
         }
     }
     
@@ -242,6 +253,18 @@ class AppDataManager {
         return nil
     }
     func getNodeByServerInfo(server: VPNServer) -> INodeInfo? {
+        
+        if isMultipleHop {
+            guard let hop = mutilHopServer?.first(where: { sv in
+                return sv.entry?.serverId == server.id
+            }) else {
+                return nil
+            }
+            hop.entry?.city?.country = hop.entry?.country
+            hop.exit?.city?.country = hop.exit?.country
+        return hop
+            
+        }
        guard let country =  userCountry?.availableCountries?.first(where: { ct in
            return ct.city?.contains(where: { city in
                return city.id == server.cityId

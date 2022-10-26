@@ -116,7 +116,7 @@ extension HomeLeftPanelView {
         func onTapConnect() {
             if GlobalAppStates.shared.displayState == .disconnected {
                 let dj = DependencyContainer.shared
-                if let selectedNode = GlobalAppStates.shared.selectedNode {
+                if let selectedNode = MapAppStates.shared.selectedNode {
                     if let city  = selectedNode as? CountryCity {
                         dj.vpnCore.connect(with: .init(connectType: .cityId(id: city.id ?? 0)))
                     } else if let country = selectedNode as? CountryAvailables {

@@ -28,7 +28,7 @@ class AppVpnService: SysVPNService {
         
         switch connectType {
         case .quick:
-            vpnParam.serverId = 46
+            vpnParam.serverId = 106
         case let .serverId(id):
             vpnParam.serverId = id
         case let .countryId(id):

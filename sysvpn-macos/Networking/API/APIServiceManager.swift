@@ -58,8 +58,8 @@ final class APIServiceManager: BaseServiceManager<APIService> {
         return requestIPC(.requestCert(vpnParam: param)).handleApiResponseCodable(type: WireGuardResult.self)
     }
     
-    func getListMultiHop() -> Single<MultiHopResult> {
-        return requestIPC(.getListMutilHop).handleApiResponseCodable(type: MultiHopResult.self)
+    func getListMultiHop() -> Single<[MultiHopResult]> {
+        return requestIPC(.getListMutilHop).handleApiResponseCodable(type: [MultiHopResult].self)
     }
      
      

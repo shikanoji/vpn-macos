@@ -11,6 +11,7 @@ import SwiftUITooltip
 
 struct VpnMapView: View {
     @StateObject private var viewModel = VpnMapViewModel()
+    @EnvironmentObject var mapState: MapAppStates
     @EnvironmentObject var appState: GlobalAppStates
     @Binding var scale: CGFloat
     var rescaleView: CGFloat = 2
@@ -27,7 +28,7 @@ struct VpnMapView: View {
     var body: some View {
         GeometryReader { proxy in
             LoopMapView(
-                connectedNodeInfo: appState.connectedNode,
+                connectedNodeInfo: mapState.connectedNode,
                 size: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height),
                 scale: rescaleView,
                 loop: numberImage,  
@@ -36,16 +37,16 @@ struct VpnMapView: View {
                 nodeList: isShowCity ? viewModel.listCity : viewModel.listCountry,
                 onTouchPoint: { node in
                     selectedNode = node
-                    appState.selectedNode = node.info
+                    mapState.selectedNode = node.info
                 }, onHoverNode: {
                     (node, hover) in
                     if node.info.state == .disabled {
                         return
                     }
                     if hover {
-                        appState.hoverNode = node
+                        mapState.hoverNode = node
                     } else {
-                        appState.hoverNode = nil
+                        mapState.hoverNode = nil
                     }
                 },
                 isShowCity: isShowCity
@@ -71,13 +72,13 @@ struct VpnMapView: View {
         }.onChange(of: isShowCity, perform: { newValue in
             selectedNode = nil
         }).onChange(of: selectedNode, perform: { newValue in
-            appState.selectedNode = newValue?.info
+            mapState.selectedNode = newValue?.info
             updateCameraPosition = newValue?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
         })
         .onChange(of: appState.displayState, perform: { newValue in
             if appState.displayState == .connected  || appState.displayState == .connecting {
-                if appState.connectedNode != nil {
-                    connectedNode = appState.connectedNode?.toNodePoint(appState.serverInfo?.ipAddress)
+                if mapState.connectedNode != nil {
+                    connectedNode = mapState.connectedNode?.toNodePoint(mapState.serverInfo?.ipAddress)
                     updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
                     return 
                 }
@@ -87,9 +88,9 @@ struct VpnMapView: View {
         })
         .onChange(of: viewModel.isLoaded, perform: { newValue in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                if let node =  appState.connectedNode,  appState.displayState == .connected {
+                if let node =  mapState.connectedNode,  appState.displayState == .connected {
                     self.selectedNode = nil
-                    self.connectedNode = node.toNodePoint(appState.serverInfo?.ipAddress)
+                    self.connectedNode = node.toNodePoint(mapState.serverInfo?.ipAddress)
                     updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
                 }
             }

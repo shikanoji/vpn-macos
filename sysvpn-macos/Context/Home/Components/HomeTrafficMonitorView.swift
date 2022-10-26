@@ -15,7 +15,7 @@ struct HomeTrafficMonitorView : View {
     @EnvironmentObject var appState: GlobalAppStates
     var body: some View {
         HStack (alignment: .top) {
-            HomeTrafficInfoView(bitRate: bitRateState, usageInfo: usageInfo)
+            HomeTrafficInfoView(bitRate: bitRateState, usageInfo: usageInfo, startTime: appState.sessionStartTime)
             Spacer()
             HomeTrafficChartView(bitRate: bitRateState)
                 .frame(maxWidth: .infinity)
@@ -29,6 +29,9 @@ struct HomeTrafficMonitorView : View {
 struct HomeTrafficInfoView : View {
     var bitRate: Bitrate
     var usageInfo: SingleDataUsageInfo
+    var startTime: Double?
+    
+    @State var sessionDisplay: String  = "--:--:--"
     
     var body: some View {
         VStack (alignment: .leading) {
@@ -44,15 +47,36 @@ struct HomeTrafficInfoView : View {
                 }
                 Spacer()
                 VStack (alignment: .trailing) {
-                    Text("20:17:68")
+                    Text(sessionDisplay)
                     Text(usageInfo.displayString(for: usageInfo.received))
                     Text(usageInfo.displayString(for: usageInfo.sent))
                    
                 }
             }.frame(maxWidth: 200)
-        }
+             
+        }.onChange(of: bitRate, perform: { newValue in
+            sessionDisplay = getTime(now: Date().timeIntervalSince1970 )
+        })
         .font(Font.system(size: 13, weight: .regular))
         .foregroundColor(Color.white)
+    }
+    
+    func getTime(now: Double) -> String {
+        guard let startTime = startTime else {
+            return "--:--:--"
+        }
+         
+        let diff = now - startTime
+        if diff < 0 {
+            return "00:00:00"
+        }
+       
+        let hour = floor( diff / 60 / 60)
+        let min = floor( (diff - hour * 60 * 60) / 60 )
+        let second = floor(diff - (hour * 60 * 60 + min * 60))
+        
+        print(second)
+        return .init(format: "%02d:%02d:%02d", Int(hour), Int(min), Int(second))
     }
 }
 

@@ -10,6 +10,7 @@ import Foundation
 import NetworkExtension
 
 class SysVPNManager : SysVPNManagerProtocol {
+     
     
     private var quickReconnection = false
     private let localAgentIsConnectedQueue = DispatchQueue(label: "gn.local-agent.is-connected")
@@ -60,6 +61,17 @@ class SysVPNManager : SysVPNManagerProtocol {
             localAgentStateChanged?(isLocalAgentConnected)
         }
     }
+    
+    var sessionStartTime: Double? {
+        get {
+            return UserDefaults.standard.double(forKey: "sessionStartTime")
+        }
+        set {
+            UserDefaults.standard.setValue ( newValue,forKey: "sessionStartTime")
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
     
     private let vpnStateConfiguration: SysVPNStateConfiguration
     
@@ -524,11 +536,13 @@ class SysVPNManager : SysVPNManagerProtocol {
             }
             fallthrough
         case .disconnected, .invalid:
+            sessionStartTime = nil
             self.disconnectCompletion?()
             self.disconnectCompletion = nil
             setRemoteAuthenticationEndpoint(provider: nil)
             disconnectLocalAgent()
         case .connected:
+            sessionStartTime = Date().timeIntervalSince1970
             setRemoteAuthenticationEndpoint(provider: vpnManager.vpnConnection as? ProviderMessageSender)
             self.connectLocalAgent()
         default:

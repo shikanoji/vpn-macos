@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CountryAvailables: Codable {
+class CountryAvailables: Codable {
 
   enum CodingKeys: String, CodingKey {
     case region
@@ -37,9 +37,10 @@ struct CountryAvailables: Codable {
   var iso3: String?
   var id: Int?
 
+ // custom
+    var cacheNode: NodePoint? 
 
-
-  init(from decoder: Decoder) throws {
+   required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     region = try container.decodeIfPresent(String.self, forKey: .region)
     latitude = try container.decodeIfPresent(String.self, forKey: .latitude)

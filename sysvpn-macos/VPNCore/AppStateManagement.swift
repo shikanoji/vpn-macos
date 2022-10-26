@@ -31,6 +31,7 @@ protocol AppStateManagement {
 class SysVpnAppStateManagement : AppStateManagement {
     private var attemptingConnection = false
     private var _state: AppState = .disconnected
+
     public private(set) var state: AppState {
         get {
             dispatchAssert(condition: .onQueue(.main))
@@ -42,12 +43,17 @@ class SysVpnAppStateManagement : AppStateManagement {
             computeDisplayState(with: vpnManager.isLocalAgentConnected)
         }
     }
+    var sessionStartTime: Double? {
+        get {
+            return vpnManager.sessionStartTime
+        }
+    }
+    
     
     private var vpnManager: SysVPNManagerProtocol
     var onVpnStateChanged: ((VpnState) -> Void)?
     var displayState: AppDisplayState = .disconnected {
         didSet {
-            print("[AppState] did changed \(displayState)")
             GlobalAppStates.shared.displayState = displayState
             switch displayState {
             case  .connected:
@@ -314,12 +320,12 @@ class SysVpnAppStateManagement : AppStateManagement {
         guard let lastConfig = lastAttemptedConfiguration else {
             return
         }
-        GlobalAppStates.shared.serverInfo =  lastConfig.serverInfo;
-        GlobalAppStates.shared.connectedNode = AppDataManager.shared.getNodeByServerInfo(server: lastConfig.serverInfo)
+        MapAppStates.shared.serverInfo =  lastConfig.serverInfo;
+        MapAppStates.shared.connectedNode = AppDataManager.shared.getNodeByServerInfo(server: lastConfig.serverInfo)
     }
     
     private func updateUIDisconnectedInfo() {
-        GlobalAppStates.shared.connectedNode = nil
+        MapAppStates.shared.connectedNode = nil
     }
     @objc private func vpnStateChanged() {
       
