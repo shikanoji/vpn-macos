@@ -12,6 +12,7 @@ struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @State var localIsConnected = false
     @EnvironmentObject var appState: GlobalAppStates
+    @State private var isShowCity = false
     let pub = NotificationCenter.default
         .publisher(for: .reloadServerStar)
     var body: some View {
@@ -21,19 +22,51 @@ struct HomeView: View {
                 .contentShape(Rectangle())
                 .zIndex(3)
             if viewModel.selectedMenuItem != .none {
-                HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.dataServer)
-                    .zIndex(2)
-                    .transition(
-                        AnyTransition.asymmetric(
-                        insertion: .move(edge: .leading),
-                        removal: .move(edge: .leading)
-                    ))
-                    .onReceive(pub) { _ in
-                        if viewModel.selectedMenuItem == .staticIp {
-                            viewModel.getListStaticServer(firstLoadData: false)
+                if viewModel.selectedMenuItem == .manualConnection {
+                 
+                        if isShowCity {
+                            HomeDetailCityNodeView(selectedItem: $viewModel.selectedMenuItem, listCity: $viewModel.listCity, isShowCity: $isShowCity, countryItem: viewModel.countrySelected)
+                                .zIndex(2)
+                                .transition(
+                                    AnyTransition.asymmetric(
+                                    insertion: .move(edge: .leading),
+                                    removal: .move(edge: .leading)
+                                    ))
+                                .onReceive(pub) { _ in
+                                    if viewModel.selectedMenuItem == .staticIp {
+                                        viewModel.getListStaticServer(firstLoadData: false)
+                                    }
+                                }
+                        } else {
+                            HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.dataServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected)
+                                .zIndex(2)
+                                .transition(
+                                    AnyTransition.asymmetric(
+                                    insertion: .move(edge: .leading),
+                                    removal: .move(edge: .leading)
+                                ))
+                                .onReceive(pub) { _ in
+                                    if viewModel.selectedMenuItem == .staticIp {
+                                        viewModel.getListStaticServer(firstLoadData: false)
+                                    }
+                                }
                         }
-                        
-                    }
+                  
+                } else {
+                    HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.dataServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected)
+                        .zIndex(2)
+                        .transition(
+                            AnyTransition.asymmetric(
+                            insertion: .move(edge: .leading),
+                            removal: .move(edge: .leading)
+                        ))
+                        .onReceive(pub) { _ in
+                            if viewModel.selectedMenuItem == .staticIp {
+                                viewModel.getListStaticServer(firstLoadData: false)
+                            }
+                        }
+                }
+                
             }
             VpnMapView(
                 scale: $zoomValue.cgFloat()
@@ -110,6 +143,9 @@ struct HomeView: View {
         }
         .onChange(of: viewModel.selectedMenuItem) { newValue in
             viewModel.onChangeState()
+        }
+        .onChange(of: viewModel.countrySelected) { newValue in
+            viewModel.onChangeCountry(item: newValue)
         }
         
     }

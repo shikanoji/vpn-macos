@@ -7,12 +7,15 @@
 
 import Foundation
 import SwiftUI
+import Kingfisher
+
 struct HomeListCountryNodeView : View {
     @Binding var selectedItem: HomeMenuItem 
     @Binding var countries: [HomeListCountryModel]
+    @Binding var isShowCity: Bool
+    @Binding var countrySelected: HomeListCountryModel?
     var body: some View {
-        
-        VStack(alignment: .leading) { 
+        VStack(alignment: .leading) {
             List(countries) {  item in
                 switch item.type {
                 case .spacing:
@@ -20,6 +23,14 @@ struct HomeListCountryNodeView : View {
                 case .country:
                     if selectedItem == .manualConnection {
                         CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
+                            .onTapGesture {
+                                if item.totalCity > 1 {
+                                    withAnimation {
+                                        isShowCity = true
+                                        countrySelected = item
+                                    }
+                                }
+                            }
                     } else if selectedItem == .staticIp {
                         StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar)
                     } else if selectedItem == .multiHop {
@@ -48,14 +59,10 @@ struct HomeListCountryNodeView : View {
             }
             .modifier(ListViewModifier())
             .animation(nil, value: UUID())
-            
-             
         }
-        
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
         .background(Asset.Colors.backgroundColor.swiftUIColor)
-        
         .overlay {
             Asset.Assets.icClose.swiftUIImage.padding(10)
             .background(Asset.Colors.backgroundColor.swiftUIColor)
@@ -67,9 +74,64 @@ struct HomeListCountryNodeView : View {
                 }
             }
         }
-       
     }
 }
+
+struct HomeDetailCityNodeView : View {
+    @Binding var selectedItem: HomeMenuItem
+    @Binding var listCity: [HomeListCountryModel]
+    @Binding var isShowCity: Bool
+    var countryItem: HomeListCountryModel?
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack(alignment: .center) {
+                Asset.Assets.icArrowLeft.swiftUIImage
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                if countryItem?.imageUrl != nil {
+                    KFImage(URL(string: (countryItem?.imageUrl!)!))
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .cornerRadius(16)
+                } else {
+                    Asset.Assets.icFlagEmpty.swiftUIImage
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .cornerRadius(16)
+                }
+                Text(countryItem?.title ?? "")
+                    .foregroundColor(Color.white)
+                    .font(Font.system(size: 16, weight: .semibold))
+            } .onTapGesture {
+                withAnimation {
+                    isShowCity = false
+                }
+            }
+            List(listCity) {  item in
+                CityItemView(countryName: countryItem?.title ?? "", cityName: item.title, imageUrl: item.imageUrl)
+            }
+            .modifier(ListViewModifier())
+            .animation(nil, value: UUID())
+        }
+        .padding(.horizontal, 6)
+        .frame(width: 300, alignment: .leading)
+        .background(Asset.Colors.backgroundColor.swiftUIColor)
+        .overlay {
+            Asset.Assets.icClose.swiftUIImage.padding(10)
+            .background(Asset.Colors.backgroundColor.swiftUIColor)
+            .position(x: 315, y: 0)
+            .allowsHitTesting(true)
+            .onTapGesture {
+                withAnimation {
+                    selectedItem = .none
+                }
+            }
+        }
+    }
+}
+
+
+
 
 enum HomeListCountryModelType {
     case header
@@ -77,7 +139,7 @@ enum HomeListCountryModelType {
     case spacing
 }
 
-struct HomeListCountryModel: Identifiable {
+struct HomeListCountryModel: Identifiable, Equatable {
     var id = UUID()
     var type: HomeListCountryModelType
     var title: String = ""
@@ -86,6 +148,8 @@ struct HomeListCountryModel: Identifiable {
     var cityName: String = ""
     var serverNumber: Int = 0
     var serverStar: Int = 1
+    var idCountry: Int = 0
+    
 }
 
 

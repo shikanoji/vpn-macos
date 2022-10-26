@@ -11,6 +11,8 @@ extension HomeView {
         @MainActor class HomeViewModel: ObservableObject {
             @Published var selectedMenuItem: HomeMenuItem = .none
             @Published var dataServer: [HomeListCountryModel]
+            @Published var listCity: [HomeListCountryModel]
+            @Published var countrySelected: HomeListCountryModel?
             var isConnected: Bool = false
             var listCountry: [HomeListCountryModel]
             var listStaticServer: [HomeListCountryModel]
@@ -18,6 +20,7 @@ extension HomeView {
                 dataServer = []
                 listCountry = []
                 listStaticServer = []
+                listCity = []
                 getListCountry()
                 getListStaticServer()
                 dataServer = listCountry
@@ -25,6 +28,20 @@ extension HomeView {
             
             func getListCountry() {
                 updateAvailableContry() 
+            }
+             
+            func onChangeCountry(item: HomeListCountryModel?) {
+                listCity = []
+                let availableCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
+                let countryData = availableCountry.filter { data in
+                    return data.id == (item?.idCountry ?? 0)
+                }.first
+                let arrCity = countryData?.city ?? []
+                
+                for dataCity in arrCity {
+                    let itemCityModel = HomeListCountryModel(type: .country, title: dataCity.name ?? "")
+                    listCity.append(itemCityModel)
+                }
             }
             
             func updateAvailableContry() {
@@ -36,7 +53,7 @@ extension HomeView {
                 if recentCountry.count  > 0 {
                     listCountry.append(HomeListCountryModel(type: .header, title: "Recent locations"))
                     for item in recentCountry {
-                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag)
+                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0)
                         listCountry.append(countryItemModel)
                     }
                     listCountry.append(HomeListCountryModel(type: .spacing))
@@ -45,7 +62,7 @@ extension HomeView {
                 if recommendCountry.count  > 0 {
                     listCountry.append(HomeListCountryModel(type: .header, title: "Recommended"))
                     for item in recommendCountry {
-                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag)
+                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0)
                         listCountry.append(countryItemModel)
                     }
                     listCountry.append(HomeListCountryModel(type: .spacing))
@@ -53,7 +70,7 @@ extension HomeView {
                 if availableCountry.count  > 0 {
                     listCountry.append(HomeListCountryModel(type: .header, title: "All countries"))
                     for item in availableCountry {
-                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag)
+                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0)
                         listCountry.append(countryItemModel)
                     }
                     listCountry.append(HomeListCountryModel(type: .spacing))

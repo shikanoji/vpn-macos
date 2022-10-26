@@ -36,7 +36,7 @@ struct CountryAvailables: Codable {
   var flag: String?
   var iso3: String?
   var id: Int?
-
+    var lastUse: Date?
 
 
   init(from decoder: Decoder) throws {
