@@ -13,7 +13,7 @@ import TunnelKitManager
 class IPCNetworkExtension: XPCBaseService {
     let userDefaults = UserDefaults(suiteName: CoreAppConstants.AppGroups.main )
 
-    lazy var urlConfiguration = {
+    lazy var urlConfiguration: URLSessionConfiguration = {
         let urlconfig = URLSessionConfiguration.default
         urlconfig.timeoutIntervalForRequest = 10
         urlconfig.timeoutIntervalForResource = 10

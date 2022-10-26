@@ -8,15 +8,28 @@
 import Foundation
 
 struct BaseCodable<T : Decodable> : Decodable {
-  var message: String?
-  var result: T?
-  var success: Bool?
+    var message: String
+    var result: T?
+    var success: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case message
+        case result
+        case success
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        message = (try? container.decodeIfPresent(String.self, forKey: .message)) ?? ""
+        result = try container.decodeIfPresent(T.self, forKey: .result)
+        success = (try? container.decodeIfPresent(Bool.self, forKey: .success)) ?? false
+    }
 }
 
 func saveFilePath() -> URL {
-  let fm = FileManager.default
+    let fm = FileManager.default
     let file = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("SYSVPN")
-  return file
+    return file
 }
 
 
@@ -55,17 +68,17 @@ extension Decodable {
         }
         return nil
     }
-     
+    
     static func readFile(fileName: String) -> Decodable? {
         var data: Data?
         let urlFile = saveFilePath().appendingPathComponent(fileName)
         print("[CacheConfig] ",urlFile)
         if FileManager.default.exist(atUrl: urlFile)  {
-           print("[CacheConfig] load config from cache")
-           data = try? Data(contentsOf: urlFile)
+            print("[CacheConfig] load config from cache")
+            data = try? Data(contentsOf: urlFile)
         }
         guard let strongData = data else {
-          return nil
+            return nil
         }
         
         let decoder = JSONDecoder()
@@ -75,5 +88,5 @@ extension Decodable {
         return nil
     }
 }
- 
- 
+
+

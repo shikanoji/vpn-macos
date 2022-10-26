@@ -17,9 +17,9 @@ class DependencyContainer {
     
     private lazy var sysVpnStateMgr = SysVPNStateConfigurationManager(openVpnProtocolFactory: openVpnProtocolFactory, wireguardProtocolFactory: wireguardProtocolFactory, appGroup:  CoreAppConstants.AppGroups.main)
     
-    lazy var openVpnProtocolFactory: VpnProtocolFactory = OpenVpnProtocolFactory(bundleId: CoreAppConstants.NetworkExtensions.openVpn, appGroup: CoreAppConstants.AppGroups.main, vpnManagerFactory: self)
+    lazy var openVpnProtocolFactory: VpnProtocolFactory = OpenVpnProtocolFactory( appGroup: CoreAppConstants.AppGroups.main, vpnManagerFactory: self)
     
-    lazy var wireguardProtocolFactory: VpnProtocolFactory  = WireguardProtocolFactory(bundleId:  CoreAppConstants.NetworkExtensions.wireguard, appGroup: CoreAppConstants.AppGroups.main, vpnManagerFactory: self )
+    lazy var wireguardProtocolFactory: VpnProtocolFactory  = WireguardProtocolFactory( appGroup: CoreAppConstants.AppGroups.main, vpnManagerFactory: self )
     
     lazy var vpnManager: SysVPNManagerProtocol = SysVPNManager(appGroup: CoreAppConstants.AppGroups.main, vpnCredentialsConfiguratorFactory: vpnCredentialsConfiguratorFactory, openVpnProtocolFactory: openVpnProtocolFactory, wireguardProtocolFactory: wireguardProtocolFactory, vpnStateConfiguration: sysVpnStateMgr)
     

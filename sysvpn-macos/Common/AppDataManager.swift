@@ -175,9 +175,9 @@ class AppDataManager {
         }
     }
     
-    var lastChange: Int {
+    var lastChange: Double {
         get {
-            return UserDefaults.standard.integer(forKey: .keySaveLastChange)
+            return UserDefaults.standard.double(forKey: .keySaveLastChange)
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: .keySaveLastChange)

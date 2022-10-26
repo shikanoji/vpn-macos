@@ -19,9 +19,9 @@ struct HomeConnectionButtonView : View {
         HStack {
             if let image = appState.connectedNode?.image {
                 image.resizable()
-                    .frame(width: 76,height: 76)
+                    .frame(width: 66,height: 66)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 38).stroke(style: .init(lineWidth: 4))
+                        RoundedRectangle(cornerRadius: 33).stroke(style: .init(lineWidth: 4))
                             .foregroundColor(.white)
                     }
                     
@@ -33,19 +33,19 @@ struct HomeConnectionButtonView : View {
             nodeIcon
             Spacer().frame(height: 20)
             HStack (spacing: 5)  {
-                Text("VPN IP: ").font(.system(size: 14))
+                Text(L10n.Global.labelVPNIP).font(.system(size: 14))
                 Text(appState.serverInfo?.ipAddress ?? "0.0.0.0")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(size: 12, weight: .semibold))
             }
-            Spacer().frame(height: 10)
+            Spacer().frame(height: 6)
             HStack (spacing: 5) {
-                Text("Location: ")
-                    .font(.system(size: 14))
+                Text(L10n.Global.labelLocation)
+                    .font(.system(size: 12))
                 Text(appState.connectedNode?.locationSubname ?? appState.connectedNode?.locationName ?? "")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(size: 12, weight: .semibold))
             }
             
-            Spacer().frame(height: 20)
+            Spacer().frame(height: 24)
             if displayAppState == .disconnecting {
                 Button {
                     
@@ -61,9 +61,10 @@ struct HomeConnectionButtonView : View {
                     onTap?()
                 } label: {
                     Text(L10n.Login.disconnect)
-                        .font(Font.system(size: 14, weight: .semibold))
+                        .font(Font.system(size: 12, weight: .semibold))
                 }
                 .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
+                .frame(width: 114)
             }
         }
         .foregroundColor(Color.white)
@@ -74,17 +75,17 @@ struct HomeConnectionButtonView : View {
             ButtonOutlinePathShape()
                 .stroke(style: .init(lineWidth: 4 ))
                 .foregroundColor(displayAppState == .connecting  ?  Asset.Colors.primaryColor.swiftUIColor : .white )
-                .padding(5)
-                .frame(width: 140, height: 140)
+                .padding(3)
+                .frame(width: 100, height: 100)
             Rectangle().clipShape(ButtonOutlinePathShape())
                 .foregroundColor( displayAppState == .connecting  ? .white : Asset.Colors.primaryColor.swiftUIColor)
-                .padding(12)
-                .frame(width: 140, height: 140)
+                .padding(9)
+                .frame(width: 100, height: 100)
             
             if displayAppState == .disconnected {
-                Text("Quick\nConnect")
+                Text(L10n.Global.quickConnect)
                     .multilineTextAlignment(.center)
-                    .font(.system(size: 18, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(Asset.Colors.backgroundColor.swiftUIColor)
             } else {
                 AppActivityIndicator(color: Asset.Colors.backgroundColor.swiftUIColor)
@@ -94,21 +95,19 @@ struct HomeConnectionButtonView : View {
     }
     var body: some View {
         VStack {
-            Text((displayAppState == .connected) ? "VPN connected" :  "VPN not connected")
-                .font(.system(size: 18, weight: .regular))
+            Text((displayAppState == .connected) ? L10n.Global.vpnConnected : L10n.Global.vpnNotConnected)
+                .font(.system(size: 14, weight: .regular))
                 .foregroundColor(Color.white)
             Spacer().frame(height: 24)
-           /* connectButtonView.onTapGesture {
-                onTap?()
-            }*/
-            if displayAppState == .connected || ( lastAppState == .connected &&  displayAppState == .disconnecting)  {
+            
+            if displayAppState == .connected {
                 connectedButtonView
             } else {
                 connectButtonView.onTapGesture {
                     onTap?()
                 }
             }
-            Spacer().frame(maxHeight: 70)
+            Spacer().frame(maxHeight: 46)
                 
         }.onChange(of: appState.displayState) { newValue in
            
@@ -142,6 +141,8 @@ struct ButtonOutlinePathShape : Shape {
 struct HomeConnectionButtonView_Previews: PreviewProvider {
     static var previews: some View {
         HomeConnectionButtonView( displayAppState: .connected)
+            .environmentObject(GlobalAppStates.shared)
+            .frame(width: 240, height: 400)
     }
 }
 

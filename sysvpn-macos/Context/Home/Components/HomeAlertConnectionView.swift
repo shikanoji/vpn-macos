@@ -15,7 +15,11 @@ struct HomeAlertConnectionView : View {
             Asset.Assets.icUnprotected.swiftUIImage
             VStack(alignment: .leading) {
                 Text("Your IP: \( appState.userIpAddress ) - Unprotected")
+                    .font(.system(size: 12))
+                Spacer().frame(height: 4)
                 Text("Connect to VPN to online sercurity")
+                    .font(.system(size: 12))
+                    .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
             }.foregroundColor(Color.white)
             Spacer()
         }.padding(20)

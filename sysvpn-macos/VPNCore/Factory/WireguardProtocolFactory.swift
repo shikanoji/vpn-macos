@@ -16,16 +16,22 @@ import NetworkExtension
 
 class WireguardProtocolFactory {
 
-    private let bundleId: String
+    var  bundleId: String
+    {
+        if  IPCFactory.makeIPCRequestService().isConnected {
+            return CoreAppConstants.SystemExtensions.wireguard
+        }
+        return CoreAppConstants.NetworkExtensions.wireguard
+    }
+    
     private let appGroup: String
     private let vpnManagerFactory: NETunnelProviderManagerWrapperFactory
 
     private var vpnManager: NETunnelProviderManagerWrapper?
     
-    public init(bundleId: String,
+    public init( 
                 appGroup: String,
                 vpnManagerFactory: NETunnelProviderManagerWrapperFactory) {
-        self.bundleId = bundleId
         self.appGroup = appGroup
         self.vpnManagerFactory = vpnManagerFactory
     }

@@ -15,7 +15,7 @@ class XPCServiceUser {
     public var isConnected: Bool = false
     
     private var isCheckingConnection = false
-
+    var failedCount: Int = 0
     private var currentConnection: NSXPCConnection? {
         willSet {
             if newValue == nil {
@@ -50,9 +50,13 @@ class XPCServiceUser {
         newConnection.exportedObject = self
         newConnection.invalidationHandler = { [weak self] in
             print("invalidationHandler")
+            if (self?.failedCount ?? 0) > 5 {
+                return
+            }
             if self?.isCheckingConnection != false {
                 return
             }
+            self?.failedCount = (self?.failedCount ?? 0) + 1
             self?.isConnected = false
             DispatchQueue.main.async {
                 self?.checkConnect()
@@ -106,8 +110,10 @@ extension XPCServiceUser {
             if data != nil {
                 self.isConnected = true
                 print("[IPC] check connected success")
+                self.failedCount = 0
             }
             self.isCheckingConnection = false
+          
             completion?()
         }
     }

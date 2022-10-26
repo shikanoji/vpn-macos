@@ -25,21 +25,22 @@ struct HomeLeftPanelView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .center)
-        .padding(.horizontal,30)
+        .padding(.horizontal,16)
         
     }
     
     var menuSection : some View {
         
         VStack (alignment: .leading){
-            Text("Manual connection").padding(.leading, 32)
+            Text(L10n.Global.manualConnection)
+                .padding(.leading, 16)
                 .font(Font.system(size: 14, weight: .regular))
                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
             HomeMenuButtonView(
                 active: selectedItem == .manualConnection,
                 icon: Asset.Assets.icLocation.swiftUIImage,
-                title: "Manual connection",
-                content: "\(viewModel.totalCountry) locations available"
+                title: L10n.Global.manualConnection,
+                content: "\(viewModel.totalCountry) \(L10n.Global.manualCDesc)"
             ).onTapGesture {
                 withAnimation {
                     selectedItem = .manualConnection 
@@ -48,8 +49,8 @@ struct HomeLeftPanelView: View {
             HomeMenuButtonView(
                 active: selectedItem == .staticIp,
                 icon: Asset.Assets.icIpAddress.swiftUIImage,
-                title: "Static IP",
-                content: "Personal Static IP address"
+                title: L10n.Global.staticIP,
+                content: L10n.Global.staticIPDesc
             ) .onTapGesture {
                 withAnimation {
                     selectedItem = .staticIp
@@ -58,8 +59,8 @@ struct HomeLeftPanelView: View {
             HomeMenuButtonView(
                 active: selectedItem == .multiHop,
                 icon: Asset.Assets.icLink .swiftUIImage,
-                title: "MultiHop",
-                content: "168 locations available"
+                title: L10n.Global.multiHop,
+                content: L10n.Global.multiHopDesc
             ).onTapGesture {
                 withAnimation {
                     selectedItem = .multiHop
@@ -71,72 +72,79 @@ struct HomeLeftPanelView: View {
     
     var settingSection : some View {
         VStack (alignment: .leading) {
-            
-            Text("Sysvpn Configuration")
-                .font(Font.system(size: 14, weight: .regular))
-                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-            Spacer().frame(height: 28)
+             
             HStack {
                 Button {
                     print("Edit button was tapped")
                 } label: {
                     HStack {
                         Asset.Assets.icSetting.swiftUIImage
-                            .frame(width: 16, height: 16)
-                        Text("Setting")
+                            .frame(width: 12, height: 12)
+                        Text(L10n.Global.setting)
+                            .font(.system(size: 12, weight: .medium))
                     }
-                    .padding(.leading, 12)
-                    .padding(.trailing, 12)
+                    .padding(.horizontal, 12)
                 }
-                .buttonStyle(ActionButtonStyle())
+                .buttonStyle(LoginButtonNoBackgroundStyle())
                 
                 Button {
                     print("Edit button was tapped")
                 } label: {
                     HStack {
                         Asset.Assets.icSend.swiftUIImage
-                            .frame(width: 16, height: 16)
-                        Text("Help center")
+                            .frame(width: 12, height: 12)
+                        Text(L10n.Global.helpCenter)
+                            .font(.system(size: 12, weight: .medium))
                     }
-                    .padding(.leading, 12)
-                    .padding(.trailing, 12)
+                    .padding(.horizontal, 12)
                 }
-                .buttonStyle(ActionButtonStyle())
+                .buttonStyle(LoginButtonNoBackgroundStyle())
             }
             
-        }.padding(.leading, 30)
+        }.padding(.horizontal, 16)
     }
     
     var footerSection: some View {
         HStack {
               Asset.Assets.avatarTest.swiftUIImage
                 .resizable()
-                  .frame(width: 50, height: 50)
-                  .cornerRadius(25)
+                  .frame(width: 40, height: 40)
+                  .cornerRadius(20)
               VStack(alignment: .leading) {
                   Text("Jason Vincius")
-                      .font(Font.system(size: 16, weight: .bold))
+                      .font(Font.system(size: 13, weight: .semibold))
                       .foregroundColor(Color.white)
-                  Spacer().frame(height: 4)
-                  Text("312 days left")
-                      .font(Font.system(size: 14, weight: .medium))
-                      .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                  Spacer().frame(height: 8)
+                  HStack{
+                      Text("312 days left")
+                          .font(Font.system(size: 12, weight: .medium))
+                          .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                      Text("+Extended")
+                          .font(Font.system(size: 12, weight: .medium))
+                          .foregroundColor(Color.white)
+                  }
               }
-        }.padding(24)
+        }.padding( .horizontal , 16)
+    }
+    
+    var itemSpacer: some View {
+        Spacer().frame(height: 24)
     }
     
     var body: some View {
         VStack (alignment: .leading) {
-            Spacer(minLength: 20)
+            itemSpacer
             quickConnectButton
-            Spacer(minLength: 20)
             menuSection
-            Spacer(minLength: 20)
+            Spacer(minLength: 24)
+            footerSection
+            itemSpacer
+            Divider()
+                .background(Color(rgb: 0x272936))
+                .padding([.leading, .trailing], 16)
+            itemSpacer
             settingSection
-            Spacer().frame(height: 20)
-            Divider().padding([.leading, .trailing], 20)
-            Spacer()
-          //  footerSection
+            itemSpacer
         }.background {
             ZStack {
                 Rectangle().foregroundColor(Asset.Colors.backgroundColor.swiftUIColor)
@@ -159,6 +167,8 @@ struct HomeLeftPanelView_Previews: PreviewProvider {
     
     static var previews: some View {
         HomeLeftPanelView(selectedItem: $selectedItem)
+            .frame(width: 240,height: 700.0)
+            .environmentObject(GlobalAppStates.shared)
     }
 }
  

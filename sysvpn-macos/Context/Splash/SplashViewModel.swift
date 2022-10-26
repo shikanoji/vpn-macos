@@ -18,7 +18,9 @@ extension SplashView {
             OSExtensionManager.shared.onReady = {
                 let ipc = IPCFactory.makeIPCRequestService()
                 ipc.checkConnect() { 
-                    self.loadAppSetting()
+                    DispatchQueue.main.async {
+                        self.loadAppSetting()
+                    }
                 }
             }
         }
