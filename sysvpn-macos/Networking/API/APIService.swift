@@ -17,13 +17,14 @@ enum APIService {
     case requestCert(vpnParam: VpnParamRequest)
     case disconnectSession(sectionId: String, disconnectedBy: String)
     case getStartServer
+    case getListMutilHop
 }
 
 extension APIService: TargetType {
     // This is the base URL we'll be using, typically our server.
     var baseURL: URL {
         switch self {
-        case .getAppSettings, .login, .getListCountry, .logout, .requestCert, .disconnectSession, .getStartServer:
+        case .getAppSettings, .login, .getListCountry, .logout, .requestCert, .disconnectSession, .getStartServer, .getListMutilHop:
                 return URL(string: Constant.API.root)!
         }
     }
@@ -45,13 +46,15 @@ extension APIService: TargetType {
             return Constant.API.Path.disconnectSession
         case .getStartServer:
             return Constant.API.Path.getStartServer
+        case .getListMutilHop:
+            return Constant.API.Path.mutilHopServer
         }
     }
 
     // Here we specify which method our calls should use.
     var method: Moya.Method {
         switch self {
-        case .getAppSettings, .getListCountry, .requestCert, .getStartServer:
+        case .getAppSettings, .getListCountry, .requestCert, .getStartServer, .getListMutilHop:
             return .get
         case .login, .logout:
             return .post
@@ -95,7 +98,7 @@ extension APIService: TargetType {
             param["sessionId"] = sectionId
             param["disconnectedBy"] = disconnectedBy
             return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
-        case .getStartServer:
+        case .getStartServer, .getListMutilHop:
             return .requestParameters(parameters: param, encoding: URLEncoding.default)
         }
     }
@@ -104,7 +107,7 @@ extension APIService: TargetType {
     // Usually you would pass auth tokens here.
     var headers: [String: String]? {
         switch self {
-        case .getListCountry, .requestCert, .disconnectSession, .getStartServer:
+        case .getListCountry, .requestCert, .disconnectSession, .getStartServer, .getListMutilHop:
             return ["Content-type": "application/x-www-form-urlencoded",
                     "Authorization": "Bearer " + (AppDataManager.shared.accessToken ?? ""),
                     "x-device-info" : AppSetting.shared.getDeviceInfo(), 

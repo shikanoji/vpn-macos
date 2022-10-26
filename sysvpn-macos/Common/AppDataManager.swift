@@ -22,6 +22,7 @@ extension String {
     static var keySaveCountry = "KEY_SAVE_COUNTRY"
     static var keySaveUserSetting = "KEY_SAVE_USER_SETTING"
     static var keySaveLastChange = "KEY_SAVE_LAST_CHANGE"
+    static var keySaveMutilHop = "KEY_SAVE_MULTI_HOP"
 }
 
 class AppDataManager {
@@ -212,6 +213,22 @@ class AppDataManager {
         }
         _userCountry?.recentCountries = _recentCountries
         _userCountry?.saveListCountry()
+    }
+    
+    
+    private var _mutilHopServer: MultiHopResult?
+    
+    var mutilHopServer: MultiHopResult? {
+        get {
+            if _mutilHopServer == nil {
+                _mutilHopServer = MultiHopResult.getListMultiHop()
+            }
+            return _mutilHopServer
+        }
+        set {
+            _mutilHopServer = newValue
+            _mutilHopServer?.saveListMultiHop()
+        }
     }
     
     

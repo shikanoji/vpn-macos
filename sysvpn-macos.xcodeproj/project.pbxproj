@@ -64,6 +64,9 @@
 		AC09D7A228BF0FEE0078E928 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A128BF0FEE0078E928 /* APIService.swift */; };
 		AC09D7A528BF10D30078E928 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A428BF10D30078E928 /* Constant.swift */; };
 		AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC09D7A628BF13400078E928 /* AppSetting.swift */; };
+		B92CB1FB29069B4900B2DF60 /* MultiHopResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92CB1FA29069B4900B2DF60 /* MultiHopResult.swift */; };
+		B92CB1FE29069B7000B2DF60 /* MultiHopEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92CB1FC29069B7000B2DF60 /* MultiHopEntry.swift */; };
+		B92CB1FF29069B7000B2DF60 /* MultiHopExit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92CB1FD29069B7000B2DF60 /* MultiHopExit.swift */; };
 		B972163528FFF1DD002E9ABE /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163428FFF1DD002E9ABE /* NotificationExtension.swift */; };
 		B972163C29028862002E9ABE /* WireGuardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163829028862002E9ABE /* WireGuardResult.swift */; };
 		B972163D29028862002E9ABE /* WireGuardInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163929028862002E9ABE /* WireGuardInterface.swift */; };
@@ -328,6 +331,9 @@
 		AC09D7A128BF0FEE0078E928 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		AC09D7A428BF10D30078E928 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		AC09D7A628BF13400078E928 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
+		B92CB1FA29069B4900B2DF60 /* MultiHopResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiHopResult.swift; sourceTree = "<group>"; };
+		B92CB1FC29069B7000B2DF60 /* MultiHopEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiHopEntry.swift; sourceTree = "<group>"; };
+		B92CB1FD29069B7000B2DF60 /* MultiHopExit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiHopExit.swift; sourceTree = "<group>"; };
 		B972163428FFF1DD002E9ABE /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		B972163829028862002E9ABE /* WireGuardResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireGuardResult.swift; sourceTree = "<group>"; };
 		B972163929028862002E9ABE /* WireGuardInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireGuardInterface.swift; sourceTree = "<group>"; };
@@ -754,6 +760,16 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		B92CB1F929069B1700B2DF60 /* MultiHop */ = {
+			isa = PBXGroup;
+			children = (
+				B92CB1FC29069B7000B2DF60 /* MultiHopEntry.swift */,
+				B92CB1FD29069B7000B2DF60 /* MultiHopExit.swift */,
+				B92CB1FA29069B4900B2DF60 /* MultiHopResult.swift */,
+			);
+			path = MultiHop;
+			sourceTree = "<group>";
+		};
 		B9721636290287FA002E9ABE /* WireGuard */ = {
 			isa = PBXGroup;
 			children = (
@@ -808,6 +824,7 @@
 		B9B3703128FE4FE70022498B /* CodableModel */ = {
 			isa = PBXGroup;
 			children = (
+				B92CB1F929069B1700B2DF60 /* MultiHop */,
 				B9721636290287FA002E9ABE /* WireGuard */,
 				B9B3706528FEAAF90022498B /* ServerState */,
 				B9B3703228FE4FE70022498B /* BaseCodable.swift */,
@@ -1466,6 +1483,7 @@
 				FAA35BD028FD41CB00205ECD /* SysVPNEnum.swift in Sources */,
 				9E3756C228E6DB6500E95C64 /* VpnMapPointLayerView.swift in Sources */,
 				9EB62F8A28E803FD00351D98 /* HomeTrafficMonitorView.swift in Sources */,
+				B92CB1FB29069B4900B2DF60 /* MultiHopResult.swift in Sources */,
 				FAA35BD128FD41CB00205ECD /* SysVPNError.swift in Sources */,
 				FAA35BB628FD41CB00205ECD /* AppConfigManagement.swift in Sources */,
 				FACEC9B32904D71A0014ABC9 /* SysMessageService.swift in Sources */,
@@ -1549,6 +1567,7 @@
 				B99DB42D28E4595800331AFB /* IpInfoModel.swift in Sources */,
 				FAA35BBB28FD41CB00205ECD /* OSLogging.swift in Sources */,
 				FAEE1BFA28FF1A830044B5CD /* TimerFactory.swift in Sources */,
+				B92CB1FE29069B7000B2DF60 /* MultiHopEntry.swift in Sources */,
 				FAA35BB728FD41CB00205ECD /* Thread.swift in Sources */,
 				B99DB42B28E455F400331AFB /* AuthenTokenModel.swift in Sources */,
 				FAA35BCF28FD41CB00205ECD /* IPCFactory.swift in Sources */,
@@ -1557,6 +1576,7 @@
 				FABBB8D129042C8700595D95 /* VpnMapOverlayLayerView.swift in Sources */,
 				AC09D7A228BF0FEE0078E928 /* APIService.swift in Sources */,
 				AC09D79928BE0F340078E928 /* XCAssets+Generated.swift in Sources */,
+				B92CB1FF29069B7000B2DF60 /* MultiHopExit.swift in Sources */,
 				FAA35BB928FD41CB00205ECD /* AppStateManagement.swift in Sources */,
 				FAA35BCD28FD41CB00205ECD /* OSExtensionManager.swift in Sources */,
 				9E668E0028E8B30A009CDC95 /* HomeAlertConnectionView.swift in Sources */,

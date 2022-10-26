@@ -71,6 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                  AppDataManager.shared.userSetting = response
                  if AppDataManager.shared.lastChange != response.lastChange {
                      self.onReloadCountry()
+                     self.onReloadMutilHop()
                  }
                  AppDataManager.shared.lastChange = response.lastChange ?? 0
              case let .failure(e):
@@ -127,6 +128,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         })
     }
     
+    func onReloadMutilHop() {
+        _ = APIServiceManager.shared.getListMultiHop().subscribe({ result in
+            switch result {
+            case let .success(response):
+                AppDataManager.shared.mutilHopServer = response
+            case .failure(_):
+                break
+            }
+        })
+    }
  
     
 }
