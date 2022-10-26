@@ -91,7 +91,7 @@ class SysVpnAppStateManagement : AppStateManagement {
             return
         }
         statistics = NetworkStatistics(with: 1, and: { bitrate in
-            GlobalAppStates.shared.bitRate = bitrate
+            NetworkAppStates.shared.bitRate = bitrate
         })
     }
     

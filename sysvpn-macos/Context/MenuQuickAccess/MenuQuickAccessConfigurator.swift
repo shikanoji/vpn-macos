@@ -32,7 +32,10 @@ class MenuQuickAccessConfigurator {
         let popover = NSPopover()
         popover.contentSize = NSSize(width: 400, height: 580)
         popover.behavior = .transient
-        popover.contentViewController = NSHostingController(rootView: MenuQuickAccessView().environmentObject(GlobalAppStates.shared))
+        popover.contentViewController = NSHostingController(rootView: MenuQuickAccessView()
+            .environmentObject(GlobalAppStates.shared)
+            .environmentObject(NetworkAppStates.shared)
+        )
         
         self.popover = popover
         

@@ -10,6 +10,8 @@ import SwiftUI
 struct MenuQuickAccessView: View {
     @StateObject private var viewModel = MenuQuickAccessModel()
     @EnvironmentObject var appState: GlobalAppStates
+    @EnvironmentObject var networkState: NetworkAppStates
+    
     @State var connectionState: AppDisplayState = .disconnected
     var sizeIcon: CGFloat = 20
     
@@ -34,9 +36,9 @@ struct MenuQuickAccessView: View {
                 connectionState = newValue
             }
         }
-        .onChange(of: appState.bitRate) { newValue in
-            viewModel.downloadSpeed = Bitrate.rateString(for: appState.bitRate.download)
-            viewModel.uploadSpeed = Bitrate.rateString(for: appState.bitRate.upload)
+        .onChange(of: networkState.bitRate) { newValue in
+            viewModel.downloadSpeed = Bitrate.rateString(for: networkState.bitRate.download)
+            viewModel.uploadSpeed = Bitrate.rateString(for: networkState.bitRate.upload)
         }
     }
     

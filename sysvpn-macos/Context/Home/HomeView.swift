@@ -49,7 +49,7 @@ struct HomeView: View {
                                 ], startPoint: UnitPoint.top, endPoint: UnitPoint.bottom)
                             ).frame(height: 100)
                         Text(L10n.Global.locationMap)
-                            .font(.system(size: 20, weight: .thin))
+                            .font(.system(size: 18, weight: .thin))
                     }
                     Spacer()
                     Rectangle()

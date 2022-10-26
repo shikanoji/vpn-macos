@@ -36,6 +36,7 @@ struct sysvpn_macosApp: App {
                         window.standardWindowButton(.zoomButton)?.isHidden = false
                     }
                 }.environmentObject(GlobalAppStates.shared)
+                .environmentObject(NetworkAppStates.shared)
             }
         }.windowStyle(HiddenTitleBarWindowStyle())
             .commands {

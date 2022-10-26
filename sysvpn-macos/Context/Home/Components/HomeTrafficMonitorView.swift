@@ -11,6 +11,7 @@ import SwiftUI
 struct HomeTrafficMonitorView : View {
     @State var bitRateState = Bitrate(download: 0, upload: 0)
     @State var usageInfo = SingleDataUsageInfo(received: 0, sent: 0)
+    @EnvironmentObject var networkState: NetworkAppStates;
     @EnvironmentObject var appState: GlobalAppStates
     var body: some View {
         HStack (alignment: .top) {
@@ -18,7 +19,7 @@ struct HomeTrafficMonitorView : View {
             Spacer()
             HomeTrafficChartView(bitRate: bitRateState)
                 .frame(maxWidth: .infinity)
-        } .onChange(of: appState.bitRate) { newValue in
+        } .onChange(of: networkState.bitRate) { newValue in
             bitRateState = newValue
             usageInfo = SystemDataUsage.lastestVpnUsageInfo
         }

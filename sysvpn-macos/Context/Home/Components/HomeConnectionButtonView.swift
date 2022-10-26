@@ -57,7 +57,9 @@ struct HomeConnectionButtonView : View {
             } else {
                 Button {
                     lastAppState = displayAppState
-                    displayAppState = .disconnecting
+                    withAnimation {
+                        displayAppState = .disconnecting
+                    }
                     onTap?()
                 } label: {
                     Text(L10n.Login.disconnect)

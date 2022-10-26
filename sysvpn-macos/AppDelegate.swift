@@ -87,7 +87,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let timmer = self.timmerJob {
           timmer.invalidate()
         }
-        timmerJob = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
+        timmerJob = Timer.scheduledTimer(timeInterval: 50.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
     }
     
     @objc func onEndJob(_ notification: Notification) {

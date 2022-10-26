@@ -73,11 +73,11 @@ struct BlinkingView: View {
         BlinkingView(
             animate: $animate,
             count: 3,
-            spacing: 7,
-            size: 12,
+            spacing: 4,
+            size: 10,
             cornerRadius: 6,
             scaleRange: (-0.5...0.5),
-            opacityRange:  (0.25...1),
+            opacityRange:  (1...1),
             color: color
         )
         

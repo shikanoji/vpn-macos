@@ -23,7 +23,7 @@ struct VpnMapView: View {
     @State var connectedNode: NodePoint? = nil
     var connectPoints: [ConnectPoint] = [  ]
     @State  var updateCameraPosition: CGPoint? = .zero;
-    
+  
     var body: some View {
         GeometryReader { proxy in
             LoopMapView(
