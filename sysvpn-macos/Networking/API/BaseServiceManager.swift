@@ -114,23 +114,32 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     
     func handleApiResponseCodable<T: Decodable>(type: T.Type) -> Single<T>{
         return flatMap { response in
-            let result = try? JSONDecoder().decode(BaseCodable<T>.self, from: response.data)
-            print("[RESPONSE]: \(String(data: response.data, encoding: .utf8) ?? "")")
-            if !(result?.success ?? false) {
+            do {
+                print("[RESPONSE]: \(String(data: response.data, encoding: .utf8) ?? "")")
+                let result = try JSONDecoder().decode(BaseCodable<T>.self, from: response.data)
+                print("[RESPONSE]: \(String(data: response.data, encoding: .utf8) ?? "")")
+                if !(result.success ?? false) {
+                    let genericError = ResponseError(statusCode: response.statusCode,
+                                                     message: result.message ?? "")
+                    print("[RESULT ERROR]: \(genericError)")
+                    return Single.error(genericError)
+                }
+                
+                guard let strongResult = result.result else {
+                    let genericError = ResponseError(statusCode: response.statusCode,
+                                                     message: "parse data error")
+                    print("[PARSE ERROR]: \(genericError)")
+                    return Single.error(genericError)
+                }
+                
+                return Single.just(strongResult)
+            } catch let e {
                 let genericError = ResponseError(statusCode: response.statusCode,
-                                                 message: result?.message ?? "")
-                print("[RESULT ERROR]: \(genericError)")
+                                                 message: e.localizedDescription)
+             
+                print("[CACTH ERROR]: \(genericError)")
                 return Single.error(genericError)
             }
-            
-            guard let strongResult = result?.result else {
-                let genericError = ResponseError(statusCode: response.statusCode,
-                                                 message: "parse data error")
-                print("[PARSE ERROR]: \(genericError)")
-                return Single.error(genericError)
-            }
-            
-            return Single.just(strongResult)
         }
     }
     

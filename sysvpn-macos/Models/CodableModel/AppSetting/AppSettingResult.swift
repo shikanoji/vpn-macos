@@ -17,7 +17,7 @@ struct AppSettingResult: Codable {
     
     var ipInfo: AppSettingIpInfo?
     var appSettings: AppSettings?
-    var lastChange: Int?
+    var lastChange: Double?
 
 
 
@@ -25,7 +25,7 @@ struct AppSettingResult: Codable {
       let container = try decoder.container(keyedBy: CodingKeys.self)
       ipInfo = try container.decodeIfPresent(AppSettingIpInfo.self, forKey: .ipInfo)
       appSettings = try container.decodeIfPresent(AppSettings.self, forKey: .appSettings)
-      lastChange = try container.decodeIfPresent(Int.self, forKey: .lastChange)
+      lastChange = Double( (try? container.decodeIfPresent(Int64.self, forKey: .lastChange)) ?? 0) / 1000
   }
     
     
