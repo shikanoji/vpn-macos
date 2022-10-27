@@ -9,7 +9,6 @@
 import Foundation
 
 public enum SysVPNError: Error {
-    
     // Hash pwd part
     case modulusSignature
     case generateSrp
@@ -34,6 +33,4 @@ public enum SysVPNError: Error {
     
     // User
     case subuserWithoutSessions
-    
-    
 }

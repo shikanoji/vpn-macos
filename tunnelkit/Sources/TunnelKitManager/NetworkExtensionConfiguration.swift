@@ -28,7 +28,6 @@ import NetworkExtension
 
 /// Extra configuration parameters to attach optionally to a `NetworkExtensionConfiguration`.
 public struct NetworkExtensionExtra {
-
     /// A password reference to the keychain.
     public var passwordReference: Data?
 
@@ -38,13 +37,11 @@ public struct NetworkExtensionExtra {
     /// Disconnects on sleep if `true`.
     public var disconnectsOnSleep = false
     
-    public init() {
-    }
+    public init() {}
 }
 
 /// Configuration object to feed to a `NetworkExtensionProvider`.
 public protocol NetworkExtensionConfiguration {
-
     /// The profile title in device settings.
     var title: String { get }
     

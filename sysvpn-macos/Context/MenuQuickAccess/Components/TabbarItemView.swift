@@ -5,21 +5,21 @@
 //  Created by doragon on 26/10/2022.
 //
 
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
 struct TabbarItemView: View {
-    var countryName:String
-    var imageUrl:String?
+    var countryName: String
+    var imageUrl: String?
     var totalCity: Int
     var body: some View {
-        HStack (alignment: .center, spacing: 16) {
+        HStack(alignment: .center, spacing: 16) {
             if imageUrl != nil {
                 KFImage(URL(string: imageUrl!))
                     .resizable()
                     .frame(width: 32, height: 32)
                     .cornerRadius(16)
-            } else{
+            } else {
                 Asset.Assets.icFlagEmpty.swiftUIImage
                     .resizable()
                     .frame(width: 32, height: 32)
@@ -36,4 +36,4 @@ struct TabbarItemView: View {
             }
         }.padding(.bottom, 10)
     }
-} 
+}

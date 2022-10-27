@@ -6,15 +6,14 @@
 //
 
 import Foundation
-import Security
 import os.log
+import Security
 class ExKeyChain {
-
     class func save(key: String, data: Data) -> OSStatus {
         let query = [
-            kSecClass as String       : kSecClassGenericPassword as String,
-            kSecAttrAccount as String : key,
-            kSecValueData as String   : data ] as [String : Any]
+            kSecClass as String: kSecClassGenericPassword as String,
+            kSecAttrAccount as String: key,
+            kSecValueData as String: data] as [String: Any]
 
         SecItemDelete(query as CFDictionary)
 
@@ -23,15 +22,15 @@ class ExKeyChain {
 
     class func load(key: String) -> Data? {
         let query = [
-            kSecClass as String       : kSecClassGenericPassword,
-            kSecAttrAccount as String : key,
-            kSecReturnData as String  : kCFBooleanTrue!,
-            kSecMatchLimit as String  : kSecMatchLimitOne ] as [String : Any]
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: key,
+            kSecReturnData as String: kCFBooleanTrue!,
+            kSecMatchLimit as String: kSecMatchLimitOne] as [String: Any]
 
-        var dataTypeRef: AnyObject? = nil
+        var dataTypeRef: AnyObject?
 
         let status: OSStatus = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
-        os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default,"status  \(status) ")
+        os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "status  \(status) ")
 
         if status == noErr {
             return dataTypeRef as! Data?
@@ -50,13 +49,12 @@ class ExKeyChain {
 }
 
 extension Data {
-
     init<T>(from value: T) {
         var value = value
         self.init(buffer: UnsafeBufferPointer(start: &value, count: 1))
     }
 
     func to<T>(type: T.Type) -> T {
-        return self.withUnsafeBytes { $0.load(as: T.self) }
+        return withUnsafeBytes { $0.load(as: T.self) }
     }
 }

@@ -35,12 +35,10 @@
 //
 
 import Foundation
-
-import XCTest
 @testable import TunnelKitCore
+import XCTest
 
 class RawPerformanceTests: XCTestCase {
-    
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -55,7 +53,7 @@ class RawPerformanceTests: XCTestCase {
         
         measure {
             for _ in 0..<1000000 {
-                let _ = data.UInt16Value(from: 3)
+                _ = data.UInt16Value(from: 3)
             }
         }
     }
@@ -88,7 +86,7 @@ class RawPerformanceTests: XCTestCase {
         
         measure {
             for _ in 0..<1000000 {
-                let _ = data.UInt32Value(from: 1)
+                _ = data.UInt32Value(from: 1)
             }
         }
     }
@@ -106,7 +104,7 @@ class RawPerformanceTests: XCTestCase {
     func testRandomUInt32FromPointers() {
         measure {
             for _ in 0..<10000 {
-                let _ = try! SecureRandom.uint32()
+                _ = try! SecureRandom.uint32()
             }
         }
     }
@@ -127,7 +125,7 @@ class RawPerformanceTests: XCTestCase {
         measure {
             for data in suite {
 //                let _ = UInt32(bigEndian: data.subdata(in: 0..<4).withUnsafeBytes { $0.pointee })
-                let _ = data.networkUInt32Value(from: 0)
+                _ = data.networkUInt32Value(from: 0)
             }
         }
     }
@@ -137,7 +135,7 @@ class RawPerformanceTests: XCTestCase {
         let suite = TestUtils.generateDataSuite(1000, 100000)
         measure {
             for data in suite {
-                let _ = data.subdata(in: 5..<data.count)
+                _ = data.subdata(in: 5..<data.count)
             }
         }
     }

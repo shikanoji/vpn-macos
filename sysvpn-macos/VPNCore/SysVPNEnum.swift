@@ -8,9 +8,7 @@
 
 import Foundation
 
-
 enum ConnectionStatus {
-    
     case disconnected
     case connecting
     case connected
@@ -30,7 +28,6 @@ enum ConnectionStatus {
     }
 }
 
-
 enum ConnectionType {
     case serverId(id: Int)
     case countryId(id: Int)
@@ -40,7 +37,6 @@ enum ConnectionType {
 }
 
 protocol VpnManagerProtocol {
-
     var stateChanged: (() -> Void)? { get set }
     var state: VpnState { get }
     var localAgentStateChanged: ((Bool?) -> Void)? { get set }
@@ -58,14 +54,11 @@ protocol VpnManagerProtocol {
     func removeConfigurations(completionHandler: ((Error?) -> Void)?)
  
     func whenReady(queue: DispatchQueue, completion: @escaping () -> Void)
- 
-  
 }
 
-enum OpenVpnTransport : String, Codable {
-    
-    case tcp = "tcp"
-    case udp = "udp"
+enum OpenVpnTransport: String, Codable {
+    case tcp
+    case udp
 
     private static var defaultValue = OpenVpnTransport.tcp
     
@@ -99,12 +92,14 @@ enum OpenVpnTransport : String, Codable {
         aCoder.encode(data, forKey: CoderKey.transportProtocol)
     }
 }
-enum VpnProtocol : Codable {
+
+enum VpnProtocol: Codable {
     enum Key: CodingKey {
         case rawValue
         case transportProtocol
     }
-    case openVpn (_ transport: OpenVpnTransport)
+
+    case openVpn(_ transport: OpenVpnTransport)
     case wireGuard
     
     public init(from decoder: Decoder) throws {
@@ -126,23 +121,22 @@ enum VpnProtocol : Codable {
         var container = encoder.container(keyedBy: Key.self)
         
         switch self {
-        case .openVpn(let transportProtocol):
+        case let .openVpn(transportProtocol):
             try container.encode(1, forKey: .rawValue)
             try container.encode(transportProtocol, forKey: .transportProtocol)
         case .wireGuard:
             try container.encode(2, forKey: .rawValue)
         }
     }
+
     var name: String {
         switch self {
         case .openVpn:
-           return "openVPN"
+            return "openVPN"
         case .wireGuard:
             return "wireGuard"
         }
     }
 }
 
-extension VpnProtocol: Equatable {
-    
-}
+extension VpnProtocol: Equatable {}

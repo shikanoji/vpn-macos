@@ -23,14 +23,13 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import CTunnelKitCore
 import Foundation
 import TunnelKitCore
-import CTunnelKitCore
 
-extension OpenVPN {
-
+public extension OpenVPN {
     /// Represents an OpenVPN static key file (as generated with --genkey)
-    public struct StaticKey: Codable, Equatable {
+    struct StaticKey: Codable, Equatable {
         enum CodingKeys: CodingKey {
             case data
             
@@ -39,7 +38,6 @@ extension OpenVPN {
 
         /// The key-direction field, usually 0 on servers and 1 on clients.
         public enum Direction: Int, Codable {
-
             /// Conventional server direction (implicit for tls-crypt).
             case server = 0
             
@@ -216,7 +214,7 @@ extension OpenVPN {
         
         // MARK: Equatable
         
-        public static func ==(lhs: Self, rhs: Self) -> Bool {
+        public static func == (lhs: Self, rhs: Self) -> Bool {
             return lhs.secureData.toData() == rhs.secureData.toData()
         }
         

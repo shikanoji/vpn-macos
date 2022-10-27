@@ -25,11 +25,9 @@
 
 import Foundation
 
-extension OpenVPN {
-
+public extension OpenVPN {
     /// Error raised by the configuration parser, with details about the line that triggered it.
-    public enum ConfigurationError: Error {
-        
+    enum ConfigurationError: Error {
         /// Option syntax is incorrect.
         case malformed(option: String)
         

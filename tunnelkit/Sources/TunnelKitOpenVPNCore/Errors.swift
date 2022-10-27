@@ -23,16 +23,16 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Foundation
 import CTunnelKitOpenVPNCore
+import Foundation
 
-extension Error {
-    public func isOpenVPNError() -> Bool {
+public extension Error {
+    func isOpenVPNError() -> Bool {
         let te = self as NSError
         return te.domain == OpenVPNErrorDomain
     }
     
-    public func openVPNErrorCode() -> OpenVPNErrorCode? {
+    func openVPNErrorCode() -> OpenVPNErrorCode? {
         let te = self as NSError
         guard te.domain == OpenVPNErrorDomain else {
             return nil

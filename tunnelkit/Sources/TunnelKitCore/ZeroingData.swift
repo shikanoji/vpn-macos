@@ -34,8 +34,8 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
 import CTunnelKitCore
+import Foundation
 
 public func Z() -> ZeroingData {
     return ZeroingData()
@@ -61,9 +61,9 @@ public func Z(_ data: Data) -> ZeroingData {
     return ZeroingData(data: data)
 }
 
-//public func Z(_ data: Data, _ offset: Int, _ count: Int) -> ZeroingData {
+// public func Z(_ data: Data, _ offset: Int, _ count: Int) -> ZeroingData {
 //    return ZeroingData(data: data, offset: offset, count: count)
-//}
+// }
 
 public func Z(_ string: String, nullTerminated: Bool) -> ZeroingData {
     return ZeroingData(string: string, nullTerminated: nullTerminated)

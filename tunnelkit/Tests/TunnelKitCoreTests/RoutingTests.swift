@@ -23,11 +23,10 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import XCTest
 import CTunnelKitCore
+import XCTest
 
 class RoutingTests: XCTestCase {
-
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }

@@ -8,9 +8,7 @@
 
 import Foundation
 
-
 protocol PropertiesManagerProtocol: AnyObject {
-    
     static var hasConnectedNotification: Notification.Name { get }
     static var userIpNotification: Notification.Name { get }
     static var earlyAccessNotification: Notification.Name { get }
@@ -27,17 +25,14 @@ protocol PropertiesManagerProtocol: AnyObject {
     var lastOpenVpnConnection: ConnectionConfiguration? { get set }
     var lastWireguardConnection: ConnectionConfiguration? { get set }
     
-    var excludeLocalNetworks: Bool{ get }
+    var excludeLocalNetworks: Bool { get }
     var killSwitch: Bool { get }
-    var intentionallyDisconnected: Bool  { get set }
-    
+    var intentionallyDisconnected: Bool { get set }
 }
 
-class PropertiesManager : PropertiesManagerProtocol {
-     
+class PropertiesManager: PropertiesManagerProtocol {
     static let shared = PropertiesManager()
     internal enum Keys: String, CaseIterable {
-        
         case autoConnect = "AutoConnect"
         case autoConnectProfile = "AutoConnect_"
         case connectOnDemand = "ConnectOnDemand"
@@ -56,10 +51,10 @@ class PropertiesManager : PropertiesManagerProtocol {
         case lastBugReportEmail = "LastBugReportEmail"
 
         // Subscriptions
-        case servicePlans = "servicePlans"
-        case currentSubscription = "currentSubscription"
-        case defaultPlanDetails = "defaultPlanDetails"
-        case isIAPUpgradePlanAvailable = "isIAPUpgradePlanAvailable" // Old name is left for backwards compatibility
+        case servicePlans
+        case currentSubscription
+        case defaultPlanDetails
+        case isIAPUpgradePlanAvailable // Old name is left for backwards compatibility
         
         // Trial
         case trialWelcomed = "TrialWelcomed"
@@ -86,43 +81,52 @@ class PropertiesManager : PropertiesManagerProtocol {
 
         // Kill Switch
         case killSwitch = "Firewall"
-        case excludeLocalNetworks = "excludeLocalNetworks"
+        case excludeLocalNetworks
         
         // Features
         case featureFlags = "FeatureFlags"
         case maintenanceServerRefreshIntereval = "MaintenanceServerRefreshIntereval"
         case vpnAcceleratorEnabled = "VpnAcceleratorEnabled"
         
-        case humanValidationFailed = "humanValidationFailed"
-        case alternativeRouting = "alternativeRouting"
-        case smartProtocol = "smartProtocol"
-        case streamingServices = "streamingServices"
-        case streamingResourcesUrl = "streamingResourcesUrl"
+        case humanValidationFailed
+        case alternativeRouting
+        case smartProtocol
+        case streamingServices
+        case streamingResourcesUrl
 
         case wireguardConfig = "WireguardConfig"
         case smartProtocolConfig = "SmartProtocolConfig"
         case ratingSettings = "RatingSettings"
- 
     }
     
-     static let hasConnectedNotification = Notification.Name("HasConnectedChanged")
-     static let userIpNotification = Notification.Name("UserIp")
-     static let featureFlagsNotification = Notification.Name("FeatureFlags")
-     static let earlyAccessNotification: Notification.Name = Notification.Name("EarlyAccessChanged")
-     static let vpnProtocolNotification: Notification.Name = Notification.Name("VPNProtocolChanged")
-     static let killSwitchNotification: Notification.Name = Notification.Name("KillSwitchChanged")
-     static let excludeLocalNetworksNotification: Notification.Name = Notification.Name("ExcludeLocalNetworksChanged")
-     var onAlternativeRoutingChange: ((Bool) -> Void)?
+    static let hasConnectedNotification = Notification.Name("HasConnectedChanged")
+    static let userIpNotification = Notification.Name("UserIp")
+    static let featureFlagsNotification = Notification.Name("FeatureFlags")
+    static let earlyAccessNotification: Notification.Name = .init("EarlyAccessChanged")
+    static let vpnProtocolNotification: Notification.Name = .init("VPNProtocolChanged")
+    static let killSwitchNotification: Notification.Name = .init("KillSwitchChanged")
+    static let excludeLocalNetworksNotification: Notification.Name = .init("ExcludeLocalNetworksChanged")
+    var onAlternativeRoutingChange: ((Bool) -> Void)?
     
+    var storage: UserDefaults = .standard
     
-    var storage: UserDefaults = UserDefaults.standard
+    var lastOpenVpnConnection: ConnectionConfiguration? {
+        get {
+            return ConnectionConfiguration.readUserDefault(keyUserDefault: Keys.lastOpenVpnConnection.rawValue)
+        }
+        set {
+            newValue.saveUserDefault(keyUserDefault: Keys.lastOpenVpnConnection.rawValue)
+        }
+    }
     
-    
-    
-    var lastOpenVpnConnection: ConnectionConfiguration?
-    
-    var lastWireguardConnection: ConnectionConfiguration?
-    
+    var lastWireguardConnection: ConnectionConfiguration? {
+        get {
+            return ConnectionConfiguration.readUserDefault(keyUserDefault: Keys.lastWireguardConnection.rawValue)
+        }
+        set {
+            newValue.saveUserDefault(keyUserDefault: Keys.lastWireguardConnection.rawValue)
+        }
+    }
     
     public func getAutoConnect(for username: String) -> (enabled: Bool, profileId: String?) {
         let autoConnectEnabled = storage.bool(forKey: Keys.autoConnect.rawValue)
@@ -168,7 +172,6 @@ class PropertiesManager : PropertiesManagerProtocol {
     }
     
     func postNotificationOnUIThread(_ name: NSNotification.Name, object: Any?, userInfo: [AnyHashable: Any]? = nil) {
-        
         executeOnUIThread {
             NotificationCenter.default.post(name: name, object: object, userInfo: userInfo)
         }
@@ -192,6 +195,4 @@ class PropertiesManager : PropertiesManagerProtocol {
             storage.setValue(newValue, forKey: Keys.intentionallyDisconnected.rawValue)
         }
     }
-    
-
 }

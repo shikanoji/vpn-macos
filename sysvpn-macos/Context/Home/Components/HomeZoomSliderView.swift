@@ -8,16 +8,15 @@
 import Foundation
 import SwiftUI
 
-struct HomeZoomSliderView : View {
+struct HomeZoomSliderView: View {
     @Binding var value: Double
     var step: Double = 5
     @State var lastCoordinateValue: CGFloat = 0.0
     var sliderRange: ClosedRange<Double> = 1...100
     
-    var thumbColor: Color = Color.init(rgb: 0x9697A6)
-    var minTrackColor: Color = Color.init(rgb: 0x31323B)
-    var maxTrackColor: Color = Color.init(rgb: 0x31323B)
-    
+    var thumbColor: Color = .init(rgb: 0x9697A6)
+    var minTrackColor: Color = .init(rgb: 0x31323B)
+    var maxTrackColor: Color = .init(rgb: 0x31323B)
     
     var body: some View {
         HStack {
@@ -56,12 +55,12 @@ struct HomeZoomSliderView : View {
                             .gesture(
                                 DragGesture(minimumDistance: 0)
                                     .onChanged { v in
-                                        if (abs(v.translation.width) < 0.1) {
+                                        if abs(v.translation.width) < 0.1 {
                                             self.lastCoordinateValue = sliderVal
                                         }
                                         if v.translation.width > 0 {
                                             let nextCoordinateValue = min(maxValue, self.lastCoordinateValue + v.translation.width)
-                                            self.value = ((nextCoordinateValue - minValue) / scaleFactor)  + lower
+                                            self.value = ((nextCoordinateValue - minValue) / scaleFactor) + lower
                                         } else {
                                             let nextCoordinateValue = max(minValue, self.lastCoordinateValue + v.translation.width)
                                             self.value = ((nextCoordinateValue - minValue) / scaleFactor) + lower
@@ -77,13 +76,11 @@ struct HomeZoomSliderView : View {
                     value = min(sliderRange.upperBound, value + step)
                 }
         }
-      
     }
 }
 
-
 struct HomeZoomSliderView_Previews: PreviewProvider {
-    @State static var  value: Double = 30
+    @State static var value: Double = 30
     static var previews: some View {
         HomeZoomSliderView(value: $value)
     }

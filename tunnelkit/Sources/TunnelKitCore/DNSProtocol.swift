@@ -27,7 +27,6 @@ import Foundation
 
 /// The protocol used in DNS servers.
 public enum DNSProtocol: String, Codable {
-
     /// The value to fall back to when unset.
     public static let fallback: DNSProtocol = .plain
 

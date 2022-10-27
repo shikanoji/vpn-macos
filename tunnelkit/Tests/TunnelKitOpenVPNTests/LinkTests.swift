@@ -34,12 +34,11 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import XCTest
-@testable import TunnelKitCore
 @testable import CTunnelKitCore
+@testable import TunnelKitCore
+import XCTest
 
 class LinkTests: XCTestCase {
-
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -159,7 +158,7 @@ class LinkTests: XCTestCase {
     
     private func enqueueControl(_ q: inout [Int], _ id: inout Int, _ p: Int, _ h: (Int) -> Void) {
         q.append(p)
-        q.sort { (p1, p2) -> Bool in
+        q.sort { p1, p2 -> Bool in
             return (p1 < p2)
         }
         
@@ -167,11 +166,11 @@ class LinkTests: XCTestCase {
         print("id = \(id)")
         for p in q {
             print("test(\(p))")
-            if (p < id) {
+            if p < id {
                 q.removeFirst()
                 continue
             }
-            if (p != id) {
+            if p != id {
                 return
             }
             

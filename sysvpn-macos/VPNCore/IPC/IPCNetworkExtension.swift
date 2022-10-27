@@ -11,7 +11,7 @@ import os.log
 import TunnelKitManager
 
 class IPCNetworkExtension: XPCBaseService {
-    let userDefaults = UserDefaults(suiteName: CoreAppConstants.AppGroups.main )
+    let userDefaults = UserDefaults(suiteName: CoreAppConstants.AppGroups.main)
 
     lazy var urlConfiguration: URLSessionConfiguration = {
         let urlconfig = URLSessionConfiguration.default
@@ -20,31 +20,31 @@ class IPCNetworkExtension: XPCBaseService {
         return urlconfig
     }()
     
-    lazy var httpService = IPCHttpServiceService.init(session: URLSession(configuration: urlConfiguration))
+    lazy var httpService = IPCHttpServiceService(session: URLSession(configuration: urlConfiguration))
     
     override func setProtocol(vpnProtocol: String) {
-      
         var isSuccess = false
     
-        if vpnProtocol == "openVPN" { 
-            userDefaults?.set("openVPN", forKey:  "vpnProtocol")
-        }
-        else {
-            userDefaults?.set("wireGuard", forKey:  "vpnProtocol")
+        if vpnProtocol == "openVPN" {
+            userDefaults?.set("openVPN", forKey: "vpnProtocol")
+        } else {
+            userDefaults?.set("wireGuard", forKey: "vpnProtocol")
         }
         isSuccess = userDefaults != nil
         
-        
-        os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default,"set protocol \(vpnProtocol) \(isSuccess ? "success" : "failed")")
-
+        os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "set protocol \(vpnProtocol) \(isSuccess ? "success" : "failed")")
     }
     
     override func getLogs(_ completionHandler: @escaping (Data?) -> Void) {
         completionHandler("ok".data(using: .utf8))
     }
     
+    override func getProtocol(_ completion: @escaping (String) -> Void) {
+        completion(userDefaults?.string(forKey: "vpnProtocol") ?? "openVPN")
+    }
+    
     override func request(request: [String: NSObject], completionHandler: @escaping ([String: NSObject]) -> Void) {
-        guard let urlStr = request[HttpFieldName.url.rawValue] as? String, let url  = URL(string: urlStr) else {
+        guard let urlStr = request[HttpFieldName.url.rawValue] as? String, let url = URL(string: urlStr) else {
             return
         }
         
@@ -65,7 +65,7 @@ class IPCNetworkExtension: XPCBaseService {
          
         Task {
             do {
-               // os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "start request")
+                // os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "start request")
 
                 let response = try await httpService.performRequest(urlRequest: finalRequest)
                 if let data = response {
@@ -78,19 +78,18 @@ class IPCNetworkExtension: XPCBaseService {
                         HttpFieldName.statusCode.rawValue: 200 as NSObject
                     ])
                 }
-                os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default,"success")
+                os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "success")
 
             } catch let e {
                 os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, e.localizedDescription)
 
-                if let error = e as? NSError  {
+                if let error = e as? NSError {
                     completionHandler([
                         HttpFieldName.statusCode.rawValue: error.code as NSObject,
-                        HttpFieldName.error.rawValue: error.domain as NSObject,
+                        HttpFieldName.error.rawValue: error.domain as NSObject
                     ])
                 }
-            } 
+            }
         }
     }
 }
-

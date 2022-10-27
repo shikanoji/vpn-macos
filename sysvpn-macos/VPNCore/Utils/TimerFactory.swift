@@ -5,7 +5,7 @@
 //  Created by macbook on 19/10/2022.
 //
 
-import Foundation 
+import Foundation
 
 public protocol BackgroundTimer {
     var isValid: Bool { get }
@@ -71,7 +71,7 @@ public final class TimerFactoryImplementation: TimerFactory {
         queue.asyncAfter(deadline: .now() + interval, execute: closure)
     }
 
-    public init() { }
+    public init() {}
 }
 
 public final class BackgroundTimerImplementation: BackgroundTimer {

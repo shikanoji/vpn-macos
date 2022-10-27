@@ -20,10 +20,10 @@ final class APIServiceManager: BaseServiceManager<APIService> {
 //        self.provider = MoyaProvider<APIService>(requestClosure: MoyaProvider<APIService>.endpointResolver(), plugins: [plugin])
 //        self.provider.session.sessionConfiguration.timeoutIntervalForRequest = 10
 //        self.provider.session.sessionConfiguration.timeoutIntervalForResource = 10
-//    } 
+//    }
  
     func onLogin(email: String, password: String) -> Single<AuthResult> {
-        return requestIPC(.login(email: email, password: password)).handleApiResponseCodable(type: AuthResult.self) 
+        return requestIPC(.login(email: email, password: password)).handleApiResponseCodable(type: AuthResult.self)
     }
     
     func getAppSetting() -> Single<AppSettingResult> {
@@ -34,7 +34,7 @@ final class APIServiceManager: BaseServiceManager<APIService> {
         return requestIPC(.getAppSettings).handleApiResponseCodable(type: AppSettingResult.self)
     }
     
-    func getListCountry()  -> Single<CountryResult> {
+    func getListCountry() -> Single<CountryResult> {
         return requestIPC(.getListCountry).handleApiResponseCodable(type: CountryResult.self)
     }
     
@@ -46,11 +46,11 @@ final class APIServiceManager: BaseServiceManager<APIService> {
         return requestIPC(.requestCert(vpnParam: param)).handleApiResponseCodable(type: VPNResult.self)
     }
      
-    func onDisconnect(sectionId: String, disconnectedBy: String) -> Single<Bool>{
+    func onDisconnect(sectionId: String, disconnectedBy: String) -> Single<Bool> {
         return request(.disconnectSession(sectionId: sectionId, disconnectedBy: disconnectedBy)).handleEmptyResponse()
     }
     
-    func getStartServer() -> Single<ServerStateResult>{
+    func getStartServer() -> Single<ServerStateResult> {
         return requestIPC(.getStartServer).handleApiResponseCodable(type: ServerStateResult.self)
     }
     
@@ -61,6 +61,4 @@ final class APIServiceManager: BaseServiceManager<APIService> {
     func getListMultiHop() -> Single<[MultiHopResult]> {
         return requestIPC(.getListMutilHop).handleApiResponseCodable(type: [MultiHopResult].self)
     }
-     
-     
 }

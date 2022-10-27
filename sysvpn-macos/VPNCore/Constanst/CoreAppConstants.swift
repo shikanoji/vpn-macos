@@ -8,11 +8,7 @@
 
 import Foundation
 
-
-import Foundation
-
 public class CoreAppConstants {
-         
     struct LogFiles {
         static var openVpn = "debug.log"
         static var wireGuard = "WireGuard.log"
@@ -33,29 +29,25 @@ public class CoreAppConstants {
      
     struct NetworkExtensions {
         /*
-        static let openVpn = "\(appBundleId).OpenVpnSysExtension"
-        static let wireguard = "\(appBundleId).WireGuardSysExtension"
-         */
-        //static let openVpn = "\(appBundleId).OpenVpnAppExtension"
+         static let openVpn = "\(appBundleId).OpenVpnSysExtension"
+         static let wireguard = "\(appBundleId).WireGuardSysExtension"
+          */
+        // static let openVpn = "\(appBundleId).OpenVpnAppExtension"
         static let openVpn = "\(appBundleId).OpenVpnAppExtension"
-      //  static let wireguard = "\(appBundleId).WireGuardAppExtension"
+        //  static let wireguard = "\(appBundleId).WireGuardAppExtension"
         static let wireguard = "\(appBundleId).WireGuardAppExtension"
     }
     
-    
-   struct SystemExtensions {
-   
-       static let openVpn = "\(appBundleId).OpenVpnSysExtension"
-       static let wireguard = "\(appBundleId).OpenVpnSysExtension"
-      // static let wireguard = "\(appBundleId).WireGuardSysExtension"
-       
-   }
-     
+    struct SystemExtensions {
+        static let openVpn = "\(appBundleId).OpenVpnSysExtension"
+        static let wireguard = "\(appBundleId).OpenVpnSysExtension"
+        // static let wireguard = "\(appBundleId).WireGuardSysExtension"
+    }
 }
 
 extension String {
     var asMainAppBundleIdentifier: String {
-        var result = self.replacingOccurrences(of: ".widget", with: "")
+        var result = replacingOccurrences(of: ".widget", with: "")
         result = result.replacingOccurrences(of: ".OpenVpnSysExtension", with: "")
         result = result.replacingOccurrences(of: ".WireGuardSysExtension", with: "")
         result = result.replacingOccurrences(of: ".OpenVpnAppExtension", with: "")

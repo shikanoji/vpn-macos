@@ -7,7 +7,6 @@
 
 import Foundation
  
-
 public struct HttpStatusCode {
     public struct Informational {
         static let range = 100..<200
@@ -43,40 +42,34 @@ class IPCHttpServiceService: IPCHttpServiceProtocol {
         self.session = session
     }
       
-    
     func performRequest(urlRequest: URLRequest) async throws -> Data? {
-        
-
-        return try await withCheckedThrowingContinuation ({ continuation in
+        return try await withCheckedThrowingContinuation { continuation in
          
-            session.dataTask(with: urlRequest) { (data , response, error) in
+            session.dataTask(with: urlRequest) { data, response, _ in
                  
-                 guard let httpResponse = response as? HTTPURLResponse else {
-                     continuation.resume(throwing: NSError(domain: MoyaIPCErrorDomain.invalidResponse, code: 400))
-                     return
-                 }
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    continuation.resume(throwing: NSError(domain: MoyaIPCErrorDomain.invalidResponse, code: 400))
+                    return
+                }
                  
-                 let statusCode = httpResponse.statusCode
+                let statusCode = httpResponse.statusCode
                  
-                 guard (HttpStatusCode.Success.range).contains(statusCode) else {
-                     if statusCode == HttpStatusCode.ClientError.notFoundError {
-                         continuation.resume(throwing: NSError(domain: MoyaIPCErrorDomain.stautsError, code: 404))
+                guard (HttpStatusCode.Success.range).contains(statusCode) else {
+                    if statusCode == HttpStatusCode.ClientError.notFoundError {
+                        continuation.resume(throwing: NSError(domain: MoyaIPCErrorDomain.stautsError, code: 404))
 
-                     } else {
-                         continuation.resume(throwing: NSError(domain: MoyaIPCErrorDomain.invalidResponse, code: 400))
-
-                     }
-                     return 
-                 }
+                    } else {
+                        continuation.resume(throwing: NSError(domain: MoyaIPCErrorDomain.invalidResponse, code: 400))
+                    }
+                    return
+                }
                 
                 continuation.resume(returning: data)
                 
             }.resume()
-        })
+        }
     }
-   
 }
-
 
 enum FetchError: Error {
     case bardRequest

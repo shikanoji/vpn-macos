@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public enum AppDisplayState {
     case connected
     case connecting
@@ -32,14 +31,12 @@ extension AppState {
     }
 }
 
-
 public struct AppStateManagerNotification {
-    public static var stateChange: Notification.Name = Notification.Name("AppStateManagerStateChange")
-    public static var displayStateChange: Notification.Name = Notification.Name("AppStateManagerDisplayStateChange")
+    public static var stateChange: Notification.Name = .init("AppStateManagerStateChange")
+    public static var displayStateChange: Notification.Name = .init("AppStateManagerDisplayStateChange")
 }
 
 public struct ServerDescriptor {
-    
     public let username: String
     public let address: String
     
@@ -54,7 +51,6 @@ public struct ServerDescriptor {
 }
 
 extension ServerDescriptor: Equatable {
-    
     public static func == (lhs: ServerDescriptor, rhs: ServerDescriptor) -> Bool {
         return lhs.username == rhs.username && lhs.address == rhs.address
     }
@@ -76,15 +72,15 @@ public enum VpnState {
             return base + "Invalid"
         case .disconnected:
             return base + "Disconnected"
-        case .connecting(let descriptor):
+        case let .connecting(descriptor):
             return base + "Connecting to: \(descriptor)"
-        case .connected(let descriptor):
+        case let .connected(descriptor):
             return base + "Connected to: \(descriptor)"
-        case .reasserting(let descriptor):
+        case let .reasserting(descriptor):
             return base + "Reasserting connection to: \(descriptor)"
-        case .disconnecting(let descriptor):
+        case let .disconnecting(descriptor):
             return base + "Disconnecting from: \(descriptor)"
-        case .error(let error):
+        case let .error(error):
             return base + "Error: \(error.localizedDescription)"
         }
     }
@@ -96,15 +92,15 @@ public enum VpnState {
             return base + "Invalid"
         case .disconnected:
             return base + "Disconnected"
-        case .connecting(let descriptor):
+        case let .connecting(descriptor):
             return base + "Connecting to: \(descriptor.address)"
-        case .connected(let descriptor):
+        case let .connected(descriptor):
             return base + "Connected to: \(descriptor.address)"
-        case .reasserting(let descriptor):
+        case let .reasserting(descriptor):
             return base + "Reasserting connection to: \(descriptor.address)"
-        case .disconnecting(let descriptor):
+        case let .disconnecting(descriptor):
             return base + "Disconnecting from: \(descriptor.address)"
-        case .error(let error):
+        case let .error(error):
             return base + "Error: \(error.localizedDescription)"
         }
     }
@@ -129,33 +125,29 @@ public enum VpnState {
 }
 
 extension VpnState: Equatable {
-    
     public static func == (lhs: VpnState, rhs: VpnState) -> Bool {
         switch (lhs, rhs) {
         case (.invalid, .invalid):
             return true
         case (.disconnected, .disconnected):
             return true
-        case (.connecting(let descriptorLhs), .connecting(let descriptorRhs)):
+        case let (.connecting(descriptorLhs), .connecting(descriptorRhs)):
             return descriptorLhs == descriptorRhs
-        case (.connected(let descriptorLhs), .connected(let descriptorRhs)):
+        case let (.connected(descriptorLhs), .connected(descriptorRhs)):
             return descriptorLhs == descriptorRhs
-        case (.reasserting(let descriptorLhs), .reasserting(let descriptorRhs)):
+        case let (.reasserting(descriptorLhs), .reasserting(descriptorRhs)):
             return descriptorLhs == descriptorRhs
-        case (.disconnecting(let descriptorLhs), .disconnecting(let descriptorRhs)):
+        case let (.disconnecting(descriptorLhs), .disconnecting(descriptorRhs)):
             return descriptorLhs == descriptorRhs
-        case (.error(let errorLhs), .error(let errorRhs)):
-            return (errorLhs as NSError).isEqual((errorRhs as NSError))
+        case let (.error(errorLhs), .error(errorRhs)):
+            return (errorLhs as NSError).isEqual(errorRhs as NSError)
         default:
             return false
         }
     }
 }
 
-
-
 enum AppState {
-    
     case disconnected
     case preparingConnection
     case connecting(ServerDescriptor)
@@ -171,15 +163,15 @@ enum AppState {
             return base + "Disconnected"
         case .preparingConnection:
             return base + "Preparing connection"
-        case .connecting(let descriptor):
+        case let .connecting(descriptor):
             return base + "Connecting to: \(descriptor.description)"
-        case .connected(let descriptor):
+        case let .connected(descriptor):
             return base + "Connected to: \(descriptor.description)"
-        case .disconnecting(let descriptor):
+        case let .disconnecting(descriptor):
             return base + "Disconnecting from: \(descriptor.description)"
-        case .aborted(let userInitiated):
+        case let .aborted(userInitiated):
             return base + "Aborted, user initiated: \(userInitiated)"
-        case .error(let error):
+        case let .error(error):
             return base + "Error: \(error.localizedDescription)"
         }
     }
@@ -222,7 +214,7 @@ enum AppState {
     
     public var descriptor: ServerDescriptor? {
         switch self {
-        case .connecting(let desc), .connected(let desc), .disconnecting(let desc):
+        case let .connecting(desc), let .connected(desc), let .disconnecting(desc):
             return desc
         default:
             return nil
@@ -232,38 +224,34 @@ enum AppState {
     public static let appStateKey: String = "AppStateKey"
 }
 
-
 protocol SysVPNStateConfigurationFactory {
     func makeVpnStateConfiguration() -> SysVPNStateConfiguration
 }
 
 struct VpnStateConfigurationInfo {
-     let state: VpnState
-     let hasConnected: Bool
-     let connection: ConnectionConfiguration?
+    let state: VpnState
+    let hasConnected: Bool
+    let connection: ConnectionConfiguration?
 }
 
 protocol SysVPNStateConfiguration {
-    func determineActiveVpnProtocol( completion: @escaping ((VpnProtocol?) -> Void))
+    func determineActiveVpnProtocol(completion: @escaping ((VpnProtocol?) -> Void))
     func determineActiveVpnState(vpnProtocol: VpnProtocol, completion: @escaping ((Result<(NEVPNManagerWrapper, VpnState), Error>) -> Void))
     func determineNewState(vpnManager: NEVPNManagerWrapper) -> VpnState
     func getInfo(completion: @escaping ((VpnStateConfigurationInfo) -> Void))
 }
 
-
-
 class SysVPNStateConfigurationManager: SysVPNStateConfiguration {
- 
     private let openVpnProtocolFactory: VpnProtocolFactory
     private let wireguardProtocolFactory: VpnProtocolFactory
    
     /// App group is used to read errors from OpenVPN in user defaults
     private let appGroup: String
 
-    init( openVpnProtocolFactory: VpnProtocolFactory, wireguardProtocolFactory: VpnProtocolFactory, appGroup: String) {
-         self.openVpnProtocolFactory = openVpnProtocolFactory
-         self.wireguardProtocolFactory = wireguardProtocolFactory
-         self.appGroup = appGroup
+    init(openVpnProtocolFactory: VpnProtocolFactory, wireguardProtocolFactory: VpnProtocolFactory, appGroup: String) {
+        self.openVpnProtocolFactory = openVpnProtocolFactory
+        self.wireguardProtocolFactory = wireguardProtocolFactory
+        self.appGroup = appGroup
     }
 
     func determineNewState(vpnManager: NEVPNManagerWrapper) -> VpnState {
@@ -304,29 +292,61 @@ class SysVPNStateConfigurationManager: SysVPNStateConfiguration {
     }
 
     func determineActiveVpnProtocol(completion: @escaping ((VpnProtocol?) -> Void)) {
-        let protocols: [VpnProtocol] = [ .openVpn(.tcp), .wireGuard]
+        
+        
+        let protocols: [VpnProtocol] = [.openVpn(.tcp), .wireGuard]
         var activeProtocols: [VpnProtocol] = []
 
+        
         let dispatchGroup = DispatchGroup()
-        for vpnProtocol in protocols {
-            dispatchGroup.enter()
-            self.getFactory(for: vpnProtocol).vpnProviderManager(for: .status) { [weak self] manager, error in
-                defer { dispatchGroup.leave() }
-                guard let self = self, let manager = manager else {
-                    guard let error = error else { return }
-
-                        // log.error("Couldn't determine if protocol \"\(vpnProtocol.localizedString)\" is active: \"\(String(describing: error))\"", category: .connection)
-                    return
+        
+        if IPCFactory.makeIPCRequestService().isConnected {
+            IPCFactory.makeIPCRequestService().getProtocol{ data in
+                var vpnProtocol: VpnProtocol = .openVpn(.tcp)
+                if data == "openVPN" {
+                    vpnProtocol = .openVpn(.tcp)
+                } else {
+                    vpnProtocol = .wireGuard
                 }
+                self.getFactory(for: vpnProtocol).vpnProviderManager(for: .status) { [weak self] manager, error in
+                    defer { dispatchGroup.leave() }
+                    
+                    guard let self = self, let manager = manager else {
+                        guard let error = error else { return }
 
-                let state = self.determineNewState(vpnManager: manager)
-                if state.stableConnection || state.volatileConnection {
-                    activeProtocols.append(vpnProtocol)
+                        print("Couldn't determine if protocol \"\(vpnProtocol)\" is active: \"\(String(describing: error))\"")
+                        return
+                    }
+
+                    let state = self.determineNewState(vpnManager: manager)
+                    if state.stableConnection || state.volatileConnection {
+                        activeProtocols.append(vpnProtocol)
+                    }
+                }
+            }
+        } else {
+            for vpnProtocol in protocols {
+                dispatchGroup.enter()
+                getFactory(for: vpnProtocol).vpnProviderManager(for: .status) { [weak self] manager, error in
+                    defer { dispatchGroup.leave() }
+                    
+                    guard let self = self, let manager = manager else {
+                        guard let error = error else { return }
+
+                        print("Couldn't determine if protocol \"\(vpnProtocol)\" is active: \"\(String(describing: error))\"")
+                        return
+                    }
+
+                    let state = self.determineNewState(vpnManager: manager)
+                    if state.stableConnection || state.volatileConnection {
+                        activeProtocols.append(vpnProtocol)
+                    }
                 }
             }
         }
+       
 
-        dispatchGroup.notify(queue: .main) { 
+        dispatchGroup.notify(queue: .main) {
             if activeProtocols.contains(.openVpn(.tcp)) {
                 completion(.openVpn(.tcp))
             } else if activeProtocols.contains(.wireGuard) {
@@ -353,14 +373,14 @@ class SysVPNStateConfigurationManager: SysVPNStateConfiguration {
     }
 
     public func getInfo(completion: @escaping ((VpnStateConfigurationInfo) -> Void)) {
-        determineActiveVpnProtocol() { [weak self] vpnProtocol in
+        determineActiveVpnProtocol { [weak self] vpnProtocol in
             guard let self = self else {
                 return
             }
 
             guard let vpnProtocol = vpnProtocol else {
                 completion(VpnStateConfigurationInfo(state: .disconnected,
-                                                     hasConnected:   PropertiesManager.shared.hasConnected,
+                                                     hasConnected: PropertiesManager.shared.hasConnected,
                                                      connection: nil))
                 return
             }

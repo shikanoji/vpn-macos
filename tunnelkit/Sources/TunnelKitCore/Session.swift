@@ -27,7 +27,6 @@ import Foundation
 
 /// Defines the basics of a VPN session.
 public protocol Session {
-    
     /**
      Establishes the link interface for this session. The interface must be up and running for sending and receiving packets.
      

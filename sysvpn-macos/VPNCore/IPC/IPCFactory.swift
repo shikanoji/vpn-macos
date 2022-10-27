@@ -9,7 +9,6 @@
 import Foundation
 
 enum IPCServiceProto: String {
-  
     case openVPN = "com.syspvn.macos.openvpn"
     case wireGuard = "com.syspvn.macos.wireguard"
 
@@ -21,9 +20,9 @@ enum IPCServiceProto: String {
 
 class IPCFactory {
     static let shared = IPCFactory()
-    fileprivate lazy var openVPNIPC = XPCServiceUser(withExtension: IPCServiceProto.openVPN.machServiceName, logger: { print("\($0)") })
+    private lazy var openVPNIPC = XPCServiceUser(withExtension: IPCServiceProto.openVPN.machServiceName, logger: { print("\($0)") })
     
-    fileprivate lazy var wireGuardIPC = XPCServiceUser(withExtension: IPCServiceProto.wireGuard.machServiceName, logger: { print("\($0)") })
+    private lazy var wireGuardIPC = XPCServiceUser(withExtension: IPCServiceProto.wireGuard.machServiceName, logger: { print("\($0)") })
     
     class func makeIPCService(proto: IPCServiceProto) -> XPCServiceUser {
         switch proto {
@@ -33,6 +32,7 @@ class IPCFactory {
             return IPCFactory.shared.openVPNIPC
         }
     }
+
     class func makeIPCRequestService() -> XPCServiceUser {
         return IPCFactory.shared.openVPNIPC
     }

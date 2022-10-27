@@ -12,5 +12,4 @@ extension Notification.Name {
     static let endJobUpdate = NSNotification.Name("endJobUpdate")
     static let updateCountry = NSNotification.Name("updateCountry")
     static let reloadServerStar = NSNotification.Name("reloadServerStar")
-    
 }

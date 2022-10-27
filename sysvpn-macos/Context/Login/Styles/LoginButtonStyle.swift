@@ -17,7 +17,6 @@ struct LoginButtonNoBackgroundStyle: ButtonStyle {
 }
 
 struct LoginButtonCTAStyle: ButtonStyle {
-    
     var bgColor: Color = Asset.Colors.primaryColor.swiftUIColor
     var bgColorDissable: Color = Asset.Colors.backgroundButtonDisable.swiftUIColor
     
@@ -53,7 +52,7 @@ struct ActionButtonStyle: ButtonStyle {
         var body: some View {
             configuration.label
                 .padding(EdgeInsets(top: 6.0, leading: 0, bottom: 6.0, trailing: 0))
-                .frame( maxHeight: 40)
+                .frame(maxHeight: 40)
                 .overlay(RoundedRectangle(cornerRadius: 20)
                     .stroke(Color(hexString: "#353748"), lineWidth: 1))
         }

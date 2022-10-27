@@ -24,8 +24,8 @@
 //
 
 import Foundation
-import WireGuardKit
 import NetworkExtension
+import WireGuardKit
 
 public protocol WireGuardConfigurationProviding {
     var interface: InterfaceConfiguration { get }
@@ -57,8 +57,8 @@ public protocol WireGuardConfigurationProviding {
     func keepAlive(ofPeer peerIndex: Int) -> UInt16?
 }
 
-extension WireGuard {
-    public struct ConfigurationBuilder: WireGuardConfigurationProviding {
+public extension WireGuard {
+    struct ConfigurationBuilder: WireGuardConfigurationProviding {
         private static let defaultGateway4 = IPAddressRange(from: "0.0.0.0/0")!
         
         private static let defaultGateway6 = IPAddressRange(from: "::/0")!
@@ -215,7 +215,7 @@ extension WireGuard {
         }
     }
 
-    public struct Configuration: Codable, Equatable, WireGuardConfigurationProviding {
+    struct Configuration: Codable, Equatable, WireGuardConfigurationProviding {
         public let tunnelConfiguration: TunnelConfiguration
         
         public var interface: InterfaceConfiguration {
@@ -277,32 +277,32 @@ extension WireGuard {
     }
 }
 
-extension WireGuardConfigurationProviding {
-    public var publicKey: String {
+public extension WireGuardConfigurationProviding {
+    var publicKey: String {
         return interface.privateKey.publicKey.base64Key
     }
 
-    public var peersCount: Int {
+    var peersCount: Int {
         return peers.count
     }
     
-    public func publicKey(ofPeer peerIndex: Int) -> String {
+    func publicKey(ofPeer peerIndex: Int) -> String {
         return peers[peerIndex].publicKey.base64Key
     }
 
-    public func preSharedKey(ofPeer peerIndex: Int) -> String? {
+    func preSharedKey(ofPeer peerIndex: Int) -> String? {
         return peers[peerIndex].preSharedKey?.base64Key
     }
 
-    public func endpoint(ofPeer peerIndex: Int) -> String? {
+    func endpoint(ofPeer peerIndex: Int) -> String? {
         return peers[peerIndex].endpoint?.stringRepresentation
     }
 
-    public func allowedIPs(ofPeer peerIndex: Int) -> [String] {
+    func allowedIPs(ofPeer peerIndex: Int) -> [String] {
         return peers[peerIndex].allowedIPs.map(\.stringRepresentation)
     }
 
-    public func keepAlive(ofPeer peerIndex: Int) -> UInt16? {
+    func keepAlive(ofPeer peerIndex: Int) -> UInt16? {
         return peers[peerIndex].persistentKeepAlive
     }
 }

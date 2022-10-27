@@ -14,20 +14,26 @@ extension SplashView {
         @Published var logoSize = CGSize(width: 100, height: 116)
 
         init() {
-         
+            print(DependencyContainer.shared.appStateMgr.sessionStartTime)
             OSExtensionManager.shared.onReady = {
                 let ipc = IPCFactory.makeIPCRequestService()
-                ipc.checkConnect() { 
+                ipc.checkConnect {
                     DispatchQueue.main.async {
                         self.loadAppSetting()
                     }
                 }
+                
+                DispatchQueue.main.async {
+                    DependencyContainer.shared.vpnManager.whenReady(queue: DispatchQueue.main) {
+                        print("readdy")
+                    }
+                    
+                    DependencyContainer.shared.vpnManager.prepareManagers(forSetup: true)
+                }
             }
         }
-        func initData() {
-            
-            
-        }
+
+        func initData() {}
         
         func onStartApp() {
             if AppDataManager.shared.isLogin {
@@ -38,16 +44,16 @@ extension SplashView {
         }
         
         func loadAppSetting() {
-           _ = APIServiceManager.shared.getAppSetting().subscribe { event in
+            _ = APIServiceManager.shared.getAppSetting().subscribe { event in
               
-               if AppDataManager.shared.isLogin {
-                   self.loadCountry()
-                   self.loadListMultiHop()
-                   OpenWindows.MainView.open()
-               } else {
-                   OpenWindows.LoginView.open()
-               }
-               self.onStartApp()
+                if AppDataManager.shared.isLogin {
+                    self.loadCountry()
+                    self.loadListMultiHop()
+                    OpenWindows.MainView.open()
+                } else {
+                    OpenWindows.LoginView.open()
+                }
+                self.onStartApp()
                 switch event {
                 case let .success(response):
                     AppDataManager.shared.saveIpInfo(info: response.ipInfo)
@@ -63,25 +69,25 @@ extension SplashView {
         }
         
         func loadCountry() {
-            _ = APIServiceManager.shared.getListCountry().subscribe({ result in
+            _ = APIServiceManager.shared.getListCountry().subscribe { result in
                 switch result {
                 case let .success(response):
                     AppDataManager.shared.userCountry = response
-                case .failure(_):
+                case .failure:
                     break
                 }
-            })
+            }
         }
         
         func loadListMultiHop() {
-            _ = APIServiceManager.shared.getListMultiHop().subscribe({ result in
+            _ = APIServiceManager.shared.getListMultiHop().subscribe { result in
                 switch result {
                 case let .success(response):
                     AppDataManager.shared.mutilHopServer = response
-                case .failure(_):
+                case .failure:
                     break
                 }
-            })
+            }
         }
     }
 }

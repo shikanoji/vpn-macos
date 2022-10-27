@@ -32,7 +32,6 @@ public enum ProviderMessageError: Error {
     case remoteError(message: String)
 }
 
-
 public protocol NEVPNManagerWrapper: AnyObject {
     var vpnConnection: NEVPNConnectionWrapper { get }
     var protocolConfiguration: NEVPNProtocol? { get set }
@@ -44,9 +43,9 @@ public protocol NEVPNManagerWrapper: AnyObject {
     func removeFromPreferences(completionHandler: ((Error?) -> Void)?)
 }
 
-extension NEVPNManager: NEVPNManagerWrapper { 
+extension NEVPNManager: NEVPNManagerWrapper {
     public var vpnConnection: NEVPNConnectionWrapper {
-        self.connection
+        connection
     }
 }
 
@@ -54,11 +53,9 @@ public protocol NEVPNManagerWrapperFactory {
     func makeNEVPNManagerWrapper() -> NEVPNManagerWrapper
 }
 
-public protocol NETunnelProviderManagerWrapper: NEVPNManagerWrapper {
-}
+public protocol NETunnelProviderManagerWrapper: NEVPNManagerWrapper {}
 
-extension NETunnelProviderManager: NETunnelProviderManagerWrapper {
-}
+extension NETunnelProviderManager: NETunnelProviderManagerWrapper {}
 
 public protocol NETunnelProviderManagerWrapperFactory {
     func makeNewManager() -> NETunnelProviderManagerWrapper
@@ -67,7 +64,7 @@ public protocol NETunnelProviderManagerWrapperFactory {
 
 extension NETunnelProviderManagerWrapperFactory {
     func tunnelProviderManagerWrapper(forProviderBundleIdentifier bundleId: String, completionHandler: @escaping (NETunnelProviderManagerWrapper?, Error?) -> Void) {
-        loadManagersFromPreferences { (managers, error) in
+        loadManagersFromPreferences { managers, error in
             if let error = error {
                 completionHandler(nil, error)
                 return
@@ -77,7 +74,7 @@ extension NETunnelProviderManagerWrapperFactory {
                 return
             }
 
-            let vpnManager = managers.first(where: { (manager) -> Bool in
+            let vpnManager = managers.first(where: { manager -> Bool in
                 return (manager.protocolConfiguration as? NETunnelProviderProtocol)?.providerBundleIdentifier == bundleId
             }) ?? self.makeNewManager()
 
@@ -109,7 +106,7 @@ public protocol NEVPNConnectionWrapper {
 
 extension NEVPNConnection: NEVPNConnectionWrapper {
     public var vpnManager: NEVPNManagerWrapper {
-        self.manager
+        manager
     }
 }
 
@@ -126,7 +123,7 @@ extension NETunnelProviderSessionWrapper {
     private func send<R>(_ message: R, maxRetries: Int, completion: ((Result<R.Response, ProviderMessageError>) -> Void)?) where R: ProviderRequest {
         do {
             try sendProviderMessage(message.asData) { [weak self] maybeData in
-                guard let data = maybeData else { 
+                guard let data = maybeData else {
                     guard maxRetries > 0 else {
                         completion?(.failure(.noDataReceived))
                         return
@@ -145,11 +142,10 @@ extension NETunnelProviderSessionWrapper {
                 }
             }
         } catch {
-           // log.error("Received error while attempting to send provider message: \(error)")
+            // log.error("Received error while attempting to send provider message: \(error)")
             completion?(.failure(.sendingError))
         }
     }
 }
 
-extension NETunnelProviderSession: NETunnelProviderSessionWrapper {
-}
+extension NETunnelProviderSession: NETunnelProviderSessionWrapper {}

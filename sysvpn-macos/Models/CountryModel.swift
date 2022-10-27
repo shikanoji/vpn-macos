@@ -8,7 +8,6 @@
 import Foundation
 import SwiftyJSON
 
-
 class CountryResponse: BaseModel {
     var availableCountries: [CountryModel]?
     var recommendedCountries: [CountryModel]?
@@ -23,17 +22,17 @@ class CountryResponse: BaseModel {
     }
     
     func parseJson(_ json: JSON) {
-        availableCountries = json[JSONCountryKey.availableCountries].arrayValue.map({ data in
-            return CountryModel.init(json: data)!
-        })
+        availableCountries = json[JSONCountryKey.availableCountries].arrayValue.map { data in
+            return CountryModel(json: data)!
+        }
         
-        recommendedCountries = json[JSONCountryKey.recommendedCountries].arrayValue.map({ data in
-            return CountryModel.init(json: data)!
-        })
+        recommendedCountries = json[JSONCountryKey.recommendedCountries].arrayValue.map { data in
+            return CountryModel(json: data)!
+        }
         
-        staticServers = json[JSONCountryKey.staticServers].arrayValue.map({ data in
-            return StaticServerModel.init(json: data)!
-        })
+        staticServers = json[JSONCountryKey.staticServers].arrayValue.map { data in
+            return StaticServerModel(json: data)!
+        }
         
         settings = OderModel(json: json[JSONCountryKey.settings])
     }
@@ -71,9 +70,9 @@ class CountryModel: BaseModel {
         flag = json[JSONCountryKey.flag].string
         x = json[JSONCountryKey.x].double
         y = json[JSONCountryKey.y].double
-        city = json[JSONCountryKey.city].arrayValue.map({ data in
-            return CityModel.init(json: data)!
-        })
+        city = json[JSONCountryKey.city].arrayValue.map { data in
+            return CityModel(json: data)!
+        }
     }
 }
 
@@ -103,7 +102,7 @@ class CityModel: BaseModel {
     }
 }
 
-class OderModel : BaseModel {
+class OderModel: BaseModel {
     var fields: [String]?
     var direction: String?
     
@@ -114,9 +113,9 @@ class OderModel : BaseModel {
     }
     
     func parseJson(_ json: JSON) {
-        fields = json[JSONCountryKey.fields].arrayObject?.map({ str in
+        fields = json[JSONCountryKey.fields].arrayObject?.map { str in
             return str
-        }) as? [String]
+        } as? [String]
         direction = json[JSONCountryKey.direction].string
     }
 }
@@ -151,14 +150,13 @@ class StaticServerModel: BaseModel {
         flag = json[JSONCountryKey.flag].string
         iso2 = json[JSONCountryKey.iso2].string
         iso3 = json[JSONCountryKey.iso3].string
-        serverId =  json[JSONCountryKey.serverId].int
-        currentLoad =  json[JSONCountryKey.currentLoad].int
-        serverNumber =  json[JSONCountryKey.serverNumber].int
+        serverId = json[JSONCountryKey.serverId].int
+        currentLoad = json[JSONCountryKey.currentLoad].int
+        serverNumber = json[JSONCountryKey.serverNumber].int
         countryName = json[JSONCountryKey.countryName].string
         cityName = json[JSONCountryKey.cityName].string
     }
 }
-
 
 struct JSONCountryKey {
     static let id = "id"
@@ -187,5 +185,3 @@ struct JSONCountryKey {
     static let serverNumber = "serverNumber"
     static let countryName = "countryName"
 }
-
-

@@ -39,26 +39,24 @@ import Foundation
 // hex -> Data conversion code from: http://stackoverflow.com/questions/32231926/nsdata-from-hex-string
 // Data -> hex conversion code from: http://stackoverflow.com/questions/39075043/how-to-convert-data-to-hex-string-in-swift
 
-extension UnicodeScalar {
-    public var hexNibble: UInt8 {
+public extension UnicodeScalar {
+    var hexNibble: UInt8 {
         let value = self.value
         if 48 <= value && value <= 57 {
             return UInt8(value - 48)
-        }
-        else if 65 <= value && value <= 70 {
+        } else if 65 <= value && value <= 70 {
             return UInt8(value - 55)
-        }
-        else if 97 <= value && value <= 102 {
+        } else if 97 <= value && value <= 102 {
             return UInt8(value - 87)
         }
         fatalError("\(self) not a legal hex nibble")
     }
 }
 
-extension Data {
-    public init(hex: String) {
+public extension Data {
+    init(hex: String) {
         let scalars = hex.unicodeScalars
-        var bytes = Array<UInt8>(repeating: 0, count: (scalars.count + 1) >> 1)
+        var bytes = [UInt8](repeating: 0, count: (scalars.count + 1) >> 1)
         for (index, scalar) in scalars.enumerated() {
             var nibble = scalar.hexNibble
             if index & 1 == 0 {
@@ -69,21 +67,21 @@ extension Data {
         self = Data(bytes)
     }
 
-    public func toHex() -> String {
+    func toHex() -> String {
         return map { String(format: "%02hhx", $0) }.joined()
     }
     
-    public mutating func zero() {
+    mutating func zero() {
         resetBytes(in: 0..<count)
     }
 
-    public mutating func zero(from: Int, to: Int) {
+    mutating func zero(from: Int, to: Int) {
         resetBytes(in: from..<to)
     }
 }
 
-extension Data {
-    public mutating func append(_ value: UInt16) {
+public extension Data {
+    mutating func append(_ value: UInt16) {
         var localValue = value
         let buffer = withUnsafePointer(to: &localValue) {
             return UnsafeBufferPointer(start: $0, count: 1)
@@ -91,7 +89,7 @@ extension Data {
         append(buffer)
     }
     
-    public mutating func append(_ value: UInt32) {
+    mutating func append(_ value: UInt32) {
         var localValue = value
         let buffer = withUnsafePointer(to: &localValue) {
             return UnsafeBufferPointer(start: $0, count: 1)
@@ -99,7 +97,7 @@ extension Data {
         append(buffer)
     }
     
-    public mutating func append(_ value: UInt64) {
+    mutating func append(_ value: UInt64) {
         var localValue = value
         let buffer = withUnsafePointer(to: &localValue) {
             return UnsafeBufferPointer(start: $0, count: 1)
@@ -107,15 +105,15 @@ extension Data {
         append(buffer)
     }
     
-    public mutating func append(nullTerminatedString: String) {
+    mutating func append(nullTerminatedString: String) {
         append(nullTerminatedString.data(using: .ascii)!)
         append(UInt8(0))
     }
 
-    public func nullTerminatedString(from: Int) -> String? {
+    func nullTerminatedString(from: Int) -> String? {
         var nullOffset: Int?
         for i in from..<count {
-            if (self[i] == 0) {
+            if self[i] == 0 {
                 nullOffset = i
                 break
             }
@@ -127,7 +125,7 @@ extension Data {
     }
 
     // best
-    public func UInt16Value(from: Int) -> UInt16 {
+    func UInt16Value(from: Int) -> UInt16 {
         var value: UInt16 = 0
         for i in 0..<2 {
             let byte = self[from + i]
@@ -139,12 +137,12 @@ extension Data {
     }
     
     @available(*, deprecated)
-    func UInt16ValueFromPointers(from: Int) -> UInt16 {
+    internal func UInt16ValueFromPointers(from: Int) -> UInt16 {
         return subdata(in: from..<(from + 2)).withUnsafeBytes { $0.pointee }
     }
 
     @available(*, deprecated)
-    func UInt16ValueFromReboundPointers(from: Int) -> UInt16 {
+    internal func UInt16ValueFromReboundPointers(from: Int) -> UInt16 {
         let data = subdata(in: from..<(from + 2))
 //        print("data: \(data.toHex())")
         let value = data.withUnsafeBytes { (bytes: UnsafePointer<UInt8>) -> UInt16 in
@@ -157,7 +155,7 @@ extension Data {
     }
     
     @available(*, deprecated)
-    func UInt32ValueFromBuffer(from: Int) -> UInt32 {
+    internal func UInt32ValueFromBuffer(from: Int) -> UInt32 {
         var value: UInt32 = 0
         for i in 0..<4 {
             let byte = self[from + i]
@@ -169,14 +167,14 @@ extension Data {
     }
     
     // best
-    public func UInt32Value(from: Int) -> UInt32 {
+    func UInt32Value(from: Int) -> UInt32 {
         return subdata(in: from..<(from + 4)).withUnsafeBytes {
             $0.load(as: UInt32.self)
         }
     }
 
     @available(*, deprecated)
-    func UInt32ValueFromReboundPointers(from: Int) -> UInt32 {
+    internal func UInt32ValueFromReboundPointers(from: Int) -> UInt32 {
         let data = subdata(in: from..<(from + 4))
 //        print("data: \(data.toHex())")
         let value = data.withUnsafeBytes { (bytes: UnsafePointer<UInt8>) -> UInt32 in
@@ -188,39 +186,39 @@ extension Data {
         return value
     }
 
-    public func networkUInt16Value(from: Int) -> UInt16 {
+    func networkUInt16Value(from: Int) -> UInt16 {
         return UInt16(bigEndian: subdata(in: from..<(from + 2)).withUnsafeBytes {
             $0.load(as: UInt16.self)
         })
     }
 
-    public func networkUInt32Value(from: Int) -> UInt32 {
+    func networkUInt32Value(from: Int) -> UInt32 {
         return UInt32(bigEndian: subdata(in: from..<(from + 4)).withUnsafeBytes {
             $0.load(as: UInt32.self)
         })
     }
 }
 
-extension Data {
-    public func subdata(offset: Int, count: Int) -> Data {
+public extension Data {
+    func subdata(offset: Int, count: Int) -> Data {
         return subdata(in: offset..<(offset + count))
     }
 }
 
-extension Array where Element == Data {
-    public var flatCount: Int {
+public extension Array where Element == Data {
+    var flatCount: Int {
         return reduce(0) { $0 + $1.count }
     }
 }
 
-extension UnsafeRawBufferPointer {
-    public var bytePointer: UnsafePointer<Element> {
+public extension UnsafeRawBufferPointer {
+    var bytePointer: UnsafePointer<Element> {
         return bindMemory(to: Element.self).baseAddress!
     }
 }
 
-extension UnsafeMutableRawBufferPointer {
-    public var bytePointer: UnsafeMutablePointer<Element> {
+public extension UnsafeMutableRawBufferPointer {
+    var bytePointer: UnsafeMutablePointer<Element> {
         return bindMemory(to: Element.self).baseAddress!
     }
 }

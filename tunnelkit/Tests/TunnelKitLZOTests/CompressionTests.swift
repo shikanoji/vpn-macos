@@ -23,13 +23,12 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import XCTest
-@testable import TunnelKitCore
 import CTunnelKitCore
+@testable import TunnelKitCore
 import TunnelKitLZO
+import XCTest
 
 class CompressionTests: XCTestCase {
-
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 //        print("LZO version: \(LZO.versionString())")
@@ -40,7 +39,7 @@ class CompressionTests: XCTestCase {
     }
 
     func testSymmetric() {
-        XCTAssertTrue(LZOFactory.isSupported());
+        XCTAssertTrue(LZOFactory.isSupported())
         let lzo = LZOFactory.create()
         let src = Data([UInt8](repeating: 6, count: 100))
         guard let dst = try? lzo.compressedData(with: src) else {

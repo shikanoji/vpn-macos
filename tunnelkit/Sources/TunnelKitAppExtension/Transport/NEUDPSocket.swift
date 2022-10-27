@@ -107,8 +107,8 @@ public class NEUDPSocket: NSObject, GenericSocket {
     
     // MARK: Connection KVO (any queue)
     
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard (context == &NEUDPSocket.linkContext) else {
+    override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        guard context == &NEUDPSocket.linkContext else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
             return
         }
@@ -120,11 +120,11 @@ public class NEUDPSocket: NSObject, GenericSocket {
         }
     }
     
-    private func observeValueInTunnelQueue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    private func observeValueInTunnelQueue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
 //        if let keyPath = keyPath {
 //            log.debug("KVO change reported (\(anyPointer(object)).\(keyPath))")
 //        }
-        guard let impl = object as? NWUDPSession, (impl == self.impl) else {
+        guard let impl = object as? NWUDPSession, impl == self.impl else {
             log.warning("Discard KVO change from old socket")
             return
         }
@@ -175,8 +175,8 @@ public class NEUDPSocket: NSObject, GenericSocket {
     }
 }
 
-extension NEUDPSocket {
-    public override var description: String {
+public extension NEUDPSocket {
+    override var description: String {
         guard let hostEndpoint = impl.endpoint as? NWHostEndpoint else {
             return impl.endpoint.maskedDescription
         }

@@ -8,7 +8,6 @@
 import Foundation
 
 struct CountryResult: Codable {
-
     enum CodingKeys: String, CodingKey {
         case availableCountries
         case settings
@@ -22,7 +21,6 @@ struct CountryResult: Codable {
     var staticServers: [CountryStaticServers]?
     var recentCountries: [CountryAvailables]?
     
-
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         availableCountries = try container.decodeIfPresent([CountryAvailables].self, forKey: .availableCountries)
@@ -32,11 +30,10 @@ struct CountryResult: Codable {
     }
     
     func saveListCountry() {
-        self.saveFile(fileName: .keySaveCountry)
+        saveFile(fileName: .keySaveCountry)
     }
     
     static func getListCountry() -> CountryResult? {
         return CountryResult.readFile(fileName: .keySaveCountry) as? CountryResult
-    } 
-    
+    }
 }

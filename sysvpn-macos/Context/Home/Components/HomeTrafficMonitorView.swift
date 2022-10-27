@@ -8,54 +8,53 @@
 import Foundation
 import SwiftUI
 
-struct HomeTrafficMonitorView : View {
+struct HomeTrafficMonitorView: View {
     @State var bitRateState = Bitrate(download: 0, upload: 0)
     @State var usageInfo = SingleDataUsageInfo(received: 0, sent: 0)
-    @EnvironmentObject var networkState: NetworkAppStates;
+    @EnvironmentObject var networkState: NetworkAppStates
     @EnvironmentObject var appState: GlobalAppStates
     var body: some View {
-        HStack (alignment: .top) {
+        HStack(alignment: .top) {
             HomeTrafficInfoView(bitRate: bitRateState, usageInfo: usageInfo, startTime: appState.sessionStartTime)
             Spacer()
             HomeTrafficChartView(bitRate: bitRateState)
                 .frame(maxWidth: .infinity)
-        } .onChange(of: networkState.bitRate) { newValue in
+        }.onChange(of: networkState.bitRate) { newValue in
             bitRateState = newValue
             usageInfo = SystemDataUsage.lastestVpnUsageInfo
         }
     }
 }
 
-struct HomeTrafficInfoView : View {
+struct HomeTrafficInfoView: View {
     var bitRate: Bitrate
     var usageInfo: SingleDataUsageInfo
     var startTime: Double?
     
-    @State var sessionDisplay: String  = "--:--:--"
+    @State var sessionDisplay: String = "--:--:--"
     
     var body: some View {
-        VStack (alignment: .leading) {
+        VStack(alignment: .leading) {
             Text("Sesion Traffic")
                 .font(Font.system(size: 16, weight: .semibold))
                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
             Spacer().frame(height: 15)
-            HStack (alignment: .top) {
-                VStack (alignment: .leading){
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
                     Text("Session:")
                     Text("Down Volume:")
                     Text("Up Volume:")
                 }
                 Spacer()
-                VStack (alignment: .trailing) {
+                VStack(alignment: .trailing) {
                     Text(sessionDisplay)
                     Text(usageInfo.displayString(for: usageInfo.received))
                     Text(usageInfo.displayString(for: usageInfo.sent))
-                   
                 }
             }.frame(maxWidth: 200)
              
-        }.onChange(of: bitRate, perform: { newValue in
-            sessionDisplay = getTime(now: Date().timeIntervalSince1970 )
+        }.onChange(of: bitRate, perform: { _ in
+            sessionDisplay = getTime(now: Date().timeIntervalSince1970)
         })
         .font(Font.system(size: 13, weight: .regular))
         .foregroundColor(Color.white)
@@ -71,19 +70,18 @@ struct HomeTrafficInfoView : View {
             return "00:00:00"
         }
        
-        let hour = floor( diff / 60 / 60)
-        let min = floor( (diff - hour * 60 * 60) / 60 )
+        let hour = floor(diff / 60 / 60)
+        let min = floor((diff - hour * 60 * 60) / 60)
         let second = floor(diff - (hour * 60 * 60 + min * 60))
-        
-        print(second)
+         
         return .init(format: "%02d:%02d:%02d", Int(hour), Int(min), Int(second))
     }
 }
 
-struct HomeTrafficChartView : View {
+struct HomeTrafficChartView: View {
     var bitRate: Bitrate
-    @State var lineDownSpeed:[Double] = [0]
-    @State var lineUpSpeed:[Double] = [0]
+    @State var lineDownSpeed: [Double] = [0]
+    @State var lineUpSpeed: [Double] = [0]
     var body: some View {
         VStack {
             HStack {
@@ -100,7 +98,7 @@ struct HomeTrafficChartView : View {
             }
             Spacer().frame(height: 24)
             TrafficLineChartView()
-        }.onChange(of: bitRate) { newValue in
+        }.onChange(of: bitRate) { _ in
             withAnimation {
                 lineDownSpeed.append(Double(bitRate.download))
                 lineUpSpeed.append(Double(bitRate.upload))
@@ -116,7 +114,6 @@ struct HomeTrafficChartView : View {
 }
 
 struct HomeTraficMonitorView_Previews: PreviewProvider {
-
     static var previews: some View {
         HomeTrafficMonitorView().environmentObject(GlobalAppStates.shared)
     }

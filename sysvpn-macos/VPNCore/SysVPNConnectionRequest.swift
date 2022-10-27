@@ -8,10 +8,7 @@
 
 import Foundation
 
-
 struct SysVPNConnectionRequest {
     var connectType: ConnectionType
     var params: SysVPNConnectParams?
 }
-
-

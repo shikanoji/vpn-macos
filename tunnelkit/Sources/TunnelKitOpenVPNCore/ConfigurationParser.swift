@@ -23,24 +23,21 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import __TunnelKitUtils
+import CTunnelKitCore
 import Foundation
 import SwiftyBeaver
 import TunnelKitCore
-import CTunnelKitCore
-import __TunnelKitUtils
 
 private let log = SwiftyBeaver.self
 
-extension OpenVPN {
-
+public extension OpenVPN {
     /// Provides methods to parse a `Configuration` from an .ovpn configuration file.
-    public class ConfigurationParser {
-
+    class ConfigurationParser {
         // XXX: parsing is very optimistic
         
         /// Regexes used to parse OpenVPN options.
         public struct Regex {
-            
             // MARK: General
             
             static let cipher = NSRegularExpression("^cipher +[^,\\s]+")
@@ -121,7 +118,7 @@ extension OpenVPN {
 
             // MARK: Unsupported
             
-    //        static let fragment = NSRegularExpression("^fragment +\\d+")
+            //        static let fragment = NSRegularExpression("^fragment +\\d+")
             static let fragment = NSRegularExpression("^fragment")
             
             static let connectionProxy = NSRegularExpression("^\\w+-proxy")
@@ -163,7 +160,6 @@ extension OpenVPN {
         
         /// Result of the parser.
         public struct Result {
-
             /// Original URL of the configuration file, if parsed from an URL.
             public let url: URL?
 
@@ -307,16 +303,16 @@ extension OpenVPN {
                 // MARK: Unsupported
                 
                 // check blocks first
-                Regex.connection.enumerateComponents(in: line) { (_) in
+                Regex.connection.enumerateComponents(in: line) { _ in
                     unsupportedError = ConfigurationError.unsupportedConfiguration(option: "<connection> blocks")
                 }
-                Regex.fragment.enumerateComponents(in: line) { (_) in
+                Regex.fragment.enumerateComponents(in: line) { _ in
                     unsupportedError = ConfigurationError.unsupportedConfiguration(option: "fragment")
                 }
-                Regex.connectionProxy.enumerateComponents(in: line) { (_) in
+                Regex.connectionProxy.enumerateComponents(in: line) { _ in
                     unsupportedError = ConfigurationError.unsupportedConfiguration(option: "proxy: \"\(line)\"")
                 }
-                Regex.externalFiles.enumerateComponents(in: line) { (_) in
+                Regex.externalFiles.enumerateComponents(in: line) { _ in
                     unsupportedError = ConfigurationError.unsupportedConfiguration(option: "external file: \"\(line)\"")
                 }
                 if line.contains("mtu") || line.contains("mssfix") {
@@ -563,11 +559,11 @@ extension OpenVPN {
                     // replace private data
                     strippedLine = strippedComponents.joined(separator: " ")
                 }
-                Regex.eku.enumerateComponents(in: line) { (_) in
+                Regex.eku.enumerateComponents(in: line) { _ in
                     isHandled = true
                     optChecksEKU = true
                 }
-                Regex.remoteRandom.enumerateComponents(in: line) { (_) in
+                Regex.remoteRandom.enumerateComponents(in: line) { _ in
                     isHandled = true
                     optRandomizeEndpoint = true
                 }
@@ -691,7 +687,6 @@ extension OpenVPN {
                     optProxyBypass?.removeFirst()
                 }
                 Regex.redirectGateway.enumerateArguments(in: line) {
-
                     // redirect IPv4 by default
                     optRedirectGateway = [.def1]
 
@@ -924,16 +919,16 @@ extension OpenVPN {
         }
 
         private static func normalizeEncryptedPEMBlock(block: inout [String]) {
-    //        if block.count >= 1 && block[0].contains("ENCRYPTED") {
-    //            return true
-    //        }
+            //        if block.count >= 1 && block[0].contains("ENCRYPTED") {
+            //            return true
+            //        }
             
             // XXX: restore blank line after encryption header (easier than tweaking trimmedLines)
             if block.count >= 3 && block[1].contains("Proc-Type") {
                 block.insert("", at: 3)
-    //            return true
+                //            return true
             }
-    //        return false
+            //        return false
         }
     }
 }

@@ -34,14 +34,14 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
-@testable import TunnelKitCore
 import CTunnelKitCore
 import CTunnelKitOpenVPNProtocol
+import Foundation
+@testable import TunnelKitCore
 
 public class TestUtils {
     public static func uniqArray(_ v: [Int]) -> [Int] {
-        return v.reduce([]){ $0.contains($1) ? $0 : $0 + [$1] }
+        return v.reduce([]) { $0.contains($1) ? $0 : $0 + [$1] }
     }
     
     public static func generateDataSuite(_ size: Int, _ count: Int) -> [Data] {
@@ -52,8 +52,7 @@ public class TestUtils {
         return suite
     }
     
-    private init() {
-    }
+    private init() {}
 }
 
 extension Encrypter {

@@ -70,7 +70,6 @@ public enum DataUnit: UInt, CustomStringConvertible {
 
 /// Supports being represented in data unit.
 public protocol DataUnitRepresentable {
-
     /// Returns self expressed in bytes, kB, MB, GB.
     var descriptionAsDataUnit: String { get }
 }

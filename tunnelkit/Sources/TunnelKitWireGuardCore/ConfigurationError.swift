@@ -25,8 +25,8 @@
 
 import Foundation
 
-extension WireGuard {
-    public enum ConfigurationError: Error {
+public extension WireGuard {
+    enum ConfigurationError: Error {
         case invalidKey
     }
 }

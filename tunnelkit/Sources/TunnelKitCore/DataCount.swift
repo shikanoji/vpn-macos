@@ -27,7 +27,6 @@ import Foundation
 
 /// A pair of received/sent bytes count.
 public struct DataCount: Equatable {
-
     /// Received bytes count.
     public let received: UInt
     

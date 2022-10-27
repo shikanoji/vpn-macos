@@ -38,7 +38,6 @@ import Foundation
 
 /// The possible errors raised/thrown during `OpenVPNSession` operation.
 public enum OpenVPNError: String, Error {
-    
     /// The negotiation timed out.
     case negotiationTimeout
     

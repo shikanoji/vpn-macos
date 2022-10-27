@@ -34,18 +34,17 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import CTunnelKitCore
+import CTunnelKitOpenVPNProtocol
 import Foundation
 import SwiftyBeaver
 import TunnelKitCore
 import TunnelKitOpenVPNCore
-import CTunnelKitCore
-import CTunnelKitOpenVPNProtocol
 
 private let log = SwiftyBeaver.self
 
 /// Observes major events notified by a `OpenVPNSession`.
 public protocol OpenVPNSessionDelegate: AnyObject {
-    
     /**
      Called after starting a session.
      
@@ -227,7 +226,7 @@ public class OpenVPNSession: Session {
     // MARK: Session
 
     public func setLink(_ link: LinkInterface) {
-        guard (self.link == nil) else {
+        guard self.link == nil else {
             log.warning("Link interface already set!")
             return
         }
@@ -235,7 +234,7 @@ public class OpenVPNSession: Session {
         log.debug("Starting VPN session")
         
         // WARNING: runs in notification source queue (we know it's "queue", but better be safe than sorry)
-        tlsObserver = NotificationCenter.default.addObserver(forName: .TLSBoxPeerVerificationError, object: nil, queue: nil) { (notification) in
+        tlsObserver = NotificationCenter.default.addObserver(forName: .TLSBoxPeerVerificationError, object: nil, queue: nil) { notification in
             let error = notification.userInfo?[OpenVPNErrorKey] as? Error
             self.queue.async {
                 self.deferStop(.shutdown, error)
@@ -268,7 +267,7 @@ public class OpenVPNSession: Session {
     }
 
     public func setTunnel(tunnel: TunnelInterface) {
-        guard (self.tunnel == nil) else {
+        guard self.tunnel == nil else {
             log.warning("Tunnel interface already set!")
             return
         }
@@ -382,7 +381,7 @@ public class OpenVPNSession: Session {
     // Ruby: udp_loop
     private func loopLink() {
         let loopedLink = link
-        loopedLink?.setReadHandler(queue: queue) { [weak self] (newPackets, error) in
+        loopedLink?.setReadHandler(queue: queue) { [weak self] newPackets, error in
             guard self?.link === loopedLink else {
                 log.warning("Ignoring read from outdated LINK")
                 return
@@ -405,7 +404,7 @@ public class OpenVPNSession: Session {
 
     // Ruby: tun_loop
     private func loopTunnel() {
-        tunnel?.setReadHandler(queue: queue) { [weak self] (newPackets, error) in
+        tunnel?.setReadHandler(queue: queue) { [weak self] newPackets, error in
             if let error = error {
                 log.error("Failed TUN read: \(error)")
                 return
@@ -444,7 +443,7 @@ public class OpenVPNSession: Session {
 //            log.verbose("Parsed packet with code \(code)")
 
             var offset = 1
-            if (code == .dataV2) {
+            if code == .dataV2 {
                 guard packet.count >= offset + PacketPeerIdLength else {
                     log.warning("Dropped malformed packet (missing peerId)")
                     continue
@@ -718,12 +717,12 @@ public class OpenVPNSession: Session {
         guard let renegotiatesAfter = configuration.renegotiatesAfter, renegotiatesAfter > 0 else {
             return
         }
-        guard (negotiationKeyIdx == currentKeyIdx) else {
+        guard negotiationKeyIdx == currentKeyIdx else {
             return
         }
         
         let elapsed = -negotiationKey.startTime.timeIntervalSinceNow
-        if (elapsed > renegotiatesAfter) {
+        if elapsed > renegotiatesAfter {
             log.debug("Renegotiating after \(elapsed.asTimeString)")
             softReset(isServerInitiated: false)
         }
@@ -755,7 +754,6 @@ public class OpenVPNSession: Session {
         // start new TLS handshake
         if ((packet.code == .hardResetServerV2) && (negotiationKey.state == .hardReset)) ||
             ((packet.code == .softResetV1) && (negotiationKey.state == .softReset)) {
- 
             if negotiationKey.state == .hardReset {
                 controlChannel.remoteSessionId = packet.sessionId
             }
@@ -810,7 +808,7 @@ public class OpenVPNSession: Session {
             enqueueControlPackets(code: .controlV1, key: negotiationKey.id, payload: cipherTextOut)
         }
         // exchange TLS ciphertext
-        else if ((packet.code == .controlV1) && (negotiationKey.state == .tls)) {
+        else if (packet.code == .controlV1) && (negotiationKey.state == .tls) {
             guard let remoteSessionId = controlChannel.remoteSessionId else {
                 log.error("No remote sessionId found in packet (control packets before server HARD_RESET)")
                 deferStop(.shutdown, OpenVPNError.missingSessionId)
@@ -853,8 +851,7 @@ public class OpenVPNSession: Session {
                     let controlData = try controlChannel.currentControlData(withTLS: negotiationKey.tls)
                     handleControlData(controlData)
                 }
-            } catch _ {
-            }
+            } catch _ {}
         }
     }
 
@@ -872,7 +869,7 @@ public class OpenVPNSession: Session {
 
         auth.appendControlData(data)
 
-        if (negotiationKey.controlState == .preAuth) {
+        if negotiationKey.controlState == .preAuth {
             do {
                 guard try auth.parseAuthReply() else {
                     return
@@ -906,7 +903,6 @@ public class OpenVPNSession: Session {
 
         // disconnect on authentication failure
         guard !message.hasPrefix("AUTH_FAILED") else {
-
             // XXX: retry without client options
             if authenticator?.withLocalOptions ?? false {
                 log.warning("Authentication failure, retrying without local options")
@@ -997,7 +993,7 @@ public class OpenVPNSession: Session {
     
     // Ruby: clean_keys
     private func cleanKeys() {
-        while (oldKeys.count > 1) {
+        while oldKeys.count > 1 {
             let key = oldKeys.removeFirst()
             keys.removeValue(forKey: key.id)
         }
@@ -1030,7 +1026,7 @@ public class OpenVPNSession: Session {
         
         // WARNING: runs in Network.framework queue
         let writeLink = link
-        link?.writePackets(rawList) { [weak self] (error) in
+        link?.writePackets(rawList) { [weak self] error in
             self?.queue.sync {
                 guard self?.link === writeLink else {
                     log.warning("Ignoring write from outdated LINK")
@@ -1161,7 +1157,7 @@ public class OpenVPNSession: Session {
             // WARNING: runs in Network.framework queue
             controlChannel.addSentDataCount(encryptedPackets.flatCount)
             let writeLink = link
-            link?.writePackets(encryptedPackets) { [weak self] (error) in
+            link?.writePackets(encryptedPackets) { [weak self] error in
                 self?.queue.sync {
                     guard self?.link === writeLink else {
                         log.warning("Ignoring write from outdated LINK")
@@ -1186,8 +1182,7 @@ public class OpenVPNSession: Session {
     
     // MARK: Acks
     
-    private func handleAcks() {
-    }
+    private func handleAcks() {}
     
     // Ruby: send_ack
     private func sendAck(for controlPacket: ControlPacket) {
@@ -1207,7 +1202,7 @@ public class OpenVPNSession: Session {
         
         // WARNING: runs in Network.framework queue
         let writeLink = link
-        link?.writePacket(raw) { [weak self] (error) in
+        link?.writePacket(raw) { [weak self] error in
             self?.queue.sync {
                 guard self?.link === writeLink else {
                     log.warning("Ignoring write from outdated LINK")
@@ -1253,7 +1248,7 @@ public class OpenVPNSession: Session {
                     completion()
                     return
                 }
-                link.writePackets(packets) { [weak self] (error) in
+                link.writePackets(packets) { [weak self] _ in
                     self?.queue.sync {
                         completion()
                     }

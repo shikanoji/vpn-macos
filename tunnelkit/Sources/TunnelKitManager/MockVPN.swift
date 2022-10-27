@@ -28,8 +28,7 @@ import NetworkExtension
 
 /// Simulates a VPN provider.
 public class MockVPN: VPN {
-    public init() {
-    }
+    public init() {}
 
     // MARK: VPN
 

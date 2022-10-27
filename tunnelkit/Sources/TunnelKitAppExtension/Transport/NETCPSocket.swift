@@ -107,8 +107,8 @@ public class NETCPSocket: NSObject, GenericSocket {
     
     // MARK: Connection KVO (any queue)
     
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard (context == &NETCPSocket.linkContext) else {
+    override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        guard context == &NETCPSocket.linkContext else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
             return
         }
@@ -120,11 +120,11 @@ public class NETCPSocket: NSObject, GenericSocket {
         }
     }
     
-    private func observeValueInTunnelQueue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    private func observeValueInTunnelQueue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
 //        if let keyPath = keyPath {
 //            log.debug("KVO change reported (\(anyPointer(object)).\(keyPath))")
 //        }
-        guard let impl = object as? NWTCPConnection, (impl == self.impl) else {
+        guard let impl = object as? NWTCPConnection, impl == self.impl else {
             log.warning("Discard KVO change from old socket")
             return
         }
@@ -172,8 +172,8 @@ public class NETCPSocket: NSObject, GenericSocket {
     }
 }
 
-extension NETCPSocket {
-    public override var description: String {
+public extension NETCPSocket {
+    override var description: String {
         guard let hostEndpoint = impl.endpoint as? NWHostEndpoint else {
             return impl.endpoint.maskedDescription
         }

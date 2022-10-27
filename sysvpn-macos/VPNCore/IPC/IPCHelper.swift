@@ -16,5 +16,4 @@ class IPCHelper {
         }
         return machServiceName
     }
-    
 }

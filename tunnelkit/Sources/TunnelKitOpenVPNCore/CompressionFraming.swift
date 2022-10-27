@@ -23,14 +23,12 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Foundation
 import CTunnelKitOpenVPNCore
+import Foundation
 
-extension OpenVPN {
-
+public extension OpenVPN {
     /// Defines the type of compression framing.
-    public enum CompressionFraming: Int, Codable, CustomStringConvertible {
-
+    enum CompressionFraming: Int, Codable, CustomStringConvertible {
         /// No compression framing.
         case disabled
         

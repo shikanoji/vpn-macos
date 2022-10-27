@@ -8,18 +8,25 @@
 
 import Foundation
 
-
-class SysVPNCore : SysVPNGatewayProtocol {
-
+class SysVPNCore: SysVPNGatewayProtocol {
     var connection: ConnectionStatus = .disconnected
     
     static let connectionChanged = Notification.Name("VpnGatewayConnectionChanged")
     static let activeServerTypeChanged = Notification.Name("VpnGatewayActiveServerTypeChanged")
     static let needsReconnectNotification = Notification.Name("VpnManagerNeedsReconnect")
-    var lastConnectionConiguration:  ConnectionConfiguration?
+    
+    var lastConnectionConiguration: ConnectionConfiguration? {
+        set {
+            newValue.saveUserDefault(keyUserDefault: "lastConnectionConiguration")
+        }
+        get {
+            return ConnectionConfiguration.readUserDefault(keyUserDefault: "lastConnectionConiguration")
+        }
+    }
+    
     var vpnService: SysVPNService
     var appStateManager: AppStateManagement
-    init(vpnService : SysVPNService, appStateManager: AppStateManagement ) {
+    init(vpnService: SysVPNService, appStateManager: AppStateManagement) {
         self.vpnService = vpnService
         self.appStateManager = appStateManager
         
@@ -56,7 +63,7 @@ class SysVPNCore : SysVPNGatewayProtocol {
     }
     
     func retryConnection() {
-        let lastSessionCode: String = ""
+        let lastSessionCode = ""
         connectTo(connectType: .lastSessionCode(code: lastSessionCode), params: nil)
     }
     
@@ -67,15 +74,20 @@ class SysVPNCore : SysVPNGatewayProtocol {
         }
         vpnService.prepareConection(connectType: request.connectType, params: request.params, callback: { response in
             switch response {
-            case .failure( let e ):
+            case let .failure(e):
                 print("[VPN-Core] request determine vpn config failed \(e) ")
                 DispatchQueue.main.async { [weak self] in
-                    //To-do: push error
+                    // To-do: push error
                     self?.stopConnecting(userInitiated: false)
                 }
-            case .success(let result):
-                let connectionConfig = ConnectionConfiguration(connectionDetermine: result, connectionParam: request.params, vpnProtocol: result.vpnProtocol, serverInfo: result.serverInfo )
+            case let .success(result):
+                let connectionConfig = ConnectionConfiguration(connectionDetermine: result, connectionParam: request.params, vpnProtocol: result.vpnProtocol, serverInfo: result.serverInfo)
                 self.lastConnectionConiguration = connectionConfig
+                if result.vpnProtocol == .wireGuard {
+                    PropertiesManager.shared.lastWireguardConnection = connectionConfig
+                } else  {
+                    PropertiesManager.shared.lastOpenVpnConnection = connectionConfig
+                }
                 print("[VPN-Core] request determine vpn config success")
                 IPCFactory.makeIPCRequestService().setProtocol(result.vpnProtocol.name)
                 DispatchQueue.main.async { [weak self] in
@@ -84,7 +96,6 @@ class SysVPNCore : SysVPNGatewayProtocol {
             }
              
         })
-         
     }
     
     func stopConnecting(userInitiated: Bool) {
@@ -102,11 +113,11 @@ class SysVPNCore : SysVPNGatewayProtocol {
             guard let self = self else {
                 return
             }
-            self.vpnService.disconnectLastSession(disconnectParam: self.lastConnectionConiguration?.connectionDetermine.disconnectParam) {  response in
+            self.vpnService.disconnectLastSession(disconnectParam: self.lastConnectionConiguration?.connectionDetermine.disconnectParam) { response in
                 switch response {
-                case .success( _ ):
+                case .success:
                     print("disconnect call success")
-                case .failure(let error):
+                case let .failure(error):
                     print("disconnect call failes \(error)")
                 }
             }
@@ -135,9 +146,5 @@ class SysVPNCore : SysVPNGatewayProtocol {
         postConnectionInformation()
     }
     
-    @objc private func reconnectOnNotification(_ notification: Notification) {
-    
-    }
-    
-    
+    @objc private func reconnectOnNotification(_: Notification) {}
 }

@@ -8,19 +8,17 @@
 import Foundation
 
 struct ListServerState: Codable {
+    enum CodingKeys: String, CodingKey {
+        case serverId
+        case score
+    }
 
-  enum CodingKeys: String, CodingKey {
-    case serverId
-    case score
-  }
+    var serverId: Int?
+    var score: Int?
 
-  var serverId: Int?
-  var score: Int? 
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    serverId = try container.decodeIfPresent(Int.self, forKey: .serverId)
-    score = try container.decodeIfPresent(Int.self, forKey: .score)
-  }
-
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        serverId = try container.decodeIfPresent(Int.self, forKey: .serverId)
+        score = try container.decodeIfPresent(Int.self, forKey: .score)
+    }
 }

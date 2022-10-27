@@ -6,8 +6,7 @@
 //
 
 import NetworkExtension
-import TunnelKitOpenVPNAppExtension
 import os.log
+import TunnelKitOpenVPNAppExtension
 
-class PacketTunnelProvider: OpenVPNTunnelProvider {
-}
+class PacketTunnelProvider: OpenVPNTunnelProvider {}

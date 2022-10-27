@@ -8,21 +8,17 @@
 import Foundation
 
 struct CountryOrder: Codable {
+    enum CodingKeys: String, CodingKey {
+        case fields
+        case direction
+    }
 
-  enum CodingKeys: String, CodingKey {
-    case fields
-    case direction
-  }
+    var fields: [String]?
+    var direction: String?
 
-  var fields: [String]?
-  var direction: String?
-
-
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    fields = try container.decodeIfPresent([String].self, forKey: .fields)
-    direction = try container.decodeIfPresent(String.self, forKey: .direction)
-  }
-
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        fields = try container.decodeIfPresent([String].self, forKey: .fields)
+        direction = try container.decodeIfPresent(String.self, forKey: .direction)
+    }
 }

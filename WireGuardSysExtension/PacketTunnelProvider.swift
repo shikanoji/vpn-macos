@@ -8,6 +8,4 @@
 import NetworkExtension
 import TunnelKitWireGuardAppExtension
 
-class PacketTunnelProvider: WireGuardTunnelProvider {
-}
-
+class PacketTunnelProvider: WireGuardTunnelProvider {}

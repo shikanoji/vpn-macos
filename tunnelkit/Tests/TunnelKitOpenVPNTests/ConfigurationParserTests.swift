@@ -23,9 +23,9 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import XCTest
 import TunnelKitCore
 import TunnelKitOpenVPNCore
+import XCTest
 
 class ConfigurationParserTests: XCTestCase {
     override func setUp() {
@@ -107,7 +107,7 @@ class ConfigurationParserTests: XCTestCase {
         let file = try OpenVPN.ConfigurationParser.parsed(fromURL: url(withName: "pia-hungary"))
         XCTAssertEqual(file.configuration.remotes, [
             .init("hungary.privateinternetaccess.com", .init(.udp, 1198)),
-            .init("hungary.privateinternetaccess.com", .init(.tcp, 502)),
+            .init("hungary.privateinternetaccess.com", .init(.tcp, 502))
         ])
         XCTAssertEqual(file.configuration.cipher, .aes128cbc)
         XCTAssertEqual(file.configuration.digest, .sha1)
@@ -143,5 +143,4 @@ class ConfigurationParserTests: XCTestCase {
     private func url(withName name: String) -> URL {
         return Bundle.module.url(forResource: name, withExtension: "ovpn")!
     }
-    
 }

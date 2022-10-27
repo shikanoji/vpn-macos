@@ -5,18 +5,18 @@
 //  Created by macbook on 23/10/2022.
 //
  
+import __TunnelKitUtils
+import CoreWLAN
+import CTunnelKitCore
 import NetworkExtension
 import SwiftyBeaver
-import CoreWLAN
+import TunnelKitAppExtension
 import TunnelKitCore
-import TunnelKitOpenVPNCore
 import TunnelKitManager
+import TunnelKitOpenVPNAppExtension
+import TunnelKitOpenVPNCore
 import TunnelKitOpenVPNManager
 import TunnelKitOpenVPNProtocol
-import TunnelKitAppExtension
-import CTunnelKitCore
-import __TunnelKitUtils
-import TunnelKitOpenVPNAppExtension
 
 private let log = SwiftyBeaver.self
  
@@ -79,9 +79,9 @@ open class OpenVPNTunnelAdapter {
 
     // MARK: Tunnel configuration
 
-     var cfg: OpenVPN.ProviderConfiguration!
+    var cfg: OpenVPN.ProviderConfiguration!
     
-     var strategy: ConnectionStrategy!
+    var strategy: ConnectionStrategy!
     
     // MARK: Internal state
 
@@ -97,13 +97,11 @@ open class OpenVPNTunnelAdapter {
     
     private var shouldReconnect = false
     
-    init(packetTunnelProvider : NEPacketTunnelProvider?) {
+    init(packetTunnelProvider: NEPacketTunnelProvider?) {
         self.packetTunnelProvider = packetTunnelProvider
     }
  
-    
-    open  func startTunnel(options: [String : NSObject]? = nil, completionHandler: @escaping (Error?) -> Void) {
-
+    open func startTunnel(options: [String: NSObject]? = nil, completionHandler: @escaping (Error?) -> Void) {
         // required configuration
         do {
             guard let tunnelProtocol = packetTunnelProvider?.protocolConfiguration as? NETunnelProviderProtocol else {
@@ -120,7 +118,7 @@ open class OpenVPNTunnelAdapter {
             var message: String?
             if let te = e as? OpenVPNProviderConfigurationError {
                 switch te {
-                case .parameter(let name):
+                case let .parameter(name):
                     message = "Tunnel configuration incomplete: \(name)"
                     
                 default:
@@ -194,7 +192,7 @@ open class OpenVPNTunnelAdapter {
         }
     }
     
-    open  func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
+    open func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
         pendingStartHandler = nil
         log.info("Stopping tunnel...")
         cfg._appexSetLastError(nil)
@@ -224,7 +222,6 @@ open class OpenVPNTunnelAdapter {
         }
     }
      
-    
     // MARK: Connection (tunnel queue)
     
     private func connectTunnel(upgradedSocket: GenericSocket? = nil) {
@@ -239,10 +236,10 @@ open class OpenVPNTunnelAdapter {
         
         strategy.createSocket(from: packetTunnelProvider!, timeout: dnsTimeout, queue: tunnelQueue) {
             switch $0 {
-            case .success(let socket):
+            case let .success(socket):
                 self.connectTunnel(via: socket)
                 
-            case .failure(let error):
+            case let .failure(error):
                 if case .dnsFailure = error {
                     self.tunnelQueue.async {
                         self.strategy.tryNextEndpoint()
@@ -287,7 +284,6 @@ open class OpenVPNTunnelAdapter {
 
         // failed to start
         if pendingStartHandler != nil {
-            
             //
             // CAUTION
             //
@@ -338,7 +334,6 @@ open class OpenVPNTunnelAdapter {
 }
 
 extension OpenVPNTunnelAdapter: GenericSocketDelegate {
-    
     // MARK: GenericSocketDelegate (tunnel queue)
     
     public func socketDidTimeout(_ socket: GenericSocket) {
@@ -403,7 +398,6 @@ extension OpenVPNTunnelAdapter: GenericSocketDelegate {
         if shouldReconnect {
             log.debug("Disconnection is recoverable, tunnel will reconnect in \(reconnectionDelay) milliseconds...")
             tunnelQueue.schedule(after: .milliseconds(reconnectionDelay)) {
-
                 // give up if shouldReconnect cleared in the meantime
                 guard self.shouldReconnect else {
                     log.warning("Reconnection flag was cleared in the meantime")
@@ -421,7 +415,7 @@ extension OpenVPNTunnelAdapter: GenericSocketDelegate {
         disposeTunnel(error: shutdownError)
     }
     
-    public func socketHasBetterPath(_ socket: GenericSocket) {
+    public func socketHasBetterPath(_: GenericSocket) {
         log.debug("Stopping tunnel due to a new better path")
         logCurrentSSID()
         session?.reconnect(error: OpenVPNProviderError.networkChanged)
@@ -429,7 +423,6 @@ extension OpenVPNTunnelAdapter: GenericSocketDelegate {
 }
 
 extension OpenVPNTunnelAdapter: OpenVPNSessionDelegate {
-    
     // MARK: OpenVPNSessionDelegate (tunnel queue)
     
     public func sessionDidStart(_ session: OpenVPNSession, remoteAddress: String, options: OpenVPN.Configuration) {
@@ -473,7 +466,7 @@ extension OpenVPNTunnelAdapter: OpenVPNSessionDelegate {
 
         cfg._appexSetServerConfiguration(session.serverConfiguration() as? OpenVPN.Configuration)
 
-        bringNetworkUp(remoteAddress: remoteAddress, localOptions: session.configuration, options: options) { (error) in
+        bringNetworkUp(remoteAddress: remoteAddress, localOptions: session.configuration, options: options) { error in
 
             // FIXME: XPC queue
             
@@ -488,7 +481,7 @@ extension OpenVPNTunnelAdapter: OpenVPNSessionDelegate {
             
             log.info("Tunnel interface is now UP")
             
-            session.setTunnel(tunnel: NETunnelInterface(impl: self.packetTunnelProvider!.packetFlow ))
+            session.setTunnel(tunnel: NETunnelInterface(impl: self.packetTunnelProvider!.packetFlow))
 
             self.pendingStartHandler?(nil)
             self.pendingStartHandler = nil
@@ -636,8 +629,8 @@ extension OpenVPNTunnelAdapter: OpenVPNSessionDelegate {
                     log.info("DNS: Using servers \(dnsServers.maskedDescription)")
                     dnsSettings = NEDNSSettings(servers: dnsServers)
                 } else {
-    //                log.warning("DNS: No servers provided, using fall-back servers: \(fallbackDNSServers.maskedDescription)")
-    //                dnsSettings = NEDNSSettings(servers: fallbackDNSServers)
+                    //                log.warning("DNS: No servers provided, using fall-back servers: \(fallbackDNSServers.maskedDescription)")
+                    //                dnsSettings = NEDNSSettings(servers: fallbackDNSServers)
                     log.warning("DNS: No settings provided, using current network settings")
                 }
             }
@@ -704,9 +697,8 @@ extension OpenVPNTunnelAdapter: OpenVPNSessionDelegate {
         if routingPolicies?.contains(.blockLocal) ?? false {
             let table = RoutingTable()
             if isIPv4Gateway,
-                let gateway = table.defaultGateway4()?.gateway(),
-                let route = table.broadestRoute4(matchingDestination: gateway) {
-
+               let gateway = table.defaultGateway4()?.gateway(),
+               let route = table.broadestRoute4(matchingDestination: gateway) {
                 route.partitioned()?.forEach {
                     let destination = $0.network()
                     guard let netmask = $0.networkMask() else {
@@ -721,9 +713,8 @@ extension OpenVPNTunnelAdapter: OpenVPNSessionDelegate {
                 }
             }
             if isIPv6Gateway,
-                let gateway = table.defaultGateway6()?.gateway(),
-                let route = table.broadestRoute6(matchingDestination: gateway) {
-
+               let gateway = table.defaultGateway6()?.gateway(),
+               let route = table.broadestRoute6(matchingDestination: gateway) {
                 route.partitioned()?.forEach {
                     let destination = $0.network()
                     let prefix = $0.prefix()
@@ -823,8 +814,8 @@ extension OpenVPNTunnelAdapter {
                 return .encryptionData
                 
             case .tlscaRead, .tlscaUse, .tlscaPeerVerification,
-                    .tlsClientCertificateRead, .tlsClientCertificateUse,
-                    .tlsClientKeyRead, .tlsClientKeyUse:
+                 .tlsClientCertificateRead, .tlsClientCertificateUse,
+                 .tlsClientKeyRead, .tlsClientKeyUse:
                 return .tlsInitialization
                 
             case .tlsServerCertificate, .tlsServerEKU, .tlsServerHost:
@@ -879,8 +870,7 @@ private extension Proxy {
 private extension OpenVPNTunnelAdapter {
     func forceExitOnMac() {
         #if os(macOS)
-        exit(0)
+            exit(0)
         #endif
     }
 }
-

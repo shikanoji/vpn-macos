@@ -8,28 +8,25 @@
 import Foundation
 
 struct WireGuardResult: Codable {
+    enum CodingKeys: String, CodingKey {
+        case interface = "Interface"
+        case server
+        case peer = "Peer"
+        case sessionId
+    }
 
-  enum CodingKeys: String, CodingKey {
-    case interface = "Interface"
-    case server
-    case peer = "Peer"
-    case sessionId
-  }
+    var interface: WireGuardInterface?
+    var server: VPNServer?
+    var peer: WireGuardPeer?
+    var sessionId: String?
 
-  var interface: WireGuardInterface?
-  var server: VPNServer?
-  var peer: WireGuardPeer?
-  var sessionId: String?
-
-
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    interface = try container.decodeIfPresent(WireGuardInterface.self, forKey: .interface)
-    server = try container.decodeIfPresent(VPNServer.self, forKey: .server)
-    peer = try container.decodeIfPresent(WireGuardPeer.self, forKey: .peer)
-    sessionId = try container.decodeIfPresent(String.self, forKey: .sessionId)
-  }
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        interface = try container.decodeIfPresent(WireGuardInterface.self, forKey: .interface)
+        server = try container.decodeIfPresent(VPNServer.self, forKey: .server)
+        peer = try container.decodeIfPresent(WireGuardPeer.self, forKey: .peer)
+        sessionId = try container.decodeIfPresent(String.self, forKey: .sessionId)
+    }
     
     func parseVpnConfig() -> String {
         guard let _interface = interface, let _peer = peer else {
@@ -70,5 +67,4 @@ struct WireGuardResult: Codable {
         
         return connStr
     }
-
 }

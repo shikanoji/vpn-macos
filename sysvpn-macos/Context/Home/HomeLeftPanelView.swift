@@ -13,6 +13,7 @@ enum HomeMenuItem {
     case multiHop
     case none
 }
+
 struct HomeLeftPanelView: View {
     @Binding var selectedItem: HomeMenuItem
     @StateObject private var viewModel = HomeLeftPanelViewModel()
@@ -25,13 +26,11 @@ struct HomeLeftPanelView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .center)
-        .padding(.horizontal,16)
-        
+        .padding(.horizontal, 16)
     }
     
-    var menuSection : some View {
-        
-        VStack (alignment: .leading){
+    var menuSection: some View {
+        VStack(alignment: .leading) {
             Text(L10n.Global.manualConnection)
                 .padding(.leading, 16)
                 .font(Font.system(size: 14, weight: .regular))
@@ -43,7 +42,7 @@ struct HomeLeftPanelView: View {
                 content: "\(viewModel.totalCountry) \(L10n.Global.manualCDesc)"
             ).onTapGesture {
                 withAnimation {
-                    selectedItem = .manualConnection 
+                    selectedItem = .manualConnection
                 }
             }
             HomeMenuButtonView(
@@ -51,14 +50,14 @@ struct HomeLeftPanelView: View {
                 icon: Asset.Assets.icIpAddress.swiftUIImage,
                 title: L10n.Global.staticIP,
                 content: L10n.Global.staticIPDesc
-            ) .onTapGesture {
+            ).onTapGesture {
                 withAnimation {
                     selectedItem = .staticIp
                 }
             }
             HomeMenuButtonView(
                 active: selectedItem == .multiHop,
-                icon: Asset.Assets.icLink .swiftUIImage,
+                icon: Asset.Assets.icLink.swiftUIImage,
                 title: L10n.Global.multiHop,
                 content: L10n.Global.multiHopDesc
             ).onTapGesture {
@@ -67,12 +66,10 @@ struct HomeLeftPanelView: View {
                 }
             }
         }.frame(maxWidth: .infinity, alignment: .leading)
-        
     }
     
-    var settingSection : some View {
-        VStack (alignment: .leading) {
-             
+    var settingSection: some View {
+        VStack(alignment: .leading) {
             HStack {
                 Button {
                     print("Edit button was tapped")
@@ -106,25 +103,25 @@ struct HomeLeftPanelView: View {
     
     var footerSection: some View {
         HStack {
-              Asset.Assets.avatarTest.swiftUIImage
+            Asset.Assets.avatarTest.swiftUIImage
                 .resizable()
-                  .frame(width: 40, height: 40)
-                  .cornerRadius(20)
-              VStack(alignment: .leading) {
-                  Text("Jason Vincius")
-                      .font(Font.system(size: 13, weight: .semibold))
-                      .foregroundColor(Color.white)
-                  Spacer().frame(height: 8)
-                  HStack{
-                      Text("312 days left")
-                          .font(Font.system(size: 12, weight: .medium))
-                          .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                      Text("+Extended")
-                          .font(Font.system(size: 12, weight: .medium))
-                          .foregroundColor(Color.white)
-                  }
-              }
-        }.padding( .horizontal , 16)
+                .frame(width: 40, height: 40)
+                .cornerRadius(20)
+            VStack(alignment: .leading) {
+                Text("Jason Vincius")
+                    .font(Font.system(size: 13, weight: .semibold))
+                    .foregroundColor(Color.white)
+                Spacer().frame(height: 8)
+                HStack {
+                    Text("312 days left")
+                        .font(Font.system(size: 12, weight: .medium))
+                        .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                    Text("+Extended")
+                        .font(Font.system(size: 12, weight: .medium))
+                        .foregroundColor(Color.white)
+                }
+            }
+        }.padding(.horizontal, 16)
     }
     
     var itemSpacer: some View {
@@ -132,7 +129,7 @@ struct HomeLeftPanelView: View {
     }
     
     var body: some View {
-        VStack (alignment: .leading) {
+        VStack(alignment: .leading) {
             itemSpacer
             quickConnectButton
             menuSection
@@ -156,18 +153,17 @@ struct HomeLeftPanelView: View {
                         ], startPoint: UnitPoint.top, endPoint: UnitPoint(x: 0.5, y: 0.3))
                     )
                     .edgesIgnoringSafeArea([.top])
-                
-            } 
+            }
         }
     }
 }
 
 struct HomeLeftPanelView_Previews: PreviewProvider {
-     @State static var selectedItem: HomeMenuItem = .none
+    @State static var selectedItem: HomeMenuItem = .none
     
     static var previews: some View {
         HomeLeftPanelView(selectedItem: $selectedItem)
-            .frame(width: 240,height: 700.0)
+            .frame(width: 240, height: 700.0)
             .environmentObject(GlobalAppStates.shared)
     }
 }

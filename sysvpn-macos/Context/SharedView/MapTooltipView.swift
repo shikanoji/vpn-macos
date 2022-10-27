@@ -15,15 +15,15 @@ public struct ArrowShape: Shape {
         path.addLines([
             CGPoint(x: 0, y: rect.height),
             CGPoint(x: rect.width / 2, y: 0),
-            CGPoint(x: rect.width, y: rect.height),
+            CGPoint(x: rect.width, y: rect.height)
         ])
         return path
     }
 }
 
-
 struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
     // MARK: - Uninitialised properties
+
     var enabled: Bool
     var config: TooltipConfig
     var content: TooltipContent
@@ -44,12 +44,12 @@ struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
     @State private var contentHeight: CGFloat = 10
     
     @State var animationOffset: CGFloat = 0
-    @State var animation: Optional<Animation> = nil
+    @State var animation: Animation? = nil
 
     // MARK: - Computed properties
 
-    var showArrow: Bool { config.showArrow   }
-    var actualArrowHeight: CGFloat { self.showArrow ? config.arrowHeight : 0 }
+    var showArrow: Bool { config.showArrow }
+    var actualArrowHeight: CGFloat { showArrow ? config.arrowHeight : 0 }
 
     var arrowOffsetX: CGFloat {
         switch config.side {
@@ -120,13 +120,13 @@ struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
     // MARK: - Animation stuff
     
     private func dispatchAnimation() {
-        if (config.enableAnimation) {
+        if config.enableAnimation {
             DispatchQueue.main.asyncAfter(deadline: .now() + config.animationTime) {
                 withAnimation {
                     self.animationOffset = config.animationOffset
                     self.animation = config.animation
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + config.animationTime*0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + config.animationTime * 0.1) {
                     withAnimation {
                         self.animationOffset = 0
                     }
@@ -145,16 +145,14 @@ struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
                 .onAppear {
                     self.contentWidth = config.width ?? g.size.width
                     self.contentHeight = config.height ?? g.size.height
-                }.onChange(of: name) { newValue in
+                }.onChange(of: name) { _ in
                     self.contentWidth = config.width ?? g.size.width
                     self.contentHeight = config.height ?? g.size.height
                 }
-                 
         }
     }
 
     private var arrowView: some View {
-        
         let arrowAngle: Double = 0
         return AnyView(ArrowShape()
             .rotation(Angle(radians: arrowAngle))
@@ -162,7 +160,7 @@ struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
             .background(ArrowShape()
                 .offset(x: 0, y: 1)
                 .rotation(Angle(radians: arrowAngle))
-                .frame(width: config.arrowWidth+2, height: config.arrowHeight+1)
+                .frame(width: config.arrowWidth + 2, height: config.arrowHeight + 1)
                 .foregroundColor(config.backgroundColor)
                 
             ).frame(width: config.arrowWidth, height: config.arrowHeight)
@@ -170,7 +168,7 @@ struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
     }
 
     private var arrowCutoutMask: some View {
-        let arrowAngle: Double =  0
+        let arrowAngle: Double = 0
         return AnyView(
             ZStack {
                 Rectangle()
@@ -226,10 +224,10 @@ struct MapTooltipModifier<TooltipContent: View>: ViewModifier {
                 .overlay(self.arrowView)
             }
             .offset(x: self.offsetHorizontal(g), y: self.offsetVertical(g))
-            //.animation(self.animation)
+            // .animation(self.animation)
             .zIndex(config.zIndex)
             .onAppear {
-             //   self.dispatchAnimation()
+                //   self.dispatchAnimation()
             }
         }
     }

@@ -8,25 +8,22 @@
 import Foundation
 
 struct VPNResult: Codable {
+    enum CodingKeys: String, CodingKey {
+        case sessionId
+        case server
+        case connectionDetails
+    }
 
-  enum CodingKeys: String, CodingKey {
-    case sessionId
-    case server
-    case connectionDetails
-  }
+    var sessionId: String?
+    var server: VPNServer?
+    var connectionDetails: VPNConnectionDetails?
 
-  var sessionId: String?
-  var server: VPNServer?
-  var connectionDetails: VPNConnectionDetails?
-
-
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    sessionId = try container.decodeIfPresent(String.self, forKey: .sessionId)
-    server = try container.decodeIfPresent(VPNServer.self, forKey: .server)
-    connectionDetails = try container.decodeIfPresent(VPNConnectionDetails.self, forKey: .connectionDetails)
-  }
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        sessionId = try container.decodeIfPresent(String.self, forKey: .sessionId)
+        server = try container.decodeIfPresent(VPNServer.self, forKey: .server)
+        connectionDetails = try container.decodeIfPresent(VPNConnectionDetails.self, forKey: .connectionDetails)
+    }
     
     func parseVpnConfig() -> String {
         guard let config = connectionDetails else {
@@ -52,10 +49,7 @@ struct VPNResult: Codable {
         stringData += "<ca>" + spaceLine + (config.ca?.replacingOccurrences(of: "\n", with: "\r\n") ?? "") + spaceLine + "</ca>" + spaceLine
         stringData += "<cert>" + spaceLine + (config.cert?.replacingOccurrences(of: "\n", with: "\r\n") ?? "") + spaceLine + "</cert>" + spaceLine
         stringData += "<key>" + spaceLine + (config.key?.replacingOccurrences(of: "\n", with: "\r\n") ?? "") + spaceLine + "</key>" + spaceLine
-        stringData += "<tls-crypt>" + spaceLine + (config.tlsCrypt?.replacingOccurrences(of: "\n", with: "\r\n") ?? "") + spaceLine + "</tls-crypt>" + spaceLine 
+        stringData += "<tls-crypt>" + spaceLine + (config.tlsCrypt?.replacingOccurrences(of: "\n", with: "\r\n") ?? "") + spaceLine + "</tls-crypt>" + spaceLine
         return stringData
     }
-    
-    
-
 }

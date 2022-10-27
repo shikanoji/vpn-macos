@@ -23,12 +23,11 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import XCTest
-@testable import TunnelKitCore
 import CTunnelKitOpenVPNProtocol
+@testable import TunnelKitCore
+import XCTest
 
 class PacketTests: XCTestCase {
-    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.

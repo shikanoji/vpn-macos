@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct TabbarListItemView: View { 
-     var listItem: [TabbarListItemModel]
+struct TabbarListItemView: View {
+    var listItem: [TabbarListItemModel]
     var body: some View {
         VStack(alignment: .leading) {
-            List(listItem) {  item in
+            List(listItem) { item in
                 TabbarItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
             }
             .modifier(ListViewModifier())
@@ -22,12 +22,10 @@ struct TabbarListItemView: View {
     }
 }
  
-
 struct TabbarListItemModel: Identifiable {
     var id = UUID()
     var title: String = ""
     var totalCity: Int = 0
-    var imageUrl:String? 
-    var lastUse: Date = Date()
+    var imageUrl: String?
+    var lastUse: Date = .init()
 }
-

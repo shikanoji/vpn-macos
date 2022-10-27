@@ -42,7 +42,7 @@ public extension DispatchQueue {
     }
 }
 
-public func fromDictionary<T: Decodable>(_ type: T.Type, _ dictionary: [String: Any]) throws -> T {
+public func fromDictionary<T: Decodable>(_: T.Type, _ dictionary: [String: Any]) throws -> T {
     let data = try JSONSerialization.data(withJSONObject: dictionary, options: .fragmentsAllowed)
     return try JSONDecoder().decode(T.self, from: data)
 }
@@ -57,8 +57,8 @@ public extension Encodable {
     }
 }
 
-extension TimeInterval {
-    public var asTimeString: String {
+public extension TimeInterval {
+    var asTimeString: String {
         var ticks = Int(self)
         let hours = ticks / 3600
         ticks %= 3600

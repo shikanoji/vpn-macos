@@ -8,21 +8,17 @@
 import Foundation
 
 struct AppSettingVpn: Codable {
+    enum CodingKeys: String, CodingKey {
+        case defaultTech
+        case defaultProtocol
+    }
 
-  enum CodingKeys: String, CodingKey {
-    case defaultTech
-    case defaultProtocol
-  }
+    var defaultTech: String?
+    var defaultProtocol: String?
 
-  var defaultTech: String?
-  var defaultProtocol: String?
-
-
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    defaultTech = try container.decodeIfPresent(String.self, forKey: .defaultTech)
-    defaultProtocol = try container.decodeIfPresent(String.self, forKey: .defaultProtocol)
-  }
-
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        defaultTech = try container.decodeIfPresent(String.self, forKey: .defaultTech)
+        defaultProtocol = try container.decodeIfPresent(String.self, forKey: .defaultProtocol)
+    }
 }

@@ -37,8 +37,8 @@
 import Foundation
 import NetworkExtension
 import SwiftyBeaver
-import TunnelKitCore
 import TunnelKitAppExtension
+import TunnelKitCore
 import TunnelKitOpenVPNCore
 import TunnelKitOpenVPNManager
 
@@ -56,7 +56,7 @@ public class ConnectionStrategy {
         return remotes[currentRemoteIndex]
     }
 
-    public  init(configuration: OpenVPN.Configuration) {
+    public init(configuration: OpenVPN.Configuration) {
         guard var remotes = configuration.remotes, !remotes.isEmpty else {
             fatalError("No remotes provided")
         }
@@ -97,8 +97,7 @@ public class ConnectionStrategy {
         from provider: NEProvider,
         timeout: Int,
         queue: DispatchQueue,
-        completionHandler: @escaping (Result<GenericSocket, OpenVPNProviderError>) -> Void)
-    {
+        completionHandler: @escaping (Result<GenericSocket, OpenVPNProviderError>) -> Void) {
         guard let remote = currentRemote else {
             completionHandler(.failure(.exhaustedEndpoints))
             return
@@ -127,7 +126,7 @@ public class ConnectionStrategy {
 }
 
 private extension NEProvider {
-    public  func createSocket(to endpoint: Endpoint) -> GenericSocket {
+    public func createSocket(to endpoint: Endpoint) -> GenericSocket {
         let ep = NWHostEndpoint(hostname: endpoint.address, port: "\(endpoint.proto.port)")
         switch endpoint.proto.socketType {
         case .udp, .udp4, .udp6:
