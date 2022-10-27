@@ -28,7 +28,7 @@ struct HomeView: View {
                                     AnyTransition.asymmetric(
                                     insertion: .move(edge: .leading),
                                     removal: .move(edge: .leading)
-                                    ))
+                                    ).combined(with: .opacity))
                                 .onReceive(pub) { _ in
                                     if viewModel.selectedMenuItem == .staticIp {
                                         viewModel.getListStaticServer(firstLoadData: false)
@@ -41,7 +41,7 @@ struct HomeView: View {
                                     AnyTransition.asymmetric(
                                     insertion: .move(edge: .leading),
                                     removal: .move(edge: .leading)
-                                ))
+                                ).combined(with: .opacity))
                                 .onReceive(pub) { _ in
                                     if viewModel.selectedMenuItem == .staticIp {
                                         viewModel.getListStaticServer(firstLoadData: false)
@@ -56,7 +56,7 @@ struct HomeView: View {
                             AnyTransition.asymmetric(
                             insertion: .move(edge: .leading),
                             removal: .move(edge: .leading)
-                        ))
+                        ).combined(with: .opacity))
                         .onReceive(pub) { _ in
                             if viewModel.selectedMenuItem == .staticIp {
                                 viewModel.getListStaticServer(firstLoadData: false)
@@ -85,7 +85,7 @@ struct HomeView: View {
                     AnyTransition.asymmetric(
                     insertion: .move(edge: .leading),
                     removal: .move(edge: .leading)
-                    ))
+                    ).combined(with: .opacity))
                 .zIndex(2)
             }
             VpnMapView(
