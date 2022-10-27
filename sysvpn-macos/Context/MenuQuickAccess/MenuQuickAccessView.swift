@@ -6,6 +6,12 @@
 //
 
 import SwiftUI
+
+enum TabbarMenuItem {
+    case recent
+    case allCountry
+    case suggest
+}
  
 struct MenuQuickAccessView: View {
     @StateObject private var viewModel = MenuQuickAccessModel()
@@ -84,7 +90,7 @@ struct MenuQuickAccessView: View {
             alignment: .topLeading
         )
         .padding(30)
-        .background(Color(hexString: "101016"))
+        .background(Color(rgb: 0x101016))
     }
     
     var headerMenuConnected: some View {
@@ -174,33 +180,42 @@ struct MenuQuickAccessView: View {
             HStack(spacing: 0) {
                 Button {
                     viewModel.onChageTab(index: 0)
+                    withAnimation {
+                        viewModel.tabbarSelectedItem = .recent
+                    }
                 } label: {
-                    TabBarButton(text: L10n.Login.recent, isSelected: .constant(viewModel.tabIndex == 0))
+                    TabBarButton(text: L10n.Login.recent, isSelected: .constant(viewModel.tabbarSelectedItem == .recent))
                         .frame(width: 110)
                         .contentShape(Rectangle())
-                        .background(viewModel.tabIndex == 0 ? Asset.Assets.bgTabbar.swiftUIImage: nil)
+                        .background(viewModel.tabbarSelectedItem == .recent ? Asset.Assets.bgTabbar.swiftUIImage : nil)
                 }
                 .frame(width: 110)
                 .buttonStyle(PlainButtonStyle())
                 
                 Button {
                     viewModel.onChageTab(index: 1)
+                    withAnimation {
+                        viewModel.tabbarSelectedItem = .suggest
+                    }
                 } label: {
-                    TabBarButton(text:  L10n.Login.suggest, isSelected: .constant(viewModel.tabIndex == 1))
+                    TabBarButton(text:  L10n.Login.suggest, isSelected: .constant(viewModel.tabbarSelectedItem == .suggest))
                     .frame(width: 110)
                     .contentShape(Rectangle())
-                    .background(viewModel.tabIndex == 1 ? Asset.Assets.bgTabbar.swiftUIImage: nil)
+                    .background(viewModel.tabbarSelectedItem == .suggest ? Asset.Assets.bgTabbar.swiftUIImage : nil)
                 }
                 .frame(width: 110)
                 .buttonStyle(PlainButtonStyle())
                 
                 Button {
                     viewModel.onChageTab(index: 2)
+                    withAnimation {
+                        viewModel.tabbarSelectedItem = .allCountry
+                    }
                 } label: {
-                    TabBarButton(text:  L10n.Login.allCountry, isSelected: .constant(viewModel.tabIndex == 2))
+                    TabBarButton(text:  L10n.Login.allCountry, isSelected: .constant(viewModel.tabbarSelectedItem == .allCountry))
                     .frame(width: 110)
                     .contentShape(Rectangle())
-                    .background(viewModel.tabIndex == 2 ? Asset.Assets.bgTabbar.swiftUIImage: nil)
+                    .background(viewModel.tabbarSelectedItem == .allCountry ? Asset.Assets.bgTabbar.swiftUIImage : nil)
                     
                 }
                 .frame(width: 110)
@@ -212,11 +227,29 @@ struct MenuQuickAccessView: View {
                 alignment: .center
             )
             Spacer()
+            bodyItemMenu
+            
+            
         }
         .frame(
             maxWidth: .infinity,
             alignment: .topLeading
         )
+    }
+    
+    var bodyItemMenu: some View {
+        HStack {
+            if viewModel.tabbarSelectedItem == .allCountry {
+                TabbarListItemView( listItem: viewModel.listCountry)
+                    .transition(.opacity)
+            } else if viewModel.tabbarSelectedItem == .recent {
+                TabbarListItemView( listItem: viewModel.listRecent)
+                    .transition(.opacity)
+            } else {
+                TabbarListItemView( listItem: viewModel.listSuggest)
+                    .transition(.opacity)
+            }
+        }
     }
     
     var footerMenu: some View {

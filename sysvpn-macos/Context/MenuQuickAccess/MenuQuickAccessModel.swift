@@ -10,8 +10,7 @@ import SwiftUI
 import Cocoa
 
 extension MenuQuickAccessView {
-    @MainActor class MenuQuickAccessModel: ObservableObject {
-       
+    @MainActor class MenuQuickAccessModel: ObservableObject { 
         
         @Published var userIp: String = ""
         @Published var protected: String = ""
@@ -19,6 +18,11 @@ extension MenuQuickAccessView {
         @Published var tabIndex: Int
         @Published var downloadSpeed: String = ""
         @Published var uploadSpeed: String = ""
+        @Published var tabbarSelectedItem: TabbarMenuItem = .recent
+     //   @Published var listData: [TabbarListItemModel]
+        @Published  var listRecent: [TabbarListItemModel]
+        @Published var listSuggest: [TabbarListItemModel]
+        @Published var listCountry: [TabbarListItemModel]
     
         init() { 
             userIp = "IP: \(AppDataManager.shared.userIp) -"
@@ -26,6 +30,14 @@ extension MenuQuickAccessView {
             tabIndex = 0
             downloadSpeed = "0 B/s"
             uploadSpeed = "0 B/s"
+         //   listData = []
+            listRecent = []
+            listSuggest = []
+            listCountry = []
+            getListRecent()
+            getListSuggest()
+            getListCountry()
+           // listData = listRecent
         }
         
         func onTouchConnect() {
@@ -57,8 +69,40 @@ extension MenuQuickAccessView {
         }
         
         func onChageTab(index: Int) {
+           /* if index == 0 {
+                listData = listRecent
+            } else if index == 1 {
+                listData = listSuggest
+            } else if index == 2 {
+                listData = listCountry
+            } */
             withAnimation {
                 tabIndex = index
+            }
+        }
+         
+        
+        func getListRecent() {
+            let recentCountry = AppDataManager.shared.userCountry?.recentCountries ?? []
+            for item in recentCountry {
+                let itemModel = TabbarListItemModel(title: item.name ?? "", imageUrl: item.flag, lastUse: item.lastUse ?? Date())
+                listRecent.append(itemModel)
+            }
+        }
+        
+        func getListSuggest() {
+            let recommendCountry = AppDataManager.shared.userCountry?.recommendedCountries ?? []
+            for item in recommendCountry {
+                let itemModel = TabbarListItemModel(title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag)
+                listSuggest.append(itemModel)
+            }
+        }
+        
+        func getListCountry() {
+            let availableCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
+            for item in availableCountry {
+                let itemModel = TabbarListItemModel(title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag)
+                listCountry.append(itemModel)
             }
         }
     }

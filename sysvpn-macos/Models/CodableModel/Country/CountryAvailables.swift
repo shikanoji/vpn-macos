@@ -36,10 +36,12 @@ class CountryAvailables: Codable {
   var flag: String?
   var iso3: String?
   var id: Int?
+    
 
  // custom
-    var cacheNode: NodePoint? 
-
+    var cacheNode: NodePoint?
+    var lastUse: Date?
+    
    required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     region = try container.decodeIfPresent(String.self, forKey: .region)

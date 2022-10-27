@@ -20,7 +20,7 @@ struct CountryItemView : View {
                     .frame(width: 32, height: 32)
                     .cornerRadius(16)
             } else{
-                Asset.Assets.avatarTest.swiftUIImage
+                Asset.Assets.icFlagEmpty.swiftUIImage
                     .resizable()
                     .frame(width: 32, height: 32)
                     .cornerRadius(16)
@@ -29,13 +29,51 @@ struct CountryItemView : View {
                 Text(countryName)
                     .foregroundColor(Color.white)
                     .font(Font.system(size: 16, weight: .semibold))
-                Text(totalCity >= 1 ? "\(totalCity) cities available" : "Single location")
+                Text(totalCity > 1 ? "\(totalCity) cities available" : "Single location")
+                    .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                    .font(Font.system(size: 14, weight: .regular))
+            }
+            if totalCity > 1 {
+                Spacer()
+                Asset.Assets.icArrowRight.swiftUIImage
+                    .resizable()
+                    .frame(width: 20, height: 20) 
+            }
+        }.padding(.bottom, 10)
+    }
+}
+
+struct CityItemView : View {
+    var countryName:String
+    var cityName:String
+    var imageUrl:String?
+    var body: some View {
+        HStack (alignment: .center, spacing: 16) {
+            if imageUrl != nil {
+                KFImage(URL(string: imageUrl!))
+                    .resizable()
+                    .frame(width: 32, height: 32)
+                    .cornerRadius(16)
+            } else{
+                Asset.Assets.icFlagEmpty.swiftUIImage
+                    .resizable()
+                    .frame(width: 32, height: 32)
+                    .cornerRadius(16)
+            }
+            VStack(alignment: .leading) {
+                Text(cityName)
+                    .foregroundColor(Color.white)
+                    .font(Font.system(size: 16, weight: .semibold))
+                Text("City of \(countryName)")
                     .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
                     .font(Font.system(size: 14, weight: .regular))
             }
         }.padding(.bottom, 10)
     }
 }
+
+
+
 
 struct StaticItemView : View {
     var countryName:String
@@ -51,7 +89,7 @@ struct StaticItemView : View {
                     .frame(width: 32, height: 32)
                     .cornerRadius(16)
             } else{
-                Asset.Assets.avatarTest.swiftUIImage
+                Asset.Assets.icFlagEmpty.swiftUIImage
                     .resizable()
                     .frame(width: 32, height: 32)
                     .cornerRadius(16)
