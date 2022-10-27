@@ -31,6 +31,9 @@ struct HomeListCountryNodeView : View {
                                     }
                                 }
                             }
+                            .transaction { transaction in
+                                transaction.animation = nil
+                            }
                     } else if selectedItem == .staticIp {
                         StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar)
                     } else if selectedItem == .multiHop {
@@ -58,7 +61,7 @@ struct HomeListCountryNodeView : View {
                 }
             }
             .modifier(ListViewModifier())
-            .animation(nil, value: UUID())
+            .animation(.linear, value: UUID())
         }
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
@@ -99,9 +102,12 @@ struct HomeDetailCityNodeView : View {
             }
             List(listCity) {  item in
                 CityItemView(countryName: countryItem?.title ?? "", cityName: item.title, imageUrl: item.imageUrl)
+                    .transaction { transaction in
+                        transaction.animation = nil
+                    }
             }
             .modifier(ListViewModifier())
-           // .animation(nil, value: UUID())
+            .animation(.linear, value: UUID())
         }
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
