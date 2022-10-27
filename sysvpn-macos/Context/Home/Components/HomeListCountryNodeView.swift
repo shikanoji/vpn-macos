@@ -101,7 +101,7 @@ struct HomeDetailCityNodeView : View {
                 CityItemView(countryName: countryItem?.title ?? "", cityName: item.title, imageUrl: item.imageUrl)
             }
             .modifier(ListViewModifier())
-            .animation(nil, value: UUID())
+           // .animation(nil, value: UUID())
         }
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
@@ -129,6 +129,11 @@ struct HomeListWraperView : ViewModifier {
                         }
                     }
             }
+            .transition(
+                AnyTransition.asymmetric(
+                insertion: .move(edge: .leading),
+                removal: .move(edge: .leading)
+                ).combined(with: .opacity))
     }
 }
   

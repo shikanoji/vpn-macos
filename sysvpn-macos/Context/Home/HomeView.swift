@@ -81,11 +81,6 @@ struct HomeView: View {
                     }
                       )
                 )
-                .transition(
-                    AnyTransition.asymmetric(
-                    insertion: .move(edge: .leading),
-                    removal: .move(edge: .leading)
-                    ).combined(with: .opacity))
                 .zIndex(2)
             }
             VpnMapView(
