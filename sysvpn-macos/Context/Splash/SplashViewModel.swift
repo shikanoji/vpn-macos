@@ -14,15 +14,17 @@ extension SplashView {
         @Published var logoSize = CGSize(width: 100, height: 116)
 
         init() {
-            print(DependencyContainer.shared.appStateMgr.sessionStartTime)
+            if DependencyContainer.shared.appStateMgr.sessionStartTime != nil {
+                print("hasConnected")
+            }
+            
             OSExtensionManager.shared.onReady = {
                 let ipc = IPCFactory.makeIPCRequestService()
                 ipc.checkConnect {
                     DispatchQueue.main.async {
-                        self.loadAppSetting()
+                        self.initData()
                     }
                 }
-                
                 DispatchQueue.main.async {
                     DependencyContainer.shared.vpnManager.whenReady(queue: DispatchQueue.main) {
                         print("readdy")
@@ -33,7 +35,16 @@ extension SplashView {
             }
         }
 
-        func initData() {}
+       
+        func initData() {
+            if AppDataManager.shared.userSetting  == nil {
+              _ =  AppDataManager.shared.loadSetupData {
+                  self.onNext()
+                }
+            } else {
+                onNext()
+            }
+        }
         
         func onStartApp() {
             if AppDataManager.shared.isLogin {
@@ -43,51 +54,15 @@ extension SplashView {
             }
         }
         
-        func loadAppSetting() {
-            _ = APIServiceManager.shared.getAppSetting().subscribe { event in
-              
-                if AppDataManager.shared.isLogin {
-                    self.loadCountry()
-                    self.loadListMultiHop()
-                    OpenWindows.MainView.open()
-                } else {
-                    OpenWindows.LoginView.open()
-                }
-                self.onStartApp()
-                switch event {
-                case let .success(response):
-                    AppDataManager.shared.saveIpInfo(info: response.ipInfo)
-                    AppDataManager.shared.userSetting = response
-                    AppDataManager.shared.lastChange = response.lastChange ?? 0
-                case let .failure(e):
-                    guard let error = e as? ResponseError else {
-                        return
-                    }
-                    print(error)
-                }
+        
+        func onNext() {
+            if AppDataManager.shared.isLogin {
+                OpenWindows.MainView.open()
+            } else {
+                OpenWindows.LoginView.open()
             }
+            self.onStartApp()
         }
         
-        func loadCountry() {
-            _ = APIServiceManager.shared.getListCountry().subscribe { result in
-                switch result {
-                case let .success(response):
-                    AppDataManager.shared.userCountry = response
-                case .failure:
-                    break
-                }
-            }
-        }
-        
-        func loadListMultiHop() {
-            _ = APIServiceManager.shared.getListMultiHop().subscribe { result in
-                switch result {
-                case let .success(response):
-                    AppDataManager.shared.mutilHopServer = response
-                case .failure:
-                    break
-                }
-            }
-        }
     }
 }

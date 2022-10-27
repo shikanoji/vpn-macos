@@ -54,7 +54,7 @@ class SysVPNCore: SysVPNGatewayProtocol {
     }
     
     func quickConnectConnectionRequest() -> SysVPNConnectionRequest {
-        return SysVPNConnectionRequest(connectType: .quick, params: SysVPNConnectParams(isHop: AppDataManager.shared.isMultipleHop))
+        return SysVPNConnectionRequest(connectType: .quick, params: SysVPNConnectParams(isHop: false))
     }
     
     func connectTo(connectType: ConnectionType, params: SysVPNConnectParams?) {

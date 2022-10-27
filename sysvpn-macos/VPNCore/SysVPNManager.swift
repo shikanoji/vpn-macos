@@ -333,7 +333,7 @@ class SysVPNManager: SysVPNManagerProtocol {
         // MARK: - KillSwitch configuration
 
         #if os(OSX)
-            configuration.includeAllNetworks = PropertiesManager.shared.killSwitch
+            configuration.includeAllNetworks =  false // PropertiesManager.shared.killSwitch
             configuration.excludeLocalNetworks = PropertiesManager.shared.excludeLocalNetworks
         #elseif os(iOS)
             if #available(iOS 14, *) {

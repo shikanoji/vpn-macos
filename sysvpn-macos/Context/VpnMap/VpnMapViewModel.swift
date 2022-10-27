@@ -16,27 +16,32 @@ extension VpnMapView {
         @Published var isLoaded: Bool = false
          
         init() {
-            refreshApi()
+            initData()
+            NotificationCenter.default.addObserver(self, selector: #selector(onUpdateServer), name: .updateCountry, object: nil)
+        }
+         
+        
+        deinit {
+            NotificationCenter.default.removeObserver(self, name: .updateCountry, object: nil)
         }
         
-        func refreshApi() {
-            _ = APIServiceManager.shared.getListCountry().subscribe { event in
-                switch event {
-                case let .failure(error):
-                    print(error)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-                        self?.refreshApi()
-                    }
-                case let .success(success):
-                    AppDataManager.shared.userCountry = success
+        @objc func onUpdateServer() {
+            initData()
+        }
+        
+        func initData() {
+            AppDataManager.shared.asyncLoadConfig {
+               return AppDataManager.shared.userCountry?.availableCountries ?? []
+            } completion: { listCountry in
+                if listCountry.count > 0 {
+                    self.loadListNode(listCountry: listCountry)
+                    self.isLoaded = true
                 }
-                self.loadListNode()
-                self.isLoaded = true
             }
         }
         
-        func loadListNode() {
-            let listCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
+        func loadListNode(listCountry : [CountryAvailables]) {
+            
             var listCity: [CountryCity] = []
             
             for country in listCountry {
@@ -44,11 +49,12 @@ extension VpnMapView {
                     continue
                 }
                 cities.forEach { city in
-                    var updateCity = city
+                    let updateCity = city
                     updateCity.country = country
                     listCity.append(updateCity)
                 }
             }
+            
             self.listCountry = listCountry.map { country in
                 return NodePoint(point: CGPoint(x: NodePoint.convertX(country.x), y: NodePoint.convertY(country.y)), info: country)
             }

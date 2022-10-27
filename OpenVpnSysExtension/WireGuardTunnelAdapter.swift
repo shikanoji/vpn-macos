@@ -11,7 +11,6 @@ import NetworkExtension
 import os
 import os.log
 import SwiftyBeaver
-import TunnelKitOpenVPNAppExtension
 import TunnelKitWireGuardAppExtension
 import TunnelKitWireGuardCore
 import TunnelKitWireGuardManager

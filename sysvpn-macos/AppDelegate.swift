@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var appState = GlobalAppStates()
     var timmerJob: Timer?
     var timmerAppSetting: Timer?
-    
+
     // for  demo bit rate
     var statistics: NetworkStatistics?
     
@@ -21,6 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // demo install extension vpn
         OSExtensionManager.shared.startExtension() 
         onStartApp()
+        initNotificationObs() 
     }
     
     func setupMenu() {
@@ -39,6 +40,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool {
+        if !AppDataManager.shared.isLogin {
+            return true
+        }
         #if !targetEnvironment(simulator)
             NSApp.setActivationPolicy(.accessory)
             return false
@@ -47,33 +51,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         #endif
     }
     
-    func onStartApp() {
+    func initNotificationObs() {
         NotificationCenter.default.addObserver(self, selector: #selector(onStartJob), name: .startJobUpdateCountry, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onEndJob), name: .endJobUpdate, object: nil)
-        timmerAppSetting?.invalidate()
-        timmerAppSetting = Timer.scheduledTimer(timeInterval: 1000.0, target: self, selector: #selector(onReloadAppSetting), userInfo: nil, repeats: true)
+        NotificationCenter.default.addObserver(self, selector: #selector(onUpdateServerInfo), name: .needUpdateServerInfo, object: nil)
     }
     
-    @objc func onReloadAppSetting() {
-        _ = APIServiceManager.shared.getAppSetting().subscribe { event in
-            OpenWindows.LoginView.open()
-            switch event {
-            case let .success(response):
-                AppDataManager.shared.saveIpInfo(info: response.ipInfo)
-                AppDataManager.shared.userSetting = response
-                if AppDataManager.shared.lastChange != response.lastChange {
-                    self.onReloadCountry()
-                    self.onReloadMutilHop()
-                }
-                AppDataManager.shared.lastChange = response.lastChange ?? 0
-            case let .failure(e):
-                guard let error = e as? ResponseError else {
-                    return
-                }
-                print(error)
-            }
+    func onStartApp() {
+        timmerAppSetting?.invalidate()
+        timmerAppSetting = Timer.scheduledTimer(timeInterval: 50.0, target: self, selector: #selector(onReloadAppSetting), userInfo: nil, repeats: true)
+        DispatchQueue.main.async {
+            // referesh now
+            self.onReloadAppSetting()
         }
     }
+   
     
     @objc func onStartJob(_: Notification) {
         setupMenu()
@@ -81,6 +73,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             timmer.invalidate()
         }
         timmerJob = Timer.scheduledTimer(timeInterval: 50.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
+        
+        DispatchQueue.main.async {
+            // referesh now
+            self.onLoadApiUpdateStar()
+        }
     }
     
     @objc func onEndJob(_: Notification) {
@@ -92,41 +89,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         removeMenu()
     }
     
+    @objc func onReloadAppSetting() {
+        AppDataManager.shared.loadAppSetting {
+            print("[Debug] load app setting done")
+        }
+        AppDataManager.shared.updaterServerIP()
+    }
+    
     @objc func onLoadApiUpdateStar() {
-        if AppDataManager.shared.userCountry != nil {
-            _ = APIServiceManager.shared.getStartServer().subscribe { result in
-                switch result {
-                case let .success(response):
-                    response.updateStarCountry()
-                    NotificationCenter.default.post(name: .reloadServerStar, object: nil)
-                case .failure:
-                    break
-                }
-            }
+        AppDataManager.shared.loadUpdateStast {
+            print("[Debug] refresh server stast done")
         }
     }
     
+    @objc func onUpdateServerInfo() {
+        onReloadCountry()
+        onReloadMutilHop()
+    }
+    
     func onReloadCountry() {
-        _ = APIServiceManager.shared.getListCountry().subscribe { result in
-            switch result {
-            case let .success(response):
-                AppDataManager.shared.userCountry = response
-                self.onLoadApiUpdateStar()
-                NotificationCenter.default.post(name: .updateCountry, object: nil)
-            case .failure:
-                break
-            }
+        AppDataManager.shared.loadCountry {
+            print("[Debug] refresh country done")
         }
     }
     
     func onReloadMutilHop() {
-        _ = APIServiceManager.shared.getListMultiHop().subscribe { result in
-            switch result {
-            case let .success(response):
-                AppDataManager.shared.mutilHopServer = response
-            case .failure:
-                break
-            }
+        AppDataManager.shared.loadListMultiHop {
+            print("[Debug] refresh multihop done")
         }
     }
 }

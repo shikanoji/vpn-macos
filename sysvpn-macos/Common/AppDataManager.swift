@@ -154,11 +154,10 @@ class AppDataManager {
     
     var isMultipleHop: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: .keyIsMultiplehop)
+           // return UserDefaults.standard.bool(forKey: .keyIsMultiplehop)
+           return DependencyContainer.shared.vpnCore.lastConnectionConiguration?.connectionParam?.isHop == true
         }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: .keyIsMultiplehop)
-        }
+       
     }
     
     func saveIpInfo(info: AppSettingIpInfo?) {

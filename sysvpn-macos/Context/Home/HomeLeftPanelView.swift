@@ -59,7 +59,7 @@ struct HomeLeftPanelView: View {
                 active: selectedItem == .multiHop,
                 icon: Asset.Assets.icLink.swiftUIImage,
                 title: L10n.Global.multiHop,
-                content: L10n.Global.multiHopDesc
+                content: "\(viewModel.totalMultipleHop) \(L10n.Global.multiHopDesc)" 
             ).onTapGesture {
                 withAnimation {
                     selectedItem = .multiHop

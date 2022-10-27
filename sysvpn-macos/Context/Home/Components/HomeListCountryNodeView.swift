@@ -6,17 +6,18 @@
 //
 
 import Foundation
-import Kingfisher
 import SwiftUI
+import Kingfisher
 
-struct HomeListCountryNodeView: View {
-    @Binding var selectedItem: HomeMenuItem
+struct HomeListCountryNodeView : View {
+    @Binding var selectedItem: HomeMenuItem 
     @Binding var countries: [HomeListCountryModel]
     @Binding var isShowCity: Bool
     @Binding var countrySelected: HomeListCountryModel?
+    var onTouchItem: ((INodeInfo)->Void)?
     var body: some View {
         VStack(alignment: .leading) {
-            List(countries) { item in
+            List(countries) {  item in
                 switch item.type {
                 case .spacing:
                     Spacer().frame(height: 30)
@@ -29,6 +30,11 @@ struct HomeListCountryNodeView: View {
                                         isShowCity = true
                                         countrySelected = item
                                     }
+                                } else {
+                                    guard let origin = item.origin else {
+                                        return
+                                    }
+                                    onTouchItem?(origin)
                                 }
                             }
                             .transaction { transaction in
@@ -36,11 +42,28 @@ struct HomeListCountryNodeView: View {
                             }
                     } else if selectedItem == .staticIp {
                         StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar)
+                            .transaction { transaction in
+                                transaction.animation = nil
+                            }.onTapGesture {
+                                guard let origin = item.origin else {
+                                    return
+                                }
+                                onTouchItem?(origin)
+                            }
                     } else if selectedItem == .multiHop {
-                        CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
+                        MultiHopItemView(countryNameStart: item.title, countryNameEnd: item.title2, imageUrlStart: item.imageUrl, imageUrlEnd: item.imageUrl2)
+                            .transaction { transaction in
+                                transaction.animation = nil
+                            }
+                            .onTapGesture {
+                                guard let origin = item.origin else {
+                                    return
+                                }
+                                onTouchItem?(origin)
+                            }
                     }
                 case .header:
-                    if selectedItem == .manualConnection {
+                    if selectedItem == .manualConnection || selectedItem == .multiHop {
                         VStack {
                             Text(item.title)
                                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
@@ -66,14 +89,16 @@ struct HomeListCountryNodeView: View {
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
         .background(Asset.Colors.backgroundColor.swiftUIColor)
+        
     }
 }
 
-struct HomeDetailCityNodeView: View {
+struct HomeDetailCityNodeView : View {
     @Binding var selectedItem: HomeMenuItem
     @Binding var listCity: [HomeListCountryModel]
     @Binding var isShowCity: Bool
     var countryItem: HomeListCountryModel?
+    var onTouchItem: ((INodeInfo)->Void)?
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
@@ -94,15 +119,21 @@ struct HomeDetailCityNodeView: View {
                 Text(countryItem?.title ?? "")
                     .foregroundColor(Color.white)
                     .font(Font.system(size: 16, weight: .semibold))
-            }.onTapGesture {
-                withAnimation {
-                    isShowCity = false
-                }
             }
-            List(listCity) { item in
+            .contentShape(Rectangle())
+            .onTapGesture {
+                isShowCity = false
+            }
+            List(listCity) {  item in
                 CityItemView(countryName: countryItem?.title ?? "", cityName: item.title, imageUrl: item.imageUrl)
                     .transaction { transaction in
                         transaction.animation = nil
+                    }
+                    .onTapGesture {
+                        guard let origin = item.origin else {
+                            return
+                        }
+                        onTouchItem?(origin)
                     }
             }
             .modifier(ListViewModifier())
@@ -114,8 +145,11 @@ struct HomeDetailCityNodeView: View {
     }
 }
 
-struct HomeListWraperView: ViewModifier {
-    var onClose: (() -> Void)?
+
+
+
+struct HomeListWraperView : ViewModifier {
+    var onClose: (()->Void)?
     
     func body(content: Content) -> some View {
         content
@@ -133,12 +167,15 @@ struct HomeListWraperView: ViewModifier {
             }
             .transition(
                 AnyTransition.asymmetric(
-                    insertion: .move(edge: .leading),
-                    removal: .move(edge: .leading)
+                insertion: .move(edge: .leading),
+                removal: .move(edge: .leading)
                 ).combined(with: .opacity))
     }
 }
   
+
+
+
 enum HomeListCountryModelType {
     case header
     case country
@@ -146,20 +183,30 @@ enum HomeListCountryModelType {
 }
 
 struct HomeListCountryModel: Identifiable, Equatable {
+    static func == (lhs: HomeListCountryModel, rhs: HomeListCountryModel) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
     var id = UUID()
     var type: HomeListCountryModelType
     var title: String = ""
     var totalCity: Int = 0
-    var imageUrl: String?
+    var imageUrl:String?
     var cityName: String = ""
     var serverNumber: Int = 0
     var serverStar: Int = 1
     var idCountry: Int = 0
+    var title2: String = ""
+    var imageUrl2: String?
+    var origin: INodeInfo?
+    
 }
 
+
 struct ListViewModifier: ViewModifier {
+
     @ViewBuilder
     func body(content: Content) -> some View {
-        content
+        content 
     }
 }
