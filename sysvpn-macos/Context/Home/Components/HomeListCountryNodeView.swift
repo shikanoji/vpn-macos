@@ -63,17 +63,7 @@ struct HomeListCountryNodeView : View {
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
         .background(Asset.Colors.backgroundColor.swiftUIColor)
-        .overlay {
-            Asset.Assets.icClose.swiftUIImage.padding(10)
-            .background(Asset.Colors.backgroundColor.swiftUIColor)
-            .position(x: 315, y: 0)
-            .allowsHitTesting(true)
-            .onTapGesture {
-                withAnimation {
-                    selectedItem = .none
-                }
-            }
-        }
+        
     }
 }
 
@@ -116,17 +106,6 @@ struct HomeDetailCityNodeView : View {
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
         .background(Asset.Colors.backgroundColor.swiftUIColor)
-        .overlay {
-            Asset.Assets.icClose.swiftUIImage.padding(10)
-            .background(Asset.Colors.backgroundColor.swiftUIColor)
-            .position(x: 315, y: 0)
-            .allowsHitTesting(true)
-            .onTapGesture {
-                withAnimation {
-                    selectedItem = .none
-                }
-            }
-        }
     }
 }
 
@@ -134,7 +113,8 @@ struct HomeDetailCityNodeView : View {
 
 
 struct HomeListWraperView : ViewModifier {
-    private var _onClose: (()->Void)?
+    var onClose: (()->Void)?
+    
     func body(content: Content) -> some View {
         content
             .background(Asset.Colors.backgroundColor.swiftUIColor)
@@ -145,19 +125,13 @@ struct HomeListWraperView : ViewModifier {
                     .allowsHitTesting(true)
                     .onTapGesture {
                         withAnimation {
-                            _onClose?()
+                            onClose?()
                         }
                     }
             }
     }
 }
-    
-extension HomeListWraperView {
-    mutating func onTapClose(_ callback: @escaping ()->Void) -> any ViewModifier {
-        self._onClose = callback
-        return self
-    }
-}
+  
 
 
 

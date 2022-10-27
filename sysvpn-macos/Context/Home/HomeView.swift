@@ -17,7 +17,7 @@ struct HomeView: View {
         .publisher(for: .reloadServerStar)
     
     var leftMenuPannel: some View {
-        Group {
+        VStack {
             if viewModel.selectedMenuItem != .none {
                 if viewModel.selectedMenuItem == .manualConnection {
                  
@@ -67,13 +67,27 @@ struct HomeView: View {
             }
         }
     }
+    
     var body: some View {
         HStack(spacing: 0){
             HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem)
                 .frame(width: 240)
                 .contentShape(Rectangle())
                 .zIndex(3)
-            leftMenuPannel.modifier(HomeListWraperView())
+            if viewModel.selectedMenuItem != .none {
+                leftMenuPannel.modifier(HomeListWraperView(
+                    onClose: {
+                        self.viewModel.selectedMenuItem = .none
+                    }
+                      )
+                )
+                .transition(
+                    AnyTransition.asymmetric(
+                    insertion: .move(edge: .leading),
+                    removal: .move(edge: .leading)
+                    ))
+                .zIndex(2)
+            }
             VpnMapView(
                 scale: $zoomValue.cgFloat()
             )
