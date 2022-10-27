@@ -28,14 +28,7 @@ struct sysvpn_macosApp: App {
                     }
                 }
             } else if WindowMgr.shared.currentWindow == .MainView {
-                HomeView().withHostingWindow { window in
-                    if let window = window {
-                        window.styleMask = [.titled, .fullSizeContentView, .closable, .miniaturizable, .resizable ]
-                        window.backgroundColor = Asset.Colors.mainBackgroundColor.color
-                        window.isMovableByWindowBackground = false
-                        window.standardWindowButton(.zoomButton)?.isHidden = false
-                    }
-                }.environmentObject(GlobalAppStates.shared)
+                HomeView().environmentObject(GlobalAppStates.shared)
                 .environmentObject(NetworkAppStates.shared)
                 .environmentObject(MapAppStates.shared)
             }

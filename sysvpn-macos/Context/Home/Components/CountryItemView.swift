@@ -39,7 +39,9 @@ struct CountryItemView : View {
                     .resizable()
                     .frame(width: 20, height: 20) 
             }
-        }.padding(.bottom, 10)
+        }
+        .padding(.bottom, 10)
+        .contentShape(Rectangle())
     }
 }
 
@@ -72,6 +74,53 @@ struct CityItemView : View {
     }
 }
 
+
+
+struct MultiHopItemView : View {
+    var countryNameStart:String
+    var countryNameEnd:String
+    var imageUrlStart:String?
+    var imageUrlEnd:String?
+    var body: some View {
+        HStack (alignment: .center, spacing: 4) {
+            if imageUrlStart != nil {
+                KFImage(URL(string: imageUrlStart!))
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .cornerRadius(12)
+                    .opacity(0.5)
+            } else{
+                Asset.Assets.icFlagEmpty.swiftUIImage
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .cornerRadius(12)
+                    .opacity(0.5)
+            }
+            if imageUrlEnd != nil {
+                KFImage(URL(string: imageUrlEnd!))
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .cornerRadius(12)
+            } else{
+                Asset.Assets.icFlagEmpty.swiftUIImage
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .cornerRadius(12)
+            }
+            Spacer().frame(width: 10)
+            Text(countryNameStart)
+                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor
+                )
+                .font(Font.system(size: 14, weight: .regular))
+            Asset.Assets.icArrowRight.swiftUIImage
+                .resizable()
+                .frame(width: 16, height: 16)
+            Text(countryNameEnd)
+                .foregroundColor(Color.white)
+                .font(Font.system(size: 14, weight: .semibold))
+        }.padding(.bottom, 10)
+    }
+}
 
 
 

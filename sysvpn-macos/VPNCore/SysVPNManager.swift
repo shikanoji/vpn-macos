@@ -553,7 +553,6 @@ class SysVPNManager : SysVPNManagerProtocol {
     }
     
     private func setRemoteAuthenticationEndpoint(provider: ProviderMessageSender?) {
-         
         
     }
     

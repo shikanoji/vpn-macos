@@ -36,11 +36,17 @@ struct HomeListCountryNodeView : View {
                             }
                     } else if selectedItem == .staticIp {
                         StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar)
+                            .transaction { transaction in
+                                transaction.animation = nil
+                            }
                     } else if selectedItem == .multiHop {
-                        CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
+                        MultiHopItemView(countryNameStart: item.title, countryNameEnd: item.title2, imageUrlStart: item.imageUrl, imageUrlEnd: item.imageUrl2)
+                            .transaction { transaction in
+                                transaction.animation = nil
+                            }
                     }
                 case .header:
-                    if selectedItem == .manualConnection {
+                    if selectedItem == .manualConnection || selectedItem == .multiHop {
                         VStack {
                             Text(item.title)
                                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
@@ -95,10 +101,10 @@ struct HomeDetailCityNodeView : View {
                 Text(countryItem?.title ?? "")
                     .foregroundColor(Color.white)
                     .font(Font.system(size: 16, weight: .semibold))
-            } .onTapGesture {
-                withAnimation {
-                    isShowCity = false
-                }
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                isShowCity = false
             }
             List(listCity) {  item in
                 CityItemView(countryName: countryItem?.title ?? "", cityName: item.title, imageUrl: item.imageUrl)
@@ -162,6 +168,8 @@ struct HomeListCountryModel: Identifiable, Equatable {
     var serverNumber: Int = 0
     var serverStar: Int = 1
     var idCountry: Int = 0
+    var title2: String = ""
+    var imageUrl2: String?
     
 }
 

@@ -13,45 +13,43 @@ struct HomeView: View {
     @State var localIsConnected = false
     @EnvironmentObject var appState: GlobalAppStates
     @State private var isShowCity = false
+    @State private var isShowCityAnim = false
     let pub = NotificationCenter.default
         .publisher(for: .reloadServerStar)
     
     var leftMenuPannel: some View {
-        VStack {
+        ZStack {
             if viewModel.selectedMenuItem != .none {
                 if viewModel.selectedMenuItem == .manualConnection {
-                 
-                        if isShowCity {
-                            HomeDetailCityNodeView(selectedItem: $viewModel.selectedMenuItem, listCity: $viewModel.listCity, isShowCity: $isShowCity, countryItem: viewModel.countrySelected)
-                                .zIndex(2)
-                                .transition(
-                                    AnyTransition.asymmetric(
-                                    insertion: .move(edge: .leading),
-                                    removal: .move(edge: .leading)
-                                    ).combined(with: .opacity))
-                                .onReceive(pub) { _ in
-                                    if viewModel.selectedMenuItem == .staticIp {
-                                        viewModel.getListStaticServer(firstLoadData: false)
-                                    }
-                                }
-                        } else {
-                            HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.dataServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected)
-                                .zIndex(2)
-                                .transition(
-                                    AnyTransition.asymmetric(
-                                    insertion: .move(edge: .leading),
-                                    removal: .move(edge: .leading)
+                    
+                    HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listCountry, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected)
+                        .transition(
+                            AnyTransition.asymmetric(
+                            insertion: .move(edge: .leading),
+                            removal: .move(edge: .leading)
+                        ).combined(with: .opacity))
+                        HomeDetailCityNodeView(selectedItem: $viewModel.selectedMenuItem, listCity: $viewModel.listCity, isShowCity: $isShowCity, countryItem: viewModel.countrySelected)
+                            .transition(
+                                AnyTransition.asymmetric(
+                                insertion: .move(edge: .trailing),
+                                removal: .move(edge: .leading)
                                 ).combined(with: .opacity))
-                                .onReceive(pub) { _ in
-                                    if viewModel.selectedMenuItem == .staticIp {
-                                        viewModel.getListStaticServer(firstLoadData: false)
-                                    }
-                                }
+                            .offset(x: isShowCityAnim ? 0 : 400, y: 0) 
+                     
+                } else if viewModel.selectedMenuItem == .staticIp {
+                    HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listStaticServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected)
+                        .transition(
+                            AnyTransition.asymmetric(
+                            insertion: .move(edge: .leading),
+                            removal: .move(edge: .leading)
+                        ).combined(with: .opacity))
+                        .onReceive(pub) { _ in
+                            if viewModel.selectedMenuItem == .staticIp {
+                                viewModel.getListStaticServer(firstLoadData: false)
+                            }
                         }
-                  
-                } else {
-                    HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.dataServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected)
-                        .zIndex(2)
+                } else if viewModel.selectedMenuItem == .multiHop {
+                    HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listMultiHop, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected)
                         .transition(
                             AnyTransition.asymmetric(
                             insertion: .move(edge: .leading),
@@ -64,6 +62,12 @@ struct HomeView: View {
                         }
                 }
                 
+            }
+        }
+        .clipped()
+        .onChange(of: isShowCity) { value in
+            withAnimation {
+                isShowCityAnim = value
             }
         }
     }

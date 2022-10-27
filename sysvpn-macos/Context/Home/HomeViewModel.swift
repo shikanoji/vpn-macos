@@ -10,20 +10,20 @@ import Foundation
 extension HomeView {
         @MainActor class HomeViewModel: ObservableObject {
             @Published var selectedMenuItem: HomeMenuItem = .none
-            @Published var dataServer: [HomeListCountryModel]
             @Published var listCity: [HomeListCountryModel]
             @Published var countrySelected: HomeListCountryModel?
             var isConnected: Bool = false
             var listCountry: [HomeListCountryModel]
             var listStaticServer: [HomeListCountryModel]
+            var listMultiHop: [HomeListCountryModel]
             init() {
-                dataServer = []
                 listCountry = []
                 listStaticServer = []
+                listMultiHop = []
                 listCity = []
                 getListCountry()
                 getListStaticServer()
-                dataServer = listCountry
+                getListMultiHop()
             }
             
             func getListCountry() {
@@ -44,8 +44,7 @@ extension HomeView {
                 }
             }
             
-            func updateAvailableContry() {
-                listCountry = []
+            func updateAvailableContry() { 
                 let availableCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
                 let recommendCountry = AppDataManager.shared.userCountry?.recommendedCountries ?? []
                 let recentCountry = AppDataManager.shared.userCountry?.recentCountries ?? []
@@ -88,28 +87,25 @@ extension HomeView {
                         listStaticServer.append(staticItem)
                     }
                     listStaticServer.append(HomeListCountryModel(type: .spacing))
-                }
-                if !firstLoadData {
-                    dataServer = listStaticServer
-                }
+                } 
             }
             
             func getListMultiHop() {
-                
+                let multiHopServer = AppDataManager.shared.mutilHopServer ?? []
+                if multiHopServer.count > 0 {
+                    listMultiHop.append(HomeListCountryModel(type: .header, title: "MultiHop")) 
+                    for item in multiHopServer {
+                        let multiHopItem = HomeListCountryModel(type: .country, title: item.entry?.country?.name ?? "", imageUrl: item.entry?.country?.flag, title2: item.exit?.country?.name ?? "", imageUrl2: item.exit?.country?.flag)
+                        listMultiHop.append(multiHopItem)
+                    }
+                }
             }
             
-            func onChangeState() {
-                print("selectedMenuItem: \(selectedMenuItem)")
-                if selectedMenuItem == .staticIp {
-                    dataServer = listStaticServer
-                } else if selectedMenuItem == .manualConnection {
-                    dataServer = listCountry
+            func onChangeState() { 
+                if selectedMenuItem == .manualConnection {
                     if listCountry.isEmpty {
                         updateAvailableContry()
-                        dataServer = listCountry
                     }
-                } else if selectedMenuItem == .multiHop {
-                    
                 }
             }
             
