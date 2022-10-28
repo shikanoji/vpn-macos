@@ -33,6 +33,7 @@ struct VpnMapPointLayerView: View {
         return .normal
     }
     
+    @State var cgPoint: CGPoint = .zero
     var body: some View {
         ZStack(alignment: .topLeading) {
             ForEach(0..<nodeList.count, id: \.self) { index in
@@ -44,7 +45,6 @@ struct VpnMapPointLayerView: View {
                 ).position(x: scalePoint(nodeList[index].point).x, y: scalePoint(nodeList[index].point).y)
                     .onTapGesture {
                         onTouchPoint?(nodeList[index])
-                        print("location: \(scalePoint(nodeList[index].point).x)")
                     }
             }
             
@@ -53,11 +53,15 @@ struct VpnMapPointLayerView: View {
                 if let multipleHop = connectedNodeInfo as? MultiHopResult {
                     if let entryNode = multipleHop.entry?.city?.toNodePoint(), let nodePos = computNodePointPos(node: entryNode), let exitNode = multipleHop.exit?.city?.toNodePoint(), let nodePos2 = computNodePointPos(node: exitNode) {
                         let connectPoint = ConnectPoint(point1: nodePos, point2: nodePos2)
-                        Canvas { context, _ in
-                            context.stroke(connectPoint.buildPath(scale: 1), with: .linearGradient(lineGradient, startPoint: connectPoint.point1, endPoint: connectPoint.point2), lineWidth: 2)
-                        }
-                        .allowsHitTesting(false)
                         
+                        Spacer().modifier(SingalLineAnimatedModifier(point2: cgPoint, point1: connectPoint.point1, maxPoint: connectPoint.point2))
+                            .onAppear {
+                                cgPoint = connectPoint.point1
+                                withAnimation(Animation.easeInOut(duration: 1)) {
+                                    cgPoint = connectPoint.point2
+                                }
+                            }.allowsHitTesting(false)
+                      
                         VpnMapPointView(state: .activeDisabled,
                                         locationIndex: 1,
                                         onHoverNode: { hover in
@@ -115,5 +119,47 @@ struct VpnMapPointLayerView_Previews: PreviewProvider {
             NodePoint(point: CGPoint(x: 100, y: 100), info: NodeInfoTest(state: .activeDisabled)),
             NodePoint(point: CGPoint(x: 900, y: 800), info: NodeInfoTest(state: .activated))
         ])
+    }
+}
+ 
+struct SingalLineAnimatedModifier: AnimatableModifier {
+    var point2: CGPoint = .zero
+    var point1: CGPoint = .zero
+    var maxPoint: CGPoint = .zero
+    
+    let lineGradient = Gradient(colors: [
+        Asset.Colors.secondary.swiftUIColor,
+        Asset.Colors.primaryColor.swiftUIColor
+    ])
+    
+    func path(in rect: CGRect) -> Path {
+        let percent = CGPointDistance(from: point2, to: point1) / CGPointDistance(from: maxPoint, to: point1)
+        return ConnectPoint.generateSpecialCurve(from: point1, to: maxPoint, bendFactor: -0.2, thickness: 1).trimmedPath(from: 0, to: percent)
+    }
+    
+    var animatableData: AnimatablePair<CGFloat, CGFloat> {
+        get {
+            AnimatablePair(point2.x, point2.y)
+        }
+        set {
+            point2.x = newValue.first
+            point2.y = newValue.second
+        }
+    }
+    
+    func CGPointDistanceSquared(from: CGPoint, to: CGPoint) -> CGFloat {
+        return (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y)
+    }
+
+    func CGPointDistance(from: CGPoint, to: CGPoint) -> CGFloat {
+        return sqrt(CGPointDistanceSquared(from: from, to: to))
+    }
+
+    func body(content: Content) -> some View {
+        Canvas { context, _ in
+            let path = path(in: CGRect.zero)
+            context.stroke(path, with: .linearGradient(lineGradient, startPoint: point1, endPoint: maxPoint), lineWidth: 2)
+        }
+        .allowsHitTesting(false)
     }
 }

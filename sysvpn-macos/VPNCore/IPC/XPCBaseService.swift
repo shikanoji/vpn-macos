@@ -30,7 +30,7 @@ class XPCBaseService: NSObject {
 }
 
 extension XPCBaseService: ProviderCommunication {
-    func getProtocol(_ completion: @escaping (String) -> Void) {
+    func getProtocol(_: @escaping (String) -> Void) {
         log("This is just a placeholder! Add `getProtocol` in each implementation.")
     }
     

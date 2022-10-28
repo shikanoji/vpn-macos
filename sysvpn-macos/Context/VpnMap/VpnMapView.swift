@@ -14,6 +14,7 @@ struct VpnMapView: View {
     @EnvironmentObject var mapState: MapAppStates
     @EnvironmentObject var appState: GlobalAppStates
     @Binding var scale: CGFloat
+     
     var rescaleView: CGFloat = 2
     var numberImage = 1
     var aspecRaito: CGFloat = 2048 / 1588
@@ -24,15 +25,17 @@ struct VpnMapView: View {
     @State var connectedNode: NodePoint? = nil
     var connectPoints: [ConnectPoint] = []
     @State var updateCameraPosition: CGPoint? = .zero
+    @State var screenSize: CGSize = .init(width: 100, height: 100)
+    var size: CGSize
   
     var body: some View {
-        GeometryReader { proxy in
+        VStack {
             LoopMapView(
                 connectedNodeInfo: mapState.connectedNode,
-                size: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height),
+                size: CGSize(width: screenSize.height * aspecRaito, height: screenSize.height),
                 scale: rescaleView,
                 loop: numberImage,
-                scaleVector: scaleVector * proxy.size.height / baseHeight * rescaleView,
+                scaleVector: scaleVector * screenSize.height / baseHeight * rescaleView,
                 connectPoints: connectPoints,
                 nodeList: isShowCity ? viewModel.listCity : viewModel.listCountry,
                 onTouchPoint: { node in
@@ -53,10 +56,10 @@ struct VpnMapView: View {
             )
             .scaledToFit()
             .clipShape(Rectangle())
-            .modifier(ZoomModifier(contentSize: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height), screenSize: proxy.size, numberImage: numberImage, currentScale: $scale,
+            .modifier(ZoomModifier(contentSize: CGSize(width: screenSize.height * aspecRaito, height: screenSize.height), screenSize: screenSize, numberImage: numberImage, currentScale: $scale,
                                    cameraPosition: $updateCameraPosition,
                                    overlayLayer: VpnMapOverlayLayer(
-                                       scaleVector: scaleVector * proxy.size.height / baseHeight * rescaleView, scaleValue: scale,
+                                       scaleVector: scaleVector * screenSize.height / baseHeight * rescaleView, scaleValue: scale,
                                        rescaleView: rescaleView,
                                        nodePoint: selectedNode,
                                        connectedNode: connectedNode,
@@ -73,13 +76,13 @@ struct VpnMapView: View {
                 selectedNode = nil
             }).onChange(of: selectedNode, perform: { newValue in
                 mapState.selectedNode = newValue?.info
-                updateCameraPosition = newValue?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
+                updateCameraPosition = newValue?.point.toScalePoint(scaleVector: scaleVector * screenSize.height / baseHeight)
             })
             .onChange(of: appState.displayState, perform: { _ in
                 if appState.displayState == .connected || appState.displayState == .connecting {
                     if mapState.connectedNode != nil {
                         connectedNode = mapState.connectedNode?.toNodePoint(mapState.serverInfo?.ipAddress)
-                        updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
+                        updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * screenSize.height / baseHeight)
                         return
                     }
                 }
@@ -91,12 +94,16 @@ struct VpnMapView: View {
                     if let node = mapState.connectedNode, appState.displayState == .connected {
                         self.selectedNode = nil
                         self.connectedNode = node.toNodePoint(mapState.serverInfo?.ipAddress)
-                        updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
+                        updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * screenSize.height / baseHeight)
                     }
                 }
-            })
+            }).onChange(of: size) { newValue in
+                screenSize = CGSize(width: newValue.width, height: newValue.height + 100)
+            }
+            .onAppear {
+                screenSize = CGSize(width: size.width, height: size.height + 100)
+            }
         }
-        .clipped()
     }
 }
 
@@ -144,10 +151,4 @@ struct LoopMapView: View {
         }.frame(width: size.width * CGFloat(loop) * scale, height: size.height * scale, alignment: .center).scaleEffect(1 / scale)
     }
 }
-
-struct VpnMapView_Previews: PreviewProvider {
-    @State static var value: CGFloat = 1
-    static var previews: some View {
-        VpnMapView(scale: $value)
-    }
-}
+ 

@@ -14,6 +14,4 @@ extension Notification.Name {
     static let updateMultipleHop = NSNotification.Name("updateMultipleHop")
     static let reloadServerStar = NSNotification.Name("reloadServerStar")
     static let needUpdateServerInfo = NSNotification.Name("needUpdateServerInfo")
-    
-    
 }

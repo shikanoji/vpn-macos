@@ -6,20 +6,20 @@
 //
 
 import Foundation
-import SwiftUI
 import Kingfisher
-struct CountryItemView : View {
-    var countryName:String
-    var imageUrl:String?
+import SwiftUI
+struct CountryItemView: View {
+    var countryName: String
+    var imageUrl: String?
     var totalCity: Int
     var body: some View {
-        HStack (alignment: .center, spacing: 16) {
+        HStack(alignment: .center, spacing: 16) {
             if imageUrl != nil {
                 KFImage(URL(string: imageUrl!))
                     .resizable()
                     .frame(width: 32, height: 32)
                     .cornerRadius(16)
-            } else{
+            } else {
                 Asset.Assets.icFlagEmpty.swiftUIImage
                     .resizable()
                     .frame(width: 32, height: 32)
@@ -37,7 +37,7 @@ struct CountryItemView : View {
                 Spacer()
                 Asset.Assets.icArrowRight.swiftUIImage
                     .resizable()
-                    .frame(width: 20, height: 20) 
+                    .frame(width: 20, height: 20)
             }
         }
         .padding(.bottom, 10)
@@ -45,18 +45,18 @@ struct CountryItemView : View {
     }
 }
 
-struct CityItemView : View {
-    var countryName:String
-    var cityName:String
-    var imageUrl:String?
+struct CityItemView: View {
+    var countryName: String
+    var cityName: String
+    var imageUrl: String?
     var body: some View {
-        HStack (alignment: .center, spacing: 16) {
+        HStack(alignment: .center, spacing: 16) {
             if imageUrl != nil {
                 KFImage(URL(string: imageUrl!))
                     .resizable()
                     .frame(width: 32, height: 32)
                     .cornerRadius(16)
-            } else{
+            } else {
                 Asset.Assets.icFlagEmpty.swiftUIImage
                     .resizable()
                     .frame(width: 32, height: 32)
@@ -74,22 +74,20 @@ struct CityItemView : View {
     }
 }
 
-
-
-struct MultiHopItemView : View {
-    var countryNameStart:String
-    var countryNameEnd:String
-    var imageUrlStart:String?
-    var imageUrlEnd:String?
+struct MultiHopItemView: View {
+    var countryNameStart: String
+    var countryNameEnd: String
+    var imageUrlStart: String?
+    var imageUrlEnd: String?
     var body: some View {
-        HStack (alignment: .center, spacing: 4) {
+        HStack(alignment: .center, spacing: 4) {
             if imageUrlStart != nil {
                 KFImage(URL(string: imageUrlStart!))
                     .resizable()
                     .frame(width: 24, height: 24)
                     .cornerRadius(12)
                     .opacity(0.5)
-            } else{
+            } else {
                 Asset.Assets.icFlagEmpty.swiftUIImage
                     .resizable()
                     .frame(width: 24, height: 24)
@@ -101,7 +99,7 @@ struct MultiHopItemView : View {
                     .resizable()
                     .frame(width: 24, height: 24)
                     .cornerRadius(12)
-            } else{
+            } else {
                 Asset.Assets.icFlagEmpty.swiftUIImage
                     .resizable()
                     .frame(width: 24, height: 24)
@@ -124,22 +122,20 @@ struct MultiHopItemView : View {
     }
 }
 
-
-
-struct StaticItemView : View {
-    var countryName:String
-    var cityName:String
-    var imageUrl:String?
+struct StaticItemView: View {
+    var countryName: String
+    var cityName: String
+    var imageUrl: String?
     var serverNumber: Int
     var percent: Int = 1
     var body: some View {
-        HStack (alignment: .center, spacing: 0) {
+        HStack(alignment: .center, spacing: 0) {
             if imageUrl != nil {
                 KFImage(URL(string: imageUrl!))
                     .resizable()
                     .frame(width: 32, height: 32)
                     .cornerRadius(16)
-            } else{
+            } else {
                 Asset.Assets.icFlagEmpty.swiftUIImage
                     .resizable()
                     .frame(width: 32, height: 32)
@@ -159,7 +155,7 @@ struct StaticItemView : View {
                     .font(Font.system(size: 14, weight: .regular))
             }
             Spacer()
-            ZStack  {
+            ZStack {
                 Rectangle()
                     .foregroundColor(.clear)
                     .background(Color(rgb: 0x2E303D))
@@ -167,10 +163,9 @@ struct StaticItemView : View {
                     .cornerRadius(3)
                 Rectangle()
                     .foregroundColor(.clear)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color(rgb:0x0CBC92), Color(rgb:0xCEA71B), Color(rgb:0xBF1616)]), startPoint: .leading, endPoint: .trailing))
+                    .background(LinearGradient(gradient: Gradient(colors: [Color(rgb: 0x0CBC92), Color(rgb: 0xCEA71B), Color(rgb: 0xBF1616)]), startPoint: .leading, endPoint: .trailing))
                     .frame(width: 40, height: 6)
                     .clipShape(CustomProcessShape(percent: percent))
-                
             }
         }.padding(.bottom, 10)
             .contentShape(Rectangle())
@@ -185,6 +180,4 @@ struct CustomProcessShape: Shape {
         path.addRoundedRect(in: CGRect(origin: .zero, size: CGSize(width: width, height: rect.height)), cornerSize: CGSize(width: rect.height / 2, height: rect.height / 2))
         return path
     }
-    
-    
 }

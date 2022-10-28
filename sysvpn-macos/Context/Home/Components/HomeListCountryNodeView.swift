@@ -6,18 +6,18 @@
 //
 
 import Foundation
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
-struct HomeListCountryNodeView : View {
-    @Binding var selectedItem: HomeMenuItem 
+struct HomeListCountryNodeView: View {
+    @Binding var selectedItem: HomeMenuItem
     @Binding var countries: [HomeListCountryModel]
     @Binding var isShowCity: Bool
     @Binding var countrySelected: HomeListCountryModel?
-    var onTouchItem: ((INodeInfo)->Void)?
+    var onTouchItem: ((INodeInfo) -> Void)?
     var body: some View {
         VStack(alignment: .leading) {
-            List(countries) {  item in
+            List(countries) { item in
                 switch item.type {
                 case .spacing:
                     Spacer().frame(height: 30)
@@ -89,16 +89,15 @@ struct HomeListCountryNodeView : View {
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
         .background(Asset.Colors.backgroundColor.swiftUIColor)
-        
     }
 }
 
-struct HomeDetailCityNodeView : View {
+struct HomeDetailCityNodeView: View {
     @Binding var selectedItem: HomeMenuItem
     @Binding var listCity: [HomeListCountryModel]
     @Binding var isShowCity: Bool
     var countryItem: HomeListCountryModel?
-    var onTouchItem: ((INodeInfo)->Void)?
+    var onTouchItem: ((INodeInfo) -> Void)?
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
@@ -124,7 +123,7 @@ struct HomeDetailCityNodeView : View {
             .onTapGesture {
                 isShowCity = false
             }
-            List(listCity) {  item in
+            List(listCity) { item in
                 CityItemView(countryName: countryItem?.title ?? "", cityName: item.title, imageUrl: item.imageUrl)
                     .transaction { transaction in
                         transaction.animation = nil
@@ -145,11 +144,8 @@ struct HomeDetailCityNodeView : View {
     }
 }
 
-
-
-
-struct HomeListWraperView : ViewModifier {
-    var onClose: (()->Void)?
+struct HomeListWraperView: ViewModifier {
+    var onClose: (() -> Void)?
     
     func body(content: Content) -> some View {
         content
@@ -167,15 +163,12 @@ struct HomeListWraperView : ViewModifier {
             }
             .transition(
                 AnyTransition.asymmetric(
-                insertion: .move(edge: .leading),
-                removal: .move(edge: .leading)
+                    insertion: .move(edge: .leading),
+                    removal: .move(edge: .leading)
                 ).combined(with: .opacity))
     }
 }
   
-
-
-
 enum HomeListCountryModelType {
     case header
     case country
@@ -191,7 +184,7 @@ struct HomeListCountryModel: Identifiable, Equatable {
     var type: HomeListCountryModelType
     var title: String = ""
     var totalCity: Int = 0
-    var imageUrl:String?
+    var imageUrl: String?
     var cityName: String = ""
     var serverNumber: Int = 0
     var serverStar: Int = 1
@@ -199,14 +192,11 @@ struct HomeListCountryModel: Identifiable, Equatable {
     var title2: String = ""
     var imageUrl2: String?
     var origin: INodeInfo?
-    
 }
 
-
 struct ListViewModifier: ViewModifier {
-
     @ViewBuilder
     func body(content: Content) -> some View {
-        content 
+        content
     }
 }

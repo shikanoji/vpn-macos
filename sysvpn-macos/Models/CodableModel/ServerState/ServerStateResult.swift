@@ -23,7 +23,7 @@ struct ServerStateResult: Codable {
     }
     
     func updateStarCountry() {
-        var coutryResult = AppDataManager.shared.userCountry
+        let coutryResult = AppDataManager.shared.userCountry
         guard let listData = listServer else {
             return
         }

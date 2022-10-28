@@ -85,7 +85,7 @@ class SysVPNCore: SysVPNGatewayProtocol {
                 self.lastConnectionConiguration = connectionConfig
                 if result.vpnProtocol == .wireGuard {
                     PropertiesManager.shared.lastWireguardConnection = connectionConfig
-                } else  {
+                } else {
                     PropertiesManager.shared.lastOpenVpnConnection = connectionConfig
                 }
                 print("[VPN-Core] request determine vpn config success")

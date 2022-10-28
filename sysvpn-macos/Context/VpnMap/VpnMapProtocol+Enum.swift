@@ -47,7 +47,7 @@ struct NodePoint: Equatable {
     }
 }
 
-struct ConnectPoint {
+struct ConnectPoint: Equatable {
     var point1: CGPoint
     var point2: CGPoint
     
@@ -55,10 +55,10 @@ struct ConnectPoint {
         let point1 = CGPoint(x: self.point1.x * scale, y: self.point1.y * scale)
         let point2 = CGPoint(x: self.point2.x * scale, y: self.point2.y * scale)
          
-        return generateSpecialCurve(from: point1, to: point2, bendFactor: -0.2, thickness: 1)
+        return ConnectPoint.generateSpecialCurve(from: point1, to: point2, bendFactor: -0.2, thickness: 1)
     }
     
-    func generateSpecialCurve(from: CGPoint, to: CGPoint, bendFactor: CGFloat, thickness: CGFloat) -> Path {
+    static func generateSpecialCurve(from: CGPoint, to: CGPoint, bendFactor: CGFloat, thickness: CGFloat) -> Path {
         let center = CGPoint(x: (from.x + to.x) * 0.5, y: (from.y + to.y) * 0.5)
         let normal = CGPoint(x: -(from.y - to.y), y: from.x - to.x)
         let normalNormalized: CGPoint = {
@@ -75,6 +75,27 @@ struct ConnectPoint {
         let closeControlPoint = CGPoint(x: midControlPoint.x + normalNormalized.x * thickness * 0.5, y: midControlPoint.y + normalNormalized.y * thickness * 0.5)
         let farControlPoint = CGPoint(x: midControlPoint.x - normalNormalized.x * thickness * 0.5, y: midControlPoint.y - normalNormalized.y * thickness * 0.5)
         path.addQuadCurve(to: to, control: closeControlPoint)
+        path.addQuadCurve(to: from, control: farControlPoint)
+        return path
+    }
+    
+    static func generateSpecialCurveEx(from: CGPoint, current: CGPoint, to: CGPoint, bendFactor: CGFloat, thickness: CGFloat) -> Path {
+        let center = CGPoint(x: (from.x + to.x) * 0.5, y: (from.y + to.y) * 0.5)
+        let normal = CGPoint(x: -(from.y - to.y), y: from.x - to.x)
+        let normalNormalized: CGPoint = {
+            let normalSize = sqrt(normal.x * normal.x + normal.y * normal.y)
+            guard normalSize > 0.0 else { return .zero }
+            return CGPoint(x: normal.x / normalSize, y: normal.y / normalSize)
+        }()
+
+        var path = Path()
+
+        path.move(to: from)
+
+        let midControlPoint = CGPoint(x: center.x + normal.x * bendFactor, y: center.y + normal.y * bendFactor)
+        let closeControlPoint = CGPoint(x: midControlPoint.x + normalNormalized.x * thickness * 0.5, y: midControlPoint.y + normalNormalized.y * thickness * 0.5)
+        let farControlPoint = CGPoint(x: midControlPoint.x - normalNormalized.x * thickness * 0.5, y: midControlPoint.y - normalNormalized.y * thickness * 0.5)
+        path.addQuadCurve(to: current, control: closeControlPoint)
         path.addQuadCurve(to: from, control: farControlPoint)
         return path
     }

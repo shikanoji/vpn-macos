@@ -19,9 +19,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_: Notification) {
         // demo install extension vpn
-        OSExtensionManager.shared.startExtension() 
+        OSExtensionManager.shared.startExtension()
         onStartApp()
-        initNotificationObs() 
+        initNotificationObs()
     }
     
     func setupMenu() {
@@ -59,20 +59,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func onStartApp() {
         timmerAppSetting?.invalidate()
-        timmerAppSetting = Timer.scheduledTimer(timeInterval: 50.0, target: self, selector: #selector(onReloadAppSetting), userInfo: nil, repeats: true)
+        timmerAppSetting = Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(onReloadAppSetting), userInfo: nil, repeats: true)
         DispatchQueue.main.async {
             // referesh now
             self.onReloadAppSetting()
         }
     }
    
-    
     @objc func onStartJob(_: Notification) {
         setupMenu()
         if let timmer = timmerJob {
             timmer.invalidate()
         }
-        timmerJob = Timer.scheduledTimer(timeInterval: 50.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
+        timmerJob = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
         
         DispatchQueue.main.async {
             // referesh now

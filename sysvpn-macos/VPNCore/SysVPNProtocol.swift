@@ -25,7 +25,7 @@ protocol SysVPNGatewayProtocol: AnyObject {
     func disconnect()
     func disconnect(completion: @escaping () -> Void)
     func postConnectionInformation()
-    var lastConnectionConiguration: ConnectionConfiguration? { get set}
+    var lastConnectionConiguration: ConnectionConfiguration? { get set }
 }
 
 protocol SysVPNnGatewayFactory {

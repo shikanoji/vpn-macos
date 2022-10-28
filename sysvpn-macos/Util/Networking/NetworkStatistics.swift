@@ -44,15 +44,9 @@ class NetworkStatistics {
             uploadCount = UInt32((UInt64(uploadCount) + UInt64(statistics.uploadCount)) % UInt64(UInt32.max))
         }
     }
-    
-    var downloadHistory: LastNItemsBuffer = .init(count: 30)
-    var uploadHistory: LastNItemsBuffer = .init(count: 30)
-    var latestBitrateInfo: [Bitrate] = [Bitrate(download: 0, upload: 0, time: 0)]
- 
+     
     private var timer: Timer!
-    private var timer2: Timer!
-    private var timeInterval: TimeInterval = 1
-    private var timeIntervalGraph: TimeInterval = 0.1
+    private var timeInterval: TimeInterval = 0.1
     private var traffic: NetworkTraffic!
     private var updateWithBitrate: ((Bitrate) -> Void)?
     
@@ -64,53 +58,13 @@ class NetworkStatistics {
         
         timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(updateBitrate), userInfo: nil, repeats: true)
         
-        timer2 = Timer.scheduledTimer(timeInterval: timeIntervalGraph, target: self, selector: #selector(updateHistory), userInfo: nil, repeats: true)
-        
         updateBitrate()
     }
     
     func stopGathering() {
-        timer2.invalidate()
         timer.invalidate()
     }
-    
-    @objc private func updateHistory() {
-        var value = Double(latestBitrateInfo.first?.download ?? 0)
-        var value2 = Double(latestBitrateInfo.first?.upload ?? 0)
-        var speed1: Double = 0
-        var speed2: Double = 0
-        if latestBitrateInfo.count > 1 {
-            speed1 = abs(Double(latestBitrateInfo[1].download) - Double(latestBitrateInfo[0].download)) / 3
-            speed2 = abs(Double(latestBitrateInfo[1].upload) - Double(latestBitrateInfo[0].upload)) / 3
-            
-            value = Double(latestBitrateInfo[1].download)
-            value2 = Double(latestBitrateInfo[1].upload)
-            if speed1 == 0 && speed1 == speed2 {
-                latestBitrateInfo.removeFirst()
-                return
-            }
-        }
-         
-        let onDoneAnim = {
-            self.latestBitrateInfo.removeFirst()
-            let value = Double(self.latestBitrateInfo.first?.download ?? 0)
-            let value2 = Double(self.latestBitrateInfo.first?.upload ?? 0)
-            self.downloadHistory.write(value)
-            self.uploadHistory.write(value2)
-        }
-        
-        if downloadHistory.anim(to: value, speed: speed1) {
-            if latestBitrateInfo.count > 1 && speed2 < speed1 {
-                onDoneAnim()
-            }
-        }
-        if uploadHistory.anim(to: value2, speed: speed2) {
-            if latestBitrateInfo.count > 1 && speed2 >= speed1 {
-                onDoneAnim()
-            }
-        }
-    }
-    
+     
     @objc private func updateBitrate() {
         guard let updateWithBitrate = updateWithBitrate else { return }
         
@@ -127,9 +81,7 @@ class NetworkStatistics {
             / timeInterval), time: time)
         
         traffic = latestTraffic
-           
-        latestBitrateInfo.append(bitrate)
-        
+      
         updateWithBitrate(bitrate)
     }
     

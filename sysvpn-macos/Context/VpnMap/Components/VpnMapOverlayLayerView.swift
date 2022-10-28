@@ -44,7 +44,7 @@ struct VpnMapOverlayLayer: ViewModifier {
         Spacer()
             .frame(width: 1, height: 1, alignment: .center)
             .modifier(
-                MapTooltipModifier(name: idName, enabled: nodePoint != nil && nodePoint != connectedNode, config: AppTooltipConfig(), content: {
+                MapTooltipModifier(name: idName, enabled: nodePoint != nil && (nodePoint != connectedNode || !isShowConnectedNode), config: AppTooltipConfig(), content: {
                     if let nodePoint = nodePoint {
                         MapTooltipLocalInfo(nodePoint: nodePoint, tooltipNodeName: tooltipNodeName, tooltipDesc: localDescription)
 
@@ -91,7 +91,7 @@ struct VpnMapOverlayLayer: ViewModifier {
     }
     
     var isShowConnectedNode: Bool {
-        if connectedPosition.x  == 0 && connectedPosition.y == 0 {
+        if connectedPosition.x == 0 && connectedPosition.y == 0 {
             return false
         }
         return appState.displayState == .connected && !(mapState.connectedNode is MultiHopResult)

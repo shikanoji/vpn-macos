@@ -14,7 +14,7 @@ struct HomeTrafficMonitorView: View {
     @EnvironmentObject var networkState: NetworkAppStates
     @EnvironmentObject var appState: GlobalAppStates
     var body: some View {
-        HStack(alignment: .top) {
+        HStack(alignment: .bottom) {
             HomeTrafficInfoView(bitRate: bitRateState, usageInfo: usageInfo, startTime: appState.sessionStartTime)
             Spacer()
             HomeTrafficChartView(bitRate: bitRateState)
@@ -39,8 +39,8 @@ struct HomeTrafficInfoView: View {
                 .font(Font.system(size: 16, weight: .semibold))
                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
             Spacer().frame(height: 15)
-            HStack(alignment: .top) {
-                VStack(alignment: .leading) {
+            HStack(alignment: .bottom) {
+                VStack(alignment: .leading, spacing: 8) {
                     Text("Session:")
                     Text("Down Volume:")
                     Text("Up Volume:")
@@ -85,12 +85,13 @@ struct HomeTrafficChartView: View {
     var body: some View {
         VStack {
             HStack {
-                HStack {
+                HStack(spacing: 2) {
                     Asset.Assets.icArrowDown.swiftUIImage.renderingMode(.template)
                         .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
                     Text("Down Speed: \(Bitrate.rateString(for: bitRate.download))")
                 }
-                HStack {
+                Spacer().frame(width: 16)
+                HStack(spacing: 2) {
                     Asset.Assets.icArrowUp.swiftUIImage.renderingMode(.template)
                     Text("Up Speed: \(Bitrate.rateString(for: bitRate.upload))")
                 }

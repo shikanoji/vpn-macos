@@ -292,16 +292,13 @@ class SysVPNStateConfigurationManager: SysVPNStateConfiguration {
     }
 
     func determineActiveVpnProtocol(completion: @escaping ((VpnProtocol?) -> Void)) {
-        
-        
         let protocols: [VpnProtocol] = [.openVpn(.tcp), .wireGuard]
         var activeProtocols: [VpnProtocol] = []
 
-        
         let dispatchGroup = DispatchGroup()
         
         if IPCFactory.makeIPCRequestService().isConnected {
-            IPCFactory.makeIPCRequestService().getProtocol{ data in
+            IPCFactory.makeIPCRequestService().getProtocol { data in
                 var vpnProtocol: VpnProtocol = .openVpn(.tcp)
                 if data == "openVPN" {
                     vpnProtocol = .openVpn(.tcp)
@@ -345,7 +342,6 @@ class SysVPNStateConfigurationManager: SysVPNStateConfiguration {
             }
         }
        
-
         dispatchGroup.notify(queue: .main) {
             if activeProtocols.contains(.openVpn(.tcp)) {
                 completion(.openVpn(.tcp))

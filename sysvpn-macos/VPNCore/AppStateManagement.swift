@@ -71,6 +71,7 @@ class SysVpnAppStateManagement: AppStateManagement {
             return ConnectionConfiguration.readUserDefault(keyUserDefault: "appStateLastConnectionConiguration")
         }
     }
+
     private var timeoutTimer: BackgroundTimer?
     private var timerFactory = TimerFactoryImplementation()
     var statistics: NetworkStatistics?
@@ -234,9 +235,9 @@ class SysVpnAppStateManagement: AppStateManagement {
     func configureVPNManagerAndConnect(_ configuration: ConnectionConfiguration) {
         let vpnManagerConfiguration = SysVPNConfiguration(username: "", password: "", adapterTitle: "sysvpn", connection: configuration.connectionDetermine.connectionString, vpnProtocol: configuration.connectionDetermine.vpnProtocol, passwordReference: Data())
         vpnManager.disconnectAnyExistingConnectionAndPrepareToConnect(with: vpnManagerConfiguration) {
-           /* DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                self.vpnManager.setOnDemand(false)
-            }*/
+            /* DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                 self.vpnManager.setOnDemand(false)
+             }*/
         }
     }
     
