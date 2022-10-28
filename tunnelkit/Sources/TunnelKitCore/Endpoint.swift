@@ -31,7 +31,7 @@ public struct Endpoint: RawRepresentable, Codable, Equatable, CustomStringConver
     
     public let proto: EndpointProtocol
 
-        public init(_ address: String, _ proto: EndpointProtocol) {
+    public init(_ address: String, _ proto: EndpointProtocol) {
         self.address = address
         self.proto = proto
     }
@@ -66,14 +66,13 @@ public struct Endpoint: RawRepresentable, Codable, Equatable, CustomStringConver
 
 /// Defines the communication protocol of an endpoint.
 public struct EndpointProtocol: RawRepresentable, Equatable, CustomStringConvertible {
-    
     /// The socket type.
     public let socketType: SocketType
     
     /// The remote port.
     public let port: UInt16
 
-        public init(_ socketType: SocketType, _ port: UInt16) {
+    public init(_ socketType: SocketType, _ port: UInt16) {
         self.socketType = socketType
         self.port = port
     }

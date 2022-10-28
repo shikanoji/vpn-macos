@@ -34,11 +34,11 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import CTunnelKitCore
+import CTunnelKitOpenVPNProtocol
 import Foundation
 import TunnelKitCore
 import TunnelKitOpenVPNCore
-import CTunnelKitCore
-import CTunnelKitOpenVPNProtocol
 
 extension OpenVPN {
     class EncryptionBridge {
@@ -55,7 +55,6 @@ extension OpenVPN {
             _ clientSessionId: Data?,
             _ serverSessionId: Data?,
             _ size: Int) throws -> ZeroingData {
-            
             let seed = Z(label, nullTerminated: false)
             seed.append(clientSeed)
             seed.append(serverSeed)
@@ -88,7 +87,7 @@ extension OpenVPN {
             let out = Z()
             let buffer = Z(count: EncryptionBridge.maxHmacLength)
             var chain = try EncryptionBridge.hmac(buffer, digestName, secret, seed)
-            while (out.count < size) {
+            while out.count < size {
                 out.append(try EncryptionBridge.hmac(buffer, digestName, secret, chain.appending(seed)))
                 chain = try EncryptionBridge.hmac(buffer, digestName, secret, chain)
             }
@@ -114,7 +113,6 @@ extension OpenVPN {
         
         convenience init(_ cipher: Cipher, _ digest: Digest, _ auth: Authenticator,
                          _ sessionId: Data, _ remoteSessionId: Data) throws {
-            
             guard let serverRandom1 = auth.serverRandom1, let serverRandom2 = auth.serverRandom2 else {
                 fatalError("Configuring encryption without server randoms")
             }

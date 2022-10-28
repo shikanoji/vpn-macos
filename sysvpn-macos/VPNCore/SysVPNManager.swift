@@ -9,9 +9,7 @@
 import Foundation
 import NetworkExtension
 
-class SysVPNManager : SysVPNManagerProtocol {
-     
-    
+class SysVPNManager: SysVPNManagerProtocol {
     private var quickReconnection = false
     private let localAgentIsConnectedQueue = DispatchQueue(label: "gn.local-agent.is-connected")
     internal let connectionQueue = DispatchQueue(label: "vpn.connection", qos: .utility)
@@ -67,11 +65,10 @@ class SysVPNManager : SysVPNManagerProtocol {
             return UserDefaults.standard.double(forKey: "sessionStartTime")
         }
         set {
-            UserDefaults.standard.setValue ( newValue,forKey: "sessionStartTime")
+            UserDefaults.standard.setValue(newValue, forKey: "sessionStartTime")
             UserDefaults.standard.synchronize()
         }
     }
-    
     
     private let vpnStateConfiguration: SysVPNStateConfiguration
     
@@ -81,23 +78,22 @@ class SysVPNManager : SysVPNManagerProtocol {
             return nil
         }
         
-        switch currentVpnProtocol { 
-            case .openVpn:
-                return openVpnProtocolFactory
-            case .wireGuard:
-                return wireguardProtocolFactory
+        switch currentVpnProtocol {
+        case .openVpn:
+            return openVpnProtocolFactory
+        case .wireGuard:
+            return wireguardProtocolFactory
         }
     }
 
     init(
         appGroup: String,
-        vpnCredentialsConfiguratorFactory : SysVPNCredentialsConfiguratorFactory , openVpnProtocolFactory: VpnProtocolFactory, wireguardProtocolFactory: VpnProtocolFactory, vpnStateConfiguration : SysVPNStateConfiguration) {
+        vpnCredentialsConfiguratorFactory: SysVPNCredentialsConfiguratorFactory, openVpnProtocolFactory: VpnProtocolFactory, wireguardProtocolFactory: VpnProtocolFactory, vpnStateConfiguration: SysVPNStateConfiguration) {
         self.vpnCredentialsConfiguratorFactory = vpnCredentialsConfiguratorFactory
         self.openVpnProtocolFactory = openVpnProtocolFactory
         self.wireguardProtocolFactory = wireguardProtocolFactory
         self.vpnStateConfiguration = vpnStateConfiguration
         self.appGroup = appGroup
-        self.prepareManagers(forSetup: true)
     }
      
     public func isOnDemandEnabled(handler: @escaping (Bool) -> Void) {
@@ -133,15 +129,13 @@ class SysVPNManager : SysVPNManagerProtocol {
             self?.connectAllowed = true
             self?.connectionQueue.asyncAfter(deadline: .now() + pause) { [weak self] in
                 self?.prepareConnection(forConfiguration: configuration, completion: completion)
+                self?.sessionStartTime = Date().timeIntervalSince1970
             }
         }
         disconnect {
             connectWrapper()
         }
-        
     }
-    
-    
     
     func disconnect(completion: @escaping () -> Void) {
         executeDisconnectionRequestWhenReady { [weak self] in
@@ -155,7 +149,6 @@ class SysVPNManager : SysVPNManagerProtocol {
             }
         }
     }
-    
     
     public func connectedDate(completion: @escaping (Date?) -> Void) {
         guard let currentVpnProtocolFactory = currentVpnProtocolFactory else {
@@ -180,7 +173,7 @@ class SysVPNManager : SysVPNManagerProtocol {
             }
             
             // Returns a date if currently connected
-            if case VpnState.connected(_) = self.state {
+            if case VpnState.connected = self.state {
                 completion(vpnManager.vpnConnection.connectedDate)
             } else {
                 completion(nil)
@@ -201,7 +194,7 @@ class SysVPNManager : SysVPNManagerProtocol {
     private func startDisconnect(completion: @escaping (() -> Void)) {
         print("[VPN] connectionDisconnect: Closing VPN tunnel")
 
-        //localAgent?.disconnect()
+        // localAgent?.disconnect()
         disconnectCompletion = completion
         
         setOnDemand(false, completion: { vpnManager in
@@ -233,13 +226,11 @@ class SysVPNManager : SysVPNManagerProtocol {
     }
     
     func whenReady(queue: DispatchQueue, completion: @escaping () -> Void) {
-        self.readyGroup?.notify(queue: queue) {
+        readyGroup?.notify(queue: queue) {
             completion()
             self.readyGroup = nil
         }
     }
-    
-  
     
     public func appBackgroundStateDidChange(isBackground: Bool) {
         connectionQueue.sync { [weak self] in
@@ -252,7 +243,7 @@ class SysVPNManager : SysVPNManagerProtocol {
     }
     
     private func stopTunnelOrRunCompletion(vpnManager: NEVPNManagerWrapper) {
-        switch self.state {
+        switch state {
         case .disconnected, .error, .invalid:
             disconnectCompletion?()
             disconnectCompletion = nil
@@ -261,8 +252,8 @@ class SysVPNManager : SysVPNManagerProtocol {
         }
     }
     
-    private func prepareManagers(forSetup: Bool = false) {
-        vpnStateConfiguration.determineActiveVpnProtocol() { [weak self] vpnProtocol in
+    func prepareManagers(forSetup: Bool = false) {
+        vpnStateConfiguration.determineActiveVpnProtocol { [weak self] vpnProtocol in
             guard let self = self else {
                 return
             }
@@ -283,7 +274,7 @@ class SysVPNManager : SysVPNManagerProtocol {
     private func removeConfiguration(_ protocolFactory: VpnProtocolFactory, completionHandler: ((Error?) -> Void)?) {
         protocolFactory.vpnProviderManager(for: .configuration) { vpnManager, error in
             if let error = error {
-                //log.error("\(error)", category: .ui)
+                // log.error("\(error)", category: .ui)
                 completionHandler?(SysVPNError.removeVpnProfileFailed)
                 return
             }
@@ -324,7 +315,6 @@ class SysVPNManager : SysVPNManagerProtocol {
         }
     }
     
-    
     private func configureConnection(forProtocol configuration: NEVPNProtocol,
                                      vpnManager: NEVPNManagerWrapper,
                                      completion: @escaping () -> Void) {
@@ -334,30 +324,29 @@ class SysVPNManager : SysVPNManagerProtocol {
         
         print("[VPN] connectionConnect: Configuring connection")
         
-       
         // test kill switch
         
         PropertiesManager.shared.hasConnected = true
         PropertiesManager.shared.killSwitch = true
         PropertiesManager.shared.excludeLocalNetworks = true
         
-        
         // MARK: - KillSwitch configuration
+
         #if os(OSX)
-            configuration.includeAllNetworks = PropertiesManager.shared.killSwitch
-            configuration.excludeLocalNetworks =  PropertiesManager.shared.excludeLocalNetworks
+            configuration.includeAllNetworks =  false // PropertiesManager.shared.killSwitch
+            configuration.excludeLocalNetworks = PropertiesManager.shared.excludeLocalNetworks
         #elseif os(iOS)
-        if #available(iOS 14, *) {
-            configuration.includeAllNetworks = PropertiesManager.shared.killSwitch
-        }
-        if #available(iOS 14.2, *) {
-            configuration.excludeLocalNetworks =  PropertiesManager.shared.excludeLocalNetworks
-        }
+            if #available(iOS 14, *) {
+                configuration.includeAllNetworks = PropertiesManager.shared.killSwitch
+            }
+            if #available(iOS 14.2, *) {
+                configuration.excludeLocalNetworks = PropertiesManager.shared.excludeLocalNetworks
+            }
         #endif
        
         vpnManager.protocolConfiguration = configuration
         vpnManager.onDemandRules = [NEOnDemandRuleConnect()]
-        vpnManager.isOnDemandEnabled =  PropertiesManager.shared.hasConnected
+        vpnManager.isOnDemandEnabled = PropertiesManager.shared.hasConnected
         vpnManager.isEnabled = true
         
         vpnManager.saveToPreferences { [weak self] saveError in
@@ -371,9 +360,7 @@ class SysVPNManager : SysVPNManagerProtocol {
             }
             completion()
         }
-                
     }
-    
     
     private func prepareConnection(forConfiguration configuration: SysVpnManagerConfiguration,
                                    completion: @escaping () -> Void) {
@@ -382,7 +369,6 @@ class SysVPNManager : SysVPNManagerProtocol {
             return
         }
 
-       
         disconnectLocalAgent()
         
         guard let currentVpnProtocolFactory = currentVpnProtocolFactory else {
@@ -400,7 +386,6 @@ class SysVPNManager : SysVPNManagerProtocol {
                 return
             }
             
-           
             guard let vpnManager = vpnManager else { return }
             
             do {
@@ -412,14 +397,14 @@ class SysVPNManager : SysVPNManagerProtocol {
                     }
                 }
                 
-            } catch (let error){
-               // log.error("\(error)", category: .ui)
+            } catch {
+                // log.error("\(error)", category: .ui)
                 self.setState(withError: error)
             }
         }
     }
     
-    private func setOnDemand(_ enabled: Bool, completion: @escaping (NEVPNManagerWrapper) -> Void, error: (()->Void)? = nil) {
+    private func setOnDemand(_ enabled: Bool, completion: @escaping (NEVPNManagerWrapper) -> Void, error: (() -> Void)? = nil) {
         guard let currentVpnProtocolFactory = currentVpnProtocolFactory else {
             error?()
             return
@@ -468,7 +453,7 @@ class SysVPNManager : SysVPNManagerProtocol {
             state = .error(error)
             disconnectCompletion?()
             disconnectCompletion = nil
-            self.stateChanged?()
+            stateChanged?()
             return
         }
 
@@ -513,21 +498,21 @@ class SysVPNManager : SysVPNManagerProtocol {
     private func updateState(_ vpnManager: NEVPNManagerWrapper) {
         quickReconnection = false
         let newState = vpnStateConfiguration.determineNewState(vpnManager: vpnManager)
-        guard newState != self.state else { return }
-        self.state = newState
-        //log.info("VPN update state to \(self.state.logDescription)", category: .connection, event: .change)
+        guard newState != state else { return }
+        state = newState
+        // log.info("VPN update state to \(self.state.logDescription)", category: .connection, event: .change)
         
-        switch self.state {
+        switch state {
         case .connecting:
-            if !self.connectAllowed {
-                //log.info("VPN connection not allowed, will disconnect now.", category: .connection)
-                self.disconnect {}
+            if !connectAllowed {
+                // log.info("VPN connection not allowed, will disconnect now.", category: .connection)
+                disconnect {}
                 return
             }
-        case .error(let error):
+        case let .error(error):
             if case SysVPNError.tlsServerVerification = error {
                 self.disconnect {}
-               // self.alertService?.push(alert: MITMAlert(messageType: .vpn))
+                // self.alertService?.push(alert: MITMAlert(messageType: .vpn))
                 break
             }
             if case SysVPNError.tlsInitialisation = error {
@@ -536,37 +521,28 @@ class SysVPNManager : SysVPNManagerProtocol {
             }
             fallthrough
         case .disconnected, .invalid:
-            sessionStartTime = nil
-            self.disconnectCompletion?()
-            self.disconnectCompletion = nil
+            disconnectCompletion?()
+            disconnectCompletion = nil
             setRemoteAuthenticationEndpoint(provider: nil)
             disconnectLocalAgent()
-        case .connected:
-            sessionStartTime = Date().timeIntervalSince1970
-            setRemoteAuthenticationEndpoint(provider: vpnManager.vpnConnection as? ProviderMessageSender)
-            self.connectLocalAgent()
+        case .connected:            setRemoteAuthenticationEndpoint(provider: vpnManager.vpnConnection as? ProviderMessageSender)
+            connectLocalAgent()
         default:
             break
         }
 
-        self.stateChanged?()
+        stateChanged?()
     }
     
-    private func setRemoteAuthenticationEndpoint(provider: ProviderMessageSender?) {
-        
-    }
+    private func setRemoteAuthenticationEndpoint(provider: ProviderMessageSender?) {}
     
-    func disconnectLocalAgent() {
-       
-    }
+    func disconnectLocalAgent() {}
     
-    func connectLocalAgent() {
-        
-    }
+    func connectLocalAgent() {}
 
     private func executeDisconnectionRequestWhenReady(request: @escaping () -> Void) {
         print("[VPN] call executeDisconnectionRequestWhenReady")
-       if currentVpnProtocol == nil {
+        if currentVpnProtocol == nil {
             delayedDisconnectRequest = request
         } else {
             request()

@@ -33,10 +33,8 @@ struct ZoomModifier: ViewModifier {
         _currentScale = currentScale
         _cameraPosition = cameraPosition
         
-        
-        self.lastScaleValue = currentScale.wrappedValue
-       // self.cameraPosition = cameraPosition.wrappedValue
-        
+        lastScaleValue = currentScale.wrappedValue
+        // self.cameraPosition = cameraPosition.wrappedValue
     }
     
     func calcOffset(newOffset: CGSize, skipCheckPosition: Bool = false) {
@@ -56,14 +54,13 @@ struct ZoomModifier: ViewModifier {
             if offset.width > 0 {
                 offset.width = 0
             }
-            if  screenSize.width  >= newContentWidth {
-                offset.width = (screenSize.width  - newContentWidth ) / 2
+            if screenSize.width >= newContentWidth {
+                offset.width = (screenSize.width - newContentWidth) / 2
             } else {
                 if abs(offset.width) + screenSize.width > newContentWidth {
                     offset.width = (newContentWidth - screenSize.width) * -1
                 }
             }
-            
         }
       
         if offset.height * -1 > newContentHeight - contentSize.height {
@@ -83,13 +80,13 @@ struct ZoomModifier: ViewModifier {
         offset.width += (currentWidth - nextWith) / (2 - percent)
         offset.height += (currentHeight - nextHeight) / (2 - percent)
         calcOffset(newOffset: offset, skipCheckPosition: lastScaleValue > 0.9)
-        self.lastScaleValue = value 
+        lastScaleValue = value
     }
      
     func body(content: Content) -> some View {
         ScrollView([.horizontal, .vertical], showsIndicators: false) {
-            ScrollViewReader { scrollProxy in
-                HStack{
+            ScrollViewReader { _ in
+                HStack {
                     content
                         .frame(width: contentSize.width * currentScale * numberImage, height: contentSize.height * currentScale, alignment: .center)
                         .modifier(PinchToZoom(minScale: min, maxScale: max, scale: $currentScale))
@@ -111,9 +108,8 @@ struct ZoomModifier: ViewModifier {
                         .modifier(overlayLayer)
                         .onChange(of: currentScale) { newValue in
                             onScaleCalcOffset(value: newValue)
-                         
                         }
-                        .onChange(of: screenSize, perform: { newValue in
+                        .onChange(of: screenSize, perform: { _ in
                             calcOffset(newOffset: offset, skipCheckPosition: true)
                         })
                         .onChange(of: cameraPosition) { newValue in
@@ -121,18 +117,18 @@ struct ZoomModifier: ViewModifier {
                                 return
                             }
                             withAnimation {
-                                offset.width =  screenSize.width / 2 -  value.x * currentScale
-                                offset.height =  screenSize.height / 2 -  value.y  * currentScale
+                                offset.width = screenSize.width / 2 - value.x * currentScale
+                                offset.height = screenSize.height / 2 - value.y * currentScale
                                 calcOffset(newOffset: offset)
                             }
                         }
                 }
-            } 
+            }
                 
         }.content.offset(offset)
             .onAppear {
                 offset.width = contentSize.width * -1 * floor(numberImage / 2)
-        }
+            }
     }
 }
 

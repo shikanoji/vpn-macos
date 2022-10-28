@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class XPCServiceUser {
     private let machServiceName: String
     private let log: (String) -> Void
@@ -26,11 +25,8 @@ class XPCServiceUser {
 
     init(withExtension machServiceName: String, logger: @escaping (String) -> Void) {
         self.machServiceName = machServiceName
-        self.log = logger
+        log = logger
     }
-
-  
-    
 
     // MARK: - Private
 
@@ -39,7 +35,7 @@ class XPCServiceUser {
             return currentConnection
         }
         
-      return createConnection()
+        return createConnection()
     }
     
     private func createConnection() -> NSXPCConnection {
@@ -81,16 +77,11 @@ class XPCServiceUser {
         currentConnection = newConnection
         newConnection.resume()
         
-        
-
         return newConnection
     }
-    
-    
 }
 
 extension XPCServiceUser {
-    
     func getProviderProxy(retry: Bool = true, onError: (() -> Void)? = nil) -> ProviderCommunication? {
         guard let providerProxy = connection.remoteObjectProxyWithErrorHandler({ registerError in
             self.log("Failed to get remote object proxy \(self.machServiceName): \(String(describing: registerError))")
@@ -98,13 +89,13 @@ extension XPCServiceUser {
             onError?()
             _ = self.createConnection()
         }) as? ProviderCommunication else {
-            self.log("Failed to create a remote object proxy for the provider: \(machServiceName)")
+            log("Failed to create a remote object proxy for the provider: \(machServiceName)")
             return nil
         }
         return providerProxy
     }
     
-    func checkConnect(completion: (()->Void)? = nil) {
+    func checkConnect(completion: (() -> Void)? = nil) {
         isCheckingConnection = true
         getLogs { data in
             if data != nil {
@@ -117,28 +108,32 @@ extension XPCServiceUser {
             completion?()
         }
     }
+
     func getLogs(completionHandler: @escaping (Data?) -> Void) {
         let providerProxy = getProviderProxy(onError: {
             completionHandler(nil)
         })
         providerProxy?.getLogs(completionHandler)
-        
     }
     
-    func setProtocol( _ nameProtocol: String) {
+    func setProtocol(_ nameProtocol: String) {
         let providerProxy = getProviderProxy()
         providerProxy?.setProtocol(vpnProtocol: nameProtocol)
     }
     
+    func getProtocol(completion: @escaping (String) -> Void) {
+        let providerProxy = getProviderProxy()
+        providerProxy?.getProtocol(completion)
+    }
     
-    func request(urlRequest: URLRequest, completion: @escaping (XPCHttpResponse)-> Void ) {
+    func request(urlRequest: URLRequest, completion: @escaping (XPCHttpResponse) -> Void) {
         if let providerProxy = getProviderProxy(onError: {
-            let response = XPCHttpResponse(statusCode: -1, data: nil, error:  NSError(domain: MoyaIPCErrorDomain.unknownError, code: -1 ))
+            let response = XPCHttpResponse(statusCode: -1, data: nil, error: NSError(domain: MoyaIPCErrorDomain.unknownError, code: -1))
             completion(response)
         }) {
-            var request:[String: NSObject] = [
-                HttpFieldName.method.rawValue : (urlRequest.method?.rawValue ?? "GET") as NSObject,
-                HttpFieldName.headers.rawValue : (urlRequest.allHTTPHeaderFields ?? [:]) as NSObject
+            var request: [String: NSObject] = [
+                HttpFieldName.method.rawValue: (urlRequest.method?.rawValue ?? "GET") as NSObject,
+                HttpFieldName.headers.rawValue: (urlRequest.allHTTPHeaderFields ?? [:]) as NSObject
             ]
             
             if let body = urlRequest.httpBody {
@@ -152,28 +147,22 @@ extension XPCServiceUser {
             providerProxy.request(request: request, completionHandler: { data in
                 var requestError: NSError?
                 var requestStatusCode = 0
-                if let statusCode = data[HttpFieldName.statusCode.rawValue]  as? Int {
+                if let statusCode = data[HttpFieldName.statusCode.rawValue] as? Int {
                     requestStatusCode = statusCode
                 }
                 
                 if let error = data[HttpFieldName.error.rawValue] as? String {
-                    requestError = NSError(domain: error, code: requestStatusCode )
+                    requestError = NSError(domain: error, code: requestStatusCode)
                 }
                 
-                let response = XPCHttpResponse(statusCode: requestStatusCode, data:data[HttpFieldName.data.rawValue] as? Data, error: requestError)
+                let response = XPCHttpResponse(statusCode: requestStatusCode, data: data[HttpFieldName.data.rawValue] as? Data, error: requestError)
                 completion(response)
             })
         } else {
-            let response = XPCHttpResponse(statusCode: -1, data: nil, error:  NSError(domain: MoyaIPCErrorDomain.unknownError, code: -1 ))
+            let response = XPCHttpResponse(statusCode: -1, data: nil, error: NSError(domain: MoyaIPCErrorDomain.unknownError, code: -1))
             completion(response)
         }
     }
-    
-    
 }
 
-extension XPCServiceUser: AppCommunication {
-
-}
-
-
+extension XPCServiceUser: AppCommunication {}

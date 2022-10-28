@@ -23,14 +23,12 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Foundation
 import CTunnelKitOpenVPNCore
+import Foundation
 
-extension OpenVPN {
-    
+public extension OpenVPN {
     /// Defines the type of compression algorithm.
-    public enum CompressionAlgorithm: Int, Codable, CustomStringConvertible {
-        
+    enum CompressionAlgorithm: Int, Codable, CustomStringConvertible {
         /// No compression.
         case disabled
         

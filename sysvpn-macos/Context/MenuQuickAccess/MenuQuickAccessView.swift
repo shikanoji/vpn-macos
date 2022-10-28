@@ -22,8 +22,8 @@ struct MenuQuickAccessView: View {
     var sizeIcon: CGFloat = 20
     
     var body: some View {
-        VStack (alignment: .leading, spacing: 0) {
-            if connectionState == .connected  || connectionState == .disconnecting {
+        VStack(alignment: .leading, spacing: 0) {
+            if connectionState == .connected || connectionState == .disconnecting {
                 headerMenuConnected
                     .transition(.opacity)
             } else {
@@ -34,7 +34,7 @@ struct MenuQuickAccessView: View {
             footerMenu
         }
         .cornerRadius(8)
-        .onAppear(){
+        .onAppear {
             connectionState = appState.displayState
         }
         .onChange(of: appState.displayState) { newValue in
@@ -42,7 +42,7 @@ struct MenuQuickAccessView: View {
                 connectionState = newValue
             }
         }
-        .onChange(of: networkState.bitRate) { newValue in
+        .onChange(of: networkState.bitRate) { _ in
             viewModel.downloadSpeed = Bitrate.rateString(for: networkState.bitRate.download)
             viewModel.uploadSpeed = Bitrate.rateString(for: networkState.bitRate.upload)
         }
@@ -68,12 +68,10 @@ struct MenuQuickAccessView: View {
                 .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
             Spacer().frame(height: 20)
             if connectionState == .connecting {
-                Button {
-                     
-                } label: {
+                Button {} label: {
                     AppActivityIndicator()
-                  //  Text("• • •")
-                  //      .font(Font.system(size: 14, weight: .semibold))
+                    //  Text("• • •")
+                    //      .font(Font.system(size: 14, weight: .semibold))
                 }.buttonStyle(LoginButtonCTAStyle(bgColor: Color.white))
             } else {
                 Button {
@@ -83,7 +81,6 @@ struct MenuQuickAccessView: View {
                         .font(Font.system(size: 14, weight: .semibold))
                 }.buttonStyle(LoginButtonCTAStyle())
             }
-           
         }
         .frame(
             maxWidth: .infinity,
@@ -100,7 +97,7 @@ struct MenuQuickAccessView: View {
                     .resizable()
                     .frame(width: 50, height: 50)
                     .cornerRadius(25)
-                VStack (alignment: .leading) {
+                VStack(alignment: .leading) {
                     HStack {
                         Text(viewModel.userIp)
                             .lineLimit(nil)
@@ -122,14 +119,13 @@ struct MenuQuickAccessView: View {
             Spacer().frame(height: 20)
             HStack {
                 HStack {
-                    
                     HStack {
                         Asset.Assets.icArrowUp.swiftUIImage
                             .frame(width: sizeIcon, height: sizeIcon)
                         Text(viewModel.uploadSpeed)
                             .font(Font.system(size: 12, weight: .regular))
                             .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
-                    } .frame(maxWidth: .infinity)
+                    }.frame(maxWidth: .infinity)
                     Spacer().frame(width: 16)
                     HStack {
                         Asset.Assets.icArrowDown.swiftUIImage
@@ -137,19 +133,16 @@ struct MenuQuickAccessView: View {
                         Text(viewModel.downloadSpeed)
                             .font(Font.system(size: 12, weight: .regular))
                             .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
-                    } .frame(maxWidth: .infinity)
-         
-                } 
+                    }.frame(maxWidth: .infinity)
+                }
                 .padding(EdgeInsets(top: 13.0, leading: 8.0, bottom: 13.0, trailing: 10.0))
                 .background(Color(hexString: "FFFFFF").opacity(0.2))
                 .cornerRadius(8)
                 
                 if connectionState == .disconnecting {
-                    Button {
-                        
-                    } label: {
+                    Button {} label: {
                         AppActivityIndicator()
-                         //   .font(Font.system(size: 14, weight: .semibold))
+                        //   .font(Font.system(size: 14, weight: .semibold))
                     }
                     .frame(width: 120)
                     .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
@@ -174,9 +167,8 @@ struct MenuQuickAccessView: View {
         .background(Color(hexString: "105175"))
     }
     
-    
     var bodyMenu: some View {
-        VStack  {
+        VStack {
             HStack(spacing: 0) {
                 Button {
                     viewModel.onChageTab(index: 0)
@@ -198,10 +190,10 @@ struct MenuQuickAccessView: View {
                         viewModel.tabbarSelectedItem = .suggest
                     }
                 } label: {
-                    TabBarButton(text:  L10n.Login.suggest, isSelected: .constant(viewModel.tabbarSelectedItem == .suggest))
-                    .frame(width: 110)
-                    .contentShape(Rectangle())
-                    .background(viewModel.tabbarSelectedItem == .suggest ? Asset.Assets.bgTabbar.swiftUIImage : nil)
+                    TabBarButton(text: L10n.Login.suggest, isSelected: .constant(viewModel.tabbarSelectedItem == .suggest))
+                        .frame(width: 110)
+                        .contentShape(Rectangle())
+                        .background(viewModel.tabbarSelectedItem == .suggest ? Asset.Assets.bgTabbar.swiftUIImage : nil)
                 }
                 .frame(width: 110)
                 .buttonStyle(PlainButtonStyle())
@@ -212,15 +204,13 @@ struct MenuQuickAccessView: View {
                         viewModel.tabbarSelectedItem = .allCountry
                     }
                 } label: {
-                    TabBarButton(text:  L10n.Login.allCountry, isSelected: .constant(viewModel.tabbarSelectedItem == .allCountry))
-                    .frame(width: 110)
-                    .contentShape(Rectangle())
-                    .background(viewModel.tabbarSelectedItem == .allCountry ? Asset.Assets.bgTabbar.swiftUIImage : nil)
-                    
+                    TabBarButton(text: L10n.Login.allCountry, isSelected: .constant(viewModel.tabbarSelectedItem == .allCountry))
+                        .frame(width: 110)
+                        .contentShape(Rectangle())
+                        .background(viewModel.tabbarSelectedItem == .allCountry ? Asset.Assets.bgTabbar.swiftUIImage : nil)
                 }
                 .frame(width: 110)
                 .buttonStyle(PlainButtonStyle())
-                 
             }
             .frame(
                 maxWidth: .infinity,
@@ -228,8 +218,6 @@ struct MenuQuickAccessView: View {
             )
             Spacer()
             bodyItemMenu
-            
-            
         }
         .frame(
             maxWidth: .infinity,
@@ -240,13 +228,13 @@ struct MenuQuickAccessView: View {
     var bodyItemMenu: some View {
         HStack {
             if viewModel.tabbarSelectedItem == .allCountry {
-                TabbarListItemView( listItem: viewModel.listCountry)
+                TabbarListItemView(listItem: viewModel.listCountry)
                     .transition(.opacity)
             } else if viewModel.tabbarSelectedItem == .recent {
-                TabbarListItemView( listItem: viewModel.listRecent)
+                TabbarListItemView(listItem: viewModel.listRecent)
                     .transition(.opacity)
             } else {
-                TabbarListItemView( listItem: viewModel.listSuggest)
+                TabbarListItemView(listItem: viewModel.listSuggest)
                     .transition(.opacity)
             }
         }
@@ -254,7 +242,7 @@ struct MenuQuickAccessView: View {
     
     var footerMenu: some View {
         VStack {
-            HStack (spacing: 0){
+            HStack(spacing: 0) {
                 Button {
                     viewModel.onQuit()
                 } label: {
@@ -283,7 +271,6 @@ struct MenuQuickAccessView: View {
         }
          
         .background(Color(hexString: "101016").opacity(0.85))
-       
     }
 }
 

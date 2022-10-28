@@ -1,8 +1,8 @@
+import __TunnelKitUtils
+import SwiftyBeaver
 import TunnelKitWireGuardCore
 import TunnelKitWireGuardManager
 import WireGuardKit
-import __TunnelKitUtils
-import SwiftyBeaver
 
 // SPDX-License-Identifier: MIT
 // Copyright © 2018-2021 WireGuard LLC. All Rights Reserved.
@@ -14,14 +14,11 @@ import os
 open class WireGuardTunnelProvider: NEPacketTunnelProvider {
     private var cfg: WireGuard.ProviderConfiguration!
 
-    private lazy var adapter: WireGuardAdapter = {
-        return WireGuardAdapter(with: self) { logLevel, message in
-            wg_log(logLevel.osLogLevel, message: message)
-        }
-    }()
+    private lazy var adapter: WireGuardAdapter = .init(with: self) { logLevel, message in
+        wg_log(logLevel.osLogLevel, message: message)
+    }
 
-    open override func startTunnel(options: [String: NSObject]?, completionHandler: @escaping (Error?) -> Void) {
-
+    override open func startTunnel(options: [String: NSObject]?, completionHandler: @escaping (Error?) -> Void) {
         // BEGIN: TunnelKit
         
         guard let tunnelProviderProtocol = protocolConfiguration as? NETunnelProviderProtocol else {
@@ -61,19 +58,19 @@ open class WireGuardTunnelProvider: NEPacketTunnelProvider {
                 self.cfg._appexSetLastError(.couldNotDetermineFileDescriptor)
                 completionHandler(WireGuardProviderError.couldNotDetermineFileDescriptor)
 
-            case .dnsResolution(let dnsErrors):
+            case let .dnsResolution(dnsErrors):
                 let hostnamesWithDnsResolutionFailure = dnsErrors.map { $0.address }
                     .joined(separator: ", ")
                 wg_log(.error, message: "DNS resolution failed for the following hostnames: \(hostnamesWithDnsResolutionFailure)")
                 self.cfg._appexSetLastError(.dnsResolutionFailure)
                 completionHandler(WireGuardProviderError.dnsResolutionFailure)
 
-            case .setNetworkSettings(let error):
+            case let .setNetworkSettings(error):
                 wg_log(.error, message: "Starting tunnel failed with setTunnelNetworkSettings returning \(error.localizedDescription)")
                 self.cfg._appexSetLastError(.couldNotSetNetworkSettings)
                 completionHandler(WireGuardProviderError.couldNotSetNetworkSettings)
 
-            case .startWireGuardBackend(let errorCode):
+            case let .startWireGuardBackend(errorCode):
                 wg_log(.error, message: "Starting tunnel failed with wgTurnOn returning \(errorCode)")
                 self.cfg._appexSetLastError(.couldNotStartBackend)
                 completionHandler(WireGuardProviderError.couldNotStartBackend)
@@ -85,7 +82,7 @@ open class WireGuardTunnelProvider: NEPacketTunnelProvider {
         }
     }
 
-    open override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
+    override open func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
         wg_log(.info, staticMessage: "Stopping tunnel")
 
         adapter.stop { error in
@@ -99,15 +96,15 @@ open class WireGuardTunnelProvider: NEPacketTunnelProvider {
             completionHandler()
 
             #if os(macOS)
-            // HACK: This is a filthy hack to work around Apple bug 32073323 (dup'd by us as 47526107).
-            // Remove it when they finally fix this upstream and the fix has been rolled out to
-            // sufficient quantities of users.
-            exit(0)
+                // HACK: This is a filthy hack to work around Apple bug 32073323 (dup'd by us as 47526107).
+                // Remove it when they finally fix this upstream and the fix has been rolled out to
+                // sufficient quantities of users.
+                exit(0)
             #endif
         }
     }
 
-    open override func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)? = nil) {
+    override open func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)? = nil) {
         guard let completionHandler = completionHandler else { return }
 
         if messageData.count == 1 && messageData[0] == 0 {

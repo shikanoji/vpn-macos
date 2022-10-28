@@ -34,21 +34,19 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import __TunnelKitUtils
+import CTunnelKitCore
 import Foundation
 import Security.SecRandom
-import CTunnelKitCore
-import __TunnelKitUtils
 
 /// Errors returned by `SecureRandom`.
 public enum SecureRandomError: Error {
-
     /// RNG could not be initialized.
     case randomGenerator
 }
 
 /// Generates random data in a secure fashion.
 public class SecureRandom {
-
     @available(*, deprecated)
     static func uint32FromBuffer() throws -> UInt32 {
         var randomBuffer = [UInt8](repeating: 0, count: 4)
@@ -69,7 +67,7 @@ public class SecureRandom {
         var randomNumber: UInt32 = 0
         
         try withUnsafeMutablePointer(to: &randomNumber) {
-            try $0.withMemoryRebound(to: UInt8.self, capacity: 4) { (randomBytes: UnsafeMutablePointer<UInt8>) -> Void in
+            try $0.withMemoryRebound(to: UInt8.self, capacity: 4) { (randomBytes: UnsafeMutablePointer<UInt8>) in
                 guard SecRandomCopyBytes(kSecRandomDefault, 4, randomBytes) == 0 else {
                     throw SecureRandomError.randomGenerator
                 }

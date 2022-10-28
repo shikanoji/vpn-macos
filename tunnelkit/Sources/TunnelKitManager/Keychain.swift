@@ -43,7 +43,6 @@ import Foundation
 
 /// Error raised by `Keychain` methods.
 public enum KeychainError: Error {
-
     /// Unable to add.
     case add
     
@@ -93,7 +92,6 @@ public class Keychain {
             }
             removePassword(for: username, context: context)
         } catch let e as KeychainError {
-
             // rethrow cancelation
             if e == .userCancelled {
                 throw e
@@ -328,13 +326,13 @@ public class Keychain {
     
     // MARK: Helpers
     
-        public func setScope(query: inout [String: Any], context: String, userDefined: String?) {
+    public func setScope(query: inout [String: Any], context: String, userDefined: String?) {
         if let accessGroup = accessGroup {
             query[kSecAttrAccessGroup as String] = accessGroup
             #if os(macOS)
-            if #available(macOS 10.15, *) {
-                query[kSecUseDataProtectionKeychain as String] = true
-            }
+                if #available(macOS 10.15, *) {
+                    query[kSecUseDataProtectionKeychain as String] = true
+                }
             #endif
         }
         query[kSecAttrService as String] = context

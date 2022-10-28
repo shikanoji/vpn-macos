@@ -14,6 +14,7 @@ struct HomeListCountryNodeView : View {
     @Binding var countries: [HomeListCountryModel]
     @Binding var isShowCity: Bool
     @Binding var countrySelected: HomeListCountryModel?
+    var onTouchItem: ((INodeInfo)->Void)?
     var body: some View {
         VStack(alignment: .leading) {
             List(countries) {  item in
@@ -29,6 +30,11 @@ struct HomeListCountryNodeView : View {
                                         isShowCity = true
                                         countrySelected = item
                                     }
+                                } else {
+                                    guard let origin = item.origin else {
+                                        return
+                                    }
+                                    onTouchItem?(origin)
                                 }
                             }
                             .transaction { transaction in
@@ -38,11 +44,22 @@ struct HomeListCountryNodeView : View {
                         StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar)
                             .transaction { transaction in
                                 transaction.animation = nil
+                            }.onTapGesture {
+                                guard let origin = item.origin else {
+                                    return
+                                }
+                                onTouchItem?(origin)
                             }
                     } else if selectedItem == .multiHop {
                         MultiHopItemView(countryNameStart: item.title, countryNameEnd: item.title2, imageUrlStart: item.imageUrl, imageUrlEnd: item.imageUrl2)
                             .transaction { transaction in
                                 transaction.animation = nil
+                            }
+                            .onTapGesture {
+                                guard let origin = item.origin else {
+                                    return
+                                }
+                                onTouchItem?(origin)
                             }
                     }
                 case .header:
@@ -81,6 +98,7 @@ struct HomeDetailCityNodeView : View {
     @Binding var listCity: [HomeListCountryModel]
     @Binding var isShowCity: Bool
     var countryItem: HomeListCountryModel?
+    var onTouchItem: ((INodeInfo)->Void)?
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
@@ -110,6 +128,12 @@ struct HomeDetailCityNodeView : View {
                 CityItemView(countryName: countryItem?.title ?? "", cityName: item.title, imageUrl: item.imageUrl)
                     .transaction { transaction in
                         transaction.animation = nil
+                    }
+                    .onTapGesture {
+                        guard let origin = item.origin else {
+                            return
+                        }
+                        onTouchItem?(origin)
                     }
             }
             .modifier(ListViewModifier())
@@ -159,6 +183,10 @@ enum HomeListCountryModelType {
 }
 
 struct HomeListCountryModel: Identifiable, Equatable {
+    static func == (lhs: HomeListCountryModel, rhs: HomeListCountryModel) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
     var id = UUID()
     var type: HomeListCountryModelType
     var title: String = ""
@@ -170,6 +198,7 @@ struct HomeListCountryModel: Identifiable, Equatable {
     var idCountry: Int = 0
     var title2: String = ""
     var imageUrl2: String?
+    var origin: INodeInfo?
     
 }
 

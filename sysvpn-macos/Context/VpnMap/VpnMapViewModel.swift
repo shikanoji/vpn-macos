@@ -6,86 +6,85 @@
 //
 
 import Foundation
-import SwiftUI
 import Kingfisher
-
+import SwiftUI
 
 extension VpnMapView {
     @MainActor class VpnMapViewModel: ObservableObject {
-        
         @Published var listCity: [NodePoint] = []
         @Published var listCountry: [NodePoint] = []
         @Published var isLoaded: Bool = false
          
         init() {
-           
-            refreshApi()
+            initData()
+            NotificationCenter.default.addObserver(self, selector: #selector(onUpdateServer), name: .updateCountry, object: nil)
+        }
+         
+        
+        deinit {
+            NotificationCenter.default.removeObserver(self, name: .updateCountry, object: nil)
         }
         
-        func refreshApi() {
-            _ = APIServiceManager.shared.getListCountry().subscribe { event in
-                switch event {
-                case .failure(let error):
-                    print(error)
-                    DispatchQueue.main.asyncAfter(deadline: .now()  + 2) { [weak self] in
-                        self?.refreshApi()
-                    }
-                case .success(let success):
-                    AppDataManager.shared.userCountry = success
+        @objc func onUpdateServer() {
+            initData()
+        }
+        
+        func initData() {
+            AppDataManager.shared.asyncLoadConfig {
+               return AppDataManager.shared.userCountry?.availableCountries ?? []
+            } completion: { listCountry in
+                if listCountry.count > 0 {
+                    self.loadListNode(listCountry: listCountry)
+                    self.isLoaded = true
                 }
-                self.loadListNode()
-                self.isLoaded = true
             }
         }
         
-        func loadListNode() {
-            let listCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
-            var listCity: [CountryCity] = [];
+        func loadListNode(listCountry : [CountryAvailables]) {
             
-            for country  in listCountry {
-                guard let cities =  country.city else {
+            var listCity: [CountryCity] = []
+            
+            for country in listCountry {
+                guard let cities = country.city else {
                     continue
                 }
                 cities.forEach { city in
-                    var updateCity = city
+                    let updateCity = city
                     updateCity.country = country
                     listCity.append(updateCity)
                 }
-               
-            } 
-            self.listCountry = listCountry.map { country in
-                return NodePoint(point: CGPoint(x: NodePoint.convertX (country.x), y: NodePoint.convertY(country.y) ), info: country)
             }
             
-            self.listCity = listCity.map({ city in
-                return NodePoint(point: CGPoint(x: NodePoint.convertX(Double(city.x ?? 0)), y: NodePoint.convertY(Double(city.y ?? 0))), info:  city)
-            })
+            self.listCountry = listCountry.map { country in
+                return NodePoint(point: CGPoint(x: NodePoint.convertX(country.x), y: NodePoint.convertY(country.y)), info: country)
+            }
+            
+            self.listCity = listCity.map { city in
+                return NodePoint(point: CGPoint(x: NodePoint.convertX(Double(city.x ?? 0)), y: NodePoint.convertY(Double(city.y ?? 0))), info: city)
+            }
         }
     }
-    
 }
 
-
 extension NodePoint {
-    static func convertX(_ value: Double? , scale: Double = 1) -> CGFloat {
-        return (value ?? 0) * 588/1588
+    static func convertX(_ value: Double?, scale: Double = 1) -> CGFloat {
+        return (value ?? 0) * 588 / 1588
     }
     
-    static func convertY(_ value: Double? , scale: Double = 1) -> CGFloat {
-        return (value ?? 0) * 588/1588
+    static func convertY(_ value: Double?, scale: Double = 1) -> CGFloat {
+        return (value ?? 0) * 588 / 1588
     }
 }
 
 extension CountryStaticServers: INodeInfo, Equatable {
- 
-    
     static func == (lhs: CountryStaticServers, rhs: CountryStaticServers) -> Bool {
         return CountryStaticServers.equal(lhs: lhs, rhs: rhs)
     }
+
     var state: VpnMapPontState {
         if GlobalAppStates.shared.displayState == .connected {
             if let connectedNode = MapAppStates.shared.connectedNode {
-                if CountryAvailables.equal(lhs: connectedNode, rhs: self)  {
+                if CountryAvailables.equal(lhs: connectedNode, rhs: self) {
                     return .activated
                 }
             }
@@ -99,16 +98,15 @@ extension CountryStaticServers: INodeInfo, Equatable {
     }
     
     var locationName: String {
-        return self.countryName ?? ""
+        return countryName ?? ""
     }
     
     var image: Kingfisher.KFImage? {
-        guard let flagUrl = self.flag,  let url = URL(string: flagUrl ) else {
+        guard let flagUrl = flag, let url = URL(string: flagUrl) else {
             return nil
         }
-        return  KFImage.url(url).placeholder { progress in
+        return KFImage.url(url).placeholder { _ in
             ProgressView().progressViewStyle(CircularProgressViewStyle())
-
         }
     }
     
@@ -119,10 +117,9 @@ extension CountryStaticServers: INodeInfo, Equatable {
     var locationSubname: String? {
         return nil
     }
-     
-    
 }
-extension CountryCity : INodeInfo, Equatable  {
+
+extension CountryCity: INodeInfo, Equatable {
     static func == (lhs: CountryCity, rhs: CountryCity) -> Bool {
         return CountryCity.equal(lhs: lhs, rhs: rhs)
     }
@@ -132,17 +129,17 @@ extension CountryCity : INodeInfo, Equatable  {
     }
     
     var locationSubname: String? {
-        return self.name
+        return name
     }
     
-    var locationName: String{
-        return self.country?.name ?? ""
+    var locationName: String {
+        return country?.name ?? ""
     }
     
     var state: VpnMapPontState {
         if GlobalAppStates.shared.displayState == .connected {
             if let connectedNode = MapAppStates.shared.connectedNode {
-                if CountryAvailables.equal(lhs: connectedNode, rhs: self)  {
+                if CountryAvailables.equal(lhs: connectedNode, rhs: self) {
                     return .activated
                 }
             }
@@ -156,17 +153,16 @@ extension CountryCity : INodeInfo, Equatable  {
     }
     
     var image: KFImage? {
-        guard let flagUrl = country?.flag,  let url = URL(string: flagUrl ) else {
+        guard let flagUrl = country?.flag, let url = URL(string: flagUrl) else {
             return nil
         }
-        return  KFImage.url(url).placeholder { progress in
+        return KFImage.url(url).placeholder { _ in
             ProgressView().progressViewStyle(CircularProgressViewStyle())
-
         }
     }
 }
 
-extension CountryAvailables : INodeInfo, Equatable {
+extension CountryAvailables: INodeInfo, Equatable {
     static func == (lhs: CountryAvailables, rhs: CountryAvailables) -> Bool {
         return CountryAvailables.equal(lhs: lhs, rhs: rhs)
     }
@@ -179,15 +175,14 @@ extension CountryAvailables : INodeInfo, Equatable {
         return nil
     }
     
-    var locationName: String{
+    var locationName: String {
         return name ?? ""
     }
     
     var state: VpnMapPontState {
-       
         if GlobalAppStates.shared.displayState == .connected {
             if let connectedNode = MapAppStates.shared.connectedNode {
-                if CountryAvailables.equal(lhs: connectedNode, rhs: self)  {
+                if CountryAvailables.equal(lhs: connectedNode, rhs: self) {
                     return .activated
                 }
             }
@@ -202,12 +197,11 @@ extension CountryAvailables : INodeInfo, Equatable {
     }
     
     var image: KFImage? {
-        guard let flagUrl = flag,  let url = URL(string: flagUrl) else {
+        guard let flagUrl = flag, let url = URL(string: flagUrl) else {
             return nil
         }
-        return  KFImage.url(url).placeholder { progress in
+        return KFImage.url(url).placeholder { _ in
             ProgressView().progressViewStyle(CircularProgressViewStyle())
-
         }
     }
 }
@@ -225,17 +219,17 @@ extension MultiHopResult: INodeInfo, Equatable {
     }
     
     var locationName: String {
-        let name = self.entry?.country?.locationName ?? ""
-        let name2 = self.exit?.country?.locationName ?? ""
+        let name = entry?.country?.locationName ?? ""
+        let name2 = exit?.country?.locationName ?? ""
         
         return "Multihop \(name)-\(name2)"
     }
     
     var image: KFImage? {
-        guard let flagUrl = self.entry?.country?.flag,  let url = URL(string: flagUrl) else {
+        guard let flagUrl = entry?.country?.flag, let url = URL(string: flagUrl) else {
             return nil
         }
-        return  KFImage.url(url).placeholder { progress in
+        return KFImage.url(url).placeholder { _ in
             ProgressView().progressViewStyle(CircularProgressViewStyle())
         }
     }
@@ -245,52 +239,43 @@ extension MultiHopResult: INodeInfo, Equatable {
     }
     
     var locationSubname: String? {
-       
-        let name = self.exit?.country?.locationName ?? ""
+        let name = exit?.country?.locationName ?? ""
         return name
     }
     
     static func == (lhs: MultiHopResult, rhs: MultiHopResult) -> Bool {
         return MultiHopResult.equal(lhs: lhs, rhs: rhs)
     }
-     
 }
 
-
 extension INodeInfo {
-    func toNodePoint (_ content: String? = nil) -> NodePoint {
-        
-        if let cacheNode = self.cacheNode {
+    func toNodePoint(_ content: String? = nil) -> NodePoint {
+        if let cacheNode = cacheNode {
             return cacheNode
         }
         
         var result: NodePoint
         
         if let country = self as? CountryAvailables {
-            result =  NodePoint(point: CGPoint(x: NodePoint.convertX (country.x), y: NodePoint.convertY(country.y) ), info: country, locationDescription: content)
+            result = NodePoint(point: CGPoint(x: NodePoint.convertX(country.x), y: NodePoint.convertY(country.y)), info: country, locationDescription: content)
             country.cacheNode = result
-        } else  if let city = self as? CountryCity {
-            let l1Point = CGPoint(x: NodePoint.convertX (city.x?.double), y: NodePoint.convertY(city.y?.double) )
-            var l2Point:CGPoint? = nil
+        } else if let city = self as? CountryCity {
+            let l1Point = CGPoint(x: NodePoint.convertX(city.x?.double), y: NodePoint.convertY(city.y?.double))
+            var l2Point: CGPoint?
             if let country = city.country {
-                l2Point = CGPoint(x: NodePoint.convertX (country.x), y: NodePoint.convertY(country.y) )
-            } 
+                l2Point = CGPoint(x: NodePoint.convertX(country.x), y: NodePoint.convertY(country.y))
+            }
             result = NodePoint(point: l1Point, info: city, locationDescription: content, l2Point: l2Point)
             city.cacheNode = result
-        } else  if let staticServer = self as? CountryStaticServers {
-            result =   NodePoint(point: CGPoint(x: NodePoint.convertX (staticServer.x), y: NodePoint.convertY(staticServer.y) ), info: staticServer, locationDescription: content)
+        } else if let staticServer = self as? CountryStaticServers {
+            result = NodePoint(point: CGPoint(x: NodePoint.convertX(staticServer.x), y: NodePoint.convertY(staticServer.y)), info: staticServer, locationDescription: content)
             staticServer.cacheNode = result
-        } else  if let multipleHop = self as? MultiHopResult ,let  node = multipleHop.exit?.city {
-            
-            result =   NodePoint(point: CGPoint(x: NodePoint.convertX (node.x?.double), y: NodePoint.convertY(node.y?.double) ), info:  multipleHop.exit?.city ?? multipleHop, locationDescription: content)
+        } else if let multipleHop = self as? MultiHopResult, let node = multipleHop.exit?.city {
+            result = NodePoint(point: CGPoint(x: NodePoint.convertX(node.x?.double), y: NodePoint.convertY(node.y?.double)), info: multipleHop.exit?.city ?? multipleHop, locationDescription: content)
             multipleHop.cacheNode = result
-        }
-        else {
+        } else {
             result = NodePoint(point: .zero, info: NodeInfoTest(state: .disabled))
         }
         return result
     }
 }
-
-
-

@@ -8,16 +8,15 @@
 import Foundation
 import RxSwift
 #if !COCOAPODS
-import Moya
+    import Moya
 #endif
  
 public extension Reactive where Base: MoyaProviderType {
-     
     func requestIPC(_ token: Base.Target, callbackQueue: DispatchQueue? = nil) -> Single<Response> {
         Single.create { [weak base] single in
             
-            guard let moyaProvider =  base as? MoyaProvider<Base.Target> else {
-                return self.request(token , callbackQueue: callbackQueue) as! Disposable
+            guard let moyaProvider = base as? MoyaProvider<Base.Target> else {
+                return self.request(token, callbackQueue: callbackQueue) as! Disposable
             }
             
             let cancellableToken = moyaProvider.requestIPC(token, callbackQueue: callbackQueue, progress: nil) { result in
@@ -38,19 +37,17 @@ public extension Reactive where Base: MoyaProviderType {
 }
 
 extension MoyaProvider {
-    
     func requestIPC(_ target: Target,
                     callbackQueue: DispatchQueue? = .none,
                     progress: ProgressBlock? = .none,
                     completion: @escaping Completion) -> Cancellable {
-        
         let callbackQueue = callbackQueue ?? DispatchQueue.main
         return requestNormalIPC(target, callbackQueue: callbackQueue, progress: progress, completion: completion)
     }
     
     func requestNormalIPC(_ target: Target, callbackQueue: DispatchQueue?, progress: Moya.ProgressBlock?, completion: @escaping Moya.Completion) -> Cancellable {
         let endpoint = self.endpoint(target)
-        let stubBehavior = self.stubClosure(target)
+        let stubBehavior = stubClosure(target)
         let cancellableToken = CancellableWrapper()
         
         // Allow plugins to modify response
@@ -58,7 +55,6 @@ extension MoyaProvider {
             let processedResult = self.plugins.reduce(result) { $1.process($0, target: target) }
             completion(processedResult)
         }
-        
         
         let performNetworking = { (requestResult: Result<URLRequest, MoyaError>) in
             if cancellableToken.isCancelled {
@@ -69,9 +65,9 @@ extension MoyaProvider {
             var request: URLRequest!
             
             switch requestResult {
-            case .success(let urlRequest):
+            case let .success(urlRequest):
                 request = urlRequest
-            case .failure(let error):
+            case let .failure(error):
                 pluginsWithCompletion(.failure(error))
                 return
             }
@@ -100,13 +96,12 @@ extension MoyaProvider {
          default:
          return self.stubRequest(target, request: request, callbackQueue: callbackQueue, completion: completion, endpoint: endpoint, stubBehavior: stubBehavior)
          }*/
-        return self.sendRequestIPC(target, request: request, callbackQueue: callbackQueue, progress: progress, completion: completion)
+        return sendRequestIPC(target, request: request, callbackQueue: callbackQueue, progress: progress, completion: completion)
     }
     
     func sendRequestIPC(_ target: Target, request: URLRequest, callbackQueue: DispatchQueue?, progress: Moya.ProgressBlock?, completion: @escaping Moya.Completion) -> Cancellable {
-        
         let cancellableToken = CancellableWrapper()
-        let request = self.plugins.reduce(request) { $1.prepare($0, target: target) }
+        let request = plugins.reduce(request) { $1.prepare($0, target: target) }
         /* let initialRequest: DataRequest = session.requestQueue.sync {
          let initialRequest = session.request(request, interceptor: interceptor)
          setup(interceptor: interceptor, with: target, and: initialRequest)
@@ -115,27 +110,24 @@ extension MoyaProvider {
          }
          */
         IPCFactory.makeIPCRequestService().request(urlRequest: request) { response in
-            let moyaCallbackResponse: Result<Moya.Response, MoyaError>!;
-            
+            let moyaCallbackResponse: Result<Moya.Response, MoyaError>!
             
             if cancellableToken.isCancelled {
-                moyaCallbackResponse =  .failure(MoyaError.underlying( NSError(domain: MoyaIPCErrorDomain.requestCancel , code: -1), nil))
+                moyaCallbackResponse = .failure(MoyaError.underlying(NSError(domain: MoyaIPCErrorDomain.requestCancel, code: -1), nil))
             } else {
                 if let dataResponse = response.data {
-                    let responseIPC = Moya.Response(statusCode: response.statusCode , data: dataResponse, request: request)
+                    let responseIPC = Moya.Response(statusCode: response.statusCode, data: dataResponse, request: request)
                     
                     moyaCallbackResponse = .success(responseIPC)
                 } else {
                     if let error = response.error {
-                        let errorIPC =  error as NSError
+                        let errorIPC = error as NSError
                         moyaCallbackResponse = .failure(MoyaError.underlying(errorIPC, nil))
                     } else {
-                        moyaCallbackResponse = .failure(MoyaError.underlying( NSError(domain: MoyaIPCErrorDomain.unknownError, code: 0), nil))
+                        moyaCallbackResponse = .failure(MoyaError.underlying(NSError(domain: MoyaIPCErrorDomain.unknownError, code: 0), nil))
                     }
                 }
             }
-            
-            
             
             let queue = callbackQueue ?? DispatchQueue.main
             queue.async {
@@ -144,11 +136,7 @@ extension MoyaProvider {
         }
         return cancellableToken
     }
-    
-    
-    
 }
-
 
 internal class CancellableWrapper: Cancellable {
     internal var innerCancellable: Cancellable = SimpleCancellable()

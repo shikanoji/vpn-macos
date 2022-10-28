@@ -34,12 +34,12 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import XCTest
+import CTunnelKitOpenVPNProtocol
 @testable import TunnelKitCore
+@testable import TunnelKitOpenVPNAppExtension
 @testable import TunnelKitOpenVPNCore
 @testable import TunnelKitOpenVPNProtocol
-@testable import TunnelKitOpenVPNAppExtension
-import CTunnelKitOpenVPNProtocol
+import XCTest
 
 class DataPathPerformanceTests: XCTestCase {
     private var dataPath: DataPath!
@@ -76,13 +76,13 @@ class DataPathPerformanceTests: XCTestCase {
 //        let packets = TestUtils.generateDataSuite(1200, 1000)
 //        var encryptedPackets: [Data]!
 //        var decryptedPackets: [Data]!
-//        
+//
 //        measure {
 //            encryptedPackets = try! self.swiftDP.encryptPackets(packets, key: 0)
 //            decryptedPackets = try! self.swiftDP.decryptPackets(encryptedPackets, keepAlive: nil)
 //        }
-//        
-////        print(">>> \(packets?.count) packets")
+//
+    ////        print(">>> \(packets?.count) packets")
 //        XCTAssertEqual(decryptedPackets, packets)
 //    }
     

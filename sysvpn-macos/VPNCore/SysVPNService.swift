@@ -10,13 +10,12 @@ import Foundation
 
 typealias SysVPNPrepareConnecitonStringCallback = (Result<PrepareConnecitonStringResult, Error>) -> Void
 
-
 struct DisconnectVPNParams: Codable {
     var sessionId: String
     var disconnectedBy: String
 }
 
-struct PrepareConnecitonStringResult : Codable  {
+struct PrepareConnecitonStringResult: Codable {
     var connectionString: String
     var vpnProtocol: VpnProtocol
     var disconnectParam: DisconnectVPNParams?
@@ -29,34 +28,28 @@ protocol SysVPNServiceFactory {
 
 protocol SysVPNService {
     func prepareConection(connectType: ConnectionType, params: SysVPNConnectParams?, callback: SysVPNPrepareConnecitonStringCallback?)
-    func disconnectLastSession(disconnectParam: DisconnectVPNParams?, callback: ((Result<Bool, Error>) -> Void)?);
+    func disconnectLastSession(disconnectParam: DisconnectVPNParams?, callback: ((Result<Bool, Error>) -> Void)?)
 }
 
-
-class MockVPNService : SysVPNService {
+class MockVPNService: SysVPNService {
     func prepareConection(connectType: ConnectionType, params: SysVPNConnectParams?, callback: SysVPNPrepareConnecitonStringCallback?) {
-         
-        let result = PrepareConnecitonStringResult(connectionString: MockVPNService.getText() , vpnProtocol: .openVpn(.udp), serverInfo: VPNServer() )
+        let result = PrepareConnecitonStringResult(connectionString: MockVPNService.getText(), vpnProtocol: .openVpn(.udp), serverInfo: VPNServer())
         
         callback?(.success(result))
     }
     
-    func disconnectLastSession(disconnectParam: DisconnectVPNParams?, callback: ((Result<Bool, Error>) -> Void)?) {
-        
-    }
-    
+    func disconnectLastSession(disconnectParam: DisconnectVPNParams?, callback: ((Result<Bool, Error>) -> Void)?) {}
     
     class func getText() -> String {
         if let filePath = Bundle.main.path(forResource: "demofile", ofType: "ovpn") {
             do {
-                   let contents = try String(contentsOfFile: filePath)
-                  return contents
-               } catch {
-                   // contents could not be loaded
-               }
+                let contents = try String(contentsOfFile: filePath)
+                return contents
+            } catch {
+                // contents could not be loaded
+            }
         }
         
         return ""
-
     }
 }

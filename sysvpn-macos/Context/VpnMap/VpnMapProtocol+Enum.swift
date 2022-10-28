@@ -6,20 +6,19 @@
 //
 
 import Foundation
+import Kingfisher
 import SwiftUI
 import SwiftUITooltip
-import Kingfisher
 
 protocol INodeInfo {
     var state: VpnMapPontState { get }
     var localtionIndex: Int? { get }
     var locationName: String { get }
     var image: KFImage? { get }
-    var locationDescription: String? {get}
-    var locationSubname: String? {get}
-    var cacheNode: NodePoint? {get set}
+    var locationDescription: String? { get }
+    var locationSubname: String? { get }
+    var cacheNode: NodePoint? { get set }
 }
-
 
 extension INodeInfo {
     static func == (lhs: INodeInfo, rhs: INodeInfo) -> Bool {
@@ -31,8 +30,7 @@ extension INodeInfo {
     }
 }
 
-
-struct NodePoint :  Equatable {
+struct NodePoint: Equatable {
     var point: CGPoint
     var l2Point: CGPoint?
     var info: INodeInfo
@@ -44,13 +42,11 @@ struct NodePoint :  Equatable {
         self.locationDescription = locationDescription
     }
     
-    public static func ==(lhs: Self, rhs: Self) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.info.locationName == rhs.info.locationName && lhs.info.locationSubname == rhs.info.locationSubname
     }
- 
 }
 
- 
 struct ConnectPoint {
     var point1: CGPoint
     var point2: CGPoint
@@ -63,22 +59,21 @@ struct ConnectPoint {
     }
     
     func generateSpecialCurve(from: CGPoint, to: CGPoint, bendFactor: CGFloat, thickness: CGFloat) -> Path {
-
-        let center = CGPoint(x: (from.x+to.x)*0.5, y: (from.y+to.y)*0.5)
-        let normal = CGPoint(x: -(from.y-to.y), y: (from.x-to.x))
+        let center = CGPoint(x: (from.x + to.x) * 0.5, y: (from.y + to.y) * 0.5)
+        let normal = CGPoint(x: -(from.y - to.y), y: from.x - to.x)
         let normalNormalized: CGPoint = {
-            let normalSize = sqrt(normal.x*normal.x + normal.y*normal.y)
+            let normalSize = sqrt(normal.x * normal.x + normal.y * normal.y)
             guard normalSize > 0.0 else { return .zero }
-            return CGPoint(x: normal.x/normalSize, y: normal.y/normalSize)
+            return CGPoint(x: normal.x / normalSize, y: normal.y / normalSize)
         }()
 
         var path = Path()
 
         path.move(to: from)
 
-        let midControlPoint: CGPoint = CGPoint(x: center.x + normal.x*bendFactor, y: center.y + normal.y*bendFactor)
-        let closeControlPoint: CGPoint = CGPoint(x: midControlPoint.x + normalNormalized.x*thickness*0.5, y: midControlPoint.y + normalNormalized.y*thickness*0.5)
-        let farControlPoint: CGPoint = CGPoint(x: midControlPoint.x - normalNormalized.x*thickness*0.5, y: midControlPoint.y - normalNormalized.y*thickness*0.5)
+        let midControlPoint = CGPoint(x: center.x + normal.x * bendFactor, y: center.y + normal.y * bendFactor)
+        let closeControlPoint = CGPoint(x: midControlPoint.x + normalNormalized.x * thickness * 0.5, y: midControlPoint.y + normalNormalized.y * thickness * 0.5)
+        let farControlPoint = CGPoint(x: midControlPoint.x - normalNormalized.x * thickness * 0.5, y: midControlPoint.y - normalNormalized.y * thickness * 0.5)
         path.addQuadCurve(to: to, control: closeControlPoint)
         path.addQuadCurve(to: from, control: farControlPoint)
         return path
@@ -89,7 +84,8 @@ class NodeInfoTest: INodeInfo {
     static func == (lhs: NodeInfoTest, rhs: NodeInfoTest) -> Bool {
         return false
     }
-    var cacheNode: NodePoint? 
+
+    var cacheNode: NodePoint?
     var locationDescription: String?
     
     var locationSubname: String?
@@ -135,7 +131,7 @@ public struct AppTooltipConfig: TooltipConfig {
     public var margin: CGFloat = 8
     public var zIndex: Double = 10000
     
-    public var width: CGFloat? 
+    public var width: CGFloat?
     public var height: CGFloat?
 
     public var borderRadius: CGFloat = 8

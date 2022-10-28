@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 class GlobalAppStates: ObservableObject {
     static let shared = GlobalAppStates()
     @Published var displayState: AppDisplayState = .disconnected
@@ -17,19 +16,19 @@ class GlobalAppStates: ObservableObject {
     }
     
     var sessionStartTime: Double? {
-        return DependencyContainer.shared.appStateMgr.sessionStartTime 
+        return DependencyContainer.shared.appStateMgr.sessionStartTime
     }
-     
 }
+
 class NetworkAppStates: ObservableObject {
     static let shared = NetworkAppStates()
-    @Published var bitRate: Bitrate =  Bitrate(download: 0, upload: 0)
+    @Published var bitRate: Bitrate = .init(download: 0, upload: 0)
 }
 
 class MapAppStates: ObservableObject {
     static let shared = MapAppStates()
     @Published var connectedNode: INodeInfo? = nil
-    @Published var selectedNode:  INodeInfo? = nil
+    @Published var selectedNode: INodeInfo? = nil
     @Published var hoverNode: NodePoint? = nil
     @Published var serverInfo: VPNServer? = nil
 }

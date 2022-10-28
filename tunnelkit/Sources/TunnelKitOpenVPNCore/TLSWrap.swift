@@ -25,14 +25,11 @@
 
 import Foundation
 
-extension OpenVPN {
-
+public extension OpenVPN {
     /// Holds parameters for TLS wrapping.
-    public struct TLSWrap: Codable, Equatable {
-
+    struct TLSWrap: Codable, Equatable {
         /// The wrapping strategy.
         public enum Strategy: String, Codable, Equatable {
-            
             /// Authenticates payload (--tls-auth).
             case auth
 

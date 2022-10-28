@@ -18,6 +18,7 @@ struct CodeSignatureComparitor {
     }
 
     // MARK: - Private
+
     private static func execute(secFunction: () -> OSStatus) throws {
         let status = secFunction()
         guard status == errSecSuccess else {
@@ -72,7 +73,7 @@ struct CodeSignatureComparitor {
     private static func codeSigningCertificates(for code: SecStaticCode) throws -> [SecCertificate] {
         guard let info = try secCodeInfo(for: code),
               let certificates = info[kSecCodeInfoCertificates as String] as? [SecCertificate] else {
-              throw CodeSignatureError(description: "codeSigningCertificates: no certificates found")
+            throw CodeSignatureError(description: "codeSigningCertificates: no certificates found")
         }
         return certificates
     }

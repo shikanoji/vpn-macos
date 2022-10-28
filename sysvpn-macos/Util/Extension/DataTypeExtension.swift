@@ -8,15 +8,15 @@
 import Foundation
 import SwiftUI
 
-extension Binding where Value == Double {
-    public func cgFloat() -> Binding<CGFloat> {
-        return Binding<CGFloat>(get:{ CGFloat(self.wrappedValue) },
-            set: { self.wrappedValue = Double($0)})
+public extension Binding where Value == Double {
+    func cgFloat() -> Binding<CGFloat> {
+        return Binding<CGFloat>(get: { CGFloat(self.wrappedValue) },
+                                set: { self.wrappedValue = Double($0) })
     }
 }
 
 extension Float {
-  var  double: Double {
+    var double: Double {
         return Double(self)
     }
 }

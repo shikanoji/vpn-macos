@@ -40,11 +40,9 @@ import TunnelKitCore
 
 private let log = SwiftyBeaver.self
 
-extension OpenVPN {
-    
+public extension OpenVPN {
     /// A pair of credentials for authentication.
-    public struct Credentials: Codable, Equatable {
-
+    struct Credentials: Codable, Equatable {
         /// The username.
         public let username: String
         
@@ -58,8 +56,7 @@ extension OpenVPN {
     }
 
     /// Encryption algorithm.
-    public enum Cipher: String, Codable, CustomStringConvertible {
-        
+    enum Cipher: String, Codable, CustomStringConvertible {
         // WARNING: must match OpenSSL algorithm names
         
         /// AES encryption with 128-bit key size and CBC.
@@ -110,8 +107,7 @@ extension OpenVPN {
     }
     
     /// Message digest algorithm.
-    public enum Digest: String, Codable, CustomStringConvertible {
-        
+    enum Digest: String, Codable, CustomStringConvertible {
         // WARNING: must match OpenSSL algorithm names
         
         /// SHA1 message digest.
@@ -140,8 +136,7 @@ extension OpenVPN {
     }
     
     /// Routing policy.
-    public enum RoutingPolicy: String, Codable {
-
+    enum RoutingPolicy: String, Codable {
         /// All IPv4 traffic goes through the VPN.
         case IPv4
 
@@ -153,8 +148,7 @@ extension OpenVPN {
     }
     
     /// The way to create a `Configuration` object for a `OpenVPNSession`.
-    public struct ConfigurationBuilder {
-
+    struct ConfigurationBuilder {
         // MARK: General
         
         /// The cipher algorithm for data encryption.
@@ -353,7 +347,7 @@ extension OpenVPN {
     }
     
     /// The immutable configuration for `OpenVPNSession`.
-    public struct Configuration: Codable, Equatable {
+    struct Configuration: Codable, Equatable {
         struct Fallback {
             static let cipher: Cipher = .aes128cbc
             
@@ -500,15 +494,14 @@ extension OpenVPN {
 
 // MARK: Modification
 
-extension OpenVPN.Configuration {
-    
+public extension OpenVPN.Configuration {
     /**
      Returns a `ConfigurationBuilder` to use this configuration as a starting point for a new one.
      
      - Parameter withFallbacks: If `true`, initializes builder with fallback values rather than nil.
      - Returns: An editable `ConfigurationBuilder` initialized with this configuration.
      */
-    public func builder(withFallbacks: Bool = false) -> OpenVPN.ConfigurationBuilder {
+    func builder(withFallbacks: Bool = false) -> OpenVPN.ConfigurationBuilder {
         var builder = OpenVPN.ConfigurationBuilder()
         builder.cipher = cipher ?? (withFallbacks ? Fallback.cipher : nil)
         builder.dataCiphers = dataCiphers
@@ -554,8 +547,8 @@ extension OpenVPN.Configuration {
 
 // MARK: Encoding
 
-extension OpenVPN.Configuration {
-    public func print() {
+public extension OpenVPN.Configuration {
+    func print() {
         guard let remotes = remotes else {
             fatalError("No sessionConfiguration.remotes set")
         }

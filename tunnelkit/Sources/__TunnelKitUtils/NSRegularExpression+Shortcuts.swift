@@ -25,13 +25,13 @@
 
 import Foundation
 
-extension NSRegularExpression {
-    public convenience init(_ pattern: String) {
+public extension NSRegularExpression {
+    convenience init(_ pattern: String) {
         try! self.init(pattern: pattern, options: [])
     }
 
-    public func enumerateComponents(in string: String, using block: ([String]) -> Void) {
-        enumerateMatches(in: string, options: [], range: NSMakeRange(0, string.count)) { (result, flags, stop) in
+    func enumerateComponents(in string: String, using block: ([String]) -> Void) {
+        enumerateMatches(in: string, options: [], range: NSMakeRange(0, string.count)) { result, _, _ in
             guard let range = result?.range else {
                 return
             }
@@ -41,8 +41,8 @@ extension NSRegularExpression {
         }
     }
     
-    public func enumerateArguments(in string: String, using block: ([String]) -> Void) {
-        enumerateComponents(in: string) { (tokens) in
+    func enumerateArguments(in string: String, using block: ([String]) -> Void) {
+        enumerateComponents(in: string) { tokens in
             var args = tokens
             args.removeFirst()
             block(args)

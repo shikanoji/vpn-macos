@@ -22,22 +22,35 @@ struct HomeView: View {
             if viewModel.selectedMenuItem != .none {
                 if viewModel.selectedMenuItem == .manualConnection {
                     
-                    HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listCountry, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected)
+                    HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listCountry, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
+                        onTouchItem:{item in
+                            self.viewModel.connect(to: item)
+                        }
+                    )
                         .transition(
                             AnyTransition.asymmetric(
                             insertion: .move(edge: .leading),
                             removal: .move(edge: .leading)
                         ).combined(with: .opacity))
-                        HomeDetailCityNodeView(selectedItem: $viewModel.selectedMenuItem, listCity: $viewModel.listCity, isShowCity: $isShowCity, countryItem: viewModel.countrySelected)
+                        HomeDetailCityNodeView(selectedItem: $viewModel.selectedMenuItem, listCity: $viewModel.listCity, isShowCity: $isShowCity, countryItem: viewModel.countrySelected,
+                           onTouchItem: { item in
+                               self.viewModel.connect(to: item)
+                           }
+                        )
                             .transition(
                                 AnyTransition.asymmetric(
                                 insertion: .move(edge: .trailing),
                                 removal: .move(edge: .leading)
                                 ).combined(with: .opacity))
-                            .offset(x: isShowCityAnim ? 0 : 400, y: 0)
+                            .offset(x: isShowCityAnim ? 0 : 400, y: 0) 
+                            .opacity(isShowCityAnim ?  1 : 0)
                      
                 } else if viewModel.selectedMenuItem == .staticIp {
-                    HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listStaticServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected)
+                    HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listStaticServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
+                        onTouchItem:{item in
+                            self.viewModel.connect(to: item)
+                        }
+                    )
                         .transition(
                             AnyTransition.asymmetric(
                             insertion: .move(edge: .leading),
@@ -49,17 +62,16 @@ struct HomeView: View {
                             }
                         }
                 } else if viewModel.selectedMenuItem == .multiHop {
-                    HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listMultiHop, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected)
+                    HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listMultiHop, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
+                        onTouchItem:{item in
+                            self.viewModel.connect(to: item)
+                        }
+                    )
                         .transition(
                             AnyTransition.asymmetric(
                             insertion: .move(edge: .leading),
                             removal: .move(edge: .leading)
                         ).combined(with: .opacity))
-                        .onReceive(pub) { _ in
-                            if viewModel.selectedMenuItem == .staticIp {
-                                viewModel.getListStaticServer(firstLoadData: false)
-                            }
-                        }
                 }
                 
             }
@@ -84,7 +96,7 @@ struct HomeView: View {
                     onClose: {
                         self.viewModel.selectedMenuItem = .none
                     }
-                      )
+                  )
                 )
                 .zIndex(2)
             }

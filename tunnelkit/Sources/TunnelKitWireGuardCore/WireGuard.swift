@@ -25,5 +25,4 @@
 
 import Foundation
 
-public class WireGuard {
-}
+public class WireGuard {}

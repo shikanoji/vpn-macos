@@ -6,11 +6,10 @@
 //  Copyright © 2022 Davide De Rosa. All rights reserved.
 //
 
-
 import Foundation
 import NetworkExtension
-import SwiftyBeaver
 import os.log
+import SwiftyBeaver
 
 let ipc = IPCNetworkExtension(withExtension: "QPLVP53378.group.com.thuc.macos.TunnelKit.Demo.OpenVPN.Tunnel", logger: {
     if #available(macOS 12, *) {
@@ -24,4 +23,3 @@ autoreleasepool {
 }
 
 dispatchMain()
-

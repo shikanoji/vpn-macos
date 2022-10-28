@@ -5,11 +5,11 @@
 //  Created by Nguyen Dinh Thach on 30/08/2022.
 //
 
+import Foundation
 import Moya
 import RxMoya
 import RxSwift
 import SwiftyJSON
-import Foundation
 
 class BaseServiceManager<API: TargetType> {
 //    private let provider = MoyaProvider<API>(plugins: [NetworkLoggerPlugin(configuration: .init(logOptions: .formatRequestAscURL))])
@@ -58,7 +58,6 @@ class BaseServiceManager<API: TargetType> {
             }
             .handleResponse()
             .filterSuccessfulStatusCodes()
-             
     }
     
     func cancelTask() {
@@ -70,7 +69,6 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     func handleResponse() -> Single<Element> {
         return flatMap { response in
             if (200...299) ~= response.statusCode {
-                
                 return Single.just(response)
             }
             
@@ -112,7 +110,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
         }
     }
     
-    func handleApiResponseCodable<T: Decodable>(type: T.Type) -> Single<T>{
+    func handleApiResponseCodable<T: Decodable>(type: T.Type) -> Single<T> {
         return flatMap { response in
             do {
                 print("[RESPONSE]: \(String(data: response.data, encoding: .utf8) ?? "")")
@@ -146,7 +144,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     func handleEmptyResponse() -> Single<Bool> {
         return flatMap { response in
             let data = try JSONSerialization.jsonObject(with: response.data, options: []) as? [String: Any]
-            if !( (data?["success"] as? Bool) ?? false) {
+            if !((data?["success"] as? Bool) ?? false) {
                 return Single.just(false)
             }
             return Single.just(true)

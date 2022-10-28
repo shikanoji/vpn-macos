@@ -27,7 +27,6 @@ import Foundation
 
 /// Status of a `VPN`.
 public enum VPNStatus: String {
-
     /// VPN is connected.
     case connected
     

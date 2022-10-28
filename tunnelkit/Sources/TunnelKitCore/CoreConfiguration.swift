@@ -38,7 +38,6 @@ import Foundation
 
 /// Global library settings.
 public class CoreConfiguration {
-
     /// Unique identifier of the library.
     public static let identifier = "com.algoritmico.TunnelKit"
     
@@ -68,10 +67,9 @@ public class CoreConfiguration {
     public static let logsSensitiveData = false
 }
 
-extension CustomStringConvertible {
-
+public extension CustomStringConvertible {
     /// Returns a masked version of `description` in case `CoreConfiguration.masksPrivateData` is `true`.
-    public var maskedDescription: String {
+    var maskedDescription: String {
         guard CoreConfiguration.masksPrivateData else {
             return description
         }

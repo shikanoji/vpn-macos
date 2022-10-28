@@ -23,12 +23,12 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import CTunnelKitCore
+import CTunnelKitOpenVPNProtocol
 import Foundation
 import SwiftyBeaver
 import TunnelKitCore
 import TunnelKitOpenVPNCore
-import CTunnelKitCore
-import CTunnelKitOpenVPNProtocol
 
 private let log = SwiftyBeaver.self
 
@@ -149,13 +149,13 @@ extension OpenVPN {
                 currentPacketId.outbound += 1
                 offset += maxPacketSize
                 queuedCount += subPayloadLength
-            } while (offset < payload.count)
+            } while offset < payload.count
             
             assert(queuedCount == payload.count)
             
             // packet count
             let packetCount = currentPacketId.outbound - oldIdOut
-            if (packetCount > 1) {
+            if packetCount > 1 {
                 log.debug("Control: Enqueued \(packetCount) packets [\(oldIdOut)-\(currentPacketId.outbound - 1)]")
             } else {
                 log.debug("Control: Enqueued 1 packet [\(oldIdOut)]")
@@ -167,7 +167,7 @@ extension OpenVPN {
             for packet in queue.outbound {
                 if let sentDate = packet.sentDate {
                     let timeAgo = -sentDate.timeIntervalSinceNow
-                    guard (timeAgo >= CoreConfiguration.OpenVPN.retransmissionLimit) else {
+                    guard timeAgo >= CoreConfiguration.OpenVPN.retransmissionLimit else {
                         log.debug("Control: Skip writing packet with packetId \(packet.packetId) (sent on \(sentDate), \(timeAgo) seconds ago)")
                         continue
                     }
@@ -182,7 +182,7 @@ extension OpenVPN {
                 // track pending acks for sent packets
                 pendingAcks.insert(packet.packetId)
             }
-    //        log.verbose("Packets now pending ack: \(pendingAcks)")
+            //        log.verbose("Packets now pending ack: \(pendingAcks)")
             return rawList
         }
         
@@ -208,7 +208,7 @@ extension OpenVPN {
             // remove ack-ed packets from pending
             pendingAcks.subtract(packetIds)
             
-    //        log.verbose("Packets still pending ack: \(pendingAcks)")
+            //        log.verbose("Packets still pending ack: \(pendingAcks)")
         }
         
         func writeAcks(withKey key: UInt8, ackPacketIds: [UInt32], ackRemoteSessionId: Data) throws -> Data {

@@ -107,18 +107,20 @@ struct MultiHopItemView : View {
                     .frame(width: 24, height: 24)
                     .cornerRadius(12)
             }
-            Spacer().frame(width: 10)
+            Spacer().frame(width: 8)
             Text(countryNameStart)
                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor
                 )
-                .font(Font.system(size: 14, weight: .regular))
+                .font(Font.system(size: 12, weight: .regular))
             Asset.Assets.icArrowRight.swiftUIImage
                 .resizable()
                 .frame(width: 16, height: 16)
             Text(countryNameEnd)
                 .foregroundColor(Color.white)
-                .font(Font.system(size: 14, weight: .semibold))
+                .font(Font.system(size: 12, weight: .semibold))
+            Spacer()
         }.padding(.bottom, 10)
+            .contentShape(Rectangle())
     }
 }
 
@@ -171,6 +173,7 @@ struct StaticItemView : View {
                 
             }
         }.padding(.bottom, 10)
+            .contentShape(Rectangle())
     }
 }
 

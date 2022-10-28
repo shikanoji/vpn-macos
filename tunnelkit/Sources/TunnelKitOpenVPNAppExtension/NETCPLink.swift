@@ -23,11 +23,11 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import CTunnelKitOpenVPNProtocol
 import Foundation
 import NetworkExtension
-import TunnelKitCore
 import TunnelKitAppExtension
-import CTunnelKitOpenVPNProtocol
+import TunnelKitCore
 
 class NETCPLink: LinkInterface {
     private let impl: NWTCPConnection
@@ -59,14 +59,13 @@ class NETCPLink: LinkInterface {
     }
     
     private func loopReadPackets(_ queue: DispatchQueue, _ buffer: Data, _ handler: @escaping ([Data]?, Error?) -> Void) {
-        
         // WARNING: runs in Network.framework queue
-        impl.readMinimumLength(2, maximumLength: packetBufferSize) { [weak self] (data, error) in
+        impl.readMinimumLength(2, maximumLength: packetBufferSize) { [weak self] data, error in
             guard let self = self else {
                 return
             }
             queue.sync {
-                guard (error == nil), let data = data else {
+                guard error == nil, let data = data else {
                     handler(nil, error)
                     return
                 }
@@ -85,14 +84,14 @@ class NETCPLink: LinkInterface {
     
     func writePacket(_ packet: Data, completionHandler: ((Error?) -> Void)?) {
         let stream = PacketStream.stream(fromPacket: packet, xorMask: xorMask)
-        impl.write(stream) { (error) in
+        impl.write(stream) { error in
             completionHandler?(error)
         }
     }
     
     func writePackets(_ packets: [Data], completionHandler: ((Error?) -> Void)?) {
         let stream = PacketStream.stream(fromPackets: packets, xorMask: xorMask)
-        impl.write(stream) { (error) in
+        impl.write(stream) { error in
             completionHandler?(error)
         }
     }

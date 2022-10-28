@@ -10,7 +10,6 @@ import Foundation
 import NetworkExtension
 import TunnelKitManager
 
-
 protocol SysVPNGatewayProtocol: AnyObject {
     var connection: ConnectionStatus { get }
     static var connectionChanged: Notification.Name { get }
@@ -26,6 +25,7 @@ protocol SysVPNGatewayProtocol: AnyObject {
     func disconnect()
     func disconnect(completion: @escaping () -> Void)
     func postConnectionInformation()
+    var lastConnectionConiguration: ConnectionConfiguration? { get set}
 }
 
 protocol SysVPNnGatewayFactory {
@@ -42,20 +42,16 @@ protocol SysVpnManagerConfiguration {
     var passwordReference: Data { get }
 }
  
-
 enum VpnProviderManagerRequirement {
     case configuration
     case status
 }
 
 protocol VpnProtocolFactory {
-    
     func create(_ configuration: SysVpnManagerConfiguration) throws -> NEVPNProtocol
     func vpnProviderManager(for requirement: VpnProviderManagerRequirement, completion: @escaping (NEVPNManagerWrapper?, Error?) -> Void)
     func logs(completion: @escaping (String?) -> Void)
-    
 }
-
 
 protocol SysVPNManagerProtocol {
     var sessionStartTime: Double? {
@@ -77,22 +73,19 @@ protocol SysVPNManagerProtocol {
     func refreshManagers()
     func removeConfigurations(completionHandler: ((Error?) -> Void)?)
     func whenReady(queue: DispatchQueue, completion: @escaping () -> Void)
- 
+    func prepareManagers(forSetup: Bool)
 }
 
 protocol SysVPNManagerFactory {
     func makeVpnManager() -> SysVPNManagerProtocol
 }
 
-
-
-
-class SysVPNConfiguration : SysVpnManagerConfiguration {
+class SysVPNConfiguration: SysVpnManagerConfiguration {
     var username: String
     var password: String
     var adapterTitle: String
     var connection: String
-    var extra: NetworkExtensionExtra = NetworkExtensionExtra()
+    var extra: NetworkExtensionExtra = .init()
     var vpnProtocol: VpnProtocol
     var passwordReference: Data
      
@@ -106,13 +99,11 @@ class SysVPNConfiguration : SysVpnManagerConfiguration {
     }
 }
 
-
-struct SysVPNConnectParams : Codable {
+struct SysVPNConnectParams: Codable {
     var isHop: Bool?
-    
 }
 
-struct ConnectionConfiguration : Codable  {
+struct ConnectionConfiguration: Codable {
     var connectionDetermine: PrepareConnecitonStringResult
     var connectionParam: SysVPNConnectParams?
     var vpnProtocol: VpnProtocol

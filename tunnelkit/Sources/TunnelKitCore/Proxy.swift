@@ -27,7 +27,6 @@ import Foundation
 
 /// Encapsulates a proxy setting.
 public struct Proxy: Codable, Equatable, RawRepresentable, CustomStringConvertible {
-    
     /// The proxy address.
     public let address: String
     

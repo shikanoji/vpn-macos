@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BaseCodable<T : Decodable> : Decodable {
+struct BaseCodable<T: Decodable>: Decodable {
     var message: String
     var result: T?
     var success: Bool
@@ -32,9 +32,7 @@ func saveFilePath() -> URL {
     return file
 }
 
-
 extension Encodable {
-    
     func saveUserDefault(keyUserDefault: String) {
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(self) {
@@ -47,7 +45,7 @@ extension Encodable {
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(self) {
             print("[CacheConfig] save data to file \(fileName) success")
-            let directory = saveFilePath();
+            let directory = saveFilePath()
             if !FileManager.default.exist(atUrl: directory) {
                 try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
             }
@@ -58,7 +56,7 @@ extension Encodable {
 }
 
 extension Decodable {
-    static func readUserDefault(keyUserDefault: String) -> Decodable?{
+    static func readUserDefault(keyUserDefault: String) -> Self? {
         let defaults = UserDefaults.standard
         if let dataSave = defaults.object(forKey: keyUserDefault) as? Data {
             let decoder = JSONDecoder()
@@ -72,8 +70,8 @@ extension Decodable {
     static func readFile(fileName: String) -> Decodable? {
         var data: Data?
         let urlFile = saveFilePath().appendingPathComponent(fileName)
-        print("[CacheConfig] ",urlFile)
-        if FileManager.default.exist(atUrl: urlFile)  {
+        print("[CacheConfig] ", urlFile)
+        if FileManager.default.exist(atUrl: urlFile) {
             print("[CacheConfig] load config from cache")
             data = try? Data(contentsOf: urlFile)
         }
@@ -88,5 +86,3 @@ extension Decodable {
         return nil
     }
 }
-
-

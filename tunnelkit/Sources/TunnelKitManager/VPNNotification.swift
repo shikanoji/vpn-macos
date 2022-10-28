@@ -27,7 +27,6 @@ import Foundation
 
 /// VPN notifications.
 public struct VPNNotification {
-
     /// The VPN did reinstall.
     public static let didReinstall = Notification.Name("VPNDidReinstall")
 
@@ -38,10 +37,9 @@ public struct VPNNotification {
     public static let didFail = Notification.Name("VPNDidFail")
 }
 
-extension Notification {
-
+public extension Notification {
     /// The VPN bundle identifier.
-    public var vpnBundleIdentifier: String? {
+    var vpnBundleIdentifier: String? {
         get {
             guard let vpnBundleIdentifier = userInfo?["BundleIdentifier"] as? String else {
                 fatalError("Notification has no vpnBundleIdentifier")
@@ -56,7 +54,7 @@ extension Notification {
     }
 
     /// The current VPN enabled state.
-    public var vpnIsEnabled: Bool {
+    var vpnIsEnabled: Bool {
         get {
             guard let vpnIsEnabled = userInfo?["IsEnabled"] as? Bool else {
                 fatalError("Notification has no vpnIsEnabled")
@@ -71,7 +69,7 @@ extension Notification {
     }
 
     /// The current VPN status.
-    public var vpnStatus: VPNStatus {
+    var vpnStatus: VPNStatus {
         get {
             guard let vpnStatus = userInfo?["Status"] as? VPNStatus else {
                 fatalError("Notification has no vpnStatus")
@@ -86,7 +84,7 @@ extension Notification {
     }
 
     /// The triggered VPN error.
-    public var vpnError: Error {
+    var vpnError: Error {
         get {
             guard let vpnError = userInfo?["Error"] as? Error else {
                 fatalError("Notification has no vpnError")

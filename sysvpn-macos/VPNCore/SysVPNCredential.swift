@@ -11,9 +11,7 @@ import NetworkExtension
 import TunnelKitManager
 
 protocol SysVPNCredentialsConfiguratorFactory {
-     
     func getCredentialsConfigurator(for protocol: VpnProtocol) -> VpnCredentialsConfigurator
-    
 }
 
 protocol VpnCredentialsConfigurator {
@@ -21,7 +19,6 @@ protocol VpnCredentialsConfigurator {
 }
 
 final class OVPNiOSCredentialsConfigurator: VpnCredentialsConfigurator {
-    
     func prepareCredentials(for protocolConfig: NEVPNProtocol, configuration: SysVpnManagerConfiguration, completionHandler: @escaping (NEVPNProtocol) -> Void) {
         protocolConfig.username = configuration.username // Needed to detect connections started from another user (see AppSessionManager.resolveActiveSession)
                  
@@ -30,33 +27,23 @@ final class OVPNiOSCredentialsConfigurator: VpnCredentialsConfigurator {
         
         completionHandler(protocolConfig)
     }
-    
 }
 
-
-
 final class WGiOSVpnCredentialsConfigurator: VpnCredentialsConfigurator {
-    
-    init() {
-    }
+    init() {}
     
     func prepareCredentials(for protocolConfig: NEVPNProtocol, configuration: SysVpnManagerConfiguration, completionHandler: @escaping (NEVPNProtocol) -> Void) {
         protocolConfig.username = configuration.username
                 
-       /* let keychain = VpnKeychain()
-        protocolConfig.passwordReference = try? keychain.store(wireguardConfiguration: configuration.asWireguardConfiguration(config: propertiesManager.wireguardConfig))
-        */
+        /* let keychain = VpnKeychain()
+         protocolConfig.passwordReference = try? keychain.store(wireguardConfiguration: configuration.asWireguardConfiguration(config: propertiesManager.wireguardConfig))
+         */
         completionHandler(protocolConfig)
     }
-    
 }
 
-
-
 final class MacosVpnCredentialsConfiguratorFactory: SysVPNCredentialsConfiguratorFactory {
-     
-    init() {
-     }
+    init() {}
     
     func getCredentialsConfigurator(for vpnProtocol: VpnProtocol) -> VpnCredentialsConfigurator {
         switch vpnProtocol {
@@ -66,5 +53,4 @@ final class MacosVpnCredentialsConfiguratorFactory: SysVPNCredentialsConfigurato
             return WGiOSVpnCredentialsConfigurator()
         }
     }
-    
 }

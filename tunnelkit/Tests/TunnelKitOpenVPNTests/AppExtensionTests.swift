@@ -34,17 +34,16 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import XCTest
 import NetworkExtension
-import TunnelKitCore
-import TunnelKitOpenVPNCore
 import TunnelKitAppExtension
-@testable import TunnelKitOpenVPNAppExtension
+import TunnelKitCore
 import TunnelKitManager
+@testable import TunnelKitOpenVPNAppExtension
+import TunnelKitOpenVPNCore
 import TunnelKitOpenVPNManager
+import XCTest
 
 class AppExtensionTests: XCTestCase {
-    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -107,7 +106,7 @@ class AppExtensionTests: XCTestCase {
                 exp.fulfill()
             }
             switch $0 {
-            case .success(let records):
+            case let .success(records):
                 print("\(records)")
 
             case .failure:

@@ -23,12 +23,12 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import CTunnelKitCore
+import CTunnelKitOpenVPNProtocol
 import Foundation
 import SwiftyBeaver
 import TunnelKitCore
 import TunnelKitOpenVPNCore
-import CTunnelKitCore
-import CTunnelKitOpenVPNProtocol
 
 private let log = SwiftyBeaver.self
 
@@ -42,8 +42,7 @@ protocol ControlChannelSerializer {
 
 extension OpenVPN.ControlChannel {
     class PlainSerializer: ControlChannelSerializer {
-        func reset() {
-        }
+        func reset() {}
         
         func serialize(packet: ControlPacket) throws -> Data {
             return packet.serialized()

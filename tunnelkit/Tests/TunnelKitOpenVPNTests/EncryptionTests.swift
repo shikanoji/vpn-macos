@@ -34,11 +34,11 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import XCTest
-@testable import TunnelKitCore
-@testable import TunnelKitOpenVPNCore
 import CTunnelKitCore
 import CTunnelKitOpenVPNProtocol
+@testable import TunnelKitCore
+@testable import TunnelKitOpenVPNCore
+import XCTest
 
 class EncryptionTests: XCTestCase {
     private var cipherEncKey: ZeroingData!
@@ -82,8 +82,8 @@ class EncryptionTests: XCTestCase {
         
         let packetId: [UInt8] = [0x56, 0x34, 0x12, 0x00]
         let ad: [UInt8] = [0x00, 0x12, 0x34, 0x56]
-        var flags = packetId.withUnsafeBufferPointer { (iv) in
-            return ad.withUnsafeBufferPointer { (ad) in
+        var flags = packetId.withUnsafeBufferPointer { iv in
+            return ad.withUnsafeBufferPointer { ad in
                 return CryptoFlags(iv: iv.baseAddress, ivLength: packetId.count, ad: ad.baseAddress, adLength: ad.count)
             }
         }
@@ -97,7 +97,7 @@ class EncryptionTests: XCTestCase {
         let (client, server) = clientServer("aes-256-ctr", "sha256")
 
         let original = Data(hex: "0000000000")
-        let ad: [UInt8] = [UInt8](Data(hex: "38afa8f1162096081e000000015ba35373"))
+        let ad = [UInt8](Data(hex: "38afa8f1162096081e000000015ba35373"))
         var flags = ad.withUnsafeBufferPointer {
             CryptoFlags(iv: nil, ivLength: 0, ad: $0.baseAddress, adLength: ad.count)
         }

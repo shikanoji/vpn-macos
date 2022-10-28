@@ -6,7 +6,6 @@ import WireGuardKit
 import Foundation
 
 extension TunnelConfiguration {
-
     enum ParserState {
         case inInterfaceSection
         case inPeerSection
@@ -250,5 +249,4 @@ extension TunnelConfiguration {
         }
         return peer
     }
-
 }

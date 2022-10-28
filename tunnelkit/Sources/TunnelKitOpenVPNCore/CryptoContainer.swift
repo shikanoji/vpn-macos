@@ -39,10 +39,9 @@ import Foundation
 // FIXME: remove dependency on TLSBox
 import CTunnelKitOpenVPNProtocol
 
-extension OpenVPN {
-
+public extension OpenVPN {
     /// Represents a cryptographic container in PEM format.
-    public struct CryptoContainer: Codable, Equatable {
+    struct CryptoContainer: Codable, Equatable {
         private static let begin = "-----BEGIN "
 
         private static let end = "-----END "

@@ -12,7 +12,7 @@ import SwiftUITooltip
 struct VpnMapPointView: View {
     var state: VpnMapPontState = .normal
     var locationIndex: Int?
-    var onHoverNode: (( Bool) -> Void)?
+    var onHoverNode: ((Bool) -> Void)?
     @State private var iconImage: Image?
     @State private var fadeOut = false
     var body: some View {
@@ -22,8 +22,8 @@ struct VpnMapPointView: View {
                 .opacity(fadeOut ? 0 : 1)
                 .frame(width: 40, height: 40)
                 .onHover { hover in
-                onHoverNode?(hover)
-            }.transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+                    onHoverNode?(hover)
+                }.transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
             
             if locationIndex != nil {
                 Text(String(locationIndex ?? 0))
@@ -46,7 +46,7 @@ struct VpnMapPointView: View {
                     }
                 }
             }
-        }.onAppear() {
+        }.onAppear {
             iconImage = state.icon
         }
     }

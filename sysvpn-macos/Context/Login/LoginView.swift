@@ -25,7 +25,7 @@ struct LoginView: View {
     var formInput: some View {
         VStack {
             Spacer().frame(height: paddingTop)
-            TextField(L10n.Login.yourEmail, text: $viewModel.userName) 
+            TextField(L10n.Login.yourEmail, text: $viewModel.userName)
                 .disableAutocorrection(true)
                 .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingEmail))
                 .focused($focusState, equals: .username)
@@ -89,7 +89,6 @@ struct LoginView: View {
         }
     }
     
-    
     var formFooter: some View {
         HStack(alignment: .center) {
             Button {
@@ -113,14 +112,12 @@ struct LoginView: View {
             } label: {
                 Text(L10n.Login.forgotPassword)
             }.buttonStyle(LoginButtonNoBackgroundStyle())
-        }.padding(.bottom, 45 )
+        }.padding(.bottom, 45)
     }
-    
-  
     
     var body: some View {
         ZStack {
-            VStack { 
+            VStack {
                 VStack(alignment: .center) {
                     formHeader
                     formInput

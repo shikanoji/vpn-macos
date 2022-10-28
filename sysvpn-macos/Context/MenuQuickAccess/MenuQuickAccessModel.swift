@@ -5,13 +5,12 @@
 //  Created by doragon on 30/09/2022.
 //
 
+import Cocoa
 import Foundation
 import SwiftUI
-import Cocoa
 
 extension MenuQuickAccessView {
-    @MainActor class MenuQuickAccessModel: ObservableObject { 
-        
+    @MainActor class MenuQuickAccessModel: ObservableObject {
         @Published var userIp: String = ""
         @Published var protected: String = ""
         @Published var location: String = ""
@@ -19,25 +18,25 @@ extension MenuQuickAccessView {
         @Published var downloadSpeed: String = ""
         @Published var uploadSpeed: String = ""
         @Published var tabbarSelectedItem: TabbarMenuItem = .recent
-     //   @Published var listData: [TabbarListItemModel]
-        @Published  var listRecent: [TabbarListItemModel]
+        //   @Published var listData: [TabbarListItemModel]
+        @Published var listRecent: [TabbarListItemModel]
         @Published var listSuggest: [TabbarListItemModel]
         @Published var listCountry: [TabbarListItemModel]
     
-        init() { 
+        init() {
             userIp = "IP: \(AppDataManager.shared.userIp) -"
             location = AppDataManager.shared.isConnect ? L10n.Login.titleNotConnect : "Location: \(AppDataManager.shared.userCity)"
             tabIndex = 0
             downloadSpeed = "0 B/s"
             uploadSpeed = "0 B/s"
-         //   listData = []
+            //   listData = []
             listRecent = []
             listSuggest = []
             listCountry = []
             getListRecent()
             getListSuggest()
             getListCountry()
-           // listData = listRecent
+            // listData = listRecent
         }
         
         func onTouchConnect() {
@@ -54,14 +53,14 @@ extension MenuQuickAccessView {
         }
         
         func onOpenApp() {
-           _ = NSApp.setActivationPolicy(.regular)
+            _ = NSApp.setActivationPolicy(.regular)
             DispatchQueue.main.async {
                 if let window = NSApp.mainWindow {
                     window.orderFrontRegardless()
                 } else {
                     if let url = URL(string: "sysvpn://main") {
-                         NSWorkspace.shared.open(url)
-                     }
+                        NSWorkspace.shared.open(url)
+                    }
                 }
                 
                 MenuQuickAccessConfigurator.closePopover()
@@ -69,19 +68,18 @@ extension MenuQuickAccessView {
         }
         
         func onChageTab(index: Int) {
-           /* if index == 0 {
-                listData = listRecent
-            } else if index == 1 {
-                listData = listSuggest
-            } else if index == 2 {
-                listData = listCountry
-            } */
+            /* if index == 0 {
+                 listData = listRecent
+             } else if index == 1 {
+                 listData = listSuggest
+             } else if index == 2 {
+                 listData = listCountry
+             } */
             withAnimation {
                 tabIndex = index
             }
         }
          
-        
         func getListRecent() {
             let recentCountry = AppDataManager.shared.userCountry?.recentCountries ?? []
             for item in recentCountry {

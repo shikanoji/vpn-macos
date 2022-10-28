@@ -8,21 +8,17 @@
 import Foundation
 
 struct AuthAccess: Codable {
+    enum CodingKeys: String, CodingKey {
+        case expires
+        case token
+    }
 
-  enum CodingKeys: String, CodingKey {
-    case expires
-    case token
-  }
+    var expires: Int?
+    var token: String?
 
-  var expires: Int?
-  var token: String?
-
-
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    expires = try container.decodeIfPresent(Int.self, forKey: .expires)
-    token = try container.decodeIfPresent(String.self, forKey: .token)
-  }
-
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        expires = try container.decodeIfPresent(Int.self, forKey: .expires)
+        token = try container.decodeIfPresent(String.self, forKey: .token)
+    }
 }

@@ -7,32 +7,29 @@
 //
 
 import Foundation
-import Foundation
 import os.log
 
-
-
- class XPCHttpResponse: NSObject {
+class XPCHttpResponse: NSObject {
     init(statusCode: Int, data: Data?, error: NSError?) {
         self.statusCode = statusCode
         self.data = data
         self.error = error
     }
+
     var statusCode: Int
     var data: Data?
     var error: NSError?
 }
 
 enum HttpFieldName: String {
-    case statusCode = "statusCode"
-    case headers = "headers"
-    case data = "data"
-    case body = "body"
-    case error = "error"
-    case method = "method"
-    case url = "url"
+    case statusCode
+    case headers
+    case data
+    case body
+    case error
+    case method
+    case url
 }
-
 
 struct MoyaIPCErrorDomain {
     static var requestCancel = "com.giaynhap.RequestCancel"
@@ -41,14 +38,13 @@ struct MoyaIPCErrorDomain {
     static var invalidResponse = "com.giaynhap.InvalidResponse"
 }
    
-
 /// App -> Provider IPC
 @objc protocol ProviderCommunication {
-    func getLogs( _ completionHandler: @escaping (Data?) -> Void)
-    func request(request: [String: NSObject], completionHandler: @escaping ([String: NSObject])-> Void)
+    func getLogs(_ completionHandler: @escaping (Data?) -> Void)
+    func request(request: [String: NSObject], completionHandler: @escaping ([String: NSObject]) -> Void)
     func setProtocol(vpnProtocol: String)
+    func getProtocol(_ completion: @escaping (String) -> Void)
 }
 
 /// Provider -> App IPC
-@objc protocol AppCommunication {
-}
+@objc protocol AppCommunication {}

@@ -8,26 +8,26 @@
 import Foundation
 import SwiftUI
 
-struct HomeMenuButtonView : View {
+struct HomeMenuButtonView: View {
     var iconSize: CGFloat = 24
     var titleSpacing: CGFloat = 16
     var active: Bool = true
     var icon: Image? = Asset.Assets.icLocation.swiftUIImage
     var title: String = "Button Title"
     var content: String = "Button description"
-    var padding: EdgeInsets = EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16)
+    var padding: EdgeInsets = .init(top: 12, leading: 16, bottom: 12, trailing: 16)
     var activeColor: Color = Asset.Colors.primaryColor.swiftUIColor
-    var normalColor: Color = Color.white
+    var normalColor: Color = .white
     var body: some View {
         VStack {
             HStack(alignment: .center) {
                 icon?.resizable()
-                    .foregroundColor( active ? activeColor : normalColor)
+                    .foregroundColor(active ? activeColor : normalColor)
                     .frame(width: iconSize, height: iconSize)
                 Spacer().frame(width: titleSpacing)
                 VStack(alignment: .leading) {
                     Text(title)
-                        .foregroundColor( active ? activeColor : normalColor)
+                        .foregroundColor(active ? activeColor : normalColor)
                         .font(Font.system(size: 14, weight: .semibold))
                     Spacer().frame(height: 4)
                     Text(content)
@@ -36,9 +36,9 @@ struct HomeMenuButtonView : View {
                 }
             }.padding(padding)
                 .background {
-                    if (active) {
-                        HStack(spacing: 0){
-                            Rectangle().foregroundColor( Asset.Colors.primaryColor.swiftUIColor).frame(width:4)
+                    if active {
+                        HStack(spacing: 0) {
+                            Rectangle().foregroundColor(Asset.Colors.primaryColor.swiftUIColor).frame(width: 4)
                             Rectangle()
                                 .fill(
                                     LinearGradient(colors: [
@@ -52,7 +52,7 @@ struct HomeMenuButtonView : View {
                                 removal: .move(edge: .leading)
                             ))
                     } else {
-                        Rectangle().foregroundColor( Asset.Colors.backgroundColor.swiftUIColor)
+                        Rectangle().foregroundColor(Asset.Colors.backgroundColor.swiftUIColor)
                     }
                 }
         }

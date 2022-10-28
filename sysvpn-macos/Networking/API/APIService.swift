@@ -25,7 +25,7 @@ extension APIService: TargetType {
     var baseURL: URL {
         switch self {
         case .getAppSettings, .login, .getListCountry, .logout, .requestCert, .disconnectSession, .getStartServer, .getListMutilHop:
-                return URL(string: Constant.API.root)!
+            return URL(string: Constant.API.root)!
         }
     }
 
@@ -110,7 +110,7 @@ extension APIService: TargetType {
         case .getListCountry, .requestCert, .disconnectSession, .getStartServer, .getListMutilHop:
             return ["Content-type": "application/x-www-form-urlencoded",
                     "Authorization": "Bearer " + (AppDataManager.shared.accessToken ?? ""),
-                    "x-device-info" : AppSetting.shared.getDeviceInfo(), 
+                    "x-device-info": AppSetting.shared.getDeviceInfo()
             ]
         default:
             return ["Content-type": "application/x-www-form-urlencoded"]

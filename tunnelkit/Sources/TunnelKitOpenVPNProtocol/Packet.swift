@@ -34,16 +34,15 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import CTunnelKitCore
+import CTunnelKitOpenVPNProtocol
 import Foundation
 import TunnelKitCore
 import TunnelKitOpenVPNCore
-import CTunnelKitCore
-import CTunnelKitOpenVPNProtocol
 
 extension ControlPacket {
-
-    open override var description: String {
-        var msg: [String] = ["\(code) | \(key)"]
+    override open var description: String {
+        var msg = ["\(code) | \(key)"]
         msg.append("sid: \(sessionId.toHex())")
         if let ackIds = ackIds, let ackRemoteSessionId = ackRemoteSessionId {
             msg.append("acks: {\(ackIds), \(ackRemoteSessionId.toHex())}")
@@ -72,7 +71,7 @@ extension OpenVPN {
         
         private static let magicString = Data(hex: "287f346bd4ef7a812d56b8d3afc5459c")
 
-        func serialized(_ info: Any? = nil) -> Data {
+        func serialized(_: Any? = nil) -> Data {
             var data = OCCPacket.magicString
             data.append(rawValue)
             switch self {
@@ -87,15 +86,15 @@ extension OpenVPN {
 extension PacketCode: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .softResetV1:          return "SOFT_RESET_V1"
-        case .controlV1:            return "CONTROL_V1"
-        case .ackV1:                return "ACK_V1"
-        case .dataV1:               return "DATA_V1"
-        case .hardResetClientV2:    return "HARD_RESET_CLIENT_V2"
-        case .hardResetServerV2:    return "HARD_RESET_SERVER_V2"
-        case .dataV2:               return "DATA_V2"
-        case .unknown:              return "UNKNOWN"
-        @unknown default:           return "UNKNOWN"
+        case .softResetV1: return "SOFT_RESET_V1"
+        case .controlV1: return "CONTROL_V1"
+        case .ackV1: return "ACK_V1"
+        case .dataV1: return "DATA_V1"
+        case .hardResetClientV2: return "HARD_RESET_CLIENT_V2"
+        case .hardResetServerV2: return "HARD_RESET_SERVER_V2"
+        case .dataV2: return "DATA_V2"
+        case .unknown: return "UNKNOWN"
+        @unknown default: return "UNKNOWN"
         }
     }
 }

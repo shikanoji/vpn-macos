@@ -38,7 +38,6 @@ import Foundation
 
 /// Receives events from a `GenericSocket`.
 public protocol GenericSocketDelegate: AnyObject {
-
     /**
      The socket timed out.
      **/
@@ -64,7 +63,6 @@ public protocol GenericSocketDelegate: AnyObject {
 
 /// An opaque socket implementation.
 public protocol GenericSocket {
-
     /// The address of the remote endpoint.
     var remoteAddress: String? { get }
     

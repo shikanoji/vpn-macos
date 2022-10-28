@@ -8,20 +8,19 @@
 import Foundation
 
 struct ServerStateResult: Codable {
+    enum CodingKeys: String, CodingKey {
+        case listServer = "rows"
+        case count
+    }
 
-  enum CodingKeys: String, CodingKey {
-    case listServer = "rows"
-    case count
-  }
+    var listServer: [ListServerState]?
+    var count: Int?
 
-  var listServer: [ListServerState]?
-  var count: Int?
-
-  init(from decoder: Decoder) throws {
-      let container = try decoder.container(keyedBy: CodingKeys.self)
-      listServer = try container.decodeIfPresent([ListServerState].self, forKey: .listServer)
-      count = try container.decodeIfPresent(Int.self, forKey: .count)
-  }
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        listServer = try container.decodeIfPresent([ListServerState].self, forKey: .listServer)
+        count = try container.decodeIfPresent(Int.self, forKey: .count)
+    }
     
     func updateStarCountry() {
         var coutryResult = AppDataManager.shared.userCountry
@@ -30,15 +29,14 @@ struct ServerStateResult: Codable {
         }
         let length = coutryResult?.staticServers?.count ?? 0
         
-        for i in 0 ..< length {
-            let data = listData.filter( { item in
+        for i in 0..<length {
+            let data = listData.filter { item in
                 return item.serverId == coutryResult?.staticServers![i].serverId
-            }).first
+            }.first
             if data != nil {
                 coutryResult?.staticServers![i].score = data?.score
             }
         }
         AppDataManager.shared.userCountry = coutryResult
     }
-
 }

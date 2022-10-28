@@ -177,6 +177,6 @@ let package = Package(
             dependencies: [
                 "TunnelKitCore",
                 "TunnelKitLZO"
-            ]),
+            ])
     ]
 )

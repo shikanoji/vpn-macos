@@ -19,11 +19,9 @@ enum VpnTypeConnect {
             return "wg"
         }
     }
-    
 }
 
 class VpnParamRequest {
-    
     var proto: String?
     var dev: String?
     var countryId: Int?
@@ -33,5 +31,4 @@ class VpnParamRequest {
     var isHop: Int?
     var tech: VpnTypeConnect?
     var cybersec: Int?
-     
 }

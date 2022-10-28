@@ -24,8 +24,8 @@
 //
 
 import Foundation
-import TunnelKitCore
 import SwiftyBeaver
+import TunnelKitCore
 
 private let log = SwiftyBeaver.self
 
@@ -66,7 +66,7 @@ class ResolvedRemote: CustomStringConvertible {
     
     private func handleResult(_ result: Result<[DNSRecord], DNSError>) {
         switch result {
-        case .success(let records):
+        case let .success(records):
             log.debug("DNS resolved addresses: \(records.map { $0.address }.maskedDescription)")
             isResolved = true
             resolvedEndpoints = unrolledEndpoints(records: records)

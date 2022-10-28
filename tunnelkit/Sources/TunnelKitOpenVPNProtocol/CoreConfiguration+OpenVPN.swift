@@ -34,14 +34,13 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
-import TunnelKitCore
 import CTunnelKitCore
 import CTunnelKitOpenVPNProtocol
+import Foundation
+import TunnelKitCore
 
 extension CoreConfiguration {
     struct OpenVPN {
-    
         // MARK: Session
         
         static let usesReplayProtection = true
@@ -68,9 +67,9 @@ extension CoreConfiguration {
             let platform: String
             let platformVersion = ProcessInfo.processInfo.operatingSystemVersion
             #if os(iOS)
-            platform = "ios"
+                platform = "ios"
             #else
-            platform = "mac"
+                platform = "mac"
             #endif
             let uiVersion = versionIdentifier ?? "\(identifier) \(version)"
             var info = [
@@ -79,7 +78,7 @@ extension CoreConfiguration {
                 "IV_UI_VER=\(uiVersion)",
                 "IV_PROTO=2",
                 "IV_NCP=2",
-                "IV_LZO_STUB=1",
+                "IV_LZO_STUB=1"
             ]
             if LZOFactory.isSupported() {
                 info.append("IV_LZO=1")

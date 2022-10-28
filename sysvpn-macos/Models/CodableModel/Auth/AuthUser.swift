@@ -8,34 +8,31 @@
 import Foundation
 
 struct AuthUser: Codable {
+    enum CodingKeys: String, CodingKey {
+        case emailVerified = "email_verified"
+        case premiumExpire = "premium_expire"
+        case createdAt = "created_at"
+        case id
+        case status
+        case isDeleted = "is_deleted"
+        case isPremium = "is_premium"
+        case email
+        case updatedAt = "updated_at"
+        case freePremiumDays = "free_premium_days"
+        case hasPassword = "has_password"
+    }
 
-  enum CodingKeys: String, CodingKey {
-    case emailVerified = "email_verified"
-    case premiumExpire = "premium_expire"
-    case createdAt = "created_at"
-    case id
-    case status
-    case isDeleted = "is_deleted"
-    case isPremium = "is_premium"
-    case email
-    case updatedAt = "updated_at"
-    case freePremiumDays = "free_premium_days"
-    case hasPassword = "has_password"
-  }
-
-  var emailVerified: Bool?
-  var premiumExpire: Int?
-  var createdAt: Int?
-  var id: Int?
-  var status: Int?
-  var isDeleted: Int?
-  var isPremium: Bool?
-  var email: String?
-  var updatedAt: Int?
-  var freePremiumDays: Int?
-  var hasPassword: Bool?
-
-
+    var emailVerified: Bool?
+    var premiumExpire: Int?
+    var createdAt: Int?
+    var id: Int?
+    var status: Int?
+    var isDeleted: Int?
+    var isPremium: Bool?
+    var email: String?
+    var updatedAt: Int?
+    var freePremiumDays: Int?
+    var hasPassword: Bool?
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -52,12 +49,11 @@ struct AuthUser: Codable {
         hasPassword = try container.decodeIfPresent(Bool.self, forKey: .hasPassword)
     }
      
-    static func fromSaved() -> AuthUser? { 
+    static func fromSaved() -> AuthUser? {
         return AuthUser.readFile(fileName: .keySaveUserData) as? AuthUser
     }
     
     func save() {
-        self.saveFile(fileName: .keySaveUserData)
+        saveFile(fileName: .keySaveUserData)
     }
-
 }

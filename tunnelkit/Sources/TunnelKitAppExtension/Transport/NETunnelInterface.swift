@@ -36,8 +36,8 @@
 
 import Foundation
 import NetworkExtension
-import TunnelKitCore
 import SwiftyBeaver
+import TunnelKitCore
 
 private let log = SwiftyBeaver.self
 
@@ -62,9 +62,8 @@ public class NETunnelInterface: TunnelInterface {
     }
     
     private func loopReadPackets(_ queue: DispatchQueue, _ handler: @escaping ([Data]?, Error?) -> Void) {
-
         // WARNING: runs in NEPacketTunnelFlow queue
-        impl?.readPackets { [weak self] (packets, protocols) in
+        impl?.readPackets { [weak self] packets, _ in
             queue.sync {
                 self?.loopReadPackets(queue, handler)
                 handler(packets, nil)

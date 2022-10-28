@@ -50,7 +50,7 @@ public class NetworkExtensionVPN: VPN {
 
     public func prepare() async {
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-            NETunnelProviderManager.loadAllFromPreferences { managers, error in
+            NETunnelProviderManager.loadAllFromPreferences { _, _ in
                 continuation.resume()
             }
         }
@@ -123,8 +123,7 @@ public class NetworkExtensionVPN: VPN {
                     }
                 }
             }
-        } catch {
-        }
+        } catch {}
     }
     
     public func uninstall() async {
@@ -145,8 +144,7 @@ public class NetworkExtensionVPN: VPN {
                     }
                 }
             }
-        } catch {
-        }
+        } catch {}
     }
 
     // MARK: Helpers

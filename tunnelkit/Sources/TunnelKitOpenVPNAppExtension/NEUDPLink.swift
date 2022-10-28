@@ -25,8 +25,8 @@
 
 import Foundation
 import NetworkExtension
-import TunnelKitCore
 import TunnelKitAppExtension
+import TunnelKitCore
 
 class NEUDPLink: LinkInterface {
     private let impl: NWUDPSession
@@ -54,7 +54,6 @@ class NEUDPLink: LinkInterface {
     }
     
     func setReadHandler(queue: DispatchQueue, _ handler: @escaping ([Data]?, Error?) -> Void) {
-        
         // WARNING: runs in Network.framework queue
         impl.setReadHandler({ [weak self] packets, error in
             guard let self = self else {

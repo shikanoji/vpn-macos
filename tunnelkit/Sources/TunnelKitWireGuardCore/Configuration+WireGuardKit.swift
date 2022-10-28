@@ -30,8 +30,8 @@ public struct ConfigurationError: Error {
     let parseError: TunnelConfiguration.ParseError
 }
 
-extension WireGuard.Configuration {
-    public init(wgQuickConfig: String) throws {
+public extension WireGuard.Configuration {
+    init(wgQuickConfig: String) throws {
         do {
             tunnelConfiguration = try TunnelConfiguration(fromWgQuickConfig: wgQuickConfig)
         } catch let parseError as TunnelConfiguration.ParseError {
@@ -39,11 +39,11 @@ extension WireGuard.Configuration {
         }
     }
 
-    public func asWgQuickConfig() -> String {
+    func asWgQuickConfig() -> String {
         return tunnelConfiguration.asWgQuickConfig()
     }
 
-    public var endpointRepresentation: String {
+    var endpointRepresentation: String {
         let endpoints = tunnelConfiguration.peers.compactMap { $0.endpoint }
         if endpoints.count == 1 {
             return endpoints[0].stringRepresentation

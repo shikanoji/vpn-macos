@@ -36,10 +36,10 @@
 
 import Foundation
 #if os(iOS)
-import NetworkExtension
-import SystemConfiguration.CaptiveNetwork
+    import NetworkExtension
+    import SystemConfiguration.CaptiveNetwork
 #else
-import CoreWLAN
+    import CoreWLAN
 #endif
 import SwiftyBeaver
 
@@ -47,7 +47,6 @@ private let log = SwiftyBeaver.self
 
 /// Observes changes in the current Wi-Fi network.
 public class InterfaceObserver: NSObject {
-
     /// A change in Wi-Fi state occurred.
     public static let didDetectWifiChange = Notification.Name("InterfaceObserverDidDetectWifiChange")
 
@@ -94,7 +93,7 @@ public class InterfaceObserver: NSObject {
         if ssid != lastWifiName {
             if let current = ssid {
                 log.debug("SSID is now '\(current.maskedDescription)'")
-                if let last = lastWifiName, (current != last) {
+                if let last = lastWifiName, current != last {
                     queue?.async {
                         NotificationCenter.default.post(name: InterfaceObserver.didDetectWifiChange, object: nil)
                     }
@@ -113,32 +112,32 @@ public class InterfaceObserver: NSObject {
      **/
     public static func fetchCurrentSSID(completionHandler: @escaping (String?) -> Void) {
         #if os(iOS)
-        if #available(iOS 14, macCatalyst 14, *) {
-            NEHotspotNetwork.fetchCurrent {
-                completionHandler($0?.ssid)
-            }
-        } else if #available(macCatalyst 14, *) {
-            guard let interfaceNames = CNCopySupportedInterfaces() as? [CFString] else {
-                completionHandler(nil)
-                return
-            }
-            for name in interfaceNames {
-                guard let iface = CNCopyCurrentNetworkInfo(name) as? [String: Any] else {
-                    continue
+            if #available(iOS 14, macCatalyst 14, *) {
+                NEHotspotNetwork.fetchCurrent {
+                    completionHandler($0?.ssid)
                 }
-                if let ssid = iface["SSID"] as? String {
-                    completionHandler(ssid)
+            } else if #available(macCatalyst 14, *) {
+                guard let interfaceNames = CNCopySupportedInterfaces() as? [CFString] else {
+                    completionHandler(nil)
                     return
                 }
+                for name in interfaceNames {
+                    guard let iface = CNCopyCurrentNetworkInfo(name) as? [String: Any] else {
+                        continue
+                    }
+                    if let ssid = iface["SSID"] as? String {
+                        completionHandler(ssid)
+                        return
+                    }
+                }
+                completionHandler(nil)
+            } else {
+                completionHandler(nil)
             }
-            completionHandler(nil)
-        } else {
-            completionHandler(nil)
-        }
         #else
-        let client = CWWiFiClient.shared()
-        let ssid = client.interfaces()?.compactMap { $0.ssid() }.first
-        completionHandler(ssid)
+            let client = CWWiFiClient.shared()
+            let ssid = client.interfaces()?.compactMap { $0.ssid() }.first
+            completionHandler(ssid)
         #endif
     }
 }

@@ -34,7 +34,7 @@ extension LoginView {
         }
         
         func loadCountry() {
-            _ = APIServiceManager.shared.getListCountry().subscribe({ result in
+            _ = APIServiceManager.shared.getListCountry().subscribe { result in
                 switch result {
                 case let .success(response):
                     AppDataManager.shared.userCountry = response
@@ -49,7 +49,7 @@ extension LoginView {
                     self.errorMessage = error.message
                     self.showAlert = true
                 }
-            })
+            }
         }
         
         func onTouchSignin() {

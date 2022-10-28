@@ -21,24 +21,31 @@ struct sysvpn_macosApp: App {
             } else if WindowMgr.shared.currentWindow == .LoginView {
                 LoginView().frame(width: 500, height: 770, alignment: .center)
                     .withHostingWindow { window in
-                    if let window = window {
-                        window.styleMask = [.titled, .fullSizeContentView, .borderless, .closable, .miniaturizable]
-                        window.standardWindowButton(.zoomButton)?.isHidden = true
-                        window.backgroundColor = Asset.Colors.mainBackgroundColor.color
+                        if let window = window {
+                            window.styleMask = [.titled, .fullSizeContentView, .borderless, .closable, .miniaturizable]
+                            window.standardWindowButton(.zoomButton)?.isHidden = true
+                            window.backgroundColor = Asset.Colors.mainBackgroundColor.color
+                        }
                     }
-                }
+                    .environmentObject(GlobalAppStates.shared)
+                    .environmentObject(WindowMgr.shared)
             } else if WindowMgr.shared.currentWindow == .MainView {
-                HomeView().environmentObject(GlobalAppStates.shared)
-                .environmentObject(NetworkAppStates.shared)
-                .environmentObject(MapAppStates.shared)
+                HomeView().withHostingWindow { window in
+                    if let window = window {
+                        window.styleMask = [.titled, .fullSizeContentView, .closable, .miniaturizable, .resizable]
+                        window.backgroundColor = Asset.Colors.mainBackgroundColor.color
+                        window.isMovableByWindowBackground = false
+                        window.standardWindowButton(.zoomButton)?.isHidden = false
+                    }
+                }.environmentObject(GlobalAppStates.shared)
+                    .environmentObject(NetworkAppStates.shared)
+                    .environmentObject(MapAppStates.shared)
+                    .environmentObject(WindowMgr.shared)
             }
         }.windowStyle(HiddenTitleBarWindowStyle())
             .commands {
-                CommandGroup(replacing: .newItem, addition: {
-                    
-                })
+                CommandGroup(replacing: .newItem, addition: {})
             }
             .handlesExternalEvents(matching: ["main"])
-        
     }
 }

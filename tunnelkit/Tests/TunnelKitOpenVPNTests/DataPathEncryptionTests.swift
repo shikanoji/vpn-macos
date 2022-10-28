@@ -34,10 +34,10 @@
 //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import XCTest
-@testable import TunnelKitCore
 import CTunnelKitCore
 import CTunnelKitOpenVPNProtocol
+@testable import TunnelKitCore
+import XCTest
 
 class DataPathEncryptionTests: XCTestCase {
     private let cipherKey = try! SecureRandom.safeData(length: 32)
@@ -48,8 +48,7 @@ class DataPathEncryptionTests: XCTestCase {
     
     private var dec: DataPathDecrypter!
     
-    override func setUp() {
-    }
+    override func setUp() {}
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
@@ -128,13 +127,13 @@ class DataPathEncryptionTests: XCTestCase {
         let expectedPacketId: UInt32 = 0x56341200
         let key: UInt8 = 4
 
-        var encryptedPacketBytes: [UInt8] = [UInt8](repeating: 0, count: 1000)
-        var encryptedPacketLength: Int = 0
+        var encryptedPacketBytes = [UInt8](repeating: 0, count: 1000)
+        var encryptedPacketLength = 0
         enc.assembleDataPacket(nil, packetId: expectedPacketId, payload: expectedPayload, into: &encryptedPacketBytes, length: &encryptedPacketLength)
         let encrypted = try! enc.encryptedDataPacket(withKey: key, packetId: expectedPacketId, packetBytes: encryptedPacketBytes, packetLength: encryptedPacketLength)
 
-        var decryptedBytes: [UInt8] = [UInt8](repeating: 0, count: 1000)
-        var decryptedLength: Int = 0
+        var decryptedBytes = [UInt8](repeating: 0, count: 1000)
+        var decryptedLength = 0
         var packetId: UInt32 = 0
         var compressionHeader: UInt8 = 0
         try! dec.decryptDataPacket(encrypted, into: &decryptedBytes, length: &decryptedLength, packetId: &packetId)

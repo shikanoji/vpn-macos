@@ -39,7 +39,7 @@ extension HomeView {
                 let arrCity = countryData?.city ?? []
                 
                 for dataCity in arrCity {
-                    let itemCityModel = HomeListCountryModel(type: .country, title: dataCity.name ?? "")
+                    let itemCityModel = HomeListCountryModel(type: .country, title: dataCity.name ?? "", origin: dataCity)
                     listCity.append(itemCityModel)
                 }
             }
@@ -52,7 +52,7 @@ extension HomeView {
                 if recentCountry.count  > 0 {
                     listCountry.append(HomeListCountryModel(type: .header, title: "Recent locations"))
                     for item in recentCountry {
-                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0)
+                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0, origin: item)
                         listCountry.append(countryItemModel)
                     }
                     listCountry.append(HomeListCountryModel(type: .spacing))
@@ -61,7 +61,7 @@ extension HomeView {
                 if recommendCountry.count  > 0 {
                     listCountry.append(HomeListCountryModel(type: .header, title: "Recommended"))
                     for item in recommendCountry {
-                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0)
+                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0, origin: item)
                         listCountry.append(countryItemModel)
                     }
                     listCountry.append(HomeListCountryModel(type: .spacing))
@@ -69,7 +69,7 @@ extension HomeView {
                 if availableCountry.count  > 0 {
                     listCountry.append(HomeListCountryModel(type: .header, title: "All countries"))
                     for item in availableCountry {
-                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0)
+                        let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0, origin: item)
                         listCountry.append(countryItemModel)
                     }
                     listCountry.append(HomeListCountryModel(type: .spacing))
@@ -83,7 +83,7 @@ extension HomeView {
                     listStaticServer.append(HomeListCountryModel(type: .header, title: "Static ip"))
                     for item in staticServer {
                         let score = item.score ?? 1 
-                        let staticItem = HomeListCountryModel(type: .country, title: item.countryName ?? "", imageUrl: item.flag, cityName: item.cityName ?? "", serverNumber: item.serverNumber ?? 1, serverStar: score + 1)
+                        let staticItem = HomeListCountryModel(type: .country, title: item.countryName ?? "", imageUrl: item.flag, cityName: item.cityName ?? "", serverNumber: item.serverNumber ?? 1, serverStar: score + 1, origin: item)
                         listStaticServer.append(staticItem)
                     }
                     listStaticServer.append(HomeListCountryModel(type: .spacing))
@@ -95,7 +95,7 @@ extension HomeView {
                 if multiHopServer.count > 0 {
                     listMultiHop.append(HomeListCountryModel(type: .header, title: "MultiHop")) 
                     for item in multiHopServer {
-                        let multiHopItem = HomeListCountryModel(type: .country, title: item.entry?.country?.name ?? "", imageUrl: item.entry?.country?.flag, title2: item.exit?.country?.name ?? "", imageUrl2: item.exit?.country?.flag)
+                        let multiHopItem = HomeListCountryModel(type: .country, title: item.entry?.country?.name ?? "", imageUrl: item.entry?.country?.flag, title2: item.exit?.country?.name ?? "", imageUrl2: item.exit?.country?.flag, origin: item)
                         listMultiHop.append(multiHopItem)
                     }
                 }
@@ -110,6 +110,21 @@ extension HomeView {
             }
             
             
+            func connect(to info: INodeInfo? = nil) {
+                let dj = DependencyContainer.shared
+                if let city  = info as? CountryCity {
+                    dj.vpnCore.connect(with: .init(connectType: .cityId(id: city.id ?? 0)))
+                } else if let country = info as? CountryAvailables {
+                    dj.vpnCore.connect(with: .init(connectType: .countryId(id: country.id ?? 0 )))
+                } else if let staticServer = info as? CountryStaticServers {
+                    dj.vpnCore.connectTo(connectType: .serverId(id: staticServer.serverId ?? 0), params: nil)
+                }
+                else if let multiplehop = info as? MultiHopResult {
+                    dj.vpnCore.connect(with: .init(connectType: .serverId(id: multiplehop.entry?.serverId ?? 0 ), params: SysVPNConnectParams(isHop: true) ))
+                }
+                
+            }
+            
         
     }
 }
@@ -118,12 +133,37 @@ extension HomeLeftPanelView {
     @MainActor class HomeLeftPanelViewModel: ObservableObject {
         
         @Published var selectedMenuItem: HomeMenuItem = .none
+        @Published var totalCountry: Int = 0
+        @Published var totalMultipleHop: Int = 0
         var isConnected: Bool = false
-        var totalCountry: Int = 0 
-
+        
         init() {
-            let availableCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
-            totalCountry = availableCountry.count
+            onUpdateServer()
+            NotificationCenter.default.addObserver(self, selector: #selector(onUpdateServer), name: .updateCountry, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(onUpdateMultipleHop), name: .updateMultipleHop, object: nil)
+        }
+        
+        deinit {
+            NotificationCenter.default.removeObserver(self, name: .updateCountry, object: nil)
+            NotificationCenter.default.removeObserver(self, name: .updateMultipleHop, object: nil)
+        }
+        
+        @objc func onUpdateServer() {
+            AppDataManager.shared.asyncLoadConfig {
+                return AppDataManager.shared.userCountry?.availableCountries ?? []
+            } completion: { availableCountry in
+                self.totalCountry = availableCountry.count
+            }
+
+        }
+        
+        @objc func onUpdateMultipleHop() {
+            
+            AppDataManager.shared.asyncLoadConfig {
+                return AppDataManager.shared.mutilHopServer ?? []
+            } completion: { availableCountry in
+                self.totalMultipleHop = availableCountry.count
+            } 
         }
         
         func onTapConnect() {
@@ -149,10 +189,5 @@ extension HomeLeftPanelView {
             }
             
         }
-        
-       
-        
-        
-        
     }
 } 

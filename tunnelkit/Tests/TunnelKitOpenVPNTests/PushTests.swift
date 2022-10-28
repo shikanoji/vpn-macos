@@ -23,11 +23,11 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import XCTest
 @testable import TunnelKitCore
+@testable import TunnelKitOpenVPNAppExtension
 @testable import TunnelKitOpenVPNCore
 @testable import TunnelKitOpenVPNProtocol
-@testable import TunnelKitOpenVPNAppExtension
+import XCTest
 
 private extension OpenVPN.PushReply {
     func debug() {
@@ -40,7 +40,6 @@ private extension OpenVPN.PushReply {
 }
 
 class PushTests: XCTestCase {
-    
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }

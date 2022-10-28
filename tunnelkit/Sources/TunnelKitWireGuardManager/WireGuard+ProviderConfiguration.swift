@@ -23,20 +23,19 @@
 //  along with TunnelKit.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import __TunnelKitUtils
 import Foundation
 import NetworkExtension
+import SwiftyBeaver
 import TunnelKitManager
 import TunnelKitWireGuardCore
 import WireGuardKit
-import SwiftyBeaver
-import __TunnelKitUtils
 
 private let log = SwiftyBeaver.self
 
-extension WireGuard {
-
+public extension WireGuard {
     /// Specific configuration for WireGuard.
-    public struct ProviderConfiguration: Codable {
+    struct ProviderConfiguration: Codable {
         fileprivate enum Keys: String {
             case logPath = "WireGuard.LogPath"
 
@@ -72,8 +71,7 @@ extension WireGuard {
 // MARK: NetworkExtensionConfiguration
 
 extension WireGuard.ProviderConfiguration: NetworkExtensionConfiguration {
-
-        public func asTunnelProtocol(
+    public func asTunnelProtocol(
         withBundleIdentifier tunnelBundleIdentifier: String,
         extra: NetworkExtensionExtra?
     ) throws -> NETunnelProviderProtocol {
@@ -89,13 +87,12 @@ extension WireGuard.ProviderConfiguration: NetworkExtensionConfiguration {
 
 // MARK: Shared data
 
-extension WireGuard.ProviderConfiguration {
-    public var lastError: WireGuardProviderError? {
+public extension WireGuard.ProviderConfiguration {
+    var lastError: WireGuardProviderError? {
         return defaults?.wireGuardLastError
     }
     
-
-    public var urlForDebugLog: URL? {
+    var urlForDebugLog: URL? {
         return defaults?.wireGuardURLForDebugLog(appGroup: appGroup)
     }
 
@@ -104,12 +101,12 @@ extension WireGuard.ProviderConfiguration {
     }
 }
 
-extension WireGuard.ProviderConfiguration {
-    public func _appexSetLastError(_ newValue: WireGuardProviderError?) {
+public extension WireGuard.ProviderConfiguration {
+    func _appexSetLastError(_ newValue: WireGuardProviderError?) {
         defaults?.wireGuardLastError = newValue
     }
 
-    public var _appexDebugLogURL: URL? {
+    var _appexDebugLogURL: URL? {
         guard let path = debugLogPath else {
             return nil
         }
@@ -117,13 +114,13 @@ extension WireGuard.ProviderConfiguration {
             .appendingPathComponent(path)
     }
 
-    public func _appexSetDebugLogPath() {
+    func _appexSetDebugLogPath() {
         defaults?.setValue(debugLogPath, forKey: WireGuard.ProviderConfiguration.Keys.logPath.rawValue)
     }
 }
 
-extension UserDefaults {
-    public func wireGuardURLForDebugLog(appGroup: String) -> URL? {
+public extension UserDefaults {
+    func wireGuardURLForDebugLog(appGroup: String) -> URL? {
         guard let path = string(forKey: WireGuard.ProviderConfiguration.Keys.logPath.rawValue) else {
             return nil
         }
@@ -131,7 +128,7 @@ extension UserDefaults {
             .appendingPathComponent(path)
     }
 
-    public fileprivate(set) var wireGuardLastError: WireGuardProviderError? {
+    fileprivate(set) var wireGuardLastError: WireGuardProviderError? {
         get {
             guard let rawValue = string(forKey: WireGuard.ProviderConfiguration.Keys.lastError.rawValue) else {
                 return nil

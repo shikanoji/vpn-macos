@@ -153,12 +153,11 @@ class AppDataManager {
     }
     
     var isMultipleHop: Bool {
-        get { 
-            return UserDefaults.standard.bool(forKey: .keyIsMultiplehop)
+        get {
+           // return UserDefaults.standard.bool(forKey: .keyIsMultiplehop)
+           return DependencyContainer.shared.vpnCore.lastConnectionConiguration?.connectionParam?.isHop == true
         }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: .keyIsMultiplehop)
-        }
+       
     }
     
     func saveIpInfo(info: AppSettingIpInfo?) {
@@ -194,7 +193,6 @@ class AppDataManager {
         }
     }
     
-    
     private var _userCountry: CountryResult?
     
     var userCountry: CountryResult? {
@@ -206,7 +204,7 @@ class AppDataManager {
         }
         set {
             _userCountry = newValue
-            _userCountry?.saveListCountry() 
+            _userCountry?.saveListCountry()
         }
     }
     
@@ -225,7 +223,6 @@ class AppDataManager {
         _userCountry?.saveListCountry()
     }
     
-    
     private var _mutilHopServer: [MultiHopResult]?
     
     var mutilHopServer: [MultiHopResult]? {
@@ -237,11 +234,10 @@ class AppDataManager {
         }
         set {
             _mutilHopServer = newValue
-            let value = MultiHopSaveWraper(hop: newValue);
+            let value = MultiHopSaveWraper(hop: newValue)
             value.saveListMultiHop()
         }
     }
-    
     
     func getStaticNodeByServerInfo(server: VPNServer) -> INodeInfo? {
         if let node = userCountry?.staticServers?.first(where: { sInfo in
@@ -252,8 +248,8 @@ class AppDataManager {
         
         return nil
     }
+
     func getNodeByServerInfo(server: VPNServer) -> INodeInfo? {
-        
         if isMultipleHop {
             guard let hop = mutilHopServer?.first(where: { sv in
                 return sv.entry?.serverId == server.id
@@ -262,18 +258,17 @@ class AppDataManager {
             }
             hop.entry?.city?.country = hop.entry?.country
             hop.exit?.city?.country = hop.exit?.country
-        return hop
-            
+            return hop
         }
-       guard let country =  userCountry?.availableCountries?.first(where: { ct in
-           return ct.city?.contains(where: { city in
-               return city.id == server.cityId
-           }) ?? false
-       }) else {
-           return getStaticNodeByServerInfo(server: server)
-       }
+        guard let country = userCountry?.availableCountries?.first(where: { ct in
+            return ct.city?.contains(where: { city in
+                return city.id == server.cityId
+            }) ?? false
+        }) else {
+            return getStaticNodeByServerInfo(server: server)
+        }
         
-        guard let city =  country.city?.first(where: { city in
+        guard let city = country.city?.first(where: { city in
             return city.id == server.cityId
         }) else {
             return country
@@ -284,4 +279,3 @@ class AppDataManager {
         return updateCity
     }
 }
-

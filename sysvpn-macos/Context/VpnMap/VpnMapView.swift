@@ -16,14 +16,14 @@ struct VpnMapView: View {
     @Binding var scale: CGFloat
     var rescaleView: CGFloat = 2
     var numberImage = 1
-    var aspecRaito: CGFloat =  2048 / 1588
+    var aspecRaito: CGFloat = 2048 / 1588
     var baseHeight: CGFloat = 588
     var scaleVector: CGFloat = 1
-    @State  var isShowCity = false
+    @State var isShowCity = false
     @State var selectedNode: NodePoint? = nil
     @State var connectedNode: NodePoint? = nil
-    var connectPoints: [ConnectPoint] = [  ]
-    @State  var updateCameraPosition: CGPoint? = .zero;
+    var connectPoints: [ConnectPoint] = []
+    @State var updateCameraPosition: CGPoint? = .zero
   
     var body: some View {
         GeometryReader { proxy in
@@ -31,7 +31,7 @@ struct VpnMapView: View {
                 connectedNodeInfo: mapState.connectedNode,
                 size: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height),
                 scale: rescaleView,
-                loop: numberImage,  
+                loop: numberImage,
                 scaleVector: scaleVector * proxy.size.height / baseHeight * rescaleView,
                 connectPoints: connectPoints,
                 nodeList: isShowCity ? viewModel.listCity : viewModel.listCountry,
@@ -39,7 +39,7 @@ struct VpnMapView: View {
                     selectedNode = node
                     mapState.selectedNode = node.info
                 }, onHoverNode: {
-                    (node, hover) in
+                    node, hover in
                     if node.info.state == .disabled {
                         return
                     }
@@ -56,52 +56,52 @@ struct VpnMapView: View {
             .modifier(ZoomModifier(contentSize: CGSize(width: proxy.size.height * aspecRaito, height: proxy.size.height), screenSize: proxy.size, numberImage: numberImage, currentScale: $scale,
                                    cameraPosition: $updateCameraPosition,
                                    overlayLayer: VpnMapOverlayLayer(
-                                    scaleVector: scaleVector * proxy.size.height / baseHeight  * rescaleView, scaleValue: scale,
-                                    rescaleView: rescaleView,
-                                    nodePoint: selectedNode,
-                                    connectedNode: connectedNode,
-                                    isShowCity: isShowCity
-                                   ) ))
+                                       scaleVector: scaleVector * proxy.size.height / baseHeight * rescaleView, scaleValue: scale,
+                                       rescaleView: rescaleView,
+                                       nodePoint: selectedNode,
+                                       connectedNode: connectedNode,
+                                       isShowCity: isShowCity
+                                   )))
       
-        .simultaneousGesture(TapGesture().onEnded {
-            selectedNode = nil
-        })
-       // .clipped()
-        .onChange(of: scale) { newValue in
-            isShowCity =  scale > 1.5
-        }.onChange(of: isShowCity, perform: { newValue in
-            selectedNode = nil
-        }).onChange(of: selectedNode, perform: { newValue in
-            mapState.selectedNode = newValue?.info
-            updateCameraPosition = newValue?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
-        })
-        .onChange(of: appState.displayState, perform: { newValue in
-            if appState.displayState == .connected  || appState.displayState == .connecting {
-                if mapState.connectedNode != nil {
-                    connectedNode = mapState.connectedNode?.toNodePoint(mapState.serverInfo?.ipAddress)
-                    updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
-                    return 
+            .simultaneousGesture(TapGesture().onEnded {
+                selectedNode = nil
+            })
+            // .clipped()
+            .onChange(of: scale) { _ in
+                isShowCity = scale > 1.5
+            }.onChange(of: isShowCity, perform: { _ in
+                selectedNode = nil
+            }).onChange(of: selectedNode, perform: { newValue in
+                mapState.selectedNode = newValue?.info
+                updateCameraPosition = newValue?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
+            })
+            .onChange(of: appState.displayState, perform: { _ in
+                if appState.displayState == .connected || appState.displayState == .connecting {
+                    if mapState.connectedNode != nil {
+                        connectedNode = mapState.connectedNode?.toNodePoint(mapState.serverInfo?.ipAddress)
+                        updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
+                        return
+                    }
                 }
-            }
             
-            selectedNode = nil
-        })
-        .onChange(of: viewModel.isLoaded, perform: { newValue in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                if let node =  mapState.connectedNode,  appState.displayState == .connected {
-                    self.selectedNode = nil
-                    self.connectedNode = node.toNodePoint(mapState.serverInfo?.ipAddress)
-                    updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
+                selectedNode = nil
+            })
+            .onChange(of: viewModel.isLoaded, perform: { _ in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    if let node = mapState.connectedNode, appState.displayState == .connected {
+                        self.selectedNode = nil
+                        self.connectedNode = node.toNodePoint(mapState.serverInfo?.ipAddress)
+                        updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * proxy.size.height / baseHeight)
+                    }
                 }
-            }
-        })
-    }
+            })
+        }
         .clipped()
     }
 }
 
 struct LoopMapView: View {
-    var connectedNodeInfo : INodeInfo?
+    var connectedNodeInfo: INodeInfo?
     var size: CGSize
     var scale: CGFloat = 1.5
     var loop: Int
@@ -114,7 +114,6 @@ struct LoopMapView: View {
     var mapLayer1: some View {
         Asset.Assets.mapLayer1.swiftUIImage.resizable()
             .frame(width: size.width * scale, height: size.height * scale)
-            
     }
     
     var pointLayer: some View {
@@ -127,7 +126,6 @@ struct LoopMapView: View {
             isShowCity: isShowCity
         )
         .frame(width: size.width * scale, height: size.height * scale)
-       
     }
     
     var body: some View {
@@ -153,4 +151,3 @@ struct VpnMapView_Previews: PreviewProvider {
         VpnMapView(scale: $value)
     }
 }
-

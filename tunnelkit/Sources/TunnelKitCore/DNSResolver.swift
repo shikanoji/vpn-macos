@@ -38,7 +38,6 @@ import Foundation
 
 /// Result of `DNSResolver`.
 public struct DNSRecord {
-
     /// Address string.
     public let address: String
 
@@ -60,7 +59,6 @@ public enum DNSError: Error {
 
 /// Convenient methods for DNS resolution.
 public class DNSResolver {
-
     private static let queue = DispatchQueue(label: "DNSResolver")
 
     /**
@@ -170,6 +168,5 @@ public class DNSResolver {
         return CFSwapInt32BigToHost(addr.s_addr)
     }
 
-    private init() {
-    }
+    private init() {}
 }

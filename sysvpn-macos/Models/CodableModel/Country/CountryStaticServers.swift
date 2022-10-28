@@ -8,22 +8,21 @@
 import Foundation
 
 class CountryStaticServers: Codable {
-
-  enum CodingKeys: String, CodingKey {
-    case countryId
-    case serverNumber
-    case flag
-    case latitude
-    case cityName
-    case iso2
-    case currentLoad
-    case longitude
-    case x
-    case countryName
-    case iso3
-    case serverId
-    case y
-  }
+    enum CodingKeys: String, CodingKey {
+        case countryId
+        case serverNumber
+        case flag
+        case latitude
+        case cityName
+        case iso2
+        case currentLoad
+        case longitude
+        case x
+        case countryName
+        case iso3
+        case serverId
+        case y
+    }
 
     var countryId: Int?
     var serverNumber: Int?
@@ -40,24 +39,23 @@ class CountryStaticServers: Codable {
     var y: Double?
     var score: Int?
 
-    //custom
+    // custom
     var cacheNode: NodePoint?
 
     required init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    countryId = try container.decodeIfPresent(Int.self, forKey: .countryId)
-    serverNumber = try container.decodeIfPresent(Int.self, forKey: .serverNumber)
-    flag = try container.decodeIfPresent(String.self, forKey: .flag)
-    latitude = try container.decodeIfPresent(String.self, forKey: .latitude)
-    cityName = try container.decodeIfPresent(String.self, forKey: .cityName)
-    iso2 = try container.decodeIfPresent(String.self, forKey: .iso2)
-    currentLoad = try container.decodeIfPresent(Int.self, forKey: .currentLoad)
-    longitude = try container.decodeIfPresent(String.self, forKey: .longitude)
-    x = try container.decodeIfPresent(Double.self, forKey: .x)
-    countryName = try container.decodeIfPresent(String.self, forKey: .countryName)
-    iso3 = try container.decodeIfPresent(String.self, forKey: .iso3)
-    serverId = try container.decodeIfPresent(Int.self, forKey: .serverId)
-    y = try container.decodeIfPresent(Double.self, forKey: .y)
-  }
-
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        countryId = try container.decodeIfPresent(Int.self, forKey: .countryId)
+        serverNumber = try container.decodeIfPresent(Int.self, forKey: .serverNumber)
+        flag = try container.decodeIfPresent(String.self, forKey: .flag)
+        latitude = try container.decodeIfPresent(String.self, forKey: .latitude)
+        cityName = try container.decodeIfPresent(String.self, forKey: .cityName)
+        iso2 = try container.decodeIfPresent(String.self, forKey: .iso2)
+        currentLoad = try container.decodeIfPresent(Int.self, forKey: .currentLoad)
+        longitude = try container.decodeIfPresent(String.self, forKey: .longitude)
+        x = try container.decodeIfPresent(Double.self, forKey: .x)
+        countryName = try container.decodeIfPresent(String.self, forKey: .countryName)
+        iso3 = try container.decodeIfPresent(String.self, forKey: .iso3)
+        serverId = try container.decodeIfPresent(Int.self, forKey: .serverId)
+        y = try container.decodeIfPresent(Double.self, forKey: .y)
+    }
 }
