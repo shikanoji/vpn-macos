@@ -11,6 +11,12 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum L10n {
   public enum Global {
+    /// Account
+    public static let account = L10n.tr("Global", "account", fallback: "Account")
+    /// Appearence
+    public static let appearence = L10n.tr("Global", "appearence", fallback: "Appearence")
+    /// General
+    public static let general = L10n.tr("Global", "general", fallback: "General")
     /// Global.strings
     ///   sysvpn-macos
     /// 
@@ -35,18 +41,24 @@ public enum L10n {
     /// Quick
     /// Connect
     public static let quickConnect = L10n.tr("Global", "quickConnect", fallback: "Quick\nConnect")
-    /// Setting
-    public static let setting = L10n.tr("Global", "setting", fallback: "Setting")
+    /// Settings
+    public static let setting = L10n.tr("Global", "setting", fallback: "Settings")
     /// Static IP
     public static let staticIP = L10n.tr("Global", "staticIP", fallback: "Static IP")
     /// Personal Static IP address
     public static let staticIPDesc = L10n.tr("Global", "staticIPDesc", fallback: "Personal Static IP address")
+    /// Statistics
+    public static let statistics = L10n.tr("Global", "statistics", fallback: "Statistics")
+    /// Support Center
+    public static let supportCenter = L10n.tr("Global", "supportCenter", fallback: "Support Center")
     /// Sysvpn Configuration
     public static let sysvpnConfiguration = L10n.tr("Global", "sysvpnConfiguration", fallback: "Sysvpn Configuration")
     /// VPN Connected
     public static let vpnConnected = L10n.tr("Global", "vpnConnected", fallback: "VPN Connected")
     /// VPN not connected
     public static let vpnNotConnected = L10n.tr("Global", "vpnNotConnected", fallback: "VPN not connected")
+    /// VPN Settings
+    public static let vpnSetting = L10n.tr("Global", "vpnSetting", fallback: "VPN Settings")
   }
   public enum Login {
     /// All Country

@@ -22,5 +22,13 @@
 "multiHop" = "MultiHop";
 "multiHopDesc" = "locations available";
 "sysvpnConfiguration" = "Sysvpn Configuration";
-"setting" = "Setting";
+"setting" = "Settings";
 "helpCenter" = "Help Center";
+
+//setting
+"general" = "General";
+"vpnSetting" = "VPN Settings";
+"account" = "Account";
+"statistics" = "Statistics";
+"appearence" = "Appearence";
+"supportCenter" = "Support Center";

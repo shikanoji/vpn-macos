@@ -34,7 +34,7 @@ struct HomeView: View {
                                 insertion: .move(edge: .trailing),
                                 removal: .move(edge: .leading)
                                 ).combined(with: .opacity))
-                            .offset(x: isShowCityAnim ? 0 : 400, y: 0) 
+                            .offset(x: isShowCityAnim ? 0 : 400, y: 0)
                      
                 } else if viewModel.selectedMenuItem == .staticIp {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listStaticServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected)
@@ -73,6 +73,7 @@ struct HomeView: View {
     }
     
     var body: some View {
+    
         HStack(spacing: 0){
             HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem)
                 .frame(width: 240)
@@ -150,8 +151,17 @@ struct HomeView: View {
                     
                 }
             }
+            .overlay{
+                SettingView()
+            }
             
-        }.frame(minWidth: 1000, minHeight: 650)
+            
+            
+            
+        }
+        .frame(minWidth: 1000, minHeight: 650)
+            
+        
         .onChange(of: appState.displayState) { newValue in
             withAnimation {
                 localIsConnected = newValue == .connected
