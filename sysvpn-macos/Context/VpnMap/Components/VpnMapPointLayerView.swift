@@ -103,7 +103,7 @@ struct VpnMapPointLayerView: View {
                         ).position(x: nodePos.x, y: nodePos.y)
                             .onTapGesture {
                                 onTouchPoint?(entryNode)
-                            } .animation(.linear(duration: 0.1), value: UUID())
+                            } .animation(.none, value: UUID())
                         
                         VpnMapPointView(state: .activated,
                                         locationIndex: 2,
@@ -113,7 +113,7 @@ struct VpnMapPointLayerView: View {
                         ).position(x: nodePos2.x, y: nodePos2.y)
                             .onTapGesture {
                                 onTouchPoint?(exitNode)
-                        } .animation(.linear(duration: 0.1), value: UUID())
+                        } .animation(.none, value: UUID())
                     }
                 }
                 // single connected node point
