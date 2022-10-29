@@ -120,9 +120,13 @@ struct VpnMapOverlayLayer: ViewModifier {
         .onChange(of: scaleVector) { newValue in
             updateLocation(nodePoint: nodePoint, vector: newValue)
         }.onChange(of: isShowCity) { newValue in
-            updateLocation(nodePoint: nodePoint, vector: scaleVector, isShowCity: newValue)
-            if let node = connectedNode {
-                connectedPosition = computNodePointPos(node: node, isShowCity: newValue)
+            withAnimation {
+                updateLocation(nodePoint: nodePoint, vector: scaleVector, isShowCity: newValue)
+                if let node = connectedNode {
+                   
+                        connectedPosition = computNodePointPos(node: node, isShowCity: newValue)
+                    
+                }
             }
         }.onChange(of: connectedNode) { newValue in
             if let node = newValue {

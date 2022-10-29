@@ -120,6 +120,8 @@ extension HomeView {
                 dj.vpnCore.connectTo(connectType: .serverId(id: staticServer.serverId ?? 0), params: nil)
             } else if let multiplehop = info as? MultiHopResult {
                 dj.vpnCore.connect(with: .init(connectType: .serverId(id: multiplehop.entry?.serverId ?? 0), params: SysVPNConnectParams(isHop: true)))
+                multiplehop.entry?.city?.country = multiplehop.entry?.country
+                multiplehop.exit?.city?.country = multiplehop.exit?.country
                 MapAppStates.shared.connectedNode = multiplehop
             }
         }

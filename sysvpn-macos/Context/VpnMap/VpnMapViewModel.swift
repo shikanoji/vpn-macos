@@ -14,12 +14,12 @@ extension VpnMapView {
         @Published var listCity: [NodePoint] = []
         @Published var listCountry: [NodePoint] = []
         @Published var isLoaded: Bool = false
-         
+        
         init() {
             initData()
             NotificationCenter.default.addObserver(self, selector: #selector(onUpdateServer), name: .updateCountry, object: nil)
         }
-         
+        
         deinit {
             NotificationCenter.default.removeObserver(self, name: .updateCountry, object: nil)
         }
@@ -51,19 +51,19 @@ extension VpnMapView {
                 
                 cities.forEach { city in
                     city.country = country
-                   // listCity.append(updateCity)
+                    // listCity.append(updateCity)
                     children.append(NodePoint(point: CGPoint(x: NodePoint.convertX(Double(city.x ?? 0)), y: NodePoint.convertY(Double(city.y ?? 0))), info: city))
                 }
                 newData.append( NodePoint(point: CGPoint(x: NodePoint.convertX(country.x), y: NodePoint.convertY(country.y)), info: country, children: children))
             }
             self.listCountry = newData
             /* self.listCountry = listCountry.map { country in
-                return NodePoint(point: CGPoint(x: NodePoint.convertX(country.x), y: NodePoint.convertY(country.y)), info: country)
-            }
-            
-            self.listCity = listCity.map { city in
-                return NodePoint(point: CGPoint(x: NodePoint.convertX(Double(city.x ?? 0)), y: NodePoint.convertY(Double(city.y ?? 0))), info: city)
-            }*/
+             return NodePoint(point: CGPoint(x: NodePoint.convertX(country.x), y: NodePoint.convertY(country.y)), info: country)
+             }
+             
+             self.listCity = listCity.map { city in
+             return NodePoint(point: CGPoint(x: NodePoint.convertX(Double(city.x ?? 0)), y: NodePoint.convertY(Double(city.y ?? 0))), info: city)
+             }*/
         }
     }
 }
@@ -86,7 +86,7 @@ extension CountryStaticServers: INodeInfo, Equatable {
     static func == (lhs: CountryStaticServers, rhs: CountryStaticServers) -> Bool {
         return CountryStaticServers.equal(lhs: lhs, rhs: rhs)
     }
-
+    
     var state: VpnMapPontState {
         if GlobalAppStates.shared.displayState == .connected {
             return .disabled
@@ -127,7 +127,7 @@ extension CountryCity: INodeInfo, Equatable {
     var level1Id: String {
         return String(self.id ?? 0)
     }
- 
+    
     var locationDescription: String? {
         return nil
     }
@@ -198,7 +198,7 @@ extension CountryAvailables: INodeInfo, Equatable {
             }
             return .disabled
         }
-       
+        
         return .normal
     }
     
