@@ -115,8 +115,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
             do {
                 print("[RESPONSE]: \(String(data: response.data, encoding: .utf8) ?? "")")
                 let result = try JSONDecoder().decode(BaseCodable<T>.self, from: response.data)
-                print("[RESPONSE]: \(String(data: response.data, encoding: .utf8) ?? "")")
-                if !(result.success ?? false) {
+                 if !(result.success ?? false) {
                     let genericError = ResponseError(statusCode: response.statusCode,
                                                      message: result.message ?? "")
                     print("[RESULT ERROR]: \(genericError)")

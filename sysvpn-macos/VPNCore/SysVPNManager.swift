@@ -247,6 +247,8 @@ class SysVPNManager: SysVPNManagerProtocol {
         case .disconnected, .error, .invalid:
             disconnectCompletion?()
             disconnectCompletion = nil
+            
+            vpnManager.vpnConnection.stopVPNTunnel() 
         default:
             vpnManager.vpnConnection.stopVPNTunnel()
         }
