@@ -33,7 +33,7 @@ struct VpnMapOverlayLayer: ViewModifier {
     }
     
     var idName: String {
-        return (nodePoint?.info.locationDescription ?? "") + tooltipNodeName
+        return (nodePoint?.info.locationDescription ?? "") + tooltipNodeName +  (nodePoint?.info.locationSubname ?? "") 
     }
     
     var localDescription: String? {

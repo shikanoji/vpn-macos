@@ -38,12 +38,16 @@ class BaseServiceManager<API: TargetType> {
     }
     
     func requestIPC(_ api: API) -> Single<Response> {
+        print("[URL] \(api.path)")
         if !(IPCFactory.makeIPCRequestService().isConnected) {
             return provider.rx.request(api)
         }
         return provider.rx.requestIPC(api)
             .flatMap {
+                print("[URL] status \($0.statusCode)")
                 if $0.statusCode == 401 {
+                    throw TokenError.tokenExpired
+                } else if $0.statusCode == 404 {
                     throw TokenError.tokenExpired
                 } else {
                     return Single.just($0)
@@ -51,10 +55,14 @@ class BaseServiceManager<API: TargetType> {
             }
             .retry { (error: Observable<TokenError>) in
                 // TODO: Handle refresh token
-                error
+               // error
 //                error.flatMap { error -> Single<APIResponse<RegisterResultModel>> in
 //
+                
 //                }
+                error.flatMap { error in
+                    return self.refreshToken()
+                }
             }
             .handleResponse()
             .filterSuccessfulStatusCodes()
@@ -62,6 +70,24 @@ class BaseServiceManager<API: TargetType> {
     
     func cancelTask() {
         provider.session.session.finishTasksAndInvalidate()
+    }
+    
+    func refreshToken() -> Single<Bool> {
+        return self.provider.rx.requestIPC(APIService.refreshToken as! API) 
+            .handleResponse()
+            .filterSuccessfulStatusCodes()
+            .handleApiResponseCodable(type: AuthResult.self)
+            .flatMap { token in
+                AppDataManager.shared.refreshToken = token.tokens?.refresh
+                AppDataManager.shared.accessToken = token.tokens?.access
+                return Single.just(true)
+            }
+            .do(onError: { error in
+                print("[TOKEN] refresh error \(error)")
+                DispatchQueue.main.async {
+                    AppDataManager.shared.logOut(openWindow: true)
+                }
+            })
     }
 }
 
@@ -115,7 +141,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
             do {
                 print("[RESPONSE]: \(String(data: response.data, encoding: .utf8) ?? "")")
                 let result = try JSONDecoder().decode(BaseCodable<T>.self, from: response.data)
-                 if !(result.success ?? false) {
+                if !result.success {
                     let genericError = ResponseError(statusCode: response.statusCode,
                                                      message: result.message ?? "")
                     print("[RESULT ERROR]: \(genericError)")

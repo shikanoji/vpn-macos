@@ -48,8 +48,9 @@ extension MenuQuickAccessView {
         }
         
         func onQuit() {
-            AppDataManager.shared.accessToken = ""
-            NSApp.terminate(nil)
+            AppDataManager.shared.logOut {
+                NSApp.terminate(nil)
+            } 
         }
         
         func onOpenApp() {
@@ -68,13 +69,6 @@ extension MenuQuickAccessView {
         }
         
         func onChageTab(index: Int) {
-            /* if index == 0 {
-                 listData = listRecent
-             } else if index == 1 {
-                 listData = listSuggest
-             } else if index == 2 {
-                 listData = listCountry
-             } */
             withAnimation {
                 tabIndex = index
             }

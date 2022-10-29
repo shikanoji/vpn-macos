@@ -11,7 +11,14 @@ import Foundation
 class XPCServiceUser {
     private let machServiceName: String
     private let log: (String) -> Void
-    public var isConnected: Bool = false
+    public var isConnected: Bool = false {
+        didSet {
+            if isConnected {
+                isAvailable = true
+            }
+        }
+    }
+    public var isAvailable: Bool = false
     
     private var isCheckingConnection = false
     var failedCount: Int = 0

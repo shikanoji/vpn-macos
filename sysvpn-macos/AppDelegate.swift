@@ -20,7 +20,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_: Notification) {
         // demo install extension vpn
         OSExtensionManager.shared.startExtension()
-        onStartApp()
         initNotificationObs()
     }
     
@@ -55,15 +54,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(onStartJob), name: .startJobUpdateCountry, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onEndJob), name: .endJobUpdate, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onUpdateServerInfo), name: .needUpdateServerInfo, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onReadyStart), name: .appReadyStart, object: nil)
+    }
+    
+    @objc func onReadyStart() {
+        onStartApp()
     }
     
     func onStartApp() {
         timmerAppSetting?.invalidate()
         timmerAppSetting = Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(onReloadAppSetting), userInfo: nil, repeats: true)
-        DispatchQueue.main.async {
-            // referesh now
-            self.onReloadAppSetting()
-        }
+        self.onReloadAppSetting()
     }
    
     @objc func onStartJob(_: Notification) {

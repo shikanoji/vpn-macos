@@ -18,6 +18,7 @@ protocol INodeInfo {
     var locationDescription: String? { get }
     var locationSubname: String? { get }
     var cacheNode: NodePoint? { get set }
+    var level1Id: String { get }
 }
 
 extension INodeInfo {
@@ -35,11 +36,13 @@ struct NodePoint: Equatable {
     var l2Point: CGPoint?
     var info: INodeInfo
     var locationDescription: String?
-    init(point: CGPoint, info: INodeInfo, locationDescription: String? = nil, l2Point: CGPoint? = nil) {
+    var children: [NodePoint]?
+    init(point: CGPoint, info: INodeInfo, locationDescription: String? = nil, l2Point: CGPoint? = nil, children: [NodePoint]? = nil) {
         self.point = point
         self.l2Point = l2Point
         self.info = info
         self.locationDescription = locationDescription
+        self.children = children
     }
     
     public static func == (lhs: Self, rhs: Self) -> Bool {
@@ -102,6 +105,8 @@ struct ConnectPoint: Equatable {
 }
 
 class NodeInfoTest: INodeInfo {
+    var level1Id: String = ""
+    
     static func == (lhs: NodeInfoTest, rhs: NodeInfoTest) -> Bool {
         return false
     }

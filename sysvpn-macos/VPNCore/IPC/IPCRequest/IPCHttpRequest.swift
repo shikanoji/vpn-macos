@@ -23,7 +23,7 @@ public struct HttpStatusCode {
     public struct ClientError {
         static let range = 400..<500
         static let badRequest = 400
-        static let notFoundError = 401
+        static let notFoundError = 404
     }
     
     public struct ServerError {
@@ -32,7 +32,7 @@ public struct HttpStatusCode {
 }
 
 protocol IPCHttpServiceProtocol: AnyObject {
-    func performRequest(urlRequest: URLRequest) async throws -> Data?
+    func performRequest(urlRequest: URLRequest, completionHandler: @escaping ([String: NSObject]) -> Void)  
 }
 
 class IPCHttpServiceService: IPCHttpServiceProtocol {
@@ -42,32 +42,39 @@ class IPCHttpServiceService: IPCHttpServiceProtocol {
         self.session = session
     }
       
-    func performRequest(urlRequest: URLRequest) async throws -> Data? {
-        return try await withCheckedThrowingContinuation { continuation in
-         
-            session.dataTask(with: urlRequest) { data, response, _ in
-                 
-                guard let httpResponse = response as? HTTPURLResponse else {
-                    continuation.resume(throwing: NSError(domain: MoyaIPCErrorDomain.invalidResponse, code: 400))
-                    return
-                }
-                 
-                let statusCode = httpResponse.statusCode
-                 
-                guard (HttpStatusCode.Success.range).contains(statusCode) else {
-                    if statusCode == HttpStatusCode.ClientError.notFoundError {
-                        continuation.resume(throwing: NSError(domain: MoyaIPCErrorDomain.stautsError, code: 404))
-
-                    } else {
-                        continuation.resume(throwing: NSError(domain: MoyaIPCErrorDomain.invalidResponse, code: 400))
-                    }
-                    return
-                }
+    func performRequest(urlRequest: URLRequest, completionHandler: @escaping ([String: NSObject]) -> Void) {
+        
+        session.dataTask(with: urlRequest) { data, response, _ in
+             
+            guard let httpResponse = response as? HTTPURLResponse else {
                 
-                continuation.resume(returning: data)
+                completionHandler([
+                    HttpFieldName.statusCode.rawValue: 400 as NSObject,
+                    HttpFieldName.error.rawValue:  MoyaIPCErrorDomain.invalidResponse as NSObject
+                ])
                 
-            }.resume()
-        }
+                return
+            }
+             
+            let statusCode = httpResponse.statusCode
+             
+            guard (HttpStatusCode.Success.range).contains(statusCode) else {
+                completionHandler([
+                    HttpFieldName.statusCode.rawValue: statusCode as NSObject,
+                    HttpFieldName.error.rawValue: MoyaIPCErrorDomain.stautsError as NSObject,
+                    HttpFieldName.data.rawValue: (data ?? Data()) as NSObject
+                ])
+                
+                return
+            }
+            
+            completionHandler([
+                HttpFieldName.statusCode.rawValue: 200 as NSObject,
+                HttpFieldName.data.rawValue: (data ?? Data()) as NSObject
+            ])
+            
+           
+        }.resume()
     }
 }
 

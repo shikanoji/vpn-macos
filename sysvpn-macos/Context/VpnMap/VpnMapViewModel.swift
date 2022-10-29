@@ -40,26 +40,30 @@ extension VpnMapView {
         }
         
         func loadListNode(listCountry: [CountryAvailables]) {
-            var listCity: [CountryCity] = []
-            
+            //var listCity: [CountryCity] = []
+            var newData: [NodePoint]  = []
+            self.listCountry = []
             for country in listCountry {
                 guard let cities = country.city else {
                     continue
                 }
+                var children: [NodePoint]  = []
+                
                 cities.forEach { city in
-                    let updateCity = city
-                    updateCity.country = country
-                    listCity.append(updateCity)
+                    city.country = country
+                   // listCity.append(updateCity)
+                    children.append(NodePoint(point: CGPoint(x: NodePoint.convertX(Double(city.x ?? 0)), y: NodePoint.convertY(Double(city.y ?? 0))), info: city))
                 }
+                newData.append( NodePoint(point: CGPoint(x: NodePoint.convertX(country.x), y: NodePoint.convertY(country.y)), info: country, children: children))
             }
-            
-            self.listCountry = listCountry.map { country in
+            self.listCountry = newData
+            /* self.listCountry = listCountry.map { country in
                 return NodePoint(point: CGPoint(x: NodePoint.convertX(country.x), y: NodePoint.convertY(country.y)), info: country)
             }
             
             self.listCity = listCity.map { city in
                 return NodePoint(point: CGPoint(x: NodePoint.convertX(Double(city.x ?? 0)), y: NodePoint.convertY(Double(city.y ?? 0))), info: city)
-            }
+            }*/
         }
     }
 }
@@ -75,17 +79,16 @@ extension NodePoint {
 }
 
 extension CountryStaticServers: INodeInfo, Equatable {
+    var level1Id: String {
+        return String(self.countryId ?? 0)
+    }
+    
     static func == (lhs: CountryStaticServers, rhs: CountryStaticServers) -> Bool {
         return CountryStaticServers.equal(lhs: lhs, rhs: rhs)
     }
 
     var state: VpnMapPontState {
         if GlobalAppStates.shared.displayState == .connected {
-            if let connectedNode = MapAppStates.shared.connectedNode {
-                if CountryAvailables.equal(lhs: connectedNode, rhs: self) {
-                    return .activated
-                }
-            }
             return .disabled
         }
         return .normal
@@ -120,6 +123,9 @@ extension CountryStaticServers: INodeInfo, Equatable {
 extension CountryCity: INodeInfo, Equatable {
     static func == (lhs: CountryCity, rhs: CountryCity) -> Bool {
         return CountryCity.equal(lhs: lhs, rhs: rhs)
+    }
+    var level1Id: String {
+        return String(self.id ?? 0)
     }
  
     var locationDescription: String? {
@@ -161,6 +167,12 @@ extension CountryCity: INodeInfo, Equatable {
 }
 
 extension CountryAvailables: INodeInfo, Equatable {
+    var level1Id: String {
+        if let city = self.city, city.count > 0 {
+            return String(city.first?.id ?? 0)
+        }
+        return String(self.id ?? 0)
+    }
     static func == (lhs: CountryAvailables, rhs: CountryAvailables) -> Bool {
         return CountryAvailables.equal(lhs: lhs, rhs: rhs)
     }
@@ -210,6 +222,10 @@ extension MultiHopResult: INodeInfo, Equatable {
             return .disabled
         }
         return .normal
+    }
+    
+    var level1Id: String {
+        return String(self.entry?.serverId ?? 0)
     }
     
     var localtionIndex: Int? {

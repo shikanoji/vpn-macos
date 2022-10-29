@@ -12,13 +12,13 @@ import SwiftyJSON
 
 extension LoginView {
     @MainActor class LoginViewModel: ObservableObject {
-        @Published var userName: String = ""
-        @Published var password: String = ""
+        @Published var userName: String = "test@gmail.com"
+        @Published var password: String = "X12345678"
         @Published var isEditingEmail: Bool = false
         @Published var isEditingPassword: Bool = false
         @Published var isRemember: Bool = false
         @Published var isPresentedLoading = false
-        @Published var isVerifiedInput = false
+        @Published var isVerifiedInput = true
         @Environment(\.openURL) private var openURL
         @Published var showAlert = false
         @Published var errorMessage: String = ""
@@ -58,7 +58,8 @@ extension LoginView {
                 switch event {
                 case let .success(authenModel):
                     AppDataManager.shared.userData = authenModel.user
-                    AppDataManager.shared.accessToken = authenModel.tokens?.access?.token
+                    AppDataManager.shared.accessToken = authenModel.tokens?.access
+                    AppDataManager.shared.refreshToken =  authenModel.tokens?.refresh
                     self.loadCountry()
                 case let .failure(e):
                     self.hideLoading()

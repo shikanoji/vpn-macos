@@ -297,7 +297,7 @@ class SysVPNStateConfigurationManager: SysVPNStateConfiguration {
 
         let dispatchGroup = DispatchGroup()
         
-        if IPCFactory.makeIPCRequestService().isConnected {
+        if IPCFactory.makeIPCRequestService().isAvailable {
             IPCFactory.makeIPCRequestService().getProtocol { data in
                 var vpnProtocol: VpnProtocol = .openVpn(.tcp)
                 if data == "openVPN" {

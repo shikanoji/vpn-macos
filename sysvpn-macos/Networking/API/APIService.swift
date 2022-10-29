@@ -18,13 +18,14 @@ enum APIService {
     case disconnectSession(sectionId: String, disconnectedBy: String)
     case getStartServer
     case getListMutilHop
+    case refreshToken
 }
 
 extension APIService: TargetType {
     // This is the base URL we'll be using, typically our server.
     var baseURL: URL {
         switch self {
-        case .getAppSettings, .login, .getListCountry, .logout, .requestCert, .disconnectSession, .getStartServer, .getListMutilHop:
+        case .getAppSettings, .login, .getListCountry, .logout, .requestCert, .disconnectSession, .getStartServer, .getListMutilHop, .refreshToken:
             return URL(string: Constant.API.root)!
         }
     }
@@ -32,6 +33,8 @@ extension APIService: TargetType {
     // This is the path of each operation that will be appended to our base URL.
     var path: String {
         switch self {
+        case .refreshToken:
+            return Constant.API.Path.resfreshToken
         case .getAppSettings:
             return Constant.API.Path.ipInfo
         case .login:
@@ -60,6 +63,8 @@ extension APIService: TargetType {
             return .post
         case .disconnectSession:
             return .patch
+        case .refreshToken:
+            return .post
         }
     }
 
@@ -100,6 +105,10 @@ extension APIService: TargetType {
             return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
         case .getStartServer, .getListMutilHop:
             return .requestParameters(parameters: param, encoding: URLEncoding.default)
+        case .refreshToken:
+            param["deviceInfo"] =  AppSetting.shared.getDeviceInfo()
+            param["refreshToken"] = AppDataManager.shared.refreshToken?.token
+            return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
         }
     }
 
@@ -109,7 +118,7 @@ extension APIService: TargetType {
         switch self {
         case .getListCountry, .requestCert, .disconnectSession, .getStartServer, .getListMutilHop:
             return ["Content-type": "application/x-www-form-urlencoded",
-                    "Authorization": "Bearer " + (AppDataManager.shared.accessToken ?? ""),
+                    "Authorization": "Bearer " + (AppDataManager.shared.accessToken?.token ?? ""),
                     "x-device-info": AppSetting.shared.getDeviceInfo()
             ]
         default:

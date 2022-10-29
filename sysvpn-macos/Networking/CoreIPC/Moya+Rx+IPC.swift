@@ -115,10 +115,16 @@ extension MoyaProvider {
             if cancellableToken.isCancelled {
                 moyaCallbackResponse = .failure(MoyaError.underlying(NSError(domain: MoyaIPCErrorDomain.requestCancel, code: -1), nil))
             } else {
+                
+                 
                 if let dataResponse = response.data {
                     let responseIPC = Moya.Response(statusCode: response.statusCode, data: dataResponse, request: request)
-                    
-                    moyaCallbackResponse = .success(responseIPC)
+                    if response.error != nil {
+                        moyaCallbackResponse = .success(responseIPC)
+                    } else {
+                        moyaCallbackResponse = .success(responseIPC)
+                    }
+                   
                 } else {
                     if let error = response.error {
                         let errorIPC = error as NSError

@@ -40,8 +40,11 @@ extension AppDataManager {
             }
             switch event {
             case let .success(response):
-                AppDataManager.shared.saveIpInfo(info: response.ipInfo)
-                AppDataManager.shared.userSetting = response
+                DispatchQueue.global(qos: .background).async {
+                    AppDataManager.shared.saveIpInfo(info: response.ipInfo)
+                    AppDataManager.shared.userSetting = response
+                }
+                
                 if AppDataManager.shared.lastChange > 0 && AppDataManager.shared.lastChange != (response.lastChange ?? 0) {
                     NotificationCenter.default.post(name: .needUpdateServerInfo, object: nil)
                 }
@@ -62,8 +65,10 @@ extension AppDataManager {
             }
             switch result {
             case let .success(response):
-                AppDataManager.shared.userCountry = response
-                NotificationCenter.default.post(name: .updateCountry, object: nil)
+                DispatchQueue.global(qos: .background).async {
+                    AppDataManager.shared.userCountry = response
+                    NotificationCenter.default.post(name: .updateCountry, object: nil)
+                }
             case .failure:
                 break
             }
@@ -77,8 +82,10 @@ extension AppDataManager {
             }
             switch result {
             case let .success(response):
-                AppDataManager.shared.mutilHopServer = response
-                NotificationCenter.default.post(name: .updateMultipleHop, object: nil)
+                DispatchQueue.global(qos: .background).async {
+                    AppDataManager.shared.mutilHopServer = response
+                    NotificationCenter.default.post(name: .updateMultipleHop, object: nil)
+                }
             case .failure:
                 break
             }
@@ -93,8 +100,10 @@ extension AppDataManager {
                 }
                 switch result {
                 case let .success(response):
-                    response.updateStarCountry()
-                    NotificationCenter.default.post(name: .reloadServerStar, object: nil)
+                    DispatchQueue.global(qos: .background).async {
+                        response.updateStarCountry()
+                        NotificationCenter.default.post(name: .reloadServerStar, object: nil)
+                    }
                 case .failure:
                     break
                 }

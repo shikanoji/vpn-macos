@@ -15,7 +15,7 @@ import WireGuardKit
 
 class WireguardProtocolFactory {
     var bundleId: String {
-        if IPCFactory.makeIPCRequestService().isConnected {
+        if IPCFactory.makeIPCRequestService().isAvailable {
             return CoreAppConstants.SystemExtensions.wireguard
         }
         return CoreAppConstants.NetworkExtensions.wireguard

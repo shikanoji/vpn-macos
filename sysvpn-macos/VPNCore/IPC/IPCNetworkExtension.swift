@@ -63,33 +63,12 @@ class IPCNetworkExtension: XPCBaseService {
         }
         let finalRequest = urlRequest
          
-        Task {
-            do {
-                // os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "start request")
+        httpService.performRequest(urlRequest: finalRequest) { response in
+        
+            completionHandler(response)
+            os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "success")
 
-                let response = try await httpService.performRequest(urlRequest: finalRequest)
-                if let data = response {
-                    completionHandler([
-                        HttpFieldName.statusCode.rawValue: 200 as NSObject,
-                        HttpFieldName.data.rawValue: data as NSObject
-                    ])
-                } else {
-                    completionHandler([
-                        HttpFieldName.statusCode.rawValue: 200 as NSObject
-                    ])
-                }
-                os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "success")
-
-            } catch let e {
-                os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, e.localizedDescription)
-
-                if let error = e as? NSError {
-                    completionHandler([
-                        HttpFieldName.statusCode.rawValue: error.code as NSObject,
-                        HttpFieldName.error.rawValue: error.domain as NSObject
-                    ])
-                }
-            }
         }
+        
     }
 }

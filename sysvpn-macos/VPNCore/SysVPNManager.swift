@@ -28,6 +28,9 @@ class SysVPNManager: SysVPNManagerProtocol {
     private let openVpnProtocolFactory: VpnProtocolFactory
     private let wireguardProtocolFactory: VpnProtocolFactory
     
+    private var timerFactory = TimerFactoryImplementation()
+    private var timeoutTimer: BackgroundTimer?
+    
     var currentVpnProtocol: VpnProtocol? {
         didSet {
             if oldValue == nil, let delayedRequest = delayedDisconnectRequest {
@@ -193,7 +196,7 @@ class SysVPNManager: SysVPNManagerProtocol {
     
     private func startDisconnect(completion: @escaping (() -> Void)) {
         print("[VPN] connectionDisconnect: Closing VPN tunnel")
-
+        beginTimeoutCountdown()
         // localAgent?.disconnect()
         disconnectCompletion = completion
         
@@ -247,8 +250,6 @@ class SysVPNManager: SysVPNManagerProtocol {
         case .disconnected, .error, .invalid:
             disconnectCompletion?()
             disconnectCompletion = nil
-            
-            vpnManager.vpnConnection.stopVPNTunnel() 
         default:
             vpnManager.vpnConnection.stopVPNTunnel()
         }
@@ -294,7 +295,7 @@ class SysVPNManager: SysVPNManagerProtocol {
         guard connectAllowed, let currentVpnProtocolFactory = currentVpnProtocolFactory else {
             return
         }
-        
+        cancelTimeout()
         print("[VPN] connectionConnect: Loading connection configuration")
         currentVpnProtocolFactory.vpnProviderManager(for: .configuration) { [weak self] vpnManager, error in
             guard let self = self else {
@@ -328,7 +329,7 @@ class SysVPNManager: SysVPNManagerProtocol {
         
         // test kill switch
         
-        PropertiesManager.shared.hasConnected = true
+      //  PropertiesManager.shared.hasConnected = true
         PropertiesManager.shared.killSwitch = true
         PropertiesManager.shared.excludeLocalNetworks = true
         
@@ -527,6 +528,7 @@ class SysVPNManager: SysVPNManagerProtocol {
             disconnectCompletion = nil
             setRemoteAuthenticationEndpoint(provider: nil)
             disconnectLocalAgent()
+            cancelTimeout()
         case .connected: setRemoteAuthenticationEndpoint(provider: vpnManager.vpnConnection as? ProviderMessageSender)
             connectLocalAgent()
         default:
@@ -550,4 +552,35 @@ class SysVPNManager: SysVPNManagerProtocol {
             request()
         }
     }
+}
+
+
+extension SysVPNManager {
+    
+    private func beginTimeoutCountdown() {
+        print("[VPN] begin stop")
+        cancelTimeout()
+
+        timeoutTimer = timerFactory.scheduledTimer(runAt: Date().addingTimeInterval(5),
+                                                   leeway: .seconds(5),
+                                                   queue: .main) { [weak self] in
+            self?.timeout()
+        }
+    }
+    
+    @objc private func timeout() {
+        print("[VPN] timeout stop")
+        guard let currentVpnProtocolFactory = currentVpnProtocolFactory else {
+            return
+        }
+        
+        currentVpnProtocolFactory.vpnProviderManager(for: .configuration) { [weak self] vpnManager, error in
+            vpnManager?.vpnConnection.stopVPNTunnel()
+        }
+    }
+     
+    private func cancelTimeout() {
+        timeoutTimer?.invalidate()
+    }
+    
 }

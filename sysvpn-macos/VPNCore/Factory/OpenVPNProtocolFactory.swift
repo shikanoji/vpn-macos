@@ -14,7 +14,7 @@ import TunnelKitOpenVPNCore
 class OpenVpnProtocolFactory {
     private let debugLogFormat = "$Dyyyy-MM-dd'T'HH:mm:ss.SSSZ$d $L protocol $N.$F:$l - $M"
     var bundleId: String {
-        if IPCFactory.makeIPCRequestService().isConnected {
+        if IPCFactory.makeIPCRequestService().isAvailable {
             return CoreAppConstants.SystemExtensions.openVpn
         }
         return CoreAppConstants.NetworkExtensions.openVpn

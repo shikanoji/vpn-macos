@@ -53,12 +53,17 @@ class AppSetting {
     }
     
     func hardwareUUID() -> String? {
-        let matchingDict = IOServiceMatching("IOPlatformExpertDevice")
-        let platformExpert = IOServiceGetMatchingService(kIOMainPortDefault, matchingDict)
-        defer { IOObjectRelease(platformExpert) }
+        if #available(macOS 12.0, *) {
+            let matchingDict = IOServiceMatching("IOPlatformExpertDevice")
+            let platformExpert = IOServiceGetMatchingService(kIOMainPortDefault, matchingDict)
+           
+            defer { IOObjectRelease(platformExpert) }
 
-        guard platformExpert != 0 else { return nil }
-        return IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformUUIDKey as CFString, kCFAllocatorDefault, 0).takeRetainedValue() as? String
+            guard platformExpert != 0 else { return nil }
+            return IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformUUIDKey as CFString, kCFAllocatorDefault, 0).takeRetainedValue() as? String
+        } else {
+            return nil // To-do: Device id for older os version
+        }
     }
     
     func getDeviceInfo() -> String {

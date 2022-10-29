@@ -23,6 +23,7 @@ extension SplashView {
                 ipc.checkConnect {
                     DispatchQueue.main.async {
                         self.initData()
+                        NotificationCenter.default.post(name: .appReadyStart, object: nil)
                     }
                 }
                 DispatchQueue.main.async {

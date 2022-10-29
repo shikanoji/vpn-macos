@@ -47,11 +47,11 @@ class AppDataManager {
         }
     }
     
-    private var _cacheAccessToken: String?
-    var accessToken: String? {
+    private var _cacheAccessToken: AuthAccess?
+    var accessToken: AuthAccess? {
         get {
             if _cacheAccessToken == nil {
-                _cacheAccessToken = UserDefaults.standard.string(forKey: .keySaveAccessToken)
+                _cacheAccessToken = AuthAccess.readUserDefault(keyUserDefault: .keySaveAccessToken) //UserDefaults.standard.string(forKey: .keySaveAccessToken)
             }
             return _cacheAccessToken
         }
@@ -60,17 +60,18 @@ class AppDataManager {
             if newValue == nil {
                 UserDefaults.standard.removeObject(forKey: .keySaveAccessToken)
             } else {
-                UserDefaults.standard.setValue(newValue, forKey: .keySaveAccessToken)
+                newValue?.saveUserDefault(keyUserDefault: .keySaveAccessToken)
             }
             UserDefaults.standard.synchronize()
         }
     }
     
-    private var _cacheRefreshToken: String?
-    var refreshToken: String? {
+    private var _cacheRefreshToken: AuthRefresh?
+    var refreshToken: AuthRefresh? {
         get {
             if _cacheRefreshToken == nil {
-                _cacheRefreshToken = UserDefaults.standard.string(forKey: .keySaveRefreshToken)
+              //  _cacheRefreshToken = UserDefaults.standard.string(forKey: .keySaveRefreshToken)
+                _cacheRefreshToken = AuthRefresh.readUserDefault(keyUserDefault: .keySaveRefreshToken)
             }
             return _cacheRefreshToken
         }
@@ -79,14 +80,14 @@ class AppDataManager {
             if newValue == nil {
                 UserDefaults.standard.removeObject(forKey: .keySaveRefreshToken)
             } else {
-                UserDefaults.standard.setValue(newValue, forKey: .keySaveRefreshToken)
+                newValue?.saveUserDefault(keyUserDefault: .keySaveRefreshToken)
             }
             UserDefaults.standard.synchronize()
         }
     }
     
     var isLogin: Bool {
-        return (accessToken?.count ?? 0) > 0
+        return accessToken != nil
     }
     
     var userIp: String {
@@ -270,9 +271,25 @@ class AppDataManager {
         }) else {
             return country
         }
-        var updateCity = city
+        let updateCity = city
         updateCity.country = country
         
         return updateCity
     }
+    
+    
+    func logOut( openWindow: Bool = false, completion: (() -> Void)? = nil ) {
+        _ = APIServiceManager.shared.onLogout().subscribe { result in
+            AppDataManager.shared.refreshToken = nil
+        }
+        NotificationCenter.default.post(name: .endJobUpdate, object: nil)
+        accessToken = nil
+        if openWindow {
+            OpenWindows.LoginView.open()
+        }
+        DispatchQueue.main.async {
+            completion?()
+        }
+    }
+    
 }

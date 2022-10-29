@@ -37,7 +37,7 @@ struct VpnMapView: View {
                 loop: numberImage,
                 scaleVector: scaleVector * screenSize.height / baseHeight * rescaleView,
                 connectPoints: connectPoints,
-                nodeList: isShowCity ? viewModel.listCity : viewModel.listCountry,
+                nodeList: viewModel.listCountry,//isShowCity ? viewModel.listCity : viewModel.listCountry,
                 onTouchPoint: { node in
                     selectedNode = node
                     mapState.selectedNode = node.info
@@ -56,7 +56,7 @@ struct VpnMapView: View {
             )
             .scaledToFit()
             .clipShape(Rectangle())
-            .modifier(ZoomModifier(contentSize: CGSize(width: screenSize.height * aspecRaito, height: screenSize.height), screenSize: screenSize, numberImage: numberImage, currentScale: $scale,
+            .modifier(ZoomModifier(contentSize: CGSize(width: screenSize.height * aspecRaito, height: screenSize.height), screenSize: $screenSize, numberImage: numberImage, currentScale: $scale,
                                    cameraPosition: $updateCameraPosition,
                                    overlayLayer: VpnMapOverlayLayer(
                                        scaleVector: scaleVector * screenSize.height / baseHeight * rescaleView, scaleValue: scale,
@@ -70,8 +70,10 @@ struct VpnMapView: View {
                 selectedNode = nil
             })
             // .clipped()
-            .onChange(of: scale) { _ in
-                isShowCity = scale > 1.5
+            .onChange(of: scale) { _ in 
+                withAnimation {
+                    isShowCity = scale > 1.5
+                }
             }.onChange(of: isShowCity, perform: { _ in
                 selectedNode = nil
             }).onChange(of: selectedNode, perform: { newValue in

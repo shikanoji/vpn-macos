@@ -10,12 +10,12 @@ import SwiftUI
  
 struct ZoomModifier: ViewModifier {
     private var contentSize: CGSize
-    private var screenSize: CGSize
+    @Binding var screenSize: CGSize
     private var min: CGFloat = 1.0
     private var max: CGFloat = 2
     private var numberImage: CGFloat = 3
     @State var lastScaleValue: CGFloat = 1
-    
+    @State var isAppear: Bool = false
     @Binding var currentScale: CGFloat
     @State var isDrag = false
     @State private var offset = CGSize.zero
@@ -24,16 +24,17 @@ struct ZoomModifier: ViewModifier {
     
     var overlayLayer: VpnMapOverlayLayer
     
-    init(contentSize: CGSize, screenSize: CGSize, numberImage: Int = 3, currentScale: Binding<CGFloat>, cameraPosition: Binding<CGPoint?>, overlayLayer: VpnMapOverlayLayer) {
+    init(contentSize: CGSize, screenSize: Binding<CGSize>, numberImage: Int = 3, currentScale: Binding<CGFloat>, cameraPosition: Binding<CGPoint?>, overlayLayer: VpnMapOverlayLayer) {
         self.contentSize = contentSize
         self.numberImage = CGFloat(numberImage)
-        self.screenSize = screenSize
+       
         self.overlayLayer = overlayLayer
-        
+        _screenSize = screenSize
         _currentScale = currentScale
         _cameraPosition = cameraPosition
         
         lastScaleValue = currentScale.wrappedValue
+        // self.screenSize = screenSize.wrappedValue
         // self.cameraPosition = cameraPosition.wrappedValue
     }
     
@@ -110,7 +111,17 @@ struct ZoomModifier: ViewModifier {
                             onScaleCalcOffset(value: newValue)
                         }
                         .onChange(of: screenSize, perform: { _ in
-                            calcOffset(newOffset: offset, skipCheckPosition: true)
+                            print("update size")
+                            if isAppear {
+                                DispatchQueue.main.async {
+                                    withAnimation {
+                                        calcOffset(newOffset: offset, skipCheckPosition: true)
+                                    }
+                                }
+                            } else {
+                                isAppear = true
+                            }
+                           
                         })
                         .onChange(of: cameraPosition) { newValue in
                             guard let value = newValue else {

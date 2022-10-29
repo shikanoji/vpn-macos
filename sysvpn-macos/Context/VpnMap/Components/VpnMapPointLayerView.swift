@@ -34,19 +34,52 @@ struct VpnMapPointLayerView: View {
     }
     
     @State var cgPoint: CGPoint = .zero
+    
+    var nodeItems : some View {
+        Group {
+            ForEach(0..<nodeList.count, id: \.self) { index in
+                let parentPosition = scalePoint(nodeList[index].point)
+            
+                let node = isShowCity ? (nodeList[index].children?.first ?? nodeList[index]) : nodeList[index]
+                
+                let nodePosition =  isShowCity ? scalePoint(node.point) : parentPosition
+                
+                    VpnMapPointView(state: normalState,
+                                    locationIndex: node.info.localtionIndex,
+                                    onHoverNode: { hover in
+                                        onHoverNode?(node, hover)
+                                    }
+                    )
+                    .position(x: nodePosition.x, y: nodePosition.y)
+                    .onTapGesture {
+                        onTouchPoint?(node)
+                    }
+               
+                if let children = nodeList[index].children, children.count > 1 {
+                    ForEach(0..<children.count, id: \.self) { index2 in
+                        let childPos =  isShowCity ? scalePoint(children[index2].point) : parentPosition
+                        VpnMapPointView(state: normalState,
+                                        locationIndex: children[index2].info.localtionIndex,
+                                        onHoverNode: { hover in
+                                            onHoverNode?(children[index2], hover)
+                                        }
+                        )
+                        .position(x: childPos.x, y: childPos.y)
+                        .opacity( isShowCity ? 1 : 0)
+                        
+                        .onTapGesture {
+                            onTouchPoint?(children[index2])
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ForEach(0..<nodeList.count, id: \.self) { index in
-                VpnMapPointView(state: normalState,
-                                locationIndex: nodeList[index].info.localtionIndex,
-                                onHoverNode: { hover in
-                                    onHoverNode?(nodeList[index], hover)
-                                }
-                ).position(x: scalePoint(nodeList[index].point).x, y: scalePoint(nodeList[index].point).y)
-                    .onTapGesture {
-                        onTouchPoint?(nodeList[index])
-                    }
-            }
+            nodeItems
             
             if normalState == .disabled, let connectedNodeInfo = connectedNodeInfo {
                 // multiple hop connected node point
