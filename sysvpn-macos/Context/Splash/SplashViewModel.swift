@@ -42,6 +42,9 @@ extension SplashView {
                     self.onNext()
                 }
             } else {
+                _ = AppDataManager.shared.loadSetupData {
+                    print("[MGR] refresh done")
+                }
                 onNext()
             }
         }

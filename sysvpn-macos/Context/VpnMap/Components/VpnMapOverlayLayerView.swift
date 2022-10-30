@@ -33,7 +33,7 @@ struct VpnMapOverlayLayer: ViewModifier {
     }
     
     var idName: String {
-        return (nodePoint?.info.locationDescription ?? "") + tooltipNodeName +  (nodePoint?.info.locationSubname ?? "") 
+        return (nodePoint?.info.locationDescription ?? "") + tooltipNodeName + (nodePoint?.info.locationSubname ?? "")
     }
     
     var localDescription: String? {
@@ -123,9 +123,7 @@ struct VpnMapOverlayLayer: ViewModifier {
             withAnimation {
                 updateLocation(nodePoint: nodePoint, vector: scaleVector, isShowCity: newValue)
                 if let node = connectedNode {
-                   
-                        connectedPosition = computNodePointPos(node: node, isShowCity: newValue)
-                    
+                    connectedPosition = computNodePointPos(node: node, isShowCity: newValue)
                 }
             }
         }.onChange(of: connectedNode) { newValue in

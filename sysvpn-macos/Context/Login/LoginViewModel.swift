@@ -59,7 +59,7 @@ extension LoginView {
                 case let .success(authenModel):
                     AppDataManager.shared.userData = authenModel.user
                     AppDataManager.shared.accessToken = authenModel.tokens?.access
-                    AppDataManager.shared.refreshToken =  authenModel.tokens?.refresh
+                    AppDataManager.shared.refreshToken = authenModel.tokens?.refresh
                     self.loadCountry()
                 case let .failure(e):
                     self.hideLoading()

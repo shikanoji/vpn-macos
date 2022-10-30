@@ -37,7 +37,7 @@ struct VpnMapView: View {
                 loop: numberImage,
                 scaleVector: scaleVector * screenSize.height / baseHeight * rescaleView,
                 connectPoints: connectPoints,
-                nodeList: viewModel.listCountry,//isShowCity ? viewModel.listCity : viewModel.listCountry,
+                nodeList: viewModel.listCountry, // isShowCity ? viewModel.listCity : viewModel.listCountry,
                 onTouchPoint: { node in
                     selectedNode = node
                     mapState.selectedNode = node.info
@@ -70,7 +70,7 @@ struct VpnMapView: View {
                 selectedNode = nil
             })
             // .clipped()
-            .onChange(of: scale) { _ in 
+            .onChange(of: scale) { _ in
                 withAnimation {
                     isShowCity = scale > 1.5
                 }
@@ -140,16 +140,16 @@ struct LoopMapView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             Color.clear
-            /*HStack(spacing: 0) {
-                ForEach(0..<loop, id: \.self) { _ in
-                    mapLayer1
-                }
-            }
-            HStack(spacing: 0) {
-                ForEach(0..<loop, id: \.self) { _ in
-                    pointLayer
-                }
-            }*/
+            /* HStack(spacing: 0) {
+                 ForEach(0..<loop, id: \.self) { _ in
+                     mapLayer1
+                 }
+             }
+             HStack(spacing: 0) {
+                 ForEach(0..<loop, id: \.self) { _ in
+                     pointLayer
+                 }
+             } */
             mapLayer1
             pointLayer
         }.frame(width: size.width * CGFloat(loop) * scale, height: size.height * scale, alignment: .center).scaleEffect(1 / scale)

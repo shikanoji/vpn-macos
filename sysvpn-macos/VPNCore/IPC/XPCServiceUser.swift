@@ -18,6 +18,7 @@ class XPCServiceUser {
             }
         }
     }
+
     public var isAvailable: Bool = false
     
     private var isCheckingConnection = false

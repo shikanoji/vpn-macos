@@ -67,8 +67,6 @@ class IPCNetworkExtension: XPCBaseService {
         
             completionHandler(response)
             os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "success")
-
         }
-        
     }
 }

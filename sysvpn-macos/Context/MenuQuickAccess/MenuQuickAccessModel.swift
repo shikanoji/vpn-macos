@@ -50,7 +50,7 @@ extension MenuQuickAccessView {
         func onQuit() {
             AppDataManager.shared.logOut {
                 NSApp.terminate(nil)
-            } 
+            }
         }
         
         func onOpenApp() {

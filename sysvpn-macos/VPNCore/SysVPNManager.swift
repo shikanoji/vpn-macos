@@ -329,7 +329,7 @@ class SysVPNManager: SysVPNManagerProtocol {
         
         // test kill switch
         
-      //  PropertiesManager.shared.hasConnected = true
+        //  PropertiesManager.shared.hasConnected = true
         PropertiesManager.shared.killSwitch = true
         PropertiesManager.shared.excludeLocalNetworks = true
         
@@ -554,9 +554,7 @@ class SysVPNManager: SysVPNManagerProtocol {
     }
 }
 
-
 extension SysVPNManager {
-    
     private func beginTimeoutCountdown() {
         print("[VPN] begin stop")
         cancelTimeout()
@@ -574,7 +572,7 @@ extension SysVPNManager {
             return
         }
         
-        currentVpnProtocolFactory.vpnProviderManager(for: .configuration) { [weak self] vpnManager, error in
+        currentVpnProtocolFactory.vpnProviderManager(for: .configuration) { [weak self] vpnManager, _ in
             vpnManager?.vpnConnection.stopVPNTunnel()
         }
     }
@@ -582,5 +580,4 @@ extension SysVPNManager {
     private func cancelTimeout() {
         timeoutTimer?.invalidate()
     }
-    
 }

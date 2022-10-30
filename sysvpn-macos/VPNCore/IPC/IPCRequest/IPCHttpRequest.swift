@@ -32,7 +32,7 @@ public struct HttpStatusCode {
 }
 
 protocol IPCHttpServiceProtocol: AnyObject {
-    func performRequest(urlRequest: URLRequest, completionHandler: @escaping ([String: NSObject]) -> Void)  
+    func performRequest(urlRequest: URLRequest, completionHandler: @escaping ([String: NSObject]) -> Void)
 }
 
 class IPCHttpServiceService: IPCHttpServiceProtocol {
@@ -43,14 +43,12 @@ class IPCHttpServiceService: IPCHttpServiceProtocol {
     }
       
     func performRequest(urlRequest: URLRequest, completionHandler: @escaping ([String: NSObject]) -> Void) {
-        
         session.dataTask(with: urlRequest) { data, response, _ in
              
             guard let httpResponse = response as? HTTPURLResponse else {
-                
                 completionHandler([
                     HttpFieldName.statusCode.rawValue: 400 as NSObject,
-                    HttpFieldName.error.rawValue:  MoyaIPCErrorDomain.invalidResponse as NSObject
+                    HttpFieldName.error.rawValue: MoyaIPCErrorDomain.invalidResponse as NSObject
                 ])
                 
                 return
@@ -73,7 +71,6 @@ class IPCHttpServiceService: IPCHttpServiceProtocol {
                 HttpFieldName.data.rawValue: (data ?? Data()) as NSObject
             ])
             
-           
         }.resume()
     }
 }

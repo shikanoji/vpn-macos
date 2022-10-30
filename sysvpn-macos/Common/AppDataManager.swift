@@ -51,7 +51,7 @@ class AppDataManager {
     var accessToken: AuthAccess? {
         get {
             if _cacheAccessToken == nil {
-                _cacheAccessToken = AuthAccess.readUserDefault(keyUserDefault: .keySaveAccessToken) //UserDefaults.standard.string(forKey: .keySaveAccessToken)
+                _cacheAccessToken = AuthAccess.readUserDefault(keyUserDefault: .keySaveAccessToken) // UserDefaults.standard.string(forKey: .keySaveAccessToken)
             }
             return _cacheAccessToken
         }
@@ -70,7 +70,7 @@ class AppDataManager {
     var refreshToken: AuthRefresh? {
         get {
             if _cacheRefreshToken == nil {
-              //  _cacheRefreshToken = UserDefaults.standard.string(forKey: .keySaveRefreshToken)
+                //  _cacheRefreshToken = UserDefaults.standard.string(forKey: .keySaveRefreshToken)
                 _cacheRefreshToken = AuthRefresh.readUserDefault(keyUserDefault: .keySaveRefreshToken)
             }
             return _cacheRefreshToken
@@ -277,9 +277,8 @@ class AppDataManager {
         return updateCity
     }
     
-    
-    func logOut( openWindow: Bool = false, completion: (() -> Void)? = nil ) {
-        _ = APIServiceManager.shared.onLogout().subscribe { result in
+    func logOut(openWindow: Bool = false, completion: (() -> Void)? = nil) {
+        _ = APIServiceManager.shared.onLogout().subscribe { _ in
             AppDataManager.shared.refreshToken = nil
         }
         NotificationCenter.default.post(name: .endJobUpdate, object: nil)
@@ -291,5 +290,4 @@ class AppDataManager {
             completion?()
         }
     }
-    
 }

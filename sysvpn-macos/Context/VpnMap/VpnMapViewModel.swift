@@ -40,21 +40,21 @@ extension VpnMapView {
         }
         
         func loadListNode(listCountry: [CountryAvailables]) {
-            //var listCity: [CountryCity] = []
-            var newData: [NodePoint]  = []
+            // var listCity: [CountryCity] = []
+            var newData: [NodePoint] = []
             self.listCountry = []
             for country in listCountry {
                 guard let cities = country.city else {
                     continue
                 }
-                var children: [NodePoint]  = []
+                var children: [NodePoint] = []
                 
                 cities.forEach { city in
                     city.country = country
                     // listCity.append(updateCity)
                     children.append(NodePoint(point: CGPoint(x: NodePoint.convertX(Double(city.x ?? 0)), y: NodePoint.convertY(Double(city.y ?? 0))), info: city))
                 }
-                newData.append( NodePoint(point: CGPoint(x: NodePoint.convertX(country.x), y: NodePoint.convertY(country.y)), info: country, children: children))
+                newData.append(NodePoint(point: CGPoint(x: NodePoint.convertX(country.x), y: NodePoint.convertY(country.y)), info: country, children: children))
             }
             self.listCountry = newData
             /* self.listCountry = listCountry.map { country in
@@ -80,7 +80,7 @@ extension NodePoint {
 
 extension CountryStaticServers: INodeInfo, Equatable {
     var level1Id: String {
-        return String(self.countryId ?? 0)
+        return String(countryId ?? 0)
     }
     
     static func == (lhs: CountryStaticServers, rhs: CountryStaticServers) -> Bool {
@@ -124,8 +124,9 @@ extension CountryCity: INodeInfo, Equatable {
     static func == (lhs: CountryCity, rhs: CountryCity) -> Bool {
         return CountryCity.equal(lhs: lhs, rhs: rhs)
     }
+
     var level1Id: String {
-        return String(self.id ?? 0)
+        return String(id ?? 0)
     }
     
     var locationDescription: String? {
@@ -168,11 +169,12 @@ extension CountryCity: INodeInfo, Equatable {
 
 extension CountryAvailables: INodeInfo, Equatable {
     var level1Id: String {
-        if let city = self.city, city.count > 0 {
+        if let city = city, !city.isEmpty {
             return String(city.first?.id ?? 0)
         }
-        return String(self.id ?? 0)
+        return String(id ?? 0)
     }
+
     static func == (lhs: CountryAvailables, rhs: CountryAvailables) -> Bool {
         return CountryAvailables.equal(lhs: lhs, rhs: rhs)
     }
@@ -225,7 +227,7 @@ extension MultiHopResult: INodeInfo, Equatable {
     }
     
     var level1Id: String {
-        return String(self.entry?.serverId ?? 0)
+        return String(entry?.serverId ?? 0)
     }
     
     var localtionIndex: Int? {

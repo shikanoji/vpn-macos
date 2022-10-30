@@ -23,7 +23,7 @@ struct VpnMapPointView: View {
                 .frame(width: 18 * scaleView, height: 18 * scaleView)
                 .onHover { hover in
                     onHoverNode?(hover)
-                } 
+                }
             if locationIndex != nil {
                 Text(String(locationIndex ?? 0))
                     .font(.system(size: 14))

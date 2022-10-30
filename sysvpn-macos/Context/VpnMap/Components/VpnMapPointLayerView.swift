@@ -35,29 +35,29 @@ struct VpnMapPointLayerView: View {
     
     @State var cgPoint: CGPoint = .zero
     
-    var nodeItems : some View {
+    var nodeItems: some View {
         Group {
             ForEach(0..<nodeList.count, id: \.self) { index in
                 let parentPosition = scalePoint(nodeList[index].point)
             
                 let node = isShowCity ? (nodeList[index].children?.first ?? nodeList[index]) : nodeList[index]
                 
-                let nodePosition =  isShowCity ? scalePoint(node.point) : parentPosition
+                let nodePosition = isShowCity ? scalePoint(node.point) : parentPosition
                 
-                    VpnMapPointView(state: normalState,
-                                    locationIndex: node.info.localtionIndex,
-                                    onHoverNode: { hover in
-                                        onHoverNode?(node, hover)
-                                    }
-                    )
-                    .position(x: nodePosition.x, y: nodePosition.y)
-                    .onTapGesture {
-                        onTouchPoint?(node)
-                    }
+                VpnMapPointView(state: normalState,
+                                locationIndex: node.info.localtionIndex,
+                                onHoverNode: { hover in
+                                    onHoverNode?(node, hover)
+                                }
+                )
+                .position(x: nodePosition.x, y: nodePosition.y)
+                .onTapGesture {
+                    onTouchPoint?(node)
+                }
                
                 if let children = nodeList[index].children, children.count > 1 {
                     ForEach(0..<children.count, id: \.self) { index2 in
-                        let childPos =  isShowCity ? scalePoint(children[index2].point) : parentPosition
+                        let childPos = isShowCity ? scalePoint(children[index2].point) : parentPosition
                         VpnMapPointView(state: normalState,
                                         locationIndex: children[index2].info.localtionIndex,
                                         onHoverNode: { hover in
@@ -65,14 +65,13 @@ struct VpnMapPointLayerView: View {
                                         }
                         )
                         .position(x: childPos.x, y: childPos.y)
-                        .opacity( isShowCity ? 1 : 0)
+                        .opacity(isShowCity ? 1 : 0)
                         
                         .onTapGesture {
                             onTouchPoint?(children[index2])
                         }
                     }
                 }
-                
             }
         }
     }
@@ -103,7 +102,7 @@ struct VpnMapPointLayerView: View {
                         ).position(x: nodePos.x, y: nodePos.y)
                             .onTapGesture {
                                 onTouchPoint?(entryNode)
-                            } .animation(.none, value: UUID())
+                            }.animation(.none, value: UUID())
                         
                         VpnMapPointView(state: .activated,
                                         locationIndex: 2,
@@ -113,7 +112,7 @@ struct VpnMapPointLayerView: View {
                         ).position(x: nodePos2.x, y: nodePos2.y)
                             .onTapGesture {
                                 onTouchPoint?(exitNode)
-                        } .animation(.none, value: UUID())
+                            }.animation(.none, value: UUID())
                     }
                 }
                 // single connected node point

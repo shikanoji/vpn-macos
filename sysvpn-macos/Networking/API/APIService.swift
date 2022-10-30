@@ -106,7 +106,7 @@ extension APIService: TargetType {
         case .getStartServer, .getListMutilHop:
             return .requestParameters(parameters: param, encoding: URLEncoding.default)
         case .refreshToken:
-            param["deviceInfo"] =  AppSetting.shared.getDeviceInfo()
+            param["deviceInfo"] = AppSetting.shared.getDeviceInfo()
             param["refreshToken"] = AppDataManager.shared.refreshToken?.token
             return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
         }

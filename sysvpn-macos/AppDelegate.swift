@@ -64,7 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func onStartApp() {
         timmerAppSetting?.invalidate()
         timmerAppSetting = Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(onReloadAppSetting), userInfo: nil, repeats: true)
-        self.onReloadAppSetting()
+        onReloadAppSetting()
     }
    
     @objc func onStartJob(_: Notification) {
@@ -74,10 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         timmerJob = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
         
-        DispatchQueue.main.async {
-            // referesh now
-            self.onLoadApiUpdateStar()
-        }
+        onLoadApiUpdateStar()
     }
     
     @objc func onEndJob(_: Notification) {
@@ -93,7 +90,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         AppDataManager.shared.loadAppSetting {
             print("[Debug] load app setting done")
         }
-        AppDataManager.shared.updaterServerIP()
+        DispatchQueue.global(qos: .background).async {
+            AppDataManager.shared.updaterServerIP()
+        }
     }
     
     @objc func onLoadApiUpdateStar() {

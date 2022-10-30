@@ -30,8 +30,9 @@ class BaseServiceManager<API: TargetType> {
                 }
             }
             .retry { (error: Observable<TokenError>) in
-                
-                error
+                error.flatMap { _ in
+                    return self.refreshToken()
+                }
             }
             .handleResponse()
             .filterSuccessfulStatusCodes()
@@ -47,20 +48,12 @@ class BaseServiceManager<API: TargetType> {
                 print("[URL] status \($0.statusCode)")
                 if $0.statusCode == 401 {
                     throw TokenError.tokenExpired
-                } else if $0.statusCode == 404 {
-                    throw TokenError.tokenExpired
                 } else {
                     return Single.just($0)
                 }
             }
             .retry { (error: Observable<TokenError>) in
-                // TODO: Handle refresh token
-               // error
-//                error.flatMap { error -> Single<APIResponse<RegisterResultModel>> in
-//
-                
-//                }
-                error.flatMap { error in
+                error.flatMap { _ in
                     return self.refreshToken()
                 }
             }
@@ -73,7 +66,7 @@ class BaseServiceManager<API: TargetType> {
     }
     
     func refreshToken() -> Single<Bool> {
-        return self.provider.rx.requestIPC(APIService.refreshToken as! API) 
+        return provider.rx.requestIPC(APIService.refreshToken as! API)
             .handleResponse()
             .filterSuccessfulStatusCodes()
             .handleApiResponseCodable(type: AuthResult.self)
