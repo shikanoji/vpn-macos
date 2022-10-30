@@ -13,25 +13,26 @@ struct VpnMapPointView: View {
     var state: VpnMapPontState = .normal
     var locationIndex: Int?
     var onHoverNode: ((Bool) -> Void)?
+    var scaleView: CGFloat = 1.1
     @State private var iconImage: Image?
 
     var body: some View {
         return ZStack {
             iconImage?
                 .resizable()
-                .frame(width: 40, height: 40)
+                .frame(width: 18 * scaleView, height: 18 * scaleView)
                 .onHover { hover in
                     onHoverNode?(hover)
                 } 
             if locationIndex != nil {
                 Text(String(locationIndex ?? 0))
-                    .font(.system(size: 22))
+                    .font(.system(size: 14))
                     .foregroundColor(Color.white)
                     .background(
                         Asset.Assets.icMapLocation.swiftUIImage
                             .resizable()
-                            .frame(width: 65, height: 65, alignment: .center).transformEffect(CGAffineTransform(translationX: 0, y: 5))
-                    ).transformEffect(CGAffineTransform(translationX: 0, y: -65))
+                            .frame(width: 30 * scaleView, height: 30 * scaleView, alignment: .center).transformEffect(CGAffineTransform(translationX: 0, y: 2))
+                    ).transformEffect(CGAffineTransform(translationX: 0, y: -30 * scaleView))
             }
             
         }.onChange(of: state) { newValue in

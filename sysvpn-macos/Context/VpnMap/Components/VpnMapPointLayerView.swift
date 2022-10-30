@@ -191,7 +191,7 @@ struct SingalLineAnimatedModifier: AnimatableModifier {
     func body(content: Content) -> some View {
         Canvas { context, _ in
             let path = path(in: CGRect.zero)
-            context.stroke(path, with: .linearGradient(lineGradient, startPoint: point1, endPoint: maxPoint), lineWidth: 4)
+            context.stroke(path, with: .linearGradient(lineGradient, startPoint: point1, endPoint: maxPoint), lineWidth: 2.2)
         }
         .allowsHitTesting(false)
     }

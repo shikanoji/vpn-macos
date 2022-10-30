@@ -143,7 +143,7 @@ struct VpnMapOverlayLayer: ViewModifier {
         let scaleVector = vector ?? self.scaleVector
         let scaleValue = scale ?? self.scaleValue
         tooltipNodeX = point.x * scaleVector * scaleValue / rescaleView
-        tooltipNodeY = (point.y + 10) * scaleVector * scaleValue / rescaleView
+        tooltipNodeY = (point.y + 5) * scaleVector * scaleValue / rescaleView
     }
     
     func computNodePointPos(node: NodePoint, isShowCity: Bool) -> CGPoint {

@@ -15,7 +15,7 @@ struct VpnMapView: View {
     @EnvironmentObject var appState: GlobalAppStates
     @Binding var scale: CGFloat
      
-    var rescaleView: CGFloat = 2
+    var rescaleView: CGFloat = 1.1
     var numberImage = 1
     var aspecRaito: CGFloat = 2048 / 1588
     var baseHeight: CGFloat = 588
@@ -140,7 +140,7 @@ struct LoopMapView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             Color.clear
-            HStack(spacing: 0) {
+            /*HStack(spacing: 0) {
                 ForEach(0..<loop, id: \.self) { _ in
                     mapLayer1
                 }
@@ -149,7 +149,9 @@ struct LoopMapView: View {
                 ForEach(0..<loop, id: \.self) { _ in
                     pointLayer
                 }
-            }
+            }*/
+            mapLayer1
+            pointLayer
         }.frame(width: size.width * CGFloat(loop) * scale, height: size.height * scale, alignment: .center).scaleEffect(1 / scale)
     }
 }
