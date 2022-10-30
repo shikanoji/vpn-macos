@@ -14,17 +14,15 @@ struct VpnMapPointView: View {
     var locationIndex: Int?
     var onHoverNode: ((Bool) -> Void)?
     @State private var iconImage: Image?
-    @State private var fadeOut = false
+
     var body: some View {
         return ZStack {
             iconImage?
                 .resizable()
-                .opacity(fadeOut ? 0 : 1)
                 .frame(width: 40, height: 40)
                 .onHover { hover in
                     onHoverNode?(hover)
-                }.transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
-            
+                } 
             if locationIndex != nil {
                 Text(String(locationIndex ?? 0))
                     .font(.system(size: 22))
@@ -37,15 +35,7 @@ struct VpnMapPointView: View {
             }
             
         }.onChange(of: state) { newValue in
-            withAnimation {
-                self.fadeOut.toggle()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    withAnimation {
-                        iconImage = newValue.icon
-                        self.fadeOut.toggle()
-                    }
-                }
-            }
+            iconImage = newValue.icon
         }.onAppear {
             iconImage = state.icon
         }
