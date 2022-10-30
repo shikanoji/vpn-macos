@@ -26,7 +26,7 @@ struct VpnMapPointView: View {
                 }
             if locationIndex != nil {
                 Text(String(locationIndex ?? 0))
-                    .font(.system(size: 14))
+                    .font(.system(size: 13))
                     .foregroundColor(Color.white)
                     .background(
                         Asset.Assets.icMapLocation.swiftUIImage

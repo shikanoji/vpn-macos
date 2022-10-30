@@ -35,7 +35,7 @@ struct HomeTrafficInfoView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Sesion Traffic")
+            Text("Sesion Traffics")
                 .font(Font.system(size: 16, weight: .semibold))
                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
             Spacer().frame(height: 15)
@@ -46,7 +46,7 @@ struct HomeTrafficInfoView: View {
                     Text("Up Volume:")
                 }
                 Spacer()
-                VStack(alignment: .trailing) {
+                VStack(alignment: .trailing, spacing: 8) {
                     Text(sessionDisplay)
                     Text(usageInfo.displayString(for: usageInfo.received))
                     Text(usageInfo.displayString(for: usageInfo.sent))
