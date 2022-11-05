@@ -12,6 +12,8 @@ extension HomeView {
         @Published var selectedMenuItem: HomeMenuItem = .none
         @Published var listCity: [HomeListCountryModel]
         @Published var countrySelected: HomeListCountryModel?
+        
+        
         var isConnected: Bool = false
         var listCountry: [HomeListCountryModel]
         var listStaticServer: [HomeListCountryModel]
@@ -24,6 +26,10 @@ extension HomeView {
             getListCountry()
             getListStaticServer()
             getListMultiHop()
+            
+            _ =  GlobalAppStates.shared.initApp() { [weak self] in
+                print("init app success")
+            }
         }
             
         func getListCountry() {

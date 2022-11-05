@@ -93,8 +93,25 @@ extension MenuQuickAccessView {
         func getListCountry() {
             let availableCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
             for item in availableCountry {
-                let itemModel = TabbarListItemModel(title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag)
+                let itemModel = TabbarListItemModel(title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, raw: item)
                 listCountry.append(itemModel)
+            }
+        }
+        
+        func connect(to info: INodeInfo? = nil) {
+            MapAppStates.shared.connectedNode = nil
+            let dj = DependencyContainer.shared
+            if let city = info as? CountryCity {
+                dj.vpnCore.connect(with: .init(connectType: .cityId(id: city.id ?? 0)))
+            } else if let country = info as? CountryAvailables {
+                dj.vpnCore.connect(with: .init(connectType: .countryId(id: country.id ?? 0)))
+            } else if let staticServer = info as? CountryStaticServers {
+                dj.vpnCore.connectTo(connectType: .serverId(id: staticServer.serverId ?? 0), params: nil)
+            } else if let multiplehop = info as? MultiHopResult {
+                dj.vpnCore.connect(with: .init(connectType: .serverId(id: multiplehop.entry?.serverId ?? 0), params: SysVPNConnectParams(isHop: true)))
+                multiplehop.entry?.city?.country = multiplehop.entry?.country
+                multiplehop.exit?.city?.country = multiplehop.exit?.country
+                MapAppStates.shared.connectedNode = multiplehop
             }
         }
     }

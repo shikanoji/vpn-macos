@@ -186,6 +186,7 @@
 		FACEC9BC290503DA0014ABC9 /* CoreAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BA128FD41C900205ECD /* CoreAppConstants.swift */; };
 		FACEC9BD290503DA0014ABC9 /* CoreAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BA128FD41C900205ECD /* CoreAppConstants.swift */; };
 		FACEC9BE290503DB0014ABC9 /* CoreAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BA128FD41C900205ECD /* CoreAppConstants.swift */; };
+		FADF0E602916260E00C88618 /* LoginBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF0E5F2916260E00C88618 /* LoginBannerView.swift */; };
 		FADFCE7729006C7600219BB0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FADFCE7629006C7600219BB0 /* Kingfisher */; };
 		FADFCE7929006EEE00219BB0 /* BlinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFCE7829006EEE00219BB0 /* BlinkingView.swift */; };
 		FAEE1BFA28FF1A830044B5CD /* TimerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE1BF928FF1A830044B5CD /* TimerFactory.swift */; };
@@ -446,6 +447,7 @@
 		FACEC9B029046BE20014ABC9 /* OpenVpnAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenVpnAdapter.swift; sourceTree = "<group>"; };
 		FACEC9B22904D71A0014ABC9 /* SysMessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SysMessageService.swift; sourceTree = "<group>"; };
 		FACEC9B42904F82D0014ABC9 /* ExKeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExKeyChain.swift; sourceTree = "<group>"; };
+		FADF0E5F2916260E00C88618 /* LoginBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginBannerView.swift; sourceTree = "<group>"; };
 		FADFCE7829006EEE00219BB0 /* BlinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingView.swift; sourceTree = "<group>"; };
 		FAEE1BF928FF1A830044B5CD /* TimerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerFactory.swift; sourceTree = "<group>"; };
 		FAFAAE1E290280A6006A69E3 /* OpenVpnAppExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OpenVpnAppExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -599,6 +601,7 @@
 				9EC3322928C108A300CA5DF5 /* LoginView.swift */,
 				9EC3322B28C108B000CA5DF5 /* LoginViewModel.swift */,
 				9EC3323428C254DF00CA5DF5 /* LoginLoadingView.swift */,
+				FADF0E5F2916260E00C88618 /* LoginBannerView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1579,6 +1582,7 @@
 				AC09D7A028BF0F970078E928 /* APIServiceManager.swift in Sources */,
 				FAA35BC528FD41CB00205ECD /* SysVPNService.swift in Sources */,
 				B972163E29028862002E9ABE /* WireGuardPeer.swift in Sources */,
+				FADF0E602916260E00C88618 /* LoginBannerView.swift in Sources */,
 				9E668DFE28E8AF9F009CDC95 /* GlobalAppStates.swift in Sources */,
 				B9B3705328FE4FE70022498B /* AppSettingVpn.swift in Sources */,
 				9E668E0228E8BC62009CDC95 /* CountryItemView.swift in Sources */,

@@ -228,7 +228,9 @@ struct MenuQuickAccessView: View {
     var bodyItemMenu: some View {
         HStack {
             if viewModel.tabbarSelectedItem == .allCountry {
-                TabbarListItemView(listItem: viewModel.listCountry)
+                TabbarListItemView(listItem: viewModel.listCountry, onTap: { node in
+                    viewModel.connect(to: node)
+                })
                     .transition(.opacity)
             } else if viewModel.tabbarSelectedItem == .recent {
                 TabbarListItemView(listItem: viewModel.listRecent)

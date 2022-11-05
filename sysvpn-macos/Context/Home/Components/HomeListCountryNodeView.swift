@@ -85,7 +85,7 @@ struct HomeListCountryNodeView: View {
             }
             .modifier(ListViewModifier())
             .animation(.linear, value: UUID())
-        }
+        } 
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
         .background(Asset.Colors.backgroundColor.swiftUIColor)

@@ -9,10 +9,16 @@ import SwiftUI
 
 struct TabbarListItemView: View {
     var listItem: [TabbarListItemModel]
+    var onTap: ((INodeInfo) -> Void)?
     var body: some View {
         VStack(alignment: .leading) {
             List(listItem) { item in
                 TabbarItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
+                    .onTapGesture {
+                        if let node = item.raw{
+                            onTap?(node)
+                        }
+                    }
             }
             .modifier(ListViewModifier())
             .animation(nil, value: UUID())
@@ -28,4 +34,6 @@ struct TabbarListItemModel: Identifiable {
     var totalCity: Int = 0
     var imageUrl: String?
     var lastUse: Date = .init()
+    
+    var raw: INodeInfo?
 }

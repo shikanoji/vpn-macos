@@ -16,6 +16,8 @@ struct HomeView: View {
     @State private var isShowCityAnim = false
     
     @State var mapSize: CGRect = .zero
+    
+    @State var isShowMoreScrollTop = true
     let pub = NotificationCenter.default
         .publisher(for: .reloadServerStar)
     
@@ -33,6 +35,25 @@ struct HomeView: View {
                             insertion: .move(edge: .leading),
                             removal: .move(edge: .leading)
                         ).combined(with: .opacity))
+                    .overlay {
+                        if isShowMoreScrollTop {
+                            VStack{
+                                Spacer()
+                                HStack{
+                                    Text("Scroll down to more")
+                                        .padding(10)
+                                }
+                                .background(Color.black)
+                            }
+                            .allowsHitTesting(false)
+                            .onAppear(){
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5){
+                                    self.isShowMoreScrollTop = false
+                                }
+                            }
+                        }
+                    }
+                    
                     HomeDetailCityNodeView(selectedItem: $viewModel.selectedMenuItem, listCity: $viewModel.listCity, isShowCity: $isShowCity, countryItem: viewModel.countrySelected,
                                            onTouchItem: { item in
                                                self.viewModel.connect(to: item)

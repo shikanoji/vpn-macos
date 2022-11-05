@@ -36,13 +36,8 @@ struct Bitrate: Equatable {
 
 class NetworkStatistics {
     private struct NetworkTraffic {
-        var downloadCount: UInt32 = 0
-        var uploadCount: UInt32 = 0
-        
-        mutating func updateCountsByAdding(_ statistics: NetworkTraffic) {
-            downloadCount = UInt32((UInt64(downloadCount) + UInt64(statistics.downloadCount)) % UInt64(UInt32.max))
-            uploadCount = UInt32((UInt64(uploadCount) + UInt64(statistics.uploadCount)) % UInt64(UInt32.max))
-        }
+        var downloadCount: UInt64 = 0
+        var uploadCount: UInt64 = 0
     }
      
     private var timer: Timer!
@@ -87,7 +82,7 @@ class NetworkStatistics {
     
     private func getTrafficStatistics() -> NetworkTraffic {
         let vpnTraffic = SystemDataUsage.vpnDataUsageInfo()
-        return NetworkTraffic(downloadCount: UInt32(vpnTraffic.received), uploadCount: UInt32(vpnTraffic.sent))
+        return NetworkTraffic(downloadCount:  vpnTraffic.received, uploadCount: vpnTraffic.sent)
     }
 }
 
@@ -119,6 +114,11 @@ public struct LastNItemsBuffer {
             result.append(array[(loop + index) % array.count])
         }
         return result.compactMap { $0 }
+    }
+    
+    var last: Double? {
+        
+        return array[(index + array.count - 1) % array.count]
     }
      
     public func max() -> Double? {

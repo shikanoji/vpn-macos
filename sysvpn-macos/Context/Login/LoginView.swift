@@ -20,7 +20,7 @@ struct LoginView: View {
     private let contentHorizontalMargin: EdgeInsets = .init(top: 0, leading: 60, bottom: 0, trailing: 60)
     private let socialIconSize: CGFloat = 20
     private let inputSpacing: CGFloat = 16
-    private let paddingTop: CGFloat = 60
+    private let paddingTop: CGFloat = 48
     
     var formInput: some View {
         VStack {
@@ -29,12 +29,15 @@ struct LoginView: View {
                 .disableAutocorrection(true)
                 .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingEmail))
                 .focused($focusState, equals: .username)
-                .textContentType(.username)
+                
+                .textContentType(nil)
+            
             Spacer().frame(height: inputSpacing)
-            SecureField(L10n.Login.password, text: $viewModel.password)
+            SecureField(L10n.Login.password,text: $viewModel.password)
                 .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingPassword))
                 .focused($focusState, equals: .password)
                 .textContentType(nil)
+                .focusable()
             Spacer().frame(height: 34)
         }
     }
@@ -65,7 +68,7 @@ struct LoginView: View {
         }
     }
     
-    var formHeader: some View {
+    /*var formHeader: some View {
         VStack {
             Asset.Assets.logo.swiftUIImage
                 .padding(.top, paddingTop)
@@ -75,6 +78,20 @@ struct LoginView: View {
                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
                 .font(.body)
                 .padding(.top, 14)
+        }
+    }*/
+    
+    var formHeader: some View {
+        VStack (alignment: .leading) {
+            Text(L10n.Login.welcomeBack)
+                .font(Font.system(size: 24))
+                .padding(.bottom, 6)
+            
+            Text(L10n.Login.sologan)
+                .lineLimit(nil)
+                .font(Font.system(size: 14))
+                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                .font(.body)
         }
     }
     
@@ -91,7 +108,7 @@ struct LoginView: View {
     
     var formFooter: some View {
         HStack(alignment: .center) {
-            Button {
+            /*Button {
                 viewModel.isRemember = !viewModel.isRemember
             } label: {
                 if viewModel.isRemember { Asset.Assets.icCheckChecked.swiftUIImage
@@ -105,21 +122,34 @@ struct LoginView: View {
                         .frame(width: socialIconSize, height: socialIconSize)
                 }
                 Text(L10n.Login.rememberLogin)
-            }.buttonStyle(LoginButtonNoBackgroundStyle())
+            }.buttonStyle(LoginButtonNoBackgroundStyle())*/
             Spacer()
             Button {
                 viewModel.onTouchForgotPassword()
             } label: {
                 Text(L10n.Login.forgotPassword)
             }.buttonStyle(LoginButtonNoBackgroundStyle())
-        }.padding(.bottom, 45)
+        }.padding(.bottom, 40)
     }
     
     var body: some View {
+        HStack(spacing: 0) {
+            LoginBannerView()
+                .frame(maxWidth:  CGFloat.infinity)
+            bodyLogin
+                .frame(width: 460)
+        }
+        .ignoresSafeArea()
+        .frame(minWidth: 1000, minHeight: 650)
+    }
+    
+    var bodyLogin: some View {
         ZStack {
-            VStack {
+            VStack (alignment: .leading, spacing: 0){
+                Spacer().frame(height: paddingTop)
+                formHeader
+                .padding(contentHorizontalMargin)
                 VStack(alignment: .center) {
-                    formHeader
                     formInput
                     formFooter
                     Button {
@@ -130,7 +160,7 @@ struct LoginView: View {
                         .environment(\.isEnabled, viewModel.isVerifiedInput)
                     Spacer().frame(height: 32)
                     socialLogin
-                    Spacer().frame(height: 76)
+                    Spacer().frame(height: 40)
                     createAccountArea
                     Spacer()
                 }
@@ -170,6 +200,6 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
-            .frame(width: 500, height: 770, alignment: .center)
+            .frame(minWidth: 1000, minHeight: 650)
     }
 }

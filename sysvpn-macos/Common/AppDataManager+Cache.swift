@@ -67,7 +67,9 @@ extension AppDataManager {
             case let .success(response):
                 DispatchQueue.global(qos: .background).async {
                     AppDataManager.shared.userCountry = response
-                    NotificationCenter.default.post(name: .updateCountry, object: nil)
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: .updateCountry, object: nil)
+                    }
                 }
             case .failure:
                 break
@@ -84,7 +86,9 @@ extension AppDataManager {
             case let .success(response):
                 DispatchQueue.global(qos: .background).async {
                     AppDataManager.shared.mutilHopServer = response
-                    NotificationCenter.default.post(name: .updateMultipleHop, object: nil)
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: .updateMultipleHop, object: nil)
+                    }
                 }
             case .failure:
                 break
@@ -102,7 +106,9 @@ extension AppDataManager {
                 case let .success(response):
                     DispatchQueue.global(qos: .background).async {
                         response.updateStarCountry()
-                        NotificationCenter.default.post(name: .reloadServerStar, object: nil)
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: .reloadServerStar, object: nil)
+                        }
                     }
                 case .failure:
                     break

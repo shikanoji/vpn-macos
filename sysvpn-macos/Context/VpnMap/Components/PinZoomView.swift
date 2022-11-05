@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import SwiftUI
  
 struct ZoomModifier: ViewModifier {
@@ -21,6 +22,7 @@ struct ZoomModifier: ViewModifier {
     @State private var offset = CGSize.zero
     @State private var lastOffset = CGSize.zero
     @Binding var cameraPosition: CGPoint?
+    @State var subs = Set<AnyCancellable>()
     
     var overlayLayer: VpnMapOverlayLayer
     
@@ -111,7 +113,6 @@ struct ZoomModifier: ViewModifier {
                             onScaleCalcOffset(value: newValue)
                         }
                         .onChange(of: screenSize, perform: { _ in
-                            print("update size")
                             if isAppear {
                                 DispatchQueue.main.async {
                                     withAnimation {
@@ -139,7 +140,34 @@ struct ZoomModifier: ViewModifier {
         }.content.offset(offset)
             .onAppear {
                 offset.width = contentSize.width * -1 * floor(numberImage / 2)
+                trackScrollWheel()
             }
+    }
+    
+    func updateDetail(detail: Double) {
+        if detail == 0 {
+            return
+        }
+        
+        
+        print(detail)
+        let value = self.currentScale + detail / 100
+        self.currentScale = Swift.min( Swift.max(value, self.min), self.max )
+    }
+    
+    func trackScrollWheel() {
+        
+        NSApp.publisher(for: \.currentEvent)
+            .filter { event in event?.type == .scrollWheel }
+            .throttle(for: .milliseconds(20),
+                      scheduler: DispatchQueue.main,
+                      latest: false)
+            .sink { event in
+        
+                self.updateDetail(detail: Double(event?.scrollingDeltaY ?? 0))
+               
+            }
+            .store(in: &subs)
     }
 }
 

@@ -96,6 +96,8 @@ public enum L10n {
     public static let tryAgain = L10n.tr("Login", "tryAgain", fallback: "Please try again!")
     /// Unprotected
     public static let unprotected = L10n.tr("Login", "unprotected", fallback: "Unprotected")
+    /// Welcome Back
+    public static let welcomeBack = L10n.tr("Login", "welcomeBack", fallback: "Welcome Back")
     /// Your email
     public static let yourEmail = L10n.tr("Login", "yourEmail", fallback: "Your email")
   }

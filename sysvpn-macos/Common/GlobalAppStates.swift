@@ -10,7 +10,9 @@ import Foundation
 class GlobalAppStates: ObservableObject {
     static let shared = GlobalAppStates()
     @Published var displayState: AppDisplayState = .disconnected
-   
+    var onReady: (() -> Void)?
+    var isInitApp = false
+    var isWaitingInitApp = false
     var userIpAddress: String {
         return AppDataManager.shared.userIp
     }
@@ -18,6 +20,66 @@ class GlobalAppStates: ObservableObject {
     var sessionStartTime: Double? {
         return DependencyContainer.shared.appStateMgr.sessionStartTime
     }
+    
+    
+    func initApp(_ ready:  (() -> Void)? ) -> Bool {
+        if isInitApp {
+            ready?()
+            return false
+        }
+        self.onReady = ready
+        isWaitingInitApp = true
+        isInitApp = true
+        if DependencyContainer.shared.appStateMgr.sessionStartTime != nil {
+            print("hasConnected")
+        }
+        
+        OSExtensionManager.shared.onReady = {
+            let ipc = IPCFactory.makeIPCRequestService()
+            ipc.checkConnect {
+                DispatchQueue.main.async {
+                    self.initData()
+                    NotificationCenter.default.post(name: .appReadyStart, object: nil)
+                }
+            }
+            DispatchQueue.main.async {
+                DependencyContainer.shared.vpnManager.whenReady(queue: DispatchQueue.main) {
+                    print("readdy")
+                }
+                
+                DependencyContainer.shared.vpnManager.prepareManagers(forSetup: true)
+            }
+        }
+        return true
+    }
+
+    func initData() {
+        if AppDataManager.shared.userSetting == nil {
+            _ = AppDataManager.shared.loadSetupData {
+                self.onNext()
+            }
+        } else {
+            _ = AppDataManager.shared.loadSetupData {
+                print("[MGR] refresh done")
+            }
+            onNext()
+        }
+    }
+    
+    func onStartApp() {
+        if AppDataManager.shared.isLogin {
+            NotificationCenter.default.post(name: .startJobUpdateCountry, object: nil)
+        } else {
+            NotificationCenter.default.post(name: .endJobUpdate, object: nil)
+        }
+    }
+    
+    func onNext() {
+        isWaitingInitApp = false
+        onReady?()
+        onStartApp()
+    }
+    
 }
 
 class NetworkAppStates: ObservableObject {

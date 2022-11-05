@@ -25,6 +25,13 @@ extension LoginView {
 
         init() {
             isRemember = AppSetting.shared.isRememberLogin
+            let isReady =  GlobalAppStates.shared.initApp() { [weak self] in
+                self?.hideLoading()
+            }
+            
+            if isReady {
+                self.isPresentedLoading = true
+            }
         }
         
         func onLoginSuccess() {
