@@ -35,7 +35,7 @@ struct HomeTrafficInfoView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Sesion Traffics")
+            Text("Session Traffics")
                 .font(Font.system(size: 16, weight: .semibold))
                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
             Spacer().frame(height: 15)

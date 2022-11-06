@@ -14,31 +14,27 @@ struct sysvpn_macosApp: App {
     @State private var spashWindow: NSWindow?
     var body: some Scene {
         WindowGroup(id: "main") {
-           if WindowMgr.shared.currentWindow == .LoginView {
-                LoginView()
-                    .withHostingWindow { window in
-                        if let window = window {
-                            window.backgroundColor = Asset.Colors.mainBackgroundColor.color
-                            window.isMovableByWindowBackground = false
-                            window.standardWindowButton(.zoomButton)?.isHidden = false
-                        }
-                    }
-                    .environmentObject(GlobalAppStates.shared)
-                    .environmentObject(WindowMgr.shared)
-            } else if WindowMgr.shared.currentWindow == .MainView {
-                HomeView().withHostingWindow { window in
-                    if let window = window {
-                       
-                        window.backgroundColor = Asset.Colors.mainBackgroundColor.color
-                        window.isMovableByWindowBackground = false
-                        window.standardWindowButton(.zoomButton)?.isHidden = false
-                    }
-                }.environmentObject(GlobalAppStates.shared)
-                    .environmentObject(NetworkAppStates.shared)
-                    .environmentObject(MapAppStates.shared)
-                    .environmentObject(WindowMgr.shared)
+            Group {
+                if WindowMgr.shared.currentWindow == .LoginView {
+                     LoginView()
+                         .environmentObject(GlobalAppStates.shared)
+                         .environmentObject(WindowMgr.shared)
+                 } else if WindowMgr.shared.currentWindow == .MainView {
+                     HomeView().environmentObject(GlobalAppStates.shared)
+                         .environmentObject(NetworkAppStates.shared)
+                         .environmentObject(MapAppStates.shared)
+                         .environmentObject(WindowMgr.shared)
+                 }
             }
-        }.windowStyle(HiddenTitleBarWindowStyle())
+            .withHostingWindow { window in
+                if let window = window { 
+                    window.backgroundColor = Asset.Colors.mainBackgroundColor.color
+                    window.isMovableByWindowBackground = false
+                    window.standardWindowButton(.zoomButton)?.isHidden = false
+                }
+            }
+        }
+        .windowStyle(HiddenTitleBarWindowStyle())
             .commands {
                 CommandGroup(replacing: .newItem, addition: {})
             }

@@ -149,8 +149,6 @@ struct ZoomModifier: ViewModifier {
             return
         }
         
-        
-        print(detail)
         let value = self.currentScale + detail / 100
         self.currentScale = Swift.min( Swift.max(value, self.min), self.max )
     }
