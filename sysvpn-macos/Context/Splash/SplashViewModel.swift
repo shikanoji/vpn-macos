@@ -35,11 +35,10 @@ extension SplashView {
             }
         }
 
-       
         func initData() {
-            if AppDataManager.shared.userSetting  == nil {
-              _ =  AppDataManager.shared.loadSetupData {
-                  self.onNext()
+            if AppDataManager.shared.userSetting == nil {
+                _ = AppDataManager.shared.loadSetupData {
+                    self.onNext()
                 }
             } else {
                 onNext()
@@ -54,15 +53,13 @@ extension SplashView {
             }
         }
         
-        
         func onNext() {
             if AppDataManager.shared.isLogin {
                 OpenWindows.MainView.open()
             } else {
                 OpenWindows.LoginView.open()
             }
-            self.onStartApp()
+            onStartApp()
         }
-        
     }
 }

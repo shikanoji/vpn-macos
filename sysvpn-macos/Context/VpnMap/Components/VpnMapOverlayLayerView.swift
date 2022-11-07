@@ -91,7 +91,7 @@ struct VpnMapOverlayLayer: ViewModifier {
     }
     
     var isShowConnectedNode: Bool {
-        if connectedPosition.x  == 0 && connectedPosition.y == 0 {
+        if connectedPosition.x == 0 && connectedPosition.y == 0 {
             return false
         }
         return appState.displayState == .connected && !(mapState.connectedNode is MultiHopResult)

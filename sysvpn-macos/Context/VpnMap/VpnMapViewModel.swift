@@ -20,7 +20,6 @@ extension VpnMapView {
             NotificationCenter.default.addObserver(self, selector: #selector(onUpdateServer), name: .updateCountry, object: nil)
         }
          
-        
         deinit {
             NotificationCenter.default.removeObserver(self, name: .updateCountry, object: nil)
         }
@@ -31,17 +30,16 @@ extension VpnMapView {
         
         func initData() {
             AppDataManager.shared.asyncLoadConfig {
-               return AppDataManager.shared.userCountry?.availableCountries ?? []
+                return AppDataManager.shared.userCountry?.availableCountries ?? []
             } completion: { listCountry in
-                if listCountry.count > 0 {
+                if !listCountry.isEmpty {
                     self.loadListNode(listCountry: listCountry)
                     self.isLoaded = true
                 }
             }
         }
         
-        func loadListNode(listCountry : [CountryAvailables]) {
-            
+        func loadListNode(listCountry: [CountryAvailables]) {
             var listCity: [CountryCity] = []
             
             for country in listCountry {

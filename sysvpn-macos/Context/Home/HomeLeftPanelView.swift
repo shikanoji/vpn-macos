@@ -17,10 +17,10 @@ enum HomeMenuItem {
 struct HomeLeftPanelView: View {
     @Binding var selectedItem: HomeMenuItem
     @StateObject private var viewModel = HomeLeftPanelViewModel()
-     
+   
     var iconSize: CGFloat = 32
     var quickConnectButton: some View {
-        VStack {
+        VStack { 
             HomeConnectionButtonView {
                 viewModel.onTapConnect()
             }
@@ -59,7 +59,7 @@ struct HomeLeftPanelView: View {
                 active: selectedItem == .multiHop,
                 icon: Asset.Assets.icLink.swiftUIImage,
                 title: L10n.Global.multiHop,
-                content: "\(viewModel.totalMultipleHop) \(L10n.Global.multiHopDesc)" 
+                content: "\(viewModel.totalMultipleHop) \(L10n.Global.multiHopDesc)"
             ).onTapGesture {
                 withAnimation {
                     selectedItem = .multiHop
@@ -108,7 +108,7 @@ struct HomeLeftPanelView: View {
                 .frame(width: 40, height: 40)
                 .cornerRadius(20)
             VStack(alignment: .leading) {
-                Text("Jason Vincius")
+                Text("Đờ ra gon")
                     .font(Font.system(size: 13, weight: .semibold))
                     .foregroundColor(Color.white)
                 Spacer().frame(height: 8)
@@ -137,8 +137,8 @@ struct HomeLeftPanelView: View {
             footerSection
             itemSpacer
             Divider()
-                .background(Color(rgb: 0x272936))
-                .padding([.leading, .trailing], 16)
+                .background(Asset.Colors.dividerColor.swiftUIColor)
+                .padding(.horizontal, 16)
             itemSpacer
             settingSection
             itemSpacer

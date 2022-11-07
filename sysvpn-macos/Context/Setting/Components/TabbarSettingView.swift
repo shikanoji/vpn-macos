@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum TabbarSettingType  {
+enum TabbarSettingType {
     case general
     case vpnSetting
     case account
@@ -15,7 +15,7 @@ enum TabbarSettingType  {
     case appearence
     case supportCenter
     
-    func toString() -> String{
+    func toString() -> String {
         switch self {
         case .general:
             return L10n.Global.general
@@ -48,7 +48,7 @@ struct TabbarSettingView: View {
     }
     
     var bodyMenu: some View {
-        HStack(spacing: 0) {
+        HStack(alignment: .center, spacing: 0) {
             ForEach(listItem, id: \.self) { item in
                 Button {
                     withAnimation {
@@ -56,19 +56,16 @@ struct TabbarSettingView: View {
                     }
                 } label: {
                     TabBarButton(text: item.type.toString(), isSelected: .constant(selectedItem == item.type))
-                        .frame(width: 110)
+                        .background(selectedItem == item.type ? Asset.Assets.bgActiveSetting.swiftUIImage.resizable() : nil)
                         .contentShape(Rectangle())
-                        .background(selectedItem == item.type ? Asset.Assets.bgTabbar.swiftUIImage : nil)
                 }
-                .frame(width: 110)
                 .buttonStyle(PlainButtonStyle())
-            } 
+            }
         }
         .frame(
             maxWidth: .infinity,
             alignment: .center
         )
     }
-    
 }
  

@@ -32,3 +32,55 @@
 "statistics" = "Statistics";
 "appearence" = "Appearence";
 "supportCenter" = "Support Center";
+
+//setting detail
+///General
+"autoLaunch" = "Auto-launch";
+"autoLaunchDesc" = "Start SysVPN automatically when system starts.";
+"startMinimized" = "Start minimized";
+"startMinimizedDesc" = "SysVPN starts in the background and remains out of your way.";
+"systemNoti" = "System notifications";
+"systemNotiDesc" = "I want to get notifications when connecting/disconnecting from SysVPN.";
+"appLanguage" = "App language";
+
+///VPN Setting
+"autoConnect" = "Auto connect";
+"autoConnectDesc" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
+"quickConnectSetting" = "Quick connect";
+"quickConnectDesc" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
+"protocol" = "Protocol";
+"killSwitch" = "Kill switch";
+"killSwitchDesc" = "Blocks unprotected traffic if VPN connection drops.";
+"cyberSec" = "CyberSec";
+"cyberSecDesc" = "Protects you from cyber threats by blocking malicious website.";
+
+///Account
+"emailAccount" = "Email account";
+"subscriptionDetails" = "Subscription details";
+"accountSercurity" = "Account sercurity";
+"accountSercurityDesc" = "At least 8 characters including a number, uppercase, and lowercase letter.";
+"newsletters" = "Newsletters";
+"newslettersDesc" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
+"currentPassword" = "Current password";
+"newPassword" = "New password";
+"confirmPassword" = "Confirm new password";
+"changePassword" = "Change password";
+"changePasswordSuccess" = "Password changed successfully";
+
+///Statistics
+"vpnStatus" = "VPN Status";
+"connected" = "Connected";
+"protocolUse" = "Protocol in use";
+"currentSessionStr" = "Current sesstion time";
+"currentIpStr" = "Current IP Address";
+"weeklyTimeStr" = "Weekly time protected";
+"longestConnection" = "Longest connection";
+
+///Appearence
+"themeMode" = "Theme mode";
+"followSystem" = "Follow system";
+"lightMode" = "Light mode";
+"darkMode" = "Dark mode";
+"fontSize" = "Font Size";
+"fontSizeDesc" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
+
