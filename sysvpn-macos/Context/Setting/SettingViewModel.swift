@@ -46,6 +46,33 @@ class SwitchSettingItem: SettingElementType {
     }
 }
 
+class ChangePasswordSettingItem: SettingElementType {
+    init(settingName: String, settingDesc: String?){
+        super.init()
+        self.settingDesc = settingDesc
+        self.settingName = settingName
+    }
+}
+
+class EmailSettingItem: SettingElementType {
+    var settingValue: String = ""
+
+    init(settingName: String, settingDesc: String?, settingValue: String){
+        self.settingValue = settingValue
+        super.init()
+        self.settingDesc = settingDesc
+        self.settingName = settingName
+    }
+}
+
+class SubscriptionSettingItem: SettingElementType {
+    init(settingName: String, settingDesc: String?){
+        super.init()
+        self.settingDesc = settingDesc
+        self.settingName = settingName
+    }
+}
+
 class SelectSettingItem<T>: SettingElementType {
     var settingValue: T?
     var settingData: [T]?

@@ -13,21 +13,30 @@ extension AccountSettingView {
         @Published var isChangePasswordSuccess: Bool = false
         init() {
             listItem = []
-            /*
-            let emailAccount = SwitchSettingItem(settingName: L10n.Global.emailAccount, settingDesc: L10n.Global.emailAccount, settingValue: false)
-            let subscriptionDetails = SwitchSettingItem(settingName: L10n.Global.subscriptionDetails, settingDesc: L10n.Global.startMinimizedDesc, settingValue: false)
-            let accountSercurity = SwitchSettingItem(settingName: L10n.Global.accountSercurity, settingDesc: L10n.Global.systemNotiDesc, settingValue: false)
-             */
-            let newsletters = SelectSettingItem<String>(settingName: L10n.Global.newsletters, settingValue: "English", settingData: ["English", "Viet Nam", "123123"])
-//            listItem.append(emailAccount)
-//            listItem.append(subscriptionDetails)
-//            listItem.append(accountSercurity)
+            let emailUser = AppDataManager.shared.userData?.email ?? ""
+            let emailAccount = EmailSettingItem(settingName: L10n.Global.emailAccount, settingDesc: L10n.Global.emailAccount, settingValue: emailUser)
+            let subscriptionDetails = SubscriptionSettingItem(settingName: L10n.Global.subscriptionDetails, settingDesc: L10n.Global.startMinimizedDesc)
+            let accountSercurity = ChangePasswordSettingItem(settingName: L10n.Global.accountSercurity, settingDesc: L10n.Global.systemNotiDesc)
+            let newsletters = SwitchSettingItem(settingName: L10n.Global.newsletters, settingDesc: L10n.Global.newslettersDesc, settingValue: false, itemType: .newsletters)
+            listItem.append(emailAccount)
+            listItem.append(subscriptionDetails)
+            listItem.append(accountSercurity)
             listItem.append(newsletters)
         }
         
         func onAccept() {
             print("123123")
             isChangePasswordSuccess = true
+        }
+        
+        func onChangeValue(value: Bool, item: SwitchSettingItem) {
+            if item.itemType == .killSwitch {
+                PropertiesManager.shared.killSwitch = value
+            } else if item.itemType == .autoConnect {
+                print("value autoConnect: \(value) \(item.settingName)")
+            } else if item.itemType == .cyberSec {
+                print("value cyberSec: \(value) \(item.settingName)")
+            }
         }
         
         func onSelectValue(value: String, item: SettingElementType) {

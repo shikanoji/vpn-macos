@@ -9,14 +9,22 @@ import SwiftUI
 
 struct AccountSettingView: View {
     @StateObject private var viewModel = AccountSettingViewModel()
+    @State var isActive = true
     var body: some View {
         VStack(alignment: .leading) {
             ForEach(viewModel.listItem) { item in
                 if let itemSwitch = item as? SwitchSettingItem {
-                    SettingPasswordComponent(title: itemSwitch.settingName, desc: itemSwitch.settingDesc, isActive: itemSwitch.settingValue, isChangePasswordSuccess: $viewModel.isChangePasswordSuccess , onTapAccept: viewModel.onAccept)
-                } else if let itemSelect = item as? SelectSettingItem<String> {
-                    SettingSelectViewComponent(selectItem: itemSelect, valueSelect: itemSelect.settingValue ?? "", onChangeValue: viewModel.onSelectValue)
+                    SettingSwitchComponent(itemSwitch:itemSwitch, isActive: itemSwitch.settingValue, onChangeValue: viewModel.onChangeValue)
+                } else if let itemPassword = item as? ChangePasswordSettingItem {
+                    SettingPasswordComponent(data: itemPassword, isActive: isActive, isChangePasswordSuccess: $viewModel.isChangePasswordSuccess, onTapAccept: viewModel.onAccept)
+                } else if let data = item as? SubscriptionSettingItem {
+                    SettingSubscriptionComponent(data: data) {
+                        print("123123")
+                    }
+                } else if let email = item as? EmailSettingItem {
+                    SettingEmailComponent(data: email)
                 }
+                
                 if item.settingName != viewModel.listItem.last?.settingName {
                     Divider()
                         .background(Asset.Colors.dividerColor.swiftUIColor)
@@ -40,9 +48,4 @@ struct AccountSettingView: View {
         .frame(width: 600)
     }
 }
-
-struct AccountSettingView_Previews: PreviewProvider {
-    static var previews: some View {
-        AccountSettingView()
-    }
-}
+ 

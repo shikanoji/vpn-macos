@@ -14,24 +14,23 @@ enum SettingPasswordState {
 }
 
 struct SettingPasswordComponent: View {
-    var title: String
-    var desc: String?
+    var data: ChangePasswordSettingItem
     var isShowChangePass: Bool = false
     @State var settingPasswordState: SettingPasswordState = .none
     @State var isActive = true
     @Binding var isChangePasswordSuccess: Bool
     @State private var name = ""
-    var onTapAccept : () -> ()
+    var onTapAccept: @MainActor () -> ()
     var body: some View {
         VStack (alignment: .leading) {
             HStack {
                 VStack(alignment: .leading) {
-                    Text(title)
+                    Text(data.settingName)
                         .foregroundColor(Color.white)
                         .font(Font.system(size: 16, weight: .semibold))
                         .padding(.bottom, 2)
-                    if desc != nil {
-                        Text(desc!)
+                    if data.settingDesc != nil {
+                        Text(data.settingDesc!)
                             .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
                             .font(Font.system(size: 14, weight: .regular))
                     }

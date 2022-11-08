@@ -11,7 +11,7 @@ struct SettingSelectViewComponent: View {
     var selectItem: SettingElementType
     @State private var isShowingPopover = false
     @State var valueSelect: String
-    var onChangeValue: ( _ value : String, _ item : SettingElementType) -> ()
+    var onChangeValue: @MainActor ( _ value : String, _ item : SettingElementType) -> ()
     var body: some View {
         HStack {
             VStack(alignment: .leading) {

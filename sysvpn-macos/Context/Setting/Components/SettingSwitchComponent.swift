@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingSwitchComponent: View { 
     var itemSwitch: SwitchSettingItem
     @State var isActive = true
-    var onChangeValue : ( _ value :Bool, _ item : SwitchSettingItem) -> ()
+    var onChangeValue : @MainActor ( _ value :Bool, _ item : SwitchSettingItem) -> ()
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -31,6 +31,74 @@ struct SettingSwitchComponent: View {
                     print("change")
                     onChangeValue(newValue, itemSwitch)
                 }
+        }
+        .padding(.vertical, 15)
+    }
+}
+
+
+struct SettingEmailComponent: View {
+    var data: EmailSettingItem
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(data.settingName)
+                    .foregroundColor(Color.white)
+                    .font(Font.system(size: 16, weight: .semibold))
+                    .padding(.bottom, 2)
+                if data.settingDesc != nil {
+                    Text(data.settingDesc!)
+                        .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                        .font(Font.system(size: 14, weight: .regular))
+                }
+            }
+            Spacer()
+            Text(data.settingValue)
+                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                .font(Font.system(size: 14, weight: .semibold))
+                .padding(.bottom, 2)
+        }
+        .padding(.vertical, 15)
+    }
+}
+
+struct SettingSubscriptionComponent: View {
+    var data: SubscriptionSettingItem
+    var onTapItem: @MainActor () -> ()
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(data.settingName)
+                    .foregroundColor(Color.white)
+                    .font(Font.system(size: 16, weight: .semibold))
+                    .padding(.bottom, 2)
+                if data.settingDesc != nil {
+                    HStack {
+                        Text("PREMIUM")
+                            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                            .font(Font.system(size: 14, weight: .regular))
+                            .padding(EdgeInsets(top: 6, leading: 8, bottom: 6, trailing: 8)) 
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 4)
+                                    .stroke(Asset.Colors.subTextColor.swiftUIColor, lineWidth: 1.2)
+                            )
+                           
+                        Text("Exprire on 2023-10-27")
+                            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                            .font(Font.system(size: 14, weight: .regular))
+                        
+                    }
+                }
+            }
+            Spacer()
+            Text("Manage subscription")
+                .foregroundColor(Color.white)
+                .font(Font.system(size: 14, weight: .semibold))
+                .padding(.bottom, 2)
+                .onTapGesture {
+                    onTapItem()
+                }
+            
         }
         .padding(.vertical, 15)
     }
