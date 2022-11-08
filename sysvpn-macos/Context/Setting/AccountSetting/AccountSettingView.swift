@@ -13,9 +13,9 @@ struct AccountSettingView: View {
         VStack(alignment: .leading) {
             ForEach(viewModel.listItem) { item in
                 if let itemSwitch = item as? SwitchSettingItem {
-                    SettingPasswordComponent(title: itemSwitch.settingName, desc: itemSwitch.settingDesc, isActive: itemSwitch.settingValue)
+                    SettingPasswordComponent(title: itemSwitch.settingName, desc: itemSwitch.settingDesc, isActive: itemSwitch.settingValue, isChangePasswordSuccess: $viewModel.isChangePasswordSuccess , onTapAccept: viewModel.onAccept)
                 } else if let itemSelect = item as? SelectSettingItem<String> {
-                    SettingSelectViewComponent(selectItem: itemSelect, valueSelect: itemSelect.settingValue ?? "")
+                    SettingSelectViewComponent(selectItem: itemSelect, valueSelect: itemSelect.settingValue ?? "", onChangeValue: viewModel.onSelectValue)
                 }
                 if item.settingName != viewModel.listItem.last?.settingName {
                     Divider()

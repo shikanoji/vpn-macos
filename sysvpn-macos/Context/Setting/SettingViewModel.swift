@@ -23,14 +23,26 @@ class SettingElementType: Identifiable {
     var settingDesc: String?
 }
 
+enum SwitchSettingItemType {
+    case autoLaunch
+    case startMinimized
+    case systemNoti
+    case autoConnect
+    case killSwitch
+    case cyberSec
+    case newsletters
+}
+
 class SwitchSettingItem: SettingElementType {
     var settingValue: Bool = false
+    var itemType: SwitchSettingItemType
     
-    init(settingName: String, settingDesc: String?, settingValue: Bool) {
-        super.init()
-        self.settingName = settingName
+    init(settingName: String, settingDesc: String?, settingValue: Bool, itemType: SwitchSettingItemType) { 
         self.settingValue = settingValue
+        self.itemType = itemType
+        super.init()
         self.settingDesc = settingDesc
+        self.settingName = settingName
     }
 }
 

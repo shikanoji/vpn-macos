@@ -129,6 +129,8 @@ public enum L10n {
     public static let sysvpnConfiguration = L10n.tr("Global", "sysvpnConfiguration", fallback: "Sysvpn Configuration")
     /// Theme mode
     public static let themeMode = L10n.tr("Global", "themeMode", fallback: "Theme mode")
+    /// Sign Out
+    public static let titleLogout = L10n.tr("Global", "titleLogout", fallback: "Sign Out")
     /// VPN Connected
     public static let vpnConnected = L10n.tr("Global", "vpnConnected", fallback: "VPN Connected")
     /// VPN not connected

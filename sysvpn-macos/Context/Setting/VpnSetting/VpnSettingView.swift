@@ -14,9 +14,9 @@ struct VpnSettingView: View {
         VStack(alignment: .leading) {
             ForEach(viewModel.listItem) { item in
                 if let itemSwitch = item as? SwitchSettingItem {
-                    SettingSwitchComponent(title: itemSwitch.settingName, desc: itemSwitch.settingDesc, isActive: itemSwitch.settingValue)
+                    SettingSwitchComponent( itemSwitch: itemSwitch, isActive: itemSwitch.settingValue, onChangeValue: viewModel.onChangeValue)
                 } else if let itemSelect = item as? SelectSettingItem<String> {
-                    SettingSelectViewComponent(selectItem: itemSelect, valueSelect: itemSelect.settingValue ?? "")
+                    SettingSelectViewComponent(selectItem: itemSelect, valueSelect: itemSelect.settingValue ?? "", onChangeValue: viewModel.onSelectValue)
                 }
                 if item.settingName != viewModel.listItem.last?.settingName {
                     Divider()

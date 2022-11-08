@@ -11,6 +11,7 @@ struct SettingSelectViewComponent: View {
     var selectItem: SettingElementType
     @State private var isShowingPopover = false
     @State var valueSelect: String
+    var onChangeValue: ( _ value : String, _ item : SettingElementType) -> ()
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -53,6 +54,7 @@ struct SettingSelectViewComponent: View {
                             .onTapGesture {
                                 valueSelect = item
                                 self.isShowingPopover = false
+                                onChangeValue(item, selectItem)
                             }
                             .frame(height: 40)
                             .background(item == valueSelect ? Asset.Colors.popoverBgSelected.swiftUIColor : Asset.Colors.popoverBgColor.swiftUIColor)

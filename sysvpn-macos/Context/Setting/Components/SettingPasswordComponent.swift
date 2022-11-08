@@ -17,8 +17,11 @@ struct SettingPasswordComponent: View {
     var title: String
     var desc: String?
     var isShowChangePass: Bool = false
+    @State var settingPasswordState: SettingPasswordState = .none
     @State var isActive = true
+    @Binding var isChangePasswordSuccess: Bool
     @State private var name = ""
+    var onTapAccept : () -> ()
     var body: some View {
         VStack (alignment: .leading) {
             HStack {
@@ -34,24 +37,38 @@ struct SettingPasswordComponent: View {
                     }
                 }
                 Spacer()
-                Asset.Assets.icKey.swiftUIImage
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                Text(L10n.Global.changePassword)
-                    .foregroundColor(Color.white)
-                    .font(Font.system(size: 14, weight: .regular))
+                Group {
+                    Asset.Assets.icKey.swiftUIImage
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                    Text(L10n.Global.changePassword)
+                        .foregroundColor(Color.white)
+                        .font(Font.system(size: 14, weight: .regular))
+                }
+                .onTapGesture {
+                    self.settingPasswordState = .input
+                }
+                
             }
             .padding(.vertical, 15)
-            ChangePasswordSuccessItem()
-            //ChangePasswordItem(currenPassword: $name)
-            
+            if settingPasswordState == .input {
+                ChangePasswordItem(currenPassword: $name, onTapAccept: {
+                    onTapAccept()
+                    if isChangePasswordSuccess {
+                        settingPasswordState = .success
+                    }
+                })
+            } else if settingPasswordState == .success {
+                ChangePasswordSuccessItem()
+            }
         }
     }
 }
 
 struct ChangePasswordItem: View {
-    @Binding var currenPassword: String;
+    @Binding var currenPassword: String
     @State var isActive = true
+    var onTapAccept : () -> ()
     var body: some View {
         VStack {
             formInput
@@ -71,10 +88,9 @@ struct ChangePasswordItem: View {
                     .textFieldStyle(LoginInputTextFieldStyle(focused: $isActive))
                     .textContentType(nil)
             }
-            Spacer().frame(height: 20)
-            
+            Spacer().frame(height: 5)
             Button {
-                //
+                onTapAccept()
             } label: {
                 Text(L10n.Global.changePassword)
             }.buttonStyle(LoginButtonCTAStyle())

@@ -42,6 +42,7 @@
 "systemNoti" = "System notifications";
 "systemNotiDesc" = "I want to get notifications when connecting/disconnecting from SysVPN.";
 "appLanguage" = "App language";
+"titleLogout" = "Sign Out";
 
 ///VPN Setting
 "autoConnect" = "Auto connect";

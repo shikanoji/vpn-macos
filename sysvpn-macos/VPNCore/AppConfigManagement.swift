@@ -171,6 +171,15 @@ class PropertiesManager: PropertiesManagerProtocol {
         }
     }
     
+    var vpnProtocol: VpnProtocol {
+        get {
+            return VpnProtocol.readUserDefault(keyUserDefault: Keys.vpnProtocol.rawValue) ?? VpnProtocol.wireGuard
+        }
+        set {
+            newValue.saveUserDefault(keyUserDefault: Keys.vpnProtocol.rawValue)
+        }
+    }
+    
     func postNotificationOnUIThread(_ name: NSNotification.Name, object: Any?, userInfo: [AnyHashable: Any]? = nil) {
         executeOnUIThread {
             NotificationCenter.default.post(name: name, object: object, userInfo: userInfo)
