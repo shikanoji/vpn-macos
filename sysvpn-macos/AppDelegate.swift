@@ -59,7 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func onStartApp() {
         timmerAppSetting?.invalidate()
-        timmerAppSetting = Timer.scheduledTimer(timeInterval: 50.0, target: self, selector: #selector(onReloadAppSetting), userInfo: nil, repeats: true)
+        timmerAppSetting = Timer.scheduledTimer(timeInterval: 100.0, target: self, selector: #selector(onReloadAppSetting), userInfo: nil, repeats: true)
         DispatchQueue.main.async {
             // referesh now
             self.onReloadAppSetting()
@@ -72,7 +72,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let timmer = timmerJob {
             timmer.invalidate()
         }
-        timmerJob = Timer.scheduledTimer(timeInterval: 50.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
+        timmerJob = Timer.scheduledTimer(timeInterval: 100.0, target: self, selector: #selector(onLoadApiUpdateStar), userInfo: nil, repeats: true)
         
         DispatchQueue.main.async {
             // referesh now
