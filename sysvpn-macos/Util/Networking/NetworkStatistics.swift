@@ -82,7 +82,7 @@ class NetworkStatistics {
     
     private func getTrafficStatistics() -> NetworkTraffic {
         let vpnTraffic = SystemDataUsage.vpnDataUsageInfo()
-        return NetworkTraffic(downloadCount:  vpnTraffic.received, uploadCount: vpnTraffic.sent)
+        return NetworkTraffic(downloadCount: vpnTraffic.received, uploadCount: vpnTraffic.sent)
     }
 }
 
@@ -117,7 +117,6 @@ public struct LastNItemsBuffer {
     }
     
     var last: Double? {
-        
         return array[(index + array.count - 1) % array.count]
     }
      

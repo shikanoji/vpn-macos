@@ -21,13 +21,12 @@ class GlobalAppStates: ObservableObject {
         return DependencyContainer.shared.appStateMgr.sessionStartTime
     }
     
-    
-    func initApp(_ ready:  (() -> Void)? ) -> Bool {
+    func initApp(_ ready: (() -> Void)?) -> Bool {
         if isInitApp {
             ready?()
             return false
         }
-        self.onReady = ready
+        onReady = ready
         isWaitingInitApp = true
         isInitApp = true
         if DependencyContainer.shared.appStateMgr.sessionStartTime != nil {
@@ -79,7 +78,6 @@ class GlobalAppStates: ObservableObject {
         onReady?()
         onStartApp()
     }
-    
 }
 
 class NetworkAppStates: ObservableObject {

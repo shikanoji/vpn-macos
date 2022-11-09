@@ -19,6 +19,7 @@
 	<key>keychain-access-groups</key>
 	<array>
 		<string>$(AppIdentifierPrefix)group.com.syspvn.macos</string>
+		<string>$(AppIdentifierPrefix)J953BZ6B49.group.com.syspvn.macos</string>
 	</array>
 </dict>
 </plist>

@@ -15,7 +15,7 @@ struct TabbarListItemView: View {
             List(listItem) { item in
                 TabbarItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
                     .onTapGesture {
-                        if let node = item.raw{
+                        if let node = item.raw {
                             onTap?(node)
                         }
                     }

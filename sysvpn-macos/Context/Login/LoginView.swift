@@ -33,7 +33,7 @@ struct LoginView: View {
                 .textContentType(nil)
             
             Spacer().frame(height: inputSpacing)
-            SecureField(L10n.Login.password,text: $viewModel.password)
+            SecureField(L10n.Login.password, text: $viewModel.password)
                 .textFieldStyle(LoginInputTextFieldStyle(focused: $viewModel.isEditingPassword))
                 .focused($focusState, equals: .password)
                 .textContentType(nil)
@@ -68,21 +68,21 @@ struct LoginView: View {
         }
     }
     
-    /*var formHeader: some View {
-        VStack {
-            Asset.Assets.logo.swiftUIImage
-                .padding(.top, paddingTop)
-            Text(L10n.Login.sologan)
-                .lineLimit(nil)
-                .font(Font.system(size: 16))
-                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                .font(.body)
-                .padding(.top, 14)
-        }
-    }*/
+    /* var formHeader: some View {
+         VStack {
+             Asset.Assets.logo.swiftUIImage
+                 .padding(.top, paddingTop)
+             Text(L10n.Login.sologan)
+                 .lineLimit(nil)
+                 .font(Font.system(size: 16))
+                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                 .font(.body)
+                 .padding(.top, 14)
+         }
+     } */
     
     var formHeader: some View {
-        VStack (alignment: .leading) {
+        VStack(alignment: .leading) {
             Text(L10n.Login.welcomeBack)
                 .font(Font.system(size: 24))
                 .padding(.bottom, 6)
@@ -108,21 +108,21 @@ struct LoginView: View {
     
     var formFooter: some View {
         HStack(alignment: .center) {
-            /*Button {
-                viewModel.isRemember = !viewModel.isRemember
-            } label: {
-                if viewModel.isRemember { Asset.Assets.icCheckChecked.swiftUIImage
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: socialIconSize, height: socialIconSize)
-                } else {
-                    Asset.Assets.icCheckNormal.swiftUIImage
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: socialIconSize, height: socialIconSize)
-                }
-                Text(L10n.Login.rememberLogin)
-            }.buttonStyle(LoginButtonNoBackgroundStyle())*/
+            /* Button {
+                 viewModel.isRemember = !viewModel.isRemember
+             } label: {
+                 if viewModel.isRemember { Asset.Assets.icCheckChecked.swiftUIImage
+                     .resizable()
+                     .aspectRatio(contentMode: .fit)
+                     .frame(width: socialIconSize, height: socialIconSize)
+                 } else {
+                     Asset.Assets.icCheckNormal.swiftUIImage
+                         .resizable()
+                         .aspectRatio(contentMode: .fit)
+                         .frame(width: socialIconSize, height: socialIconSize)
+                 }
+                 Text(L10n.Login.rememberLogin)
+             }.buttonStyle(LoginButtonNoBackgroundStyle()) */
             Spacer()
             Button {
                 viewModel.onTouchForgotPassword()
@@ -135,7 +135,7 @@ struct LoginView: View {
     var body: some View {
         HStack(spacing: 0) {
             LoginBannerView()
-                .frame(maxWidth:  CGFloat.infinity)
+                .frame(maxWidth: CGFloat.infinity)
             bodyLogin
                 .frame(width: 460)
         }
@@ -145,10 +145,10 @@ struct LoginView: View {
     
     var bodyLogin: some View {
         ZStack {
-            VStack (alignment: .leading, spacing: 0){
+            VStack(alignment: .leading, spacing: 0) {
                 Spacer().frame(height: paddingTop)
                 formHeader
-                .padding(contentHorizontalMargin)
+                    .padding(contentHorizontalMargin)
                 VStack(alignment: .center) {
                     formInput
                     formFooter

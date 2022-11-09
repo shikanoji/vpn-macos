@@ -5,8 +5,8 @@
 //  Created by NuocLoc on 03/09/2022.
 //
 
-import Foundation
 import Combine
+import Foundation
 import SwiftUI
  
 struct ZoomModifier: ViewModifier {
@@ -149,12 +149,11 @@ struct ZoomModifier: ViewModifier {
             return
         }
         
-        let value = self.currentScale + detail / 100
-        self.currentScale = Swift.min( Swift.max(value, self.min), self.max )
+        let value = currentScale + detail / 100
+        currentScale = Swift.min(Swift.max(value, self.min), self.max)
     }
     
     func trackScrollWheel() {
-        
         NSApp.publisher(for: \.currentEvent)
             .filter { event in event?.type == .scrollWheel }
             .throttle(for: .milliseconds(20),
@@ -163,7 +162,6 @@ struct ZoomModifier: ViewModifier {
             .sink { event in
         
                 self.updateDetail(detail: Double(event?.scrollingDeltaY ?? 0))
-               
             }
             .store(in: &subs)
     }

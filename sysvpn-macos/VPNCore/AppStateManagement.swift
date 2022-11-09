@@ -164,8 +164,7 @@ class SysVpnAppStateManagement: AppStateManagement {
             }
             
             self.reconnectingAfterStuckDisconnecting = true
-            //    log.info("Attempt connection after vpn stuck", category: .connectionConnect, event: .trigger)
-            self.checkNetworkConditionsAndCredentialsAndConnect(withConfiguration: lastConfig) // Retry connection
+            self.checkNetworkConditionsAndCredentialsAndConnect(withConfiguration: lastConfig)
         })
     }
     
@@ -185,7 +184,6 @@ class SysVpnAppStateManagement: AppStateManagement {
     }
     
     @objc private func timeout() {
-        // log.info("Connection attempt timed out", category: .connectionConnect)
         state = .aborted(userInitiated: false)
         attemptingConnection = false
         cancelTimeout()
@@ -193,8 +191,7 @@ class SysVpnAppStateManagement: AppStateManagement {
         notifyObservers()
     }
     
-    private func stopAttemptingConnection() {
-        // log.info("Stop preparing connection", category: .connectionConnect)
+    private func stopAttemptingConnection() { 
         cancelTimeout()
         handleVpnError(vpnState)
         disconnect()

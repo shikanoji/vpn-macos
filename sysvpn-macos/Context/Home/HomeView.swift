@@ -37,17 +37,17 @@ struct HomeView: View {
                         ).combined(with: .opacity))
                     .overlay {
                         if isShowMoreScrollTop {
-                            VStack{
+                            VStack {
                                 Spacer()
-                                HStack{
+                                HStack {
                                     Text("Scroll down to more")
                                         .padding(10)
                                 }
                                 .background(Color.black)
                             }
                             .allowsHitTesting(false)
-                            .onAppear(){
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 5){
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                                     self.isShowMoreScrollTop = false
                                 }
                             }

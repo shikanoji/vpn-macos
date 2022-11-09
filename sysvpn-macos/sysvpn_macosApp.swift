@@ -16,18 +16,18 @@ struct sysvpn_macosApp: App {
         WindowGroup(id: "main") {
             Group {
                 if WindowMgr.shared.currentWindow == .LoginView {
-                     LoginView()
-                         .environmentObject(GlobalAppStates.shared)
-                         .environmentObject(WindowMgr.shared)
-                 } else if WindowMgr.shared.currentWindow == .MainView {
-                     HomeView().environmentObject(GlobalAppStates.shared)
-                         .environmentObject(NetworkAppStates.shared)
-                         .environmentObject(MapAppStates.shared)
-                         .environmentObject(WindowMgr.shared)
-                 }
+                    LoginView()
+                        .environmentObject(GlobalAppStates.shared)
+                        .environmentObject(WindowMgr.shared)
+                } else if WindowMgr.shared.currentWindow == .MainView {
+                    HomeView().environmentObject(GlobalAppStates.shared)
+                        .environmentObject(NetworkAppStates.shared)
+                        .environmentObject(MapAppStates.shared)
+                        .environmentObject(WindowMgr.shared)
+                }
             }
             .withHostingWindow { window in
-                if let window = window { 
+                if let window = window {
                     window.backgroundColor = Asset.Colors.mainBackgroundColor.color
                     window.isMovableByWindowBackground = false
                     window.standardWindowButton(.zoomButton)?.isHidden = false
@@ -35,9 +35,9 @@ struct sysvpn_macosApp: App {
             }
         }
         .windowStyle(HiddenTitleBarWindowStyle())
-            .commands {
-                CommandGroup(replacing: .newItem, addition: {})
-            }
-            .handlesExternalEvents(matching: ["main"])
+        .commands {
+            CommandGroup(replacing: .newItem, addition: {})
+        }
+        .handlesExternalEvents(matching: ["main"])
     }
 }

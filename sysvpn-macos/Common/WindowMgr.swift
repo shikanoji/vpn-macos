@@ -27,7 +27,8 @@ class WindowMgr: ObservableObject {
     static var shared: WindowMgr {
         return _instance
     }
-    init () {
+
+    init() {
         if AppDataManager.shared.isLogin {
             currentWindow = .MainView
         } else {

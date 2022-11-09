@@ -7,19 +7,17 @@
 
 import Foundation
 import SwiftUI
-struct HomeZoomTrack : Shape {
+struct HomeZoomTrack: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
         let stepSize = (rect.width - 4) / 4
         for i in 0...4 {
-            path.addRect(CGRect(x: CGFloat(i) * stepSize , y: 0, width: 2, height: rect.height))
-            
+            path.addRect(CGRect(x: CGFloat(i) * stepSize, y: 0, width: 2, height: rect.height))
         }
         return path
     }
-    
-    
 }
+
 struct HomeZoomSliderView: View {
     @Binding var value: Double
     var step: Double = 5
@@ -37,7 +35,7 @@ struct HomeZoomSliderView: View {
                     value = max(sliderRange.lowerBound, value - step)
                 }
             GeometryReader { gr in
-                let thumbHeight: CGFloat =  height
+                let thumbHeight: CGFloat = height
                 let thumbWidth: CGFloat = 2
                 let radius = gr.size.height * 0.5
                 let minValue = gr.size.width * 0.015
@@ -48,18 +46,18 @@ struct HomeZoomSliderView: View {
                 let sliderVal = max(0, (self.value - lower) * scaleFactor + minValue)
                 
                 ZStack {
-                    /*Rectangle()
-                        .foregroundColor(maxTrackColor)
-                        .frame(width: gr.size.width, height: 3)
-                        .clipShape(RoundedRectangle(cornerRadius: radius))
-                    HStack {
-                        Rectangle()
-                            .foregroundColor(minTrackColor)
-                            .frame(width: sliderVal, height: 3)
-                        Spacer()
-                    }
-                    .clipShape(RoundedRectangle(cornerRadius: radius))
-                     */
+                    /* Rectangle()
+                         .foregroundColor(maxTrackColor)
+                         .frame(width: gr.size.width, height: 3)
+                         .clipShape(RoundedRectangle(cornerRadius: radius))
+                     HStack {
+                         Rectangle()
+                             .foregroundColor(minTrackColor)
+                             .frame(width: sliderVal, height: 3)
+                         Spacer()
+                     }
+                     .clipShape(RoundedRectangle(cornerRadius: radius))
+                      */
                     HomeZoomTrack().fill(maxTrackColor)
                     HStack {
                         RoundedRectangle(cornerRadius: radius)
@@ -88,12 +86,11 @@ struct HomeZoomSliderView: View {
             Asset.Assets.icIncZoom.swiftUIImage
                 .onTapGesture {
                     value = min(sliderRange.upperBound, value + step)
-            }
+                }
         }
         .padding(4)
         .background(Color.black)
         .cornerRadius(40)
-        
     }
 }
 

@@ -13,7 +13,6 @@ extension HomeView {
         @Published var listCity: [HomeListCountryModel]
         @Published var countrySelected: HomeListCountryModel?
         
-        
         var isConnected: Bool = false
         var listCountry: [HomeListCountryModel]
         var listStaticServer: [HomeListCountryModel]
@@ -27,7 +26,7 @@ extension HomeView {
             getListStaticServer()
             getListMultiHop()
             
-            _ =  GlobalAppStates.shared.initApp() { [weak self] in
+            _ = GlobalAppStates.shared.initApp { [weak self] in
                 print("init app success")
             }
         }

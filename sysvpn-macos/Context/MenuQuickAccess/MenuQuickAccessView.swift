@@ -231,7 +231,7 @@ struct MenuQuickAccessView: View {
                 TabbarListItemView(listItem: viewModel.listCountry, onTap: { node in
                     viewModel.connect(to: node)
                 })
-                    .transition(.opacity)
+                .transition(.opacity)
             } else if viewModel.tabbarSelectedItem == .recent {
                 TabbarListItemView(listItem: viewModel.listRecent)
                     .transition(.opacity)
