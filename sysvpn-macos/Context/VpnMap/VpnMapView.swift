@@ -14,7 +14,7 @@ struct VpnMapView: View {
     @EnvironmentObject var mapState: MapAppStates
     @EnvironmentObject var appState: GlobalAppStates
     @Binding var scale: CGFloat
-     
+   
     var rescaleView: CGFloat = 1.1
     var numberImage = 1
     var aspecRaito: CGFloat = 2048 / 1588
@@ -27,7 +27,7 @@ struct VpnMapView: View {
     @State var updateCameraPosition: CGPoint? = .zero
     @State var screenSize: CGSize = .init(width: 100, height: 100)
     var size: CGSize
-  
+    @Binding var disableScrollZoom: Bool
     var body: some View {
         VStack {
             LoopMapView(
@@ -64,7 +64,8 @@ struct VpnMapView: View {
                                        nodePoint: selectedNode,
                                        connectedNode: connectedNode,
                                        isShowCity: isShowCity
-                                   )))
+                                   ),
+                                   disableZoom: $disableScrollZoom))
       
             .simultaneousGesture(TapGesture().onEnded {
                 selectedNode = nil

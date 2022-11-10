@@ -17,7 +17,7 @@ enum HomeMenuItem {
 struct HomeLeftPanelView: View {
     @Binding var selectedItem: HomeMenuItem
     @StateObject private var viewModel = HomeLeftPanelViewModel()
-     
+    var onTouchSetting: (() -> Void)?
     var iconSize: CGFloat = 32
     var quickConnectButton: some View {
         VStack {
@@ -72,7 +72,7 @@ struct HomeLeftPanelView: View {
         VStack(alignment: .leading) {
             HStack {
                 Button {
-                    print("Edit button was tapped")
+                    onTouchSetting?()
                 } label: {
                     HStack {
                         Asset.Assets.icSetting.swiftUIImage
@@ -80,7 +80,7 @@ struct HomeLeftPanelView: View {
                         Text(L10n.Global.setting)
                             .font(.system(size: 12, weight: .medium))
                     }
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, 10)
                 }
                 .buttonStyle(LoginButtonNoBackgroundStyle())
                 
@@ -93,7 +93,7 @@ struct HomeLeftPanelView: View {
                         Text(L10n.Global.helpCenter)
                             .font(.system(size: 12, weight: .medium))
                     }
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, 10)
                 }
                 .buttonStyle(LoginButtonNoBackgroundStyle())
             }
@@ -108,7 +108,7 @@ struct HomeLeftPanelView: View {
                 .frame(width: 40, height: 40)
                 .cornerRadius(20)
             VStack(alignment: .leading) {
-                Text("Jason Vincius")
+                Text("Đờ ra gon")
                     .font(Font.system(size: 13, weight: .semibold))
                     .foregroundColor(Color.white)
                 Spacer().frame(height: 8)
@@ -137,8 +137,8 @@ struct HomeLeftPanelView: View {
             footerSection
             itemSpacer
             Divider()
-                .background(Color(rgb: 0x272936))
-                .padding([.leading, .trailing], 16)
+                .background(Asset.Colors.dividerColor.swiftUIColor)
+                .padding(.horizontal, 16)
             itemSpacer
             settingSection
             itemSpacer

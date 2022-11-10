@@ -191,7 +191,7 @@ class SysVpnAppStateManagement: AppStateManagement {
         notifyObservers()
     }
     
-    private func stopAttemptingConnection() { 
+    private func stopAttemptingConnection() {
         cancelTimeout()
         handleVpnError(vpnState)
         disconnect()
@@ -360,7 +360,7 @@ class SysVpnAppStateManagement: AppStateManagement {
     @objc private func killSwitchChanged() {
         if state.isConnected {
             PropertiesManager.shared.intentionallyDisconnected = true
-            vpnManager.setOnDemand(PropertiesManager.shared.hasConnected)
+            vpnManager.setOnDemand(PropertiesManager.shared.killSwitch)
         }
     }
     

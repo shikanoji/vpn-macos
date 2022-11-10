@@ -15,6 +15,7 @@ struct ZoomModifier: ViewModifier {
     private var min: CGFloat = 1.0
     private var max: CGFloat = 2
     private var numberImage: CGFloat = 3
+    @Binding var disableZoom: Bool
     @State var lastScaleValue: CGFloat = 1
     @State var isAppear: Bool = false
     @Binding var currentScale: CGFloat
@@ -26,16 +27,16 @@ struct ZoomModifier: ViewModifier {
     
     var overlayLayer: VpnMapOverlayLayer
     
-    init(contentSize: CGSize, screenSize: Binding<CGSize>, numberImage: Int = 3, currentScale: Binding<CGFloat>, cameraPosition: Binding<CGPoint?>, overlayLayer: VpnMapOverlayLayer) {
+    init(contentSize: CGSize, screenSize: Binding<CGSize>, numberImage: Int = 3, currentScale: Binding<CGFloat>, cameraPosition: Binding<CGPoint?>, overlayLayer: VpnMapOverlayLayer, disableZoom: Binding<Bool>) {
         self.contentSize = contentSize
         self.numberImage = CGFloat(numberImage)
-       
         self.overlayLayer = overlayLayer
+        _disableZoom = disableZoom
         _screenSize = screenSize
         _currentScale = currentScale
         _cameraPosition = cameraPosition
-        
         lastScaleValue = currentScale.wrappedValue
+        
         // self.screenSize = screenSize.wrappedValue
         // self.cameraPosition = cameraPosition.wrappedValue
     }
@@ -160,7 +161,9 @@ struct ZoomModifier: ViewModifier {
                       scheduler: DispatchQueue.main,
                       latest: false)
             .sink { event in
-        
+                if self.disableZoom {
+                    return
+                }
                 self.updateDetail(detail: Double(event?.scrollingDeltaY ?? 0))
             }
             .store(in: &subs)

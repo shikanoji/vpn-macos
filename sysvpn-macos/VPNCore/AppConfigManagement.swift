@@ -82,6 +82,7 @@ class PropertiesManager: PropertiesManagerProtocol {
         // Kill Switch
         case killSwitch = "Firewall"
         case excludeLocalNetworks
+        case cyberSec
         
         // Features
         case featureFlags = "FeatureFlags"
@@ -171,6 +172,27 @@ class PropertiesManager: PropertiesManagerProtocol {
         }
     }
     
+    var cybersec: Bool {
+        get {
+            return storage.bool(forKey: Keys.cyberSec.rawValue)
+        }
+        set {
+            storage.setValue(newValue, forKey: Keys.cyberSec.rawValue)
+        }
+    }
+    
+    var vpnProtocol: VpnProtocol {
+        get {
+            var userSetting = AppDataManager.shared.userSetting?.appSettings?.settingVpn
+            var defaultVAlue: VpnProtocol = (userSetting?.defaultTech?.contains("wg") ?? true) ? .wireGuard : .openVpn((userSetting?.defaultProtocol?.contains("udp") ?? false) ? .udp : .tcp)
+           
+            return VpnProtocol.readUserDefault(keyUserDefault: Keys.vpnProtocol.rawValue) ?? defaultVAlue
+        }
+        set {
+            newValue.saveUserDefault(keyUserDefault: Keys.vpnProtocol.rawValue)
+        }
+    }
+    
     func postNotificationOnUIThread(_ name: NSNotification.Name, object: Any?, userInfo: [AnyHashable: Any]? = nil) {
         executeOnUIThread {
             NotificationCenter.default.post(name: name, object: object, userInfo: userInfo)
@@ -193,6 +215,33 @@ class PropertiesManager: PropertiesManagerProtocol {
         }
         set {
             storage.setValue(newValue, forKey: Keys.intentionallyDisconnected.rawValue)
+        }
+    }
+    
+    var systemNotification: Bool {
+        get {
+            return storage.bool(forKey: "SystemNotification")
+        }
+        set {
+            storage.setValue(newValue, forKey: "SystemNotification")
+        }
+    }
+    
+    var startMinimized: Bool {
+        get {
+            return storage.bool(forKey: "StartMinimized")
+        }
+        set {
+            storage.setValue(newValue, forKey: "StartMinimized")
+        }
+    }
+    
+    var autoLaunch: Bool {
+        get {
+            return storage.bool(forKey: "AutoLaunch")
+        }
+        set {
+            storage.setValue(newValue, forKey: "AutoLaunch")
         }
     }
 }

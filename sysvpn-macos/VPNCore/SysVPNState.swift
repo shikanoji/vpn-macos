@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum AppDisplayState {
+public enum AppDisplayState: String {
     case connected
     case connecting
     case loadingConnectionInfo
@@ -305,6 +305,7 @@ class SysVPNStateConfigurationManager: SysVPNStateConfiguration {
                 } else {
                     vpnProtocol = .wireGuard
                 }
+                dispatchGroup.enter()
                 self.getFactory(for: vpnProtocol).vpnProviderManager(for: .status) { [weak self] manager, error in
                     defer { dispatchGroup.leave() }
                     

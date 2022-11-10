@@ -11,19 +11,22 @@ import SwiftUI
 struct sysvpn_macosApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject var windowMgr = WindowMgr.shared
-    @State private var spashWindow: NSWindow?
+     
+    @State var isFirstLaunch = false
     var body: some Scene {
         WindowGroup(id: "main") {
             Group {
-                if WindowMgr.shared.currentWindow == .LoginView {
-                    LoginView()
-                        .environmentObject(GlobalAppStates.shared)
-                        .environmentObject(WindowMgr.shared)
-                } else if WindowMgr.shared.currentWindow == .MainView {
-                    HomeView().environmentObject(GlobalAppStates.shared)
-                        .environmentObject(NetworkAppStates.shared)
-                        .environmentObject(MapAppStates.shared)
-                        .environmentObject(WindowMgr.shared)
+                ZStack {
+                    if WindowMgr.shared.currentWindow == .LoginView {
+                        LoginView()
+                            .environmentObject(GlobalAppStates.shared)
+                            .environmentObject(WindowMgr.shared)
+                    } else if WindowMgr.shared.currentWindow == .MainView {
+                        HomeView().environmentObject(GlobalAppStates.shared)
+                            .environmentObject(NetworkAppStates.shared)
+                            .environmentObject(MapAppStates.shared)
+                            .environmentObject(WindowMgr.shared)
+                    }
                 }
             }
             .withHostingWindow { window in
@@ -31,6 +34,12 @@ struct sysvpn_macosApp: App {
                     window.backgroundColor = Asset.Colors.mainBackgroundColor.color
                     window.isMovableByWindowBackground = false
                     window.standardWindowButton(.zoomButton)?.isHidden = false
+                    if !isFirstLaunch {
+                        if WindowMgr.shared.currentWindow == .MainView && PropertiesManager.shared.startMinimized {
+                            window.performMiniaturize(self)
+                        }
+                        isFirstLaunch = true
+                    }
                 }
             }
         }

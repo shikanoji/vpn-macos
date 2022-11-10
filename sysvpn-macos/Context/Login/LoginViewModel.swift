@@ -34,6 +34,8 @@ extension LoginView {
             }
         }
         
+        func onViewAppear() {}
+        
         func onLoginSuccess() {
             AppSetting.shared.isRememberLogin = isRemember
             OpenWindows.MainView.open()
@@ -68,6 +70,7 @@ extension LoginView {
                     AppDataManager.shared.accessToken = authenModel.tokens?.access
                     AppDataManager.shared.refreshToken = authenModel.tokens?.refresh
                     self.loadCountry()
+                    self.hideLoading()
                 case let .failure(e):
                     self.hideLoading()
                     guard let error = e as? ResponseError else {

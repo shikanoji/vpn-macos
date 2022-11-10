@@ -26,10 +26,8 @@ struct HomeListCountryNodeView: View {
                         CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
                             .onTapGesture {
                                 if item.totalCity > 1 {
-                                    withAnimation {
-                                        isShowCity = true
-                                        countrySelected = item
-                                    }
+                                    isShowCity = true
+                                    countrySelected = item
                                 } else {
                                     guard let origin = item.origin else {
                                         return
@@ -83,8 +81,8 @@ struct HomeListCountryNodeView: View {
                     }
                 }
             }
-            .modifier(ListViewModifier())
-            .animation(.linear, value: UUID())
+            .modifier(ListViewModifier()) 
+            .id(UUID())
         }
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
@@ -136,7 +134,6 @@ struct HomeDetailCityNodeView: View {
                     }
             }
             .modifier(ListViewModifier())
-            .animation(.linear, value: UUID())
         }
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)

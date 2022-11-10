@@ -5,6 +5,7 @@
 //  Created by NuocLoc on 01/10/2022.
 //
 
+import Combine
 import Foundation
 
 extension HomeView {
@@ -12,7 +13,11 @@ extension HomeView {
         @Published var selectedMenuItem: HomeMenuItem = .none
         @Published var listCity: [HomeListCountryModel]
         @Published var countrySelected: HomeListCountryModel?
-        
+        @Published var lookScrollZoom = false
+        @Published var isOpenSetting = false
+
+        var cancellabel: AnyCancellable?
+
         var isConnected: Bool = false
         var listCountry: [HomeListCountryModel]
         var listStaticServer: [HomeListCountryModel]
@@ -25,11 +30,16 @@ extension HomeView {
             getListCountry()
             getListStaticServer()
             getListMultiHop()
-            
-            _ = GlobalAppStates.shared.initApp { [weak self] in
+            _ = GlobalAppStates.shared.initApp {
                 print("init app success")
             }
+            
+            cancellabel = Publishers.CombineLatest($selectedMenuItem, $isOpenSetting).receive(on: RunLoop.main).map {
+                return $0.0 != .none || $0.1
+            }.eraseToAnyPublisher().assign(to: \HomeViewModel.lookScrollZoom, on: self) as AnyCancellable
         }
+        
+        func onViewAppear() {}
             
         func getListCountry() {
             updateAvailableContry()

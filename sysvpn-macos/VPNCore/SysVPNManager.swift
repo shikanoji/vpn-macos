@@ -329,8 +329,8 @@ class SysVPNManager: SysVPNManagerProtocol {
         
         // test kill switch
         
-        //  PropertiesManager.shared.hasConnected = true
-        PropertiesManager.shared.killSwitch = true
+        PropertiesManager.shared.hasConnected = true
+        // PropertiesManager.shared.killSwitch = true
         PropertiesManager.shared.excludeLocalNetworks = true
         
         // MARK: - KillSwitch configuration

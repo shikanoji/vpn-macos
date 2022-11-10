@@ -9,20 +9,25 @@ import Foundation
 
 class AppVpnService: SysVPNService {
     func prepareConection(connectType: ConnectionType, params: SysVPNConnectParams?, callback: SysVPNPrepareConnecitonStringCallback?) {
-        let userSetting = AppDataManager.shared.userSetting
-        let isWireGuard = userSetting?.appSettings?.settingVpn?.defaultTech?.contains("wg") ?? true
-        let isUseUDP = userSetting?.appSettings?.settingVpn?.defaultProtocol?.contains("udp") ?? false
-        let transportProtocol = isUseUDP ? OpenVpnTransport.udp : OpenVpnTransport.tcp
+        // let userSetting = AppDataManager.shared.userSetting
+       
+        var appProtocol = PropertiesManager.shared.vpnProtocol
+        let isWireGuard = appProtocol == .wireGuard
+        var transportProtocol = OpenVpnTransport.udp
+        if case let .openVpn(transport) = appProtocol {
+            if transport == .tcp {
+                transportProtocol = .tcp
+            }
+        }
         let defaultTech = isWireGuard ? VpnProtocol.wireGuard : VpnProtocol.openVpn(transportProtocol)
         //  let defaultTech = VpnProtocol.wireGuard
         let vpnParam = VpnParamRequest()
         
         vpnParam.tech = isWireGuard ? .wg : .ovpn
-
-        vpnParam.proto = userSetting?.appSettings?.settingVpn?.defaultProtocol ?? "tcp"
+        vpnParam.proto = transportProtocol.rawValue
         vpnParam.dev = "tun"
         vpnParam.isHop = (params?.isHop ?? false) ? 1 : 0
-        vpnParam.cybersec = 0
+        vpnParam.cybersec = PropertiesManager.shared.cybersec ? 1 : 0
         
         switch connectType {
         case .quick:

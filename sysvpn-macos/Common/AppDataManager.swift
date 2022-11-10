@@ -277,10 +277,15 @@ class AppDataManager {
         return updateCity
     }
     
-    func logOut(openWindow: Bool = false, completion: (() -> Void)? = nil) {
+    func logOut(openWindow: Bool = false, manual: Bool = true, completion: (() -> Void)? = nil) {
         _ = APIServiceManager.shared.onLogout().subscribe { _ in
             AppDataManager.shared.refreshToken = nil
         }
+        
+        if manual {
+            DependencyContainer.shared.vpnCore.disconnect()
+        }
+        
         NotificationCenter.default.post(name: .endJobUpdate, object: nil)
         accessToken = nil
         if openWindow {

@@ -39,14 +39,11 @@ class GlobalAppStates: ObservableObject {
                 DispatchQueue.main.async {
                     self.initData()
                     NotificationCenter.default.post(name: .appReadyStart, object: nil)
+                    DependencyContainer.shared.vpnManager.whenReady(queue: DispatchQueue.main) {
+                        print("readdy")
+                    }
+                    DependencyContainer.shared.vpnManager.prepareManagers(forSetup: true)
                 }
-            }
-            DispatchQueue.main.async {
-                DependencyContainer.shared.vpnManager.whenReady(queue: DispatchQueue.main) {
-                    print("readdy")
-                }
-                
-                DependencyContainer.shared.vpnManager.prepareManagers(forSetup: true)
             }
         }
         return true

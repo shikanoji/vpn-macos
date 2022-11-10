@@ -24,41 +24,59 @@ class BaseServiceManager<API: TargetType> {
         return provider.rx.request(api)
             .flatMap {
                 if $0.statusCode == 401 {
-                    throw TokenError.tokenExpired
+                    if AppDataManager.shared.isLogin {
+                        throw TokenError.tokenExpired
+                    } else {
+                        throw TokenError.notSignin
+                    }
+                    
                 } else {
                     return Single.just($0)
                 }
             }
             .retry { (error: Observable<TokenError>) in
-                error.flatMap { _ in
-                    return self.refreshToken()
+                error.flatMap { error in
+                    if error == TokenError.tokenExpired {
+                        return self.refreshToken()
+                    } else {
+                        throw error
+                    }
                 }
             }
             .handleResponse()
             .filterSuccessfulStatusCodes()
+        
     }
     
     func requestIPC(_ api: API) -> Single<Response> {
-        print("[URL] \(api.path)")
         if !(IPCFactory.makeIPCRequestService().isConnected) {
             return provider.rx.request(api)
         }
+        
         return provider.rx.requestIPC(api)
             .flatMap {
-                print("[URL] status \($0.statusCode)")
                 if $0.statusCode == 401 {
-                    throw TokenError.tokenExpired
+                    if AppDataManager.shared.isLogin {
+                        throw TokenError.tokenExpired
+                    } else {
+                        throw TokenError.notSignin
+                    }
                 } else {
                     return Single.just($0)
                 }
             }
             .retry { (error: Observable<TokenError>) in
-                error.flatMap { _ in
-                    return self.refreshToken()
+                error.flatMap { error in
+                    if error == TokenError.tokenExpired {
+                        return self.refreshToken()
+                    } else {
+                        throw error
+                    }
                 }
             }
             .handleResponse()
             .filterSuccessfulStatusCodes()
+           
     }
     
     func cancelTask() {
@@ -66,11 +84,19 @@ class BaseServiceManager<API: TargetType> {
     }
     
     func refreshToken() -> Single<Bool> {
+        if !AppDataManager.shared.isLogin {
+            let genericError = ResponseError(statusCode: 0,
+                                             message: "not signin")
+            return Single.error(genericError)
+        }
         return provider.rx.requestIPC(APIService.refreshToken as! API)
             .handleResponse()
             .filterSuccessfulStatusCodes()
             .handleApiResponseCodable(type: AuthResult.self)
             .flatMap { token in
+                if !AppDataManager.shared.isLogin {
+                    throw TokenError.notSignin
+                }
                 AppDataManager.shared.refreshToken = token.tokens?.refresh
                 AppDataManager.shared.accessToken = token.tokens?.access
                 return Single.just(true)
@@ -78,7 +104,7 @@ class BaseServiceManager<API: TargetType> {
             .do(onError: { error in
                 print("[TOKEN] refresh error \(error)")
                 DispatchQueue.main.async {
-                    AppDataManager.shared.logOut(openWindow: true)
+                    AppDataManager.shared.logOut(openWindow: true, manual: false)
                 }
             })
     }
@@ -87,6 +113,8 @@ class BaseServiceManager<API: TargetType> {
 extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     func handleResponse() -> Single<Element> {
         return flatMap { response in
+            print("[URL] status \(response.statusCode)")
+            print("[URL]: \(response.request?.url?.path)")
             if (200...299) ~= response.statusCode {
                 return Single.just(response)
             }
@@ -177,6 +205,7 @@ struct ResponseError: Decodable, Error {
 
 enum TokenError: Swift.Error {
     case tokenExpired
+    case notSignin
 }
 
 enum APICallerResult<T> {

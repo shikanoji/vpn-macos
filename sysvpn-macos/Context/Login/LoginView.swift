@@ -194,6 +194,9 @@ struct LoginView: View {
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification), perform: { _ in
             NSApp.mainWindow?.standardWindowButton(.zoomButton)?.isHidden = true
         })
+        .onAppear {
+            viewModel.onViewAppear()
+        }
     }
 }
 

@@ -137,6 +137,20 @@ enum VpnProtocol: Codable {
             return "wireGuard"
         }
     }
+    
+    var fullName: String {
+        switch self {
+        case let .openVpn(transport):
+            if transport == .tcp {
+                return "OpenVPN (TCP)"
+            } else {
+                return "OpenVPN (UDP)"
+            }
+          
+        case .wireGuard:
+            return "WireGuard"
+        }
+    }
 }
 
 extension VpnProtocol: Equatable {}
