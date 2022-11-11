@@ -14,22 +14,56 @@ extension SplashView {
         @Published var logoSize = CGSize(width: 100, height: 116)
 
         init() {
-            loadAppSetting()
-        }
-        
-        func loadAppSetting() {
-           _ = APIServiceManager.shared.getAppSetting().subscribe { event in
-                OpenWindows.LoginView.open()
-                switch event {
-                case let .success(response):
-                    AppDataManager.shared.saveIpInfo(info: response.ipInfo)
-                case let .failure(e):
-                    guard let error = e as? ResponseError else {
-                        return
+            if DependencyContainer.shared.appStateMgr.sessionStartTime != nil {
+                print("hasConnected")
+            }
+            
+            OSExtensionManager.shared.onReady = {
+                let ipc = IPCFactory.makeIPCRequestService()
+                ipc.checkConnect {
+                    DispatchQueue.main.async {
+                        self.initData()
+                        NotificationCenter.default.post(name: .appReadyStart, object: nil)
                     }
-                    print(error)
+                }
+                DispatchQueue.main.async {
+                    DependencyContainer.shared.vpnManager.whenReady(queue: DispatchQueue.main) {
+                        print("readdy")
+                    }
+                    
+                    DependencyContainer.shared.vpnManager.prepareManagers(forSetup: true)
                 }
             }
+        }
+
+        func initData() {
+            if AppDataManager.shared.userSetting == nil {
+                _ = AppDataManager.shared.loadSetupData {
+                    self.onNext()
+                }
+            } else {
+                _ = AppDataManager.shared.loadSetupData {
+                    print("[MGR] refresh done")
+                }
+                onNext()
+            }
+        }
+        
+        func onStartApp() {
+            if AppDataManager.shared.isLogin {
+                NotificationCenter.default.post(name: .startJobUpdateCountry, object: nil)
+            } else {
+                NotificationCenter.default.post(name: .endJobUpdate, object: nil)
+            }
+        }
+        
+        func onNext() {
+            if AppDataManager.shared.isLogin {
+                OpenWindows.MainView.open()
+            } else {
+                OpenWindows.LoginView.open()
+            }
+            onStartApp()
         }
     }
 }

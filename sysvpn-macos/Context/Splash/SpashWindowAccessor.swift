@@ -24,8 +24,7 @@ struct WindowAccessor: NSViewRepresentable {
             window?.titlebarAppearsTransparent = true
             window?.isOpaque = true
             window?.backgroundColor = NSColor.clear
-            window?.showsToolbarButton = false 
-
+            window?.showsToolbarButton = false
         }
         
         return view
@@ -34,14 +33,14 @@ struct WindowAccessor: NSViewRepresentable {
     func updateNSView(_ nsView: NSView, context: Context) {}
 }
 
-extension View {
-    public func withHostingWindow(_ callback: @escaping (NSWindow?) -> Void) -> some View {
-        self.background(HostingWindowFinder(callback: callback))
+public extension View {
+    func withHostingWindow(_ callback: @escaping (NSWindow?) -> Void) -> some View {
+        background(HostingWindowFinder(callback: callback))
     }
 }
 
 struct HostingWindowFinder: NSViewRepresentable {
-    var callback: (NSWindow?) -> ()
+    var callback: (NSWindow?) -> Void
  
     func makeNSView(context: Context) -> NSView {
         let view = NSView()

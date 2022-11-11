@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "node-active-new.png",
+      "filename" : "ic_node_active.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "node-active-new@2x.png",
+      "filename" : "ic_node_active@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "node-active-new@3x.png",
+      "filename" : "ic_node_active@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

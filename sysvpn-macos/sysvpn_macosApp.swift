@@ -11,39 +11,42 @@ import SwiftUI
 struct sysvpn_macosApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject var windowMgr = WindowMgr.shared
-    @State private var spashWindow: NSWindow?
+     
+    @State var isFirstLaunch = false
     var body: some Scene {
         WindowGroup(id: "main") {
-            if windowMgr.currentWindow == .SpashView {
-                SplashView().frame(width: 300, height: 300, alignment: .center)
-                    .background(WindowAccessor(window: $spashWindow))
-                     
-            } else if WindowMgr.shared.currentWindow == .LoginView {
-                LoginView().frame(width: 500, height: 770, alignment: .center)
-                    .withHostingWindow { window in
-                    if let window = window {
-                        window.styleMask = [.titled, .fullSizeContentView, .borderless, .closable, .miniaturizable]
-                        window.standardWindowButton(.zoomButton)?.isHidden = true
-                        window.backgroundColor = Asset.Colors.mainBackgroundColor.color
+            Group {
+                ZStack {
+                    if WindowMgr.shared.currentWindow == .LoginView {
+                        LoginView()
+                            .environmentObject(GlobalAppStates.shared)
+                            .environmentObject(WindowMgr.shared)
+                    } else if WindowMgr.shared.currentWindow == .MainView {
+                        HomeView().environmentObject(GlobalAppStates.shared)
+                            .environmentObject(NetworkAppStates.shared)
+                            .environmentObject(MapAppStates.shared)
+                            .environmentObject(WindowMgr.shared)
                     }
                 }
-            } else if WindowMgr.shared.currentWindow == .MainView {
-                HomeView().withHostingWindow { window in
-                    if let window = window {
-                        window.styleMask = [.titled, .fullSizeContentView, .closable, .miniaturizable, .resizable ]
-                        window.backgroundColor = Asset.Colors.mainBackgroundColor.color
-                        window.isMovableByWindowBackground = false
-                        window.standardWindowButton(.zoomButton)?.isHidden = false
+            }
+            .withHostingWindow { window in
+                if let window = window {
+                    window.backgroundColor = Asset.Colors.mainBackgroundColor.color
+                    window.isMovableByWindowBackground = false
+                    window.standardWindowButton(.zoomButton)?.isHidden = false
+                    if !isFirstLaunch {
+                        if WindowMgr.shared.currentWindow == .MainView && PropertiesManager.shared.startMinimized {
+                            window.performMiniaturize(self)
+                        }
+                        isFirstLaunch = true
                     }
-                }.environmentObject(GlobalAppStates.shared)
+                }
             }
-        }.windowStyle(HiddenTitleBarWindowStyle())
-            .commands {
-                CommandGroup(replacing: .newItem, addition: {
-                    
-                })
-            }
-            .handlesExternalEvents(matching: ["main"])
-        
+        }
+        .windowStyle(HiddenTitleBarWindowStyle())
+        .commands {
+            CommandGroup(replacing: .newItem, addition: {})
+        }
+        .handlesExternalEvents(matching: ["main"])
     }
 }

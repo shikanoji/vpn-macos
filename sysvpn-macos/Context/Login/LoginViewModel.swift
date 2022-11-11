@@ -12,24 +12,53 @@ import SwiftyJSON
 
 extension LoginView {
     @MainActor class LoginViewModel: ObservableObject {
-        @Published var userName: String = ""
-        @Published var password: String = ""
+        @Published var userName: String = "test@gmail.com"
+        @Published var password: String = "X12345678"
         @Published var isEditingEmail: Bool = false
         @Published var isEditingPassword: Bool = false
         @Published var isRemember: Bool = false
         @Published var isPresentedLoading = false
-        @Published var isVerifiedInput = false
+        @Published var isVerifiedInput = true
         @Environment(\.openURL) private var openURL
         @Published var showAlert = false
         @Published var errorMessage: String = ""
 
         init() {
             isRemember = AppSetting.shared.isRememberLogin
+            let isReady = GlobalAppStates.shared.initApp { [weak self] in
+                self?.hideLoading()
+            }
+            
+            if isReady {
+                isPresentedLoading = true
+            }
         }
+        
+        func onViewAppear() {}
         
         func onLoginSuccess() {
             AppSetting.shared.isRememberLogin = isRemember
             OpenWindows.MainView.open()
+            NotificationCenter.default.post(name: .startJobUpdateCountry, object: nil)
+        }
+        
+        func loadCountry() {
+            _ = APIServiceManager.shared.getListCountry().subscribe { result in
+                switch result {
+                case let .success(response):
+                    AppDataManager.shared.userCountry = response
+                    self.onLoginSuccess()
+                case let .failure(e):
+                    self.hideLoading()
+                    guard let error = e as? ResponseError else {
+                        self.errorMessage = L10n.Login.tryAgain
+                        self.showAlert = true
+                        return
+                    }
+                    self.errorMessage = error.message
+                    self.showAlert = true
+                }
+            }
         }
         
         func onTouchSignin() {
@@ -38,8 +67,10 @@ extension LoginView {
                 switch event {
                 case let .success(authenModel):
                     AppDataManager.shared.userData = authenModel.user
-                    AppDataManager.shared.accessToken = authenModel.tokens?.access?.token
-                    self.onLoginSuccess()
+                    AppDataManager.shared.accessToken = authenModel.tokens?.access
+                    AppDataManager.shared.refreshToken = authenModel.tokens?.refresh
+                    self.loadCountry()
+                    self.hideLoading()
                 case let .failure(e):
                     self.hideLoading()
                     guard let error = e as? ResponseError else {

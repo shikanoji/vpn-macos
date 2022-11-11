@@ -8,64 +8,114 @@
 import Foundation
 import SwiftUI
 
-struct HomeTrafficMonitorView : View {
+struct HomeTrafficMonitorView: View {
+    @State var bitRateState = Bitrate(download: 0, upload: 0)
+    @State var usageInfo = SingleDataUsageInfo(received: 0, sent: 0)
+    @EnvironmentObject var networkState: NetworkAppStates
+    @EnvironmentObject var appState: GlobalAppStates
     var body: some View {
-        HStack (alignment: .top) {
-            HomeTrafficInfoView()
+        HStack(alignment: .bottom) {
+            HomeTrafficInfoView(bitRate: bitRateState, usageInfo: usageInfo, startTime: appState.sessionStartTime)
             Spacer()
-            HomeTrafficChartView()
+            HomeTrafficChartView(bitRate: bitRateState)
                 .frame(maxWidth: .infinity)
+        }.onChange(of: networkState.bitRate) { newValue in
+            bitRateState = newValue
+            usageInfo = SystemDataUsage.lastestVpnUsageInfo
         }
     }
 }
 
-struct HomeTrafficInfoView : View {
+struct HomeTrafficInfoView: View {
+    var bitRate: Bitrate
+    var usageInfo: SingleDataUsageInfo
+    var startTime: Double?
+    
+    @State var sessionDisplay: String = "--:--:--"
+    
     var body: some View {
-        VStack (alignment: .leading) {
-            Text("Sesion Traffic")
+        VStack(alignment: .leading) {
+            Text("Session Traffics")
                 .font(Font.system(size: 16, weight: .semibold))
                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
             Spacer().frame(height: 15)
-            HStack (alignment: .top) {
-                VStack (alignment: .leading){
+            HStack(alignment: .bottom) {
+                VStack(alignment: .leading, spacing: 8) {
                     Text("Session:")
                     Text("Down Volume:")
                     Text("Up Volume:")
                 }
-                VStack (alignment: .trailing) {
-                    Text("20:17:68")
-                    Text("1.26 GB")
-                    Text("421 MB")
-                   
+                Spacer()
+                VStack(alignment: .trailing, spacing: 8) {
+                    Text(sessionDisplay)
+                    Text(usageInfo.displayString(for: usageInfo.received))
+                    Text(usageInfo.displayString(for: usageInfo.sent))
                 }
-            }
-        }
+            }.frame(maxWidth: 200)
+             
+        }.onChange(of: bitRate, perform: { _ in
+            sessionDisplay = getTime(now: Date().timeIntervalSince1970)
+        })
         .font(Font.system(size: 13, weight: .regular))
         .foregroundColor(Color.white)
     }
+    
+    func getTime(now: Double) -> String {
+        guard let startTime = startTime else {
+            return "--:--:--"
+        }
+         
+        let diff = now - startTime
+        if diff < 0 {
+            return "00:00:00"
+        }
+       
+        let hour = floor(diff / 60 / 60)
+        let min = floor((diff - hour * 60 * 60) / 60)
+        let second = floor(diff - (hour * 60 * 60 + min * 60))
+         
+        return .init(format: "%02d:%02d:%02d", Int(hour), Int(min), Int(second))
+    }
 }
 
-struct HomeTrafficChartView : View {
+struct HomeTrafficChartView: View {
+    var bitRate: Bitrate
+    @State var lineDownSpeed: [Double] = [0]
+    @State var lineUpSpeed: [Double] = [0]
     var body: some View {
         VStack {
             HStack {
-                HStack {
-                    Text("Down Speed: 112 kB/s")
+                HStack(spacing: 2) {
+                    Asset.Assets.icArrowDown.swiftUIImage.renderingMode(.template)
+                        .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
+                    Text("Down Speed: \(Bitrate.rateString(for: bitRate.download))")
                 }
-                HStack {
-                    Text("Up Speed: 112 kB/s")
+                Spacer().frame(width: 16)
+                HStack(spacing: 2) {
+                    Asset.Assets.icArrowUp.swiftUIImage.renderingMode(.template)
+                    Text("Up Speed: \(Bitrate.rateString(for: bitRate.upload))")
                 }
                 Spacer()
             }
             Spacer().frame(height: 24)
             TrafficLineChartView()
+        }.onChange(of: bitRate) { _ in
+            withAnimation {
+                lineDownSpeed.append(Double(bitRate.download))
+                lineUpSpeed.append(Double(bitRate.upload))
+                if lineDownSpeed.count > 20 {
+                    lineDownSpeed.removeFirst()
+                }
+                if lineUpSpeed.count > 20 {
+                    lineUpSpeed.removeFirst()
+                }
+            }
         }
     }
 }
 
 struct HomeTraficMonitorView_Previews: PreviewProvider {
-
     static var previews: some View {
-        HomeTrafficMonitorView()
+        HomeTrafficMonitorView().environmentObject(GlobalAppStates.shared)
     }
 }
