@@ -147,7 +147,7 @@ struct HomeView: View {
     }
     
     var body: some View {
-        HStack(spacing: 0) {
+        ZStack(alignment: .topLeading) {
             HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem, onTouchSetting: {
                 withAnimation {
                     viewModel.selectedMenuItem = .none
@@ -166,9 +166,10 @@ struct HomeView: View {
                 )
                 )
                 .zIndex(2)
+                .offset(x: 240)
             }
-            
-            ZStack {
+            HStack(spacing: 0) {
+                Rectangle().frame(width: 240)
                 GeometryReader { proxy in
                     VpnMapView(
                         scale: $zoomValue.cgFloat(),
@@ -179,17 +180,28 @@ struct HomeView: View {
                 .clipped()
                 .contentShape(Rectangle())
                 .edgesIgnoringSafeArea([.top])
-                mapUILayerView
-                if viewModel.isOpenSetting {
+                .overlay {
+                    mapUILayerView
+                }
+            }
+            
+            if viewModel.isOpenSetting {
+                Group {
                     Rectangle().fill(Color.black).opacity(0.5)
                         .edgesIgnoringSafeArea([.top])
-                    SettingView(onClose: {
-                        withAnimation {
-                            viewModel.isOpenSetting = false
+                        .overlay {
+                            SettingView(onClose: {
+                                withAnimation {
+                                    viewModel.isOpenSetting = false
+                                }
+                            })
                         }
-                       
-                    })
-                }
+                }.zIndex(3)
+            }
+            
+            if viewModel.selectedMenuItem != .none {
+                Rectangle().fill(Color.black).opacity(0.5)
+                    .edgesIgnoringSafeArea([.top])
             }
            
         }.frame(minWidth: 1000, minHeight: 650)
@@ -216,10 +228,4 @@ struct HomeView: View {
             }
     }
 }
-
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-            .environmentObject(GlobalAppStates.shared)
-    }
-}
+ 

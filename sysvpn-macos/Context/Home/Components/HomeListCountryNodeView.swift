@@ -35,14 +35,8 @@ struct HomeListCountryNodeView: View {
                                     onTouchItem?(origin)
                                 }
                             }
-                            .transaction { transaction in
-                                transaction.animation = nil
-                            }
                     } else if selectedItem == .staticIp {
-                        StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar)
-                            .transaction { transaction in
-                                transaction.animation = nil
-                            }.onTapGesture {
+                        StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar) .onTapGesture {
                                 guard let origin = item.origin else {
                                     return
                                 }
@@ -50,9 +44,6 @@ struct HomeListCountryNodeView: View {
                             }
                     } else if selectedItem == .multiHop {
                         MultiHopItemView(countryNameStart: item.title, countryNameEnd: item.title2, imageUrlStart: item.imageUrl, imageUrlEnd: item.imageUrl2)
-                            .transaction { transaction in
-                                transaction.animation = nil
-                            }
                             .onTapGesture {
                                 guard let origin = item.origin else {
                                     return
@@ -81,8 +72,9 @@ struct HomeListCountryNodeView: View {
                     }
                 }
             }
-            .modifier(ListViewModifier()) 
             .id(UUID())
+            .animation(.linear, value: UUID())
+            
         }
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
@@ -133,7 +125,8 @@ struct HomeDetailCityNodeView: View {
                         onTouchItem?(origin)
                     }
             }
-            .modifier(ListViewModifier())
+            .animation(.linear, value: UUID())
+            
         }
         .padding(.horizontal, 6)
         .frame(width: 300, alignment: .leading)
