@@ -15,10 +15,8 @@ struct HomeView: View {
     @State private var isShowCity = false
     @State private var isShowCityAnim = false
     @State var mapSize: CGRect = .zero
+    
     @State var isShowMoreScrollTop = true
-    
-    let leftBarWidth: CGFloat = 240
-    
     let pub = NotificationCenter.default
         .publisher(for: .reloadServerStar)
     
@@ -34,7 +32,7 @@ struct HomeView: View {
         )
     
     var leftMenuPannel: some View {
-        ZStack (alignment: .topLeading){
+        ZStack {
             if viewModel.selectedMenuItem != .none {
                 if viewModel.selectedMenuItem == .manualConnection {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listCountry, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
@@ -69,7 +67,7 @@ struct HomeView: View {
                     )
                     .transition(transitionOpacity)
                     .offset(x: isShowCityAnim ? 0 : 330, y: 0)
-                    .opacity(isShowCityAnim ? 1 : 0)
+                    // .opacity(isShowCityAnim ? 1 : 0)
                      
                 } else if viewModel.selectedMenuItem == .staticIp {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listStaticServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
@@ -149,33 +147,28 @@ struct HomeView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            
-            HStack(spacing: 0) {
-                HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem, onTouchSetting: {
-                    withAnimation {
-                        viewModel.selectedMenuItem = .none
-                        viewModel.isOpenSetting = true
-                    }
-                   
-                })
-                .frame(width: leftBarWidth)
-                .zIndex(2)
-                .contentShape(Rectangle())
-                if viewModel.selectedMenuItem != .none {
-                    leftMenuPannel.modifier(HomeListWraperView(
-                        onClose: {
-                            self.viewModel.selectedMenuItem = .none
-                        }
-                    )
-                    )
-                    .zIndex(1)
+        HStack(spacing: 0) {
+            HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem, onTouchSetting: {
+                withAnimation {
+                    viewModel.selectedMenuItem = .none
+                    viewModel.isOpenSetting = true
                 }
-            }
+               
+            })
+            .frame(width: 240)
+            .contentShape(Rectangle())
             .zIndex(3)
+            if viewModel.selectedMenuItem != .none {
+                leftMenuPannel.modifier(HomeListWraperView(
+                    onClose: {
+                        self.viewModel.selectedMenuItem = .none
+                    }
+                )
+                )
+                .zIndex(2)
+            }
             
-            HStack(spacing: 0) {
-                Rectangle().frame(width: leftBarWidth)
+            ZStack {
                 GeometryReader { proxy in
                     VpnMapView(
                         scale: $zoomValue.cgFloat(),
@@ -186,28 +179,17 @@ struct HomeView: View {
                 .clipped()
                 .contentShape(Rectangle())
                 .edgesIgnoringSafeArea([.top])
-                .overlay {
-                    mapUILayerView
-                }
-            }
-            
-            if viewModel.isOpenSetting {
-                Group {
+                mapUILayerView
+                if viewModel.isOpenSetting {
                     Rectangle().fill(Color.black).opacity(0.5)
                         .edgesIgnoringSafeArea([.top])
-                        .overlay {
-                            SettingView(onClose: {
-                                withAnimation {
-                                    viewModel.isOpenSetting = false
-                                }
-                            })
+                    SettingView(onClose: {
+                        withAnimation {
+                            viewModel.isOpenSetting = false
                         }
-                }.zIndex(3)
-            }
-            
-            if viewModel.selectedMenuItem != .none {
-                Rectangle().fill(Color.black).opacity(0.5)
-                    .edgesIgnoringSafeArea([.top])
+                       
+                    })
+                }
             }
            
         }.frame(minWidth: 1000, minHeight: 650)
@@ -222,7 +204,7 @@ struct HomeView: View {
                 withAnimation {
                     localIsConnected = newValue == .connected
                 }
-            } 
+            }
             .onChange(of: viewModel.selectedMenuItem) { _ in
                 viewModel.onChangeState()
                 if viewModel.selectedMenuItem != .none {
@@ -234,4 +216,10 @@ struct HomeView: View {
             }
     }
 }
- 
+
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeView()
+            .environmentObject(GlobalAppStates.shared)
+    }
+}
