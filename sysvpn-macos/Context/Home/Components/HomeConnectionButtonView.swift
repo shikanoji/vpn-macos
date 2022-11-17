@@ -23,17 +23,21 @@ struct HomeConnectionButtonView: View {
                let image1 = multipleHop.entry?.country?.image,
                let image2 = multipleHop.exit?.country?.image {
                 ZStack {
-                    image1.resizable()
-                        .frame(width: 46, height: 46)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 23).stroke(style: .init(lineWidth: 4))
-                                .foregroundColor(.white)
-                        }.transformEffect(.init(translationX: -20, y: 0))
+                    ZStack{
+                        image1.resizable()
+                            .padding(2)
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(style: .init(lineWidth: 4))
+                            .foregroundColor(.white)
+                    }
+                    .frame(width: 50, height: 50)
+                    .transformEffect(.init(translationX: -20, y: 0))
+                    
                         .opacity(0.3)
                     image2.resizable()
-                        .frame(width: 66, height: 66)
+                        .frame(width: 60, height: 60)
                         .overlay {
-                            RoundedRectangle(cornerRadius: 33).stroke(style: .init(lineWidth: 4))
+                            RoundedRectangle(cornerRadius: 30).stroke(style: .init(lineWidth: 4))
                                 .foregroundColor(.white)
                         }.transformEffect(.init(translationX: 20, y: 0))
                 }
@@ -41,9 +45,9 @@ struct HomeConnectionButtonView: View {
             } else
             if let image = mapState.connectedNode?.image {
                 image.resizable()
-                    .frame(width: 66, height: 66)
+                    .frame(width: 60, height: 60)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 33).stroke(style: .init(lineWidth: 4))
+                        RoundedRectangle(cornerRadius: 30).stroke(style: .init(lineWidth: 4))
                             .foregroundColor(.white)
                     }
             }
@@ -53,9 +57,9 @@ struct HomeConnectionButtonView: View {
     var connectedButtonView: some View {
         VStack {
             nodeIcon
-            Spacer().frame(height: 20)
+            Spacer().frame(height: 16)
             HStack(spacing: 5) {
-                Text(L10n.Global.labelVPNIP).font(.system(size: 14))
+                Text(L10n.Global.labelVPNIP).font(.system(size: 12))
                 Text(mapState.serverInfo?.ipAddress ?? "0.0.0.0")
                     .font(.system(size: 12, weight: .semibold))
             }
@@ -67,7 +71,7 @@ struct HomeConnectionButtonView: View {
                     .font(.system(size: 12, weight: .semibold))
             }
             
-            Spacer().frame(height: 24)
+            Spacer().frame(height: 16)
             if displayAppState == .disconnecting {
                 Button {} label: {
                     AppActivityIndicator()
@@ -82,9 +86,10 @@ struct HomeConnectionButtonView: View {
                     onTap?()
                 } label: {
                     Text(L10n.Login.disconnect)
+                        .foregroundColor(Color(rgb: 0xF54343))
                         .font(Font.system(size: 12, weight: .semibold))
                 }
-                .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
+                .buttonStyle(LoginButtonCTAStyle(bgColor: Color(rgb: 0x242532)))
                 .frame(width: 114)
             }
         }
@@ -106,7 +111,7 @@ struct HomeConnectionButtonView: View {
             if displayAppState == .disconnected {
                 Text(L10n.Global.quickConnect)
                     .multilineTextAlignment(.center)
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(Asset.Colors.backgroundColor.swiftUIColor)
             } else {
                 AppActivityIndicator(color: Asset.Colors.backgroundColor.swiftUIColor)

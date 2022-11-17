@@ -35,6 +35,9 @@ struct HomeListCountryNodeView: View {
                                     onTouchItem?(origin)
                                 }
                             }
+                            .transaction { transaction in
+                                transaction.animation = nil
+                            }
                     } else if selectedItem == .staticIp {
                         StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar) .onTapGesture {
                                 guard let origin = item.origin else {
@@ -42,6 +45,9 @@ struct HomeListCountryNodeView: View {
                                 }
                                 onTouchItem?(origin)
                             }
+                        .transaction { transaction in
+                            transaction.animation = nil
+                        }
                     } else if selectedItem == .multiHop {
                         MultiHopItemView(countryNameStart: item.title, countryNameEnd: item.title2, imageUrlStart: item.imageUrl, imageUrlEnd: item.imageUrl2)
                             .onTapGesture {
@@ -49,6 +55,9 @@ struct HomeListCountryNodeView: View {
                                     return
                                 }
                                 onTouchItem?(origin)
+                            }
+                            .transaction { transaction in
+                                transaction.animation = nil
                             }
                     }
                 case .header:
@@ -72,13 +81,13 @@ struct HomeListCountryNodeView: View {
                     }
                 }
             }
-            .id(UUID())
-            .animation(.linear, value: UUID())
+            .modifier(ListViewModifier())
             
         }
         .padding(.horizontal, 6)
-        .frame(width: 300, alignment: .leading)
+        
         .background(Asset.Colors.backgroundColor.swiftUIColor)
+        .id(UUID()) 
     }
 }
 
@@ -125,11 +134,9 @@ struct HomeDetailCityNodeView: View {
                         onTouchItem?(origin)
                     }
             }
-            .animation(.linear, value: UUID())
-            
+            .modifier(ListViewModifier())
         }
         .padding(.horizontal, 6)
-        .frame(width: 300, alignment: .leading)
         .background(Asset.Colors.backgroundColor.swiftUIColor)
     }
 }
@@ -140,7 +147,7 @@ struct HomeListWraperView: ViewModifier {
     func body(content: Content) -> some View {
         content
             .background(Asset.Colors.backgroundColor.swiftUIColor)
-            .overlay {
+            /*.overlay {
                 Asset.Assets.icClose.swiftUIImage.padding(10)
                     .background(Asset.Colors.backgroundColor.swiftUIColor)
                     .position(x: 315, y: 0)
@@ -150,7 +157,8 @@ struct HomeListWraperView: ViewModifier {
                             onClose?()
                         }
                     }
-            }
+            }*/
+            .frame(width: 300, alignment: .leading)
             .transition(
                 AnyTransition.asymmetric(
                     insertion: .move(edge: .leading),
@@ -188,5 +196,6 @@ struct ListViewModifier: ViewModifier {
     @ViewBuilder
     func body(content: Content) -> some View {
         content
+            .contentShape(Rectangle())
     }
 }

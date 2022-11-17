@@ -15,8 +15,10 @@ struct HomeView: View {
     @State private var isShowCity = false
     @State private var isShowCityAnim = false
     @State var mapSize: CGRect = .zero
-    
     @State var isShowMoreScrollTop = true
+    
+    let leftBarWidth: CGFloat = 240
+    
     let pub = NotificationCenter.default
         .publisher(for: .reloadServerStar)
     
@@ -32,7 +34,7 @@ struct HomeView: View {
         )
     
     var leftMenuPannel: some View {
-        ZStack {
+        ZStack (alignment: .topLeading){
             if viewModel.selectedMenuItem != .none {
                 if viewModel.selectedMenuItem == .manualConnection {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listCountry, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
@@ -67,7 +69,7 @@ struct HomeView: View {
                     )
                     .transition(transitionOpacity)
                     .offset(x: isShowCityAnim ? 0 : 330, y: 0)
-                    // .opacity(isShowCityAnim ? 1 : 0)
+                    .opacity(isShowCityAnim ? 1 : 0)
                      
                 } else if viewModel.selectedMenuItem == .staticIp {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listStaticServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
@@ -148,28 +150,32 @@ struct HomeView: View {
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem, onTouchSetting: {
-                withAnimation {
-                    viewModel.selectedMenuItem = .none
-                    viewModel.isOpenSetting = true
-                }
-               
-            })
-            .frame(width: 240)
-            .contentShape(Rectangle())
-            .zIndex(3)
-            if viewModel.selectedMenuItem != .none {
-                leftMenuPannel.modifier(HomeListWraperView(
-                    onClose: {
-                        self.viewModel.selectedMenuItem = .none
-                    }
-                )
-                )
-                .zIndex(2)
-                .offset(x: 240)
-            }
+            
             HStack(spacing: 0) {
-                Rectangle().frame(width: 240)
+                HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem, onTouchSetting: {
+                    withAnimation {
+                        viewModel.selectedMenuItem = .none
+                        viewModel.isOpenSetting = true
+                    }
+                   
+                })
+                .frame(width: leftBarWidth)
+                .zIndex(2)
+                .contentShape(Rectangle())
+                if viewModel.selectedMenuItem != .none {
+                    leftMenuPannel.modifier(HomeListWraperView(
+                        onClose: {
+                            self.viewModel.selectedMenuItem = .none
+                        }
+                    )
+                    )
+                    .zIndex(1)
+                }
+            }
+            .zIndex(3)
+            
+            HStack(spacing: 0) {
+                Rectangle().frame(width: leftBarWidth)
                 GeometryReader { proxy in
                     VpnMapView(
                         scale: $zoomValue.cgFloat(),
