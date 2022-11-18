@@ -26,10 +26,10 @@ struct HomeView: View {
     ).combined(with: .opacity)
     
     let transitionSlideBootom = AnyTransition.asymmetric(
-            insertion: .move(edge: .bottom),
-            removal: .move(edge: .bottom)
+        insertion: .move(edge: .bottom),
+        removal: .move(edge: .bottom)
         
-        )
+    )
     
     var leftMenuPannel: some View {
         ZStack {
@@ -37,8 +37,8 @@ struct HomeView: View {
                 if viewModel.selectedMenuItem == .manualConnection {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listCountry, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
                                             onTouchItem: { item in
-                                                self.viewModel.connect(to: item)
-                                            }
+                        self.viewModel.connect(to: item)
+                    }
                     )
                     .transition(transitionOpacity)
                     .overlay {
@@ -62,18 +62,18 @@ struct HomeView: View {
                     
                     HomeDetailCityNodeView(selectedItem: $viewModel.selectedMenuItem, listCity: $viewModel.listCity, isShowCity: $isShowCity, countryItem: viewModel.countrySelected,
                                            onTouchItem: { item in
-                                               self.viewModel.connect(to: item)
-                                           }
+                        self.viewModel.connect(to: item)
+                    }
                     )
                     .transition(transitionOpacity)
                     .offset(x: isShowCityAnim ? 0 : 330, y: 0)
-                    // .opacity(isShowCityAnim ? 1 : 0)
-                     
+                    .opacity(isShowCityAnim ? 1 : 0)
+                    
                 } else if viewModel.selectedMenuItem == .staticIp {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listStaticServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
                                             onTouchItem: { item in
-                                                self.viewModel.connect(to: item)
-                                            }
+                        self.viewModel.connect(to: item)
+                    }
                     )
                     .transition(transitionOpacity)
                     .onReceive(pub) { _ in
@@ -84,10 +84,12 @@ struct HomeView: View {
                 } else if viewModel.selectedMenuItem == .multiHop {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listMultiHop, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
                                             onTouchItem: { item in
-                                                self.viewModel.connect(to: item)
-                                            }
-                    )
-                    .transition(transitionOpacity)
+                        self.viewModel.connect(to: item)
+                        withAnimation {
+                            viewModel.selectedMenuItem = .none
+                        }
+                    }
+                    ) 
                 }
             }
         }
@@ -147,25 +149,41 @@ struct HomeView: View {
     }
     
     var body: some View {
-        HStack(spacing: 0) {
-            HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem, onTouchSetting: {
-                withAnimation {
-                    viewModel.selectedMenuItem = .none
-                    viewModel.isOpenSetting = true
-                }
-               
-            })
-            .frame(width: 240)
-            .contentShape(Rectangle())
-            .zIndex(3)
-            if viewModel.selectedMenuItem != .none {
-                leftMenuPannel.modifier(HomeListWraperView(
-                    onClose: {
-                        self.viewModel.selectedMenuItem = .none
+        ZStack (alignment: .topLeading){
+            HStack(spacing: 0) {
+                HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem, onTouchSetting: {
+                    withAnimation {
+                        viewModel.selectedMenuItem = .none
+                        viewModel.isOpenSetting = true
                     }
-                )
-                )
-                .zIndex(2)
+                    
+                })
+                .frame(width: 240)
+                .contentShape(Rectangle())
+                .zIndex(3)
+                
+                if viewModel.selectedMenuItem != .none {
+                    leftMenuPannel.modifier(HomeListWraperView(
+                        onClose: {
+                            self.viewModel.selectedMenuItem = .none
+                        }
+                    )
+                    )
+                    .zIndex(2)
+                }
+            }.zIndex(3)
+            
+            if viewModel.selectedMenuItem != .none {
+                Rectangle().fill(Color.black).opacity(0.5)
+                    .edgesIgnoringSafeArea([.top])
+                    .zIndex(2)
+                    .onTapGesture {
+                        DispatchQueue.main.async {
+                            withAnimation {
+                                viewModel.selectedMenuItem = .none
+                            }
+                        }
+                    }
             }
             
             ZStack {
@@ -180,18 +198,22 @@ struct HomeView: View {
                 .contentShape(Rectangle())
                 .edgesIgnoringSafeArea([.top])
                 mapUILayerView
-                if viewModel.isOpenSetting {
+            }
+            .padding(.leading, 240)
+            
+            if viewModel.isOpenSetting {
+                ZStack {
                     Rectangle().fill(Color.black).opacity(0.5)
                         .edgesIgnoringSafeArea([.top])
                     SettingView(onClose: {
                         withAnimation {
                             viewModel.isOpenSetting = false
                         }
-                       
+                        
                     })
-                }
+                }.zIndex(4)
             }
-           
+            
         }.frame(minWidth: 1000, minHeight: 650)
             .onAppear {
                 localIsConnected = appState.displayState == .connected
@@ -206,8 +228,8 @@ struct HomeView: View {
                 }
             }
             .onChange(of: viewModel.selectedMenuItem) { _ in
-                viewModel.onChangeState()
-                if viewModel.selectedMenuItem != .none {
+               // viewModel.onChangeState()
+                if viewModel.selectedMenuItem != .none &&  viewModel.isOpenSetting {
                     viewModel.isOpenSetting = false
                 }
             }

@@ -21,6 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // demo install extension vpn
         OSExtensionManager.shared.startExtension()
         initNotificationObs()
+        SettingUtils.shared.restoreStartOnBootStatus()
     }
     
     func setupMenu() {
@@ -117,4 +118,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print("[Debug] refresh multihop done")
         }
     }
+    
+    func applicationDidBecomeActive(_ notification: Notification) {
+        print ("active")
+    }
+   
 }

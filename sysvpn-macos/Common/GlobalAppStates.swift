@@ -10,6 +10,7 @@ import Foundation
 class GlobalAppStates: ObservableObject {
     static let shared = GlobalAppStates()
     @Published var displayState: AppDisplayState = .disconnected
+    @Published var recentList = [RecentModel]()
     var onReady: (() -> Void)?
     var isInitApp = false
     var isWaitingInitApp = false
@@ -40,13 +41,22 @@ class GlobalAppStates: ObservableObject {
                     self.initData()
                     NotificationCenter.default.post(name: .appReadyStart, object: nil)
                     DependencyContainer.shared.vpnManager.whenReady(queue: DispatchQueue.main) {
-                        print("readdy")
+                        self.onVPNReady()
                     }
                     DependencyContainer.shared.vpnManager.prepareManagers(forSetup: true)
                 }
             }
         }
         return true
+    }
+    
+    func onVPNReady() {
+        if !AppDataManager.shared.isLogin {
+            return
+        }
+        if PropertiesManager.shared.getAutoConnect(for: AppDataManager.shared.userData?.email ?? "default").enabled {
+            DependencyContainer.shared.vpnCore.autoConnect()
+        }
     }
 
     func initData() {

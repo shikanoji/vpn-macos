@@ -18,76 +18,70 @@ struct HomeListCountryNodeView: View {
     var body: some View {
         VStack(alignment: .leading) {
             List(countries) { item in
-                switch item.type {
-                case .spacing:
-                    Spacer().frame(height: 30)
-                case .country:
-                    if selectedItem == .manualConnection {
-                        CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
-                            .onTapGesture {
-                                if item.totalCity > 1 {
-                                    isShowCity = true
-                                    countrySelected = item
-                                } else {
+                Group {
+                    switch item.type {
+                    case .spacing:
+                        Spacer().frame(height: 30)
+                    case .country:
+                        if selectedItem == .manualConnection {
+                            CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
+                                .onTapGesture {
+                                    if item.totalCity > 1 {
+                                        isShowCity = true
+                                        countrySelected = item
+                                    } else {
+                                        guard let origin = item.origin else {
+                                            return
+                                        }
+                                        onTouchItem?(origin)
+                                    }
+                                }
+                        } else if selectedItem == .staticIp {
+                            StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar)
+                                 .onTapGesture {
                                     guard let origin = item.origin else {
                                         return
                                     }
                                     onTouchItem?(origin)
                                 }
+                        } else if selectedItem == .multiHop {
+                            MultiHopItemView(countryNameStart: item.title, countryNameEnd: item.title2, imageUrlStart: item.imageUrl, imageUrlEnd: item.imageUrl2)
+                                
+                                .onTapGesture {
+                                    guard let origin = item.origin else {
+                                        return
+                                    }
+                                    onTouchItem?(origin)
                             }
-                            .transaction { transaction in
-                                transaction.animation = nil
-                            }
-                    } else if selectedItem == .staticIp {
-                        StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar) .onTapGesture {
-                                guard let origin = item.origin else {
-                                    return
-                                }
-                                onTouchItem?(origin)
-                            }
-                        .transaction { transaction in
-                            transaction.animation = nil
                         }
-                    } else if selectedItem == .multiHop {
-                        MultiHopItemView(countryNameStart: item.title, countryNameEnd: item.title2, imageUrlStart: item.imageUrl, imageUrlEnd: item.imageUrl2)
-                            .onTapGesture {
-                                guard let origin = item.origin else {
-                                    return
-                                }
-                                onTouchItem?(origin)
+                    case .header:
+                        if selectedItem == .manualConnection || selectedItem == .multiHop {
+                            VStack {
+                                Text(item.title)
+                                    .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                                    .font(Font.system(size: 14, weight: .regular))
+                                Spacer().frame(height: 21)
                             }
-                            .transaction { transaction in
-                                transaction.animation = nil
-                            }
-                    }
-                case .header:
-                    if selectedItem == .manualConnection || selectedItem == .multiHop {
-                        VStack {
-                            Text(item.title)
-                                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                                .font(Font.system(size: 14, weight: .regular))
-                            Spacer().frame(height: 21)
+                        } else if selectedItem == .staticIp {
+                            HStack {
+                                Text(item.title)
+                                    .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                                    .font(Font.system(size: 14, weight: .regular))
+                                Spacer()
+                                Text("CURRENT LOAD")
+                                    .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
+                                    .font(Font.system(size: 11, weight: .medium))
+                            }.padding(.bottom, 16)
                         }
-                    } else if selectedItem == .staticIp {
-                        HStack {
-                            Text(item.title)
-                                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                                .font(Font.system(size: 14, weight: .regular))
-                            Spacer()
-                            Text("CURRENT LOAD")
-                                .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
-                                .font(Font.system(size: 11, weight: .medium))
-                        }.padding(.bottom, 16)
                     }
                 }
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
-            .modifier(ListViewModifier())
-            
         }
-        .padding(.horizontal, 6)
-        
+        .padding(.horizontal, 6) 
         .background(Asset.Colors.backgroundColor.swiftUIColor)
-        .id(UUID()) 
     }
 }
 
@@ -146,19 +140,9 @@ struct HomeListWraperView: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .background(Asset.Colors.backgroundColor.swiftUIColor)
-            /*.overlay {
-                Asset.Assets.icClose.swiftUIImage.padding(10)
-                    .background(Asset.Colors.backgroundColor.swiftUIColor)
-                    .position(x: 315, y: 0)
-                    .allowsHitTesting(true)
-                    .onTapGesture {
-                        withAnimation {
-                            onClose?()
-                        }
-                    }
-            }*/
+        
             .frame(width: 300, alignment: .leading)
+            .background(Asset.Colors.backgroundColor.swiftUIColor)
             .transition(
                 AnyTransition.asymmetric(
                     insertion: .move(edge: .leading),
@@ -196,6 +180,5 @@ struct ListViewModifier: ViewModifier {
     @ViewBuilder
     func body(content: Content) -> some View {
         content
-            .contentShape(Rectangle())
     }
 }

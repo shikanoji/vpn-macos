@@ -19,6 +19,9 @@ protocol INodeInfo {
     var locationSubname: String? { get }
     var cacheNode: NodePoint? { get set }
     var level1Id: String { get }
+    var imageUrl: String? { get }
+        
+    
 }
 
 extension INodeInfo {
@@ -105,6 +108,8 @@ struct ConnectPoint: Equatable {
 }
 
 class NodeInfoTest: INodeInfo {
+    var imageUrl: String?
+    
     var level1Id: String = ""
     
     static func == (lhs: NodeInfoTest, rhs: NodeInfoTest) -> Bool {
@@ -195,4 +200,9 @@ public struct AppTooltipConfig: TooltipConfig {
     public init(side: TooltipSide) {
         self.side = side
     }
+}
+
+struct RecentModel {
+    var logDate: Date
+    var node: INodeInfo
 }

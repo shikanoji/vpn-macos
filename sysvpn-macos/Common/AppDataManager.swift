@@ -205,22 +205,7 @@ class AppDataManager {
             _userCountry?.saveListCountry()
         }
     }
-    
-    private var _recentCountries: [CountryAvailables]?
-    
-    func addRecentCountry(country: CountryAvailables) {
-        if (_recentCountries?.count ?? 0) >= 5 {
-            while (_recentCountries?.count ?? 0) >= 5 {
-                _recentCountries?.removeLast()
-            }
-            _recentCountries?.append(country)
-        } else {
-            _recentCountries?.append(country)
-        }
-        _userCountry?.recentCountries = _recentCountries
-        _userCountry?.saveListCountry()
-    }
-    
+     
     private var _mutilHopServer: [MultiHopResult]?
     
     var mutilHopServer: [MultiHopResult]? {

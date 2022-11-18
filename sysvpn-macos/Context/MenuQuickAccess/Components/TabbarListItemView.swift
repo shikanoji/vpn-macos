@@ -13,7 +13,7 @@ struct TabbarListItemView: View {
     var body: some View {
         VStack(alignment: .leading) {
             List(listItem) { item in
-                TabbarItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
+                TabbarItemView(model: item)
                     .onTapGesture {
                         if let node = item.raw {
                             onTap?(node)
@@ -34,6 +34,7 @@ struct TabbarListItemModel: Identifiable {
     var totalCity: Int = 0
     var imageUrl: String?
     var lastUse: Date = .init()
-    
+    var isConnecting: Bool = false
+    var isShowDate: Bool = false
     var raw: INodeInfo?
 }

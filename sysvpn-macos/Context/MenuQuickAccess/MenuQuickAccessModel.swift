@@ -37,6 +37,17 @@ extension MenuQuickAccessView {
             getListSuggest()
             getListCountry()
             // listData = listRecent
+            NotificationCenter.default.addObserver(self, selector: #selector(onUpdateServer), name: .updateCountry, object: nil)
+        }
+        
+       
+        deinit {
+            NotificationCenter.default.removeObserver(self, name: .updateCountry, object: nil)
+        }
+        
+        @objc func onUpdateServer() {
+            getListSuggest()
+            getListCountry()
         }
         
         func onTouchConnect() {
@@ -75,14 +86,22 @@ extension MenuQuickAccessView {
         }
          
         func getListRecent() {
-            let recentCountry = AppDataManager.shared.userCountry?.recentCountries ?? []
+            if GlobalAppStates.shared.recentList.isEmpty {
+                AppDataManager.shared.readRecent()
+            }
+            listRecent = []
+            let node = MapAppStates.shared.connectedNode
+            let recentCountry = GlobalAppStates.shared.recentList
             for item in recentCountry {
-                let itemModel = TabbarListItemModel(title: item.name ?? "", imageUrl: item.flag, lastUse: item.lastUse ?? Date())
-                listRecent.append(itemModel)
+                let isConnecting = item.node.locationName == node?.locationName && item.node.locationSubname  == node?.locationSubname
+                
+                let itemModel = TabbarListItemModel(title: item.node.locationName , imageUrl: item.node.imageUrl, lastUse:  item.logDate, isConnecting: isConnecting, isShowDate: true, raw: item.node)
+                listRecent.insert(itemModel, at: 0)
             }
         }
         
         func getListSuggest() {
+            listSuggest = []
             let recommendCountry = AppDataManager.shared.userCountry?.recommendedCountries ?? []
             for item in recommendCountry {
                 let itemModel = TabbarListItemModel(title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag)
@@ -91,6 +110,7 @@ extension MenuQuickAccessView {
         }
         
         func getListCountry() {
+            listCountry = []
             let availableCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
             for item in availableCountry {
                 let itemModel = TabbarListItemModel(title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, raw: item)
@@ -113,6 +133,10 @@ extension MenuQuickAccessView {
                 multiplehop.exit?.city?.country = multiplehop.exit?.country
                 MapAppStates.shared.connectedNode = multiplehop
             }
+            if let info = info {
+                AppDataManager.shared.addRecent(node: info)
+            }
+           
         }
     }
 }

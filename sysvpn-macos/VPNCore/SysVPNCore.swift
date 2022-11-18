@@ -45,7 +45,11 @@ class SysVPNCore: SysVPNGatewayProtocol {
             guard let self = self, !enabled else {
                 return
             }
-            self.quickConnect()
+            if let lastConfig = self.lastConnectionConiguration , let id = lastConfig.serverInfo.id {
+                self.connectTo(connectType: .serverId(id: id ), params: self.lastConnectionConiguration?.connectionParam)
+            } else {
+                self.quickConnect()
+            }
         }
     }
     

@@ -139,6 +139,10 @@ extension HomeView {
                 multiplehop.exit?.city?.country = multiplehop.exit?.country
                 MapAppStates.shared.connectedNode = multiplehop
             }
+            
+            if let info = info {
+                AppDataManager.shared.addRecent(node: info)
+            }
         }
     }
 }
@@ -190,7 +194,7 @@ extension HomeLeftPanelView {
                     } else {
                         dj.vpnCore.quickConnect()
                     }
-                  
+                    AppDataManager.shared.addRecent(node: selectedNode)
                 } else {
                     dj.vpnCore.quickConnect()
                 }
