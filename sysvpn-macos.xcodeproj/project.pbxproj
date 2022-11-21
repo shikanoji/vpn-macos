@@ -2264,13 +2264,15 @@
 				INFOPLIST_FILE = SysVPNStarter/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SysVPNStarter;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSHumanReadableCopyright = SysVpn;
+				INFOPLIST_KEY_NSMainStoryboardFile = "";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LSApplicationCategoryType = "public.app-category.utilities";
+				LSBackgroundOnly = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.syspvn.client.macos-starter";
@@ -2300,13 +2302,15 @@
 				INFOPLIST_FILE = SysVPNStarter/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SysVPNStarter;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSHumanReadableCopyright = SysVpn;
+				INFOPLIST_KEY_NSMainStoryboardFile = "";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LSApplicationCategoryType = "public.app-category.utilities";
+				LSBackgroundOnly = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.syspvn.client.macos-starter";
