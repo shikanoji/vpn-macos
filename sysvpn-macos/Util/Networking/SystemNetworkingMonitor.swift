@@ -11,7 +11,7 @@ import SystemConfiguration.CaptiveNetwork
 class SystemDataUsage {
     private static let wwanInterfacePrefix = "pdp_ip"
     private static let wifiInterfacePrefix = "en"
-    private static var vpnInterfaces: [String]?
+    
     static var lastestVpnUsageInfo: SingleDataUsageInfo = .init(received: 0, sent: 0)
     class func getDataUsage() -> DataUsageInfo {
         var ifaddr: UnsafeMutablePointer<ifaddrs>?
@@ -31,16 +31,57 @@ class SystemDataUsage {
         
         return dataUsageInfo
     }
-     
-    class func vpnDataUsageInfo() -> SingleDataUsageInfo {
+    
+    class func mayBeVPNInterface(name: String) -> Bool {
+        return name.contains("tap") || name.contains("tun") || name.contains("ppp") || name.contains("ipsec")
+    }
+    
+    private class func _allVpnDataUsageInfo() -> SingleDataUsageInfo {
         var dataUsageInfo = SingleDataUsageInfo()
-        var vpnInterface: [String] = []
+       
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        guard getifaddrs(&ifaddr) == 0 else { return dataUsageInfo }
+        while let pointer = ifaddr {
+            let name: String! = String(cString: pointer.pointee.ifa_name)
+             
+            let addr = pointer.pointee.ifa_addr.pointee
+            
+            guard addr.sa_family == UInt8(AF_LINK) else {
+                ifaddr = pointer.pointee.ifa_next
+                continue
+            }
+            
+            if !mayBeVPNInterface(name: name){
+                continue
+            }
+           
+            var networkData: UnsafeMutablePointer<if_data>?
+            networkData = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
+            if let data = networkData {
+                
+                let send = UInt64(data.pointee.ifi_obytes)
+                let received = UInt64(data.pointee.ifi_ibytes)
+                dataUsageInfo.received += received
+                dataUsageInfo.sent += send
+                
+            }
+            ifaddr = pointer.pointee.ifa_next
+        }
         
-        
+        freeifaddrs(ifaddr)
+        return dataUsageInfo
+    }
+    
+    private class func _appVpnDataUsageInfo() -> SingleDataUsageInfo {
+        var dataUsageInfo = SingleDataUsageInfo()
         var utunAddr: ifaddrs = ifaddrs()
-        if getSysVpnProto(&utunAddr) == 1 {
-            let name: String = String(cString: utunAddr.ifa_name) 
-            print("Interface name: \(name)")
+        if getSysVpnProto(&utunAddr) == 1  {
+            let name: String = String(cString: utunAddr.ifa_name)
+            
+            if !mayBeVPNInterface(name: name) {
+                return  _allVpnDataUsageInfo()
+            }
+            
             var networkData: UnsafeMutablePointer<if_data>?
             networkData = unsafeBitCast(utunAddr.ifa_data, to: UnsafeMutablePointer<if_data>.self)
             if let data = networkData {
@@ -50,60 +91,13 @@ class SystemDataUsage {
                 dataUsageInfo.sent += send
             }
         } else {
-            if let interfaces = vpnInterfaces {
-                vpnInterface = interfaces
-            } else {
-                 
-                if let settings = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as? [String: Any],
-                   let scopes = settings["__SCOPED__"] as? [String: Any] {
-                    for (key, _) in scopes {
-                        if key.contains("tap") || key.contains("tun") || key.contains("ppp") || key.contains("ipsec") {
-                            vpnInterface.append(key)
-                        }
-                    }
-                }
-            }
-            
-             
-            if vpnInterfaces == nil && !vpnInterface.isEmpty {
-                vpnInterfaces = vpnInterface
-            }
-            
-        
-            var ifaddr: UnsafeMutablePointer<ifaddrs>?
-            guard getifaddrs(&ifaddr) == 0 else { return dataUsageInfo }
-            while let pointer = ifaddr {
-                let name: String! = String(cString: pointer.pointee.ifa_name)
-                let addr = pointer.pointee.ifa_addr.pointee
-                
-                guard addr.sa_family == UInt8(AF_LINK) else {
-                    ifaddr = pointer.pointee.ifa_next
-                    continue
-                }
-                if !vpnInterface.contains(name) {
-                    ifaddr = pointer.pointee.ifa_next
-                    continue
-                }
-               
-                var networkData: UnsafeMutablePointer<if_data>?
-                networkData = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
-                if let data = networkData {
-                    
-                    let send = UInt64(data.pointee.ifi_obytes)
-                    let received = UInt64(data.pointee.ifi_ibytes)
-                    dataUsageInfo.received += received
-                    dataUsageInfo.sent += send
-                    
-                }
-                ifaddr = pointer.pointee.ifa_next
-            }
-            
-            freeifaddrs(ifaddr)
-           
-            
+            dataUsageInfo = _allVpnDataUsageInfo()
         }
-        
-        
+        return dataUsageInfo
+    }
+     
+    class func vpnDataUsageInfo() -> SingleDataUsageInfo {
+        var dataUsageInfo = _appVpnDataUsageInfo()
         lastestVpnUsageInfo = dataUsageInfo
         return dataUsageInfo
     }

@@ -21,12 +21,12 @@
 
 // Apple API ITOC
 #define SIOCGIFAGENTDATA        _IOWR('i', 168, struct netagent_req)
-#define SIOCGIFAGENTIDS _IOWR('i', 167, struct if_agentidsreq)
+#define SIOCGIFAGENTIDS         _IOWR('i', 167, struct if_agentidsreq)
 
 struct if_agentidsreq {
     char        ifar_name[IFNAMSIZ];
-    u_int32_t    ifar_count;
-    uuid_t        *ifar_uuids;
+    u_int32_t   ifar_count;
+    uuid_t      *ifar_uuids;
 };
 
 #define NETAGENT_DOMAINSIZE      32
@@ -34,12 +34,12 @@ struct if_agentidsreq {
 #define NETAGENT_DESCSIZE        128
 
 struct netagent_req {
-    uuid_t        netagent_uuid;
+    uuid_t      netagent_uuid;
     char        netagent_domain[NETAGENT_DOMAINSIZE];
     char        netagent_type[NETAGENT_TYPESIZE];
     char        netagent_desc[NETAGENT_DESCSIZE];
-    u_int32_t    netagent_flags;
-    u_int32_t    netagent_data_size;
+    u_int32_t   netagent_flags;
+    u_int32_t   netagent_data_size;
     u_int8_t    *netagent_data;
 };
 // ---------- END APPLE API ITOC ---------
@@ -89,6 +89,10 @@ int getSysVpnProto(struct ifaddrs *outputIfa) {
                     }
                     free(ifar.ifar_uuids);
                 }
+            }
+            
+            if (ret == 1){
+                break;
             }
         }
     }
