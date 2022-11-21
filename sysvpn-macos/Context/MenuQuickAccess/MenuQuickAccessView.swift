@@ -96,14 +96,13 @@ struct MenuQuickAccessView: View {
     var headerMenuConnected: some View {
         VStack(alignment: .leading) {
             HStack {
-                if let icon  = MapAppStates.shared.connectedNode?.image {
+                if let icon = MapAppStates.shared.connectedNode?.image {
                     icon.resizable()
                         .overlay {
                             RoundedRectangle(cornerRadius: 16).stroke(style: .init(lineWidth: 2))
                                 .foregroundColor(.white)
                         }
                         .frame(width: 32, height: 32)
-                    
                 }
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
@@ -244,12 +243,12 @@ struct MenuQuickAccessView: View {
                 TabbarListItemView(listItem: viewModel.listRecent, onTap: { node in
                     viewModel.connect(to: node)
                 })
-                    .transition(.opacity)
+                .transition(.opacity)
             } else {
                 TabbarListItemView(listItem: viewModel.listSuggest, onTap: { node in
                     viewModel.connect(to: node)
                 })
-                    .transition(.opacity)
+                .transition(.opacity)
             }
         }
     }

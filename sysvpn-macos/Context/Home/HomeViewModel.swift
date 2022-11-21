@@ -139,10 +139,6 @@ extension HomeView {
                 multiplehop.exit?.city?.country = multiplehop.exit?.country
                 MapAppStates.shared.connectedNode = multiplehop
             }
-            
-            if let info = info {
-                AppDataManager.shared.addRecent(node: info)
-            }
         }
     }
 }
@@ -152,6 +148,23 @@ extension HomeLeftPanelView {
         @Published var selectedMenuItem: HomeMenuItem = .none
         @Published var totalCountry: Int = 0
         @Published var totalMultipleHop: Int = 0
+        
+        var email: String {
+            return AppDataManager.shared.userData?.email ?? ""
+        }
+        
+        var dayPremiumLeft: Int {
+            return AppDataManager.shared.userData?.dayPreniumLeft ?? 0
+        }
+        
+        var isPremium: Bool {
+            return AppDataManager.shared.userData?.isPremium ?? false
+        }
+        
+        var dayFree: Int {
+            return AppDataManager.shared.userData?.freePremiumDays ?? 0
+        }
+
         var isConnected: Bool = false
         
         init() {
@@ -194,7 +207,6 @@ extension HomeLeftPanelView {
                     } else {
                         dj.vpnCore.quickConnect()
                     }
-                    AppDataManager.shared.addRecent(node: selectedNode)
                 } else {
                     dj.vpnCore.quickConnect()
                 }

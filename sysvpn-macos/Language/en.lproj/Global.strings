@@ -12,15 +12,14 @@
 "quickConnect" = "Quick\nConnect";
 "labelLocation" = "Location:";
 "labelVPNIP" = "VPN IP:";
-"manualConnection" = "Manual connection";
-
-"manualCDesc" = "locations available";
+"manualConnection" = "Locations";
+"manualCDesc" = "available";
 
 "staticIP" = "Static IP";
 "staticIPDesc" = "Personal Static IP address";
 
 "multiHop" = "MultiHop";
-"multiHopDesc" = "locations available";
+"multiHopDesc" = "available";
 "sysvpnConfiguration" = "Sysvpn Configuration";
 "setting" = "Settings";
 "helpCenter" = "Help Center";

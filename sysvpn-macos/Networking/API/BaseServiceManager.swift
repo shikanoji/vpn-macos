@@ -45,7 +45,6 @@ class BaseServiceManager<API: TargetType> {
             }
             .handleResponse()
             .filterSuccessfulStatusCodes()
-        
     }
     
     func requestIPC(_ api: API) -> Single<Response> {
@@ -76,7 +75,6 @@ class BaseServiceManager<API: TargetType> {
             }
             .handleResponse()
             .filterSuccessfulStatusCodes()
-           
     }
     
     func cancelTask() {

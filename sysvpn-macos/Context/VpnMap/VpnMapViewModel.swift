@@ -84,7 +84,7 @@ extension CountryStaticServers: INodeInfo, Equatable {
     }
     
     var imageUrl: String? {
-        return self.flag
+        return flag
     }
     
     static func == (lhs: CountryStaticServers, rhs: CountryStaticServers) -> Bool {
@@ -130,7 +130,7 @@ extension CountryCity: INodeInfo, Equatable {
     }
     
     var imageUrl: String? {
-        return self.country?.flag
+        return country?.flag
     }
 
     var level1Id: String {
@@ -176,9 +176,8 @@ extension CountryCity: INodeInfo, Equatable {
 }
 
 extension CountryAvailables: INodeInfo, Equatable {
-    
     var imageUrl: String? {
-        return self.flag
+        return flag
     }
     
     var level1Id: String {
@@ -240,10 +239,9 @@ extension MultiHopResult: INodeInfo, Equatable {
     }
     
     var imageUrl: String? {
-        return self.exit?.country?.flag
+        return exit?.country?.flag
     }
 
-    
     var level1Id: String {
         return String(entry?.serverId ?? 0)
     }

@@ -25,15 +25,18 @@ struct SettingView: View {
                         onClose?()
                     } label: {
                         Asset.Assets.icCloseWhite.swiftUIImage
+                            .resizable()
+                            .frame(width: 20, height: 20)
                     }.buttonStyle(LoginButtonNoBackgroundStyle())
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, 16)
                 }
-                .padding(.vertical, 20)
+                .padding(.vertical, 16)
                 TabbarSettingView(selectedItem: $viewModel.selectTabbarItem, listItem: viewModel.listItem)
             }
             .contentShape(Rectangle())
             .background(Asset.Colors.headerSettingColor.swiftUIColor)
             ScrollView(.vertical, showsIndicators: false) {
+                Spacer().frame(height: 10)
                 switch viewModel.selectTabbarItem {
                 case .general:
                     GeneralSettingView()

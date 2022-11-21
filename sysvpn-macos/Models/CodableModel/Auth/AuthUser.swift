@@ -56,4 +56,9 @@ struct AuthUser: Codable {
     func save() {
         saveFile(fileName: .keySaveUserData)
     }
+    
+    var dayPreniumLeft: Int {
+        let now = max(0, Double(premiumExpire ?? 0) - Date.now.timeIntervalSince1970)
+        return Int(now / 3600)
+    }
 }

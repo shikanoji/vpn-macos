@@ -17,70 +17,71 @@ struct HomeListCountryNodeView: View {
     var onTouchItem: ((INodeInfo) -> Void)?
     var body: some View {
         VStack(alignment: .leading) {
-            List(countries) { item in
-                Group {
-                    switch item.type {
-                    case .spacing:
-                        Spacer().frame(height: 30)
-                    case .country:
-                        if selectedItem == .manualConnection {
-                            CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
-                                .onTapGesture {
-                                    if item.totalCity > 1 {
-                                        isShowCity = true
-                                        countrySelected = item
-                                    } else {
-                                        guard let origin = item.origin else {
-                                            return
+            ScrollView([.vertical], showsIndicators: false) {
+                LazyVStack(alignment: .leading) {
+                    ForEach(countries) { item in
+                        Group {
+                            switch item.type {
+                            case .spacing:
+                                Spacer().frame(height: 30)
+                            case .country:
+                                if selectedItem == .manualConnection {
+                                    CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
+                                        .onTapGesture {
+                                            if item.totalCity > 1 {
+                                                isShowCity = true
+                                                countrySelected = item
+                                            } else {
+                                                guard let origin = item.origin else {
+                                                    return
+                                                }
+                                                onTouchItem?(origin)
+                                            }
                                         }
-                                        onTouchItem?(origin)
-                                    }
+                                } else if selectedItem == .staticIp {
+                                    StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar)
+                                        .onTapGesture {
+                                            guard let origin = item.origin else {
+                                                return
+                                            }
+                                            onTouchItem?(origin)
+                                        }
+                                } else if selectedItem == .multiHop {
+                                    MultiHopItemView(countryNameStart: item.title, countryNameEnd: item.title2, imageUrlStart: item.imageUrl, imageUrlEnd: item.imageUrl2)
+                                              
+                                        .onTapGesture {
+                                            guard let origin = item.origin else {
+                                                return
+                                            }
+                                            onTouchItem?(origin)
+                                        }
                                 }
-                        } else if selectedItem == .staticIp {
-                            StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar)
-                                 .onTapGesture {
-                                    guard let origin = item.origin else {
-                                        return
+                            case .header:
+                                if selectedItem == .manualConnection || selectedItem == .multiHop {
+                                    VStack {
+                                        Text(item.title)
+                                            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                                            .font(Font.system(size: 14, weight: .regular))
+                                        Spacer().frame(height: 21)
                                     }
-                                    onTouchItem?(origin)
+                                } else if selectedItem == .staticIp {
+                                    HStack {
+                                        Text(item.title)
+                                            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                                            .font(Font.system(size: 14, weight: .regular))
+                                        Spacer()
+                                        Text("CURRENT LOAD")
+                                            .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
+                                            .font(Font.system(size: 11, weight: .medium))
+                                    }.padding(.bottom, 16)
                                 }
-                        } else if selectedItem == .multiHop {
-                            MultiHopItemView(countryNameStart: item.title, countryNameEnd: item.title2, imageUrlStart: item.imageUrl, imageUrlEnd: item.imageUrl2)
-                                
-                                .onTapGesture {
-                                    guard let origin = item.origin else {
-                                        return
-                                    }
-                                    onTouchItem?(origin)
                             }
-                        }
-                    case .header:
-                        if selectedItem == .manualConnection || selectedItem == .multiHop {
-                            VStack {
-                                Text(item.title)
-                                    .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                                    .font(Font.system(size: 14, weight: .regular))
-                                Spacer().frame(height: 21)
-                            }
-                        } else if selectedItem == .staticIp {
-                            HStack {
-                                Text(item.title)
-                                    .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                                    .font(Font.system(size: 14, weight: .regular))
-                                Spacer()
-                                Text("CURRENT LOAD")
-                                    .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
-                                    .font(Font.system(size: 11, weight: .medium))
-                            }.padding(.bottom, 16)
                         }
                     }
                 }
-                .transaction { transaction in
-                    transaction.animation = nil
-                }
             }
         }
-        .padding(.horizontal, 6) 
+        .padding(.horizontal, 20)
         .background(Asset.Colors.backgroundColor.swiftUIColor)
     }
 }

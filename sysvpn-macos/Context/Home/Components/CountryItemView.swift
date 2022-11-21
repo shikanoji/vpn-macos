@@ -82,7 +82,7 @@ struct MultiHopItemView: View {
     var imageUrlEnd: String?
     var body: some View {
         HStack(alignment: .center, spacing: 4) {
-            ZStack{
+            ZStack {
                 Group {
                     if imageUrlStart != nil {
                         KFImage(URL(string: imageUrlStart!))
@@ -114,7 +114,7 @@ struct MultiHopItemView: View {
                         .foregroundColor(Asset.Colors.mainBackgroundColor.swiftUIColor)
                 }.transformEffect(.init(translationX: 5, y: 0))
                 
-            } .frame(width: 40, height: 26, alignment: .center)
+            }.frame(width: 40, height: 26, alignment: .center)
             Spacer().frame(width: 6)
             Text(countryNameStart)
                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor

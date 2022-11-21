@@ -5,8 +5,8 @@
 //  Created by macbook on 18/11/2022.
 //
 
-import Foundation
 import Cocoa
+import Foundation
 
 let delegate = AppDelegate()
 NSApplication.shared.delegate = delegate

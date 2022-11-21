@@ -30,11 +30,10 @@ struct HomeLeftPanelView: View {
     }
     
     var menuSection: some View {
-        VStack(alignment: .leading) {
-            Text(L10n.Global.manualConnection)
-                .padding(.leading, 16)
-                .font(Font.system(size: 14, weight: .regular))
-                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+        VStack(alignment: .leading, spacing: 0) {
+            ProfileTabbarView()
+                .padding(.horizontal, 16)
+            Spacer().frame(height: 20)
             HomeMenuButtonView(
                 active: selectedItem == .manualConnection,
                 icon: Asset.Assets.icLocation.swiftUIImage,
@@ -108,17 +107,28 @@ struct HomeLeftPanelView: View {
                 .frame(width: 40, height: 40)
                 .cornerRadius(20)
             VStack(alignment: .leading) {
-                Text("Đờ ra gon")
+                Text(viewModel.email)
                     .font(Font.system(size: 13, weight: .semibold))
                     .foregroundColor(Color.white)
                 Spacer().frame(height: 8)
-                HStack {
-                    Text("312 days left")
-                        .font(Font.system(size: 12, weight: .medium))
-                        .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                    Text("+Extended")
-                        .font(Font.system(size: 12, weight: .medium))
-                        .foregroundColor(Color.white)
+                if viewModel.isPremium {
+                    HStack {
+                        Text("\(viewModel.dayPremiumLeft) days left")
+                            .font(Font.system(size: 12, weight: .medium))
+                            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                        Text("+Extended")
+                            .font(Font.system(size: 12, weight: .medium))
+                            .foregroundColor(Color.white)
+                    }
+                } else {
+                    HStack {
+                        Text("\(viewModel.dayFree) free day")
+                            .font(Font.system(size: 12, weight: .medium))
+                            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                        Text("+Extended")
+                            .font(Font.system(size: 12, weight: .medium))
+                            .foregroundColor(Color.white)
+                    }
                 }
             }
         }.padding(.horizontal, 16)

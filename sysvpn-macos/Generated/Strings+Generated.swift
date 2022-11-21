@@ -80,14 +80,14 @@ public enum L10n {
     public static let locationMap = L10n.tr("Global", "locationMap", fallback: "Location Map")
     /// Longest connection
     public static let longestConnection = L10n.tr("Global", "longestConnection", fallback: "Longest connection")
-    /// locations available
-    public static let manualCDesc = L10n.tr("Global", "manualCDesc", fallback: "locations available")
-    /// Manual connection
-    public static let manualConnection = L10n.tr("Global", "manualConnection", fallback: "Manual connection")
+    /// available
+    public static let manualCDesc = L10n.tr("Global", "manualCDesc", fallback: "available")
+    /// Locations
+    public static let manualConnection = L10n.tr("Global", "manualConnection", fallback: "Locations")
     /// MultiHop
     public static let multiHop = L10n.tr("Global", "multiHop", fallback: "MultiHop")
-    /// locations available
-    public static let multiHopDesc = L10n.tr("Global", "multiHopDesc", fallback: "locations available")
+    /// available
+    public static let multiHopDesc = L10n.tr("Global", "multiHopDesc", fallback: "available")
     /// New password
     public static let newPassword = L10n.tr("Global", "newPassword", fallback: "New password")
     /// Newsletters

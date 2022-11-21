@@ -41,14 +41,22 @@ class SysVPNCore: SysVPNGatewayProtocol {
     }
     
     func autoConnect() {
-        appStateManager.isOnDemandEnabled { [weak self] enabled in
-            guard let self = self, !enabled else {
-                return
-            }
-            if let lastConfig = self.lastConnectionConiguration , let id = lastConfig.serverInfo.id {
-                self.connectTo(connectType: .serverId(id: id ), params: self.lastConnectionConiguration?.connectionParam)
-            } else {
-                self.quickConnect()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self._checkAutoConnect()
+        }
+    }
+    
+    func _checkAutoConnect() {
+        if connection == .disconnected {
+            appStateManager.isOnDemandEnabled { [weak self] enabled in
+                guard let self = self, !enabled else {
+                    return
+                }
+                if let lastConfig = self.lastConnectionConiguration, let id = lastConfig.serverInfo.id {
+                    self.connectTo(connectType: .serverId(id: id), params: self.lastConnectionConiguration?.connectionParam)
+                } else {
+                    self.quickConnect()
+                }
             }
         }
     }

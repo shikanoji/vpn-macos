@@ -200,6 +200,8 @@
 		FAA35BE228FD46E400205ECD /* demofile.ovpn in Resources */ = {isa = PBXBuildFile; fileRef = FAA35BE128FD46E400205ECD /* demofile.ovpn */; };
 		FABBB8D129042C8700595D95 /* VpnMapOverlayLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABBB8D029042C8700595D95 /* VpnMapOverlayLayerView.swift */; };
 		FAC3CB472901355B0095F30E /* MapTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC3CB462901355B0095F30E /* MapTooltipView.swift */; };
+		FAC7FC07292A5ABA002A91E3 /* NodeFlagThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7FC06292A5ABA002A91E3 /* NodeFlagThumbView.swift */; };
+		FAC7FC09292A71D2002A91E3 /* ProfileTabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7FC08292A71D2002A91E3 /* ProfileTabbarView.swift */; };
 		FACEC9AD29046B080014ABC9 /* WireGuardTunnelAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACEC9AC29046B080014ABC9 /* WireGuardTunnelAdapter.swift */; };
 		FACEC9AF29046B6C0014ABC9 /* TunnelKitWireGuardAppExtension in Frameworks */ = {isa = PBXBuildFile; productRef = FACEC9AE29046B6C0014ABC9 /* TunnelKitWireGuardAppExtension */; };
 		FACEC9B129046BE20014ABC9 /* OpenVpnAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACEC9B029046BE20014ABC9 /* OpenVpnAdapter.swift */; };
@@ -509,6 +511,8 @@
 		FAA35BE128FD46E400205ECD /* demofile.ovpn */ = {isa = PBXFileReference; lastKnownFileType = text; path = demofile.ovpn; sourceTree = "<group>"; };
 		FABBB8D029042C8700595D95 /* VpnMapOverlayLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnMapOverlayLayerView.swift; sourceTree = "<group>"; };
 		FAC3CB462901355B0095F30E /* MapTooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTooltipView.swift; sourceTree = "<group>"; };
+		FAC7FC06292A5ABA002A91E3 /* NodeFlagThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeFlagThumbView.swift; sourceTree = "<group>"; };
+		FAC7FC08292A71D2002A91E3 /* ProfileTabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabbarView.swift; sourceTree = "<group>"; };
 		FACEC9AC29046B080014ABC9 /* WireGuardTunnelAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireGuardTunnelAdapter.swift; sourceTree = "<group>"; };
 		FACEC9B029046BE20014ABC9 /* OpenVpnAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenVpnAdapter.swift; sourceTree = "<group>"; };
 		FACEC9B22904D71A0014ABC9 /* SysMessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SysMessageService.swift; sourceTree = "<group>"; };
@@ -650,6 +654,7 @@
 				9E668DF728E8A6F6009CDC95 /* TabbarViews.swift */,
 				B9ABE6632908E0AC009C7A00 /* TabbarListItemView.swift */,
 				B9ABE66529092211009C7A00 /* TabbarItemView.swift */,
+				FAC7FC06292A5ABA002A91E3 /* NodeFlagThumbView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -665,6 +670,7 @@
 				9E668DFF28E8B30A009CDC95 /* HomeAlertConnectionView.swift */,
 				9E668E0128E8BC62009CDC95 /* CountryItemView.swift */,
 				FAFAAE4C2902962A006A69E3 /* HomeConnectionButtonView.swift */,
+				FAC7FC08292A71D2002A91E3 /* ProfileTabbarView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1758,6 +1764,8 @@
 				B9D7F71C28D781A8008B1D39 /* AppDataManager.swift in Sources */,
 				B99DB43528E5955F00331AFB /* MenuQuickAccessView.swift in Sources */,
 				9E3756C328E6DB6500E95C64 /* PinZoomView.swift in Sources */,
+				FAC7FC07292A5ABA002A91E3 /* NodeFlagThumbView.swift in Sources */,
+				FAC7FC09292A71D2002A91E3 /* ProfileTabbarView.swift in Sources */,
 				FAA35BBA28FD41CB00205ECD /* NEVPNManagerWrapper.swift in Sources */,
 				9E668DFC28E8A9E2009CDC95 /* HomeChartViews.swift in Sources */,
 				FAA35BB828FD41CB00205ECD /* Loging.swift in Sources */,
@@ -2245,13 +2253,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = SysVPNStarter/SysVPNStarter.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = J953BZ6B49;
 				ENABLE_HARDENED_RUNTIME = YES;
-				GENERATE_INFOPLIST_FILE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SysVPNStarter/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SysVPNStarter;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -2263,6 +2275,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.syspvn.client.macos-starter";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -2276,13 +2289,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = SysVPNStarter/SysVPNStarter.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = J953BZ6B49;
 				ENABLE_HARDENED_RUNTIME = YES;
-				GENERATE_INFOPLIST_FILE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SysVPNStarter/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SysVPNStarter;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -2294,6 +2311,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.syspvn.client.macos-starter";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

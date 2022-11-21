@@ -12,17 +12,20 @@ struct VPNResult: Codable {
         case sessionId
         case server
         case connectionDetails
+        case dns
     }
 
     var sessionId: String?
     var server: VPNServer?
     var connectionDetails: VPNConnectionDetails?
-
+    var dns: [String]?
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         sessionId = try container.decodeIfPresent(String.self, forKey: .sessionId)
         server = try container.decodeIfPresent(VPNServer.self, forKey: .server)
         connectionDetails = try container.decodeIfPresent(VPNConnectionDetails.self, forKey: .connectionDetails)
+        dns = try container.decodeIfPresent([String].self, forKey: .dns)
     }
     
     func parseVpnConfig() -> String {
@@ -37,15 +40,23 @@ struct VPNResult: Codable {
         config.remote?.forEach {
             stringData += "remote " + $0 + spaceLine
         }
+        
+        if let dns = dns {
+            for ip in dns {
+                stringData += "dhcp-option DNS \(ip)" + spaceLine
+            }
+        }
+        
         stringData += "auth " + (config.auth ?? "") + spaceLine
         stringData += "auth-nocache " + (config.authNocache ?? "") + spaceLine
         stringData += "tls-version-min " + (config.tlsVersionMin ?? "") + spaceLine
         stringData += "tls-cipher " + (config.tlsCipher ?? "") + spaceLine
         stringData += "resolv-retry " + (config.resolvRetry ?? "") + spaceLine
         stringData += "nobind " + (config.nobind ?? "") + spaceLine
+       
         stringData += "persist-key " + (config.persistKey ?? "") + spaceLine
         stringData += "mute-replay-warnings " + (config.muteReplayWarnings ?? "") + spaceLine
-        stringData += "verb " + "\(config.verb)" + spaceLine
+        stringData += "verb " + "\(config.verb ?? 0)" + spaceLine
         stringData += "<ca>" + spaceLine + (config.ca?.replacingOccurrences(of: "\n", with: "\r\n") ?? "") + spaceLine + "</ca>" + spaceLine
         stringData += "<cert>" + spaceLine + (config.cert?.replacingOccurrences(of: "\n", with: "\r\n") ?? "") + spaceLine + "</cert>" + spaceLine
         stringData += "<key>" + spaceLine + (config.key?.replacingOccurrences(of: "\n", with: "\r\n") ?? "") + spaceLine + "</key>" + spaceLine

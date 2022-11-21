@@ -119,8 +119,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func applicationDidBecomeActive(_ notification: Notification) {
-        print ("active")
+    func applicationDidBecomeActive(_: Notification) {
+        print("active")
     }
-   
 }

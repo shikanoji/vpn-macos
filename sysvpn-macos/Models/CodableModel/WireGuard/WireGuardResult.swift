@@ -13,19 +13,21 @@ struct WireGuardResult: Codable {
         case server
         case peer = "Peer"
         case sessionId
+        case dns
     }
 
     var interface: WireGuardInterface?
     var server: VPNServer?
     var peer: WireGuardPeer?
     var sessionId: String?
-
+    var dns: [String]?
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         interface = try container.decodeIfPresent(WireGuardInterface.self, forKey: .interface)
         server = try container.decodeIfPresent(VPNServer.self, forKey: .server)
         peer = try container.decodeIfPresent(WireGuardPeer.self, forKey: .peer)
         sessionId = try container.decodeIfPresent(String.self, forKey: .sessionId)
+        dns = try container.decodeIfPresent([String].self, forKey: .dns)
     }
     
     func parseVpnConfig() -> String {
@@ -47,7 +49,12 @@ struct WireGuardResult: Codable {
         connStr += spaceLine
         
         connStr += "DNS = "
-        connStr += _interface.dNS ?? ""
+        
+        if let dnsServers = dns {
+            connStr += dnsServers.joined(separator: ",") + ",\(_interface.dNS ?? "")"
+        } else {
+            connStr += _interface.dNS ?? ""
+        }
         connStr += spaceLine
         
         connStr += "[Peer]"

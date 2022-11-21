@@ -28,7 +28,6 @@ struct HomeView: View {
     let transitionSlideBootom = AnyTransition.asymmetric(
         insertion: .move(edge: .bottom),
         removal: .move(edge: .bottom)
-        
     )
     
     var leftMenuPannel: some View {
@@ -37,8 +36,8 @@ struct HomeView: View {
                 if viewModel.selectedMenuItem == .manualConnection {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listCountry, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
                                             onTouchItem: { item in
-                        self.viewModel.connect(to: item)
-                    }
+                                                self.viewModel.connect(to: item)
+                                            }
                     )
                     .transition(transitionOpacity)
                     .overlay {
@@ -62,8 +61,8 @@ struct HomeView: View {
                     
                     HomeDetailCityNodeView(selectedItem: $viewModel.selectedMenuItem, listCity: $viewModel.listCity, isShowCity: $isShowCity, countryItem: viewModel.countrySelected,
                                            onTouchItem: { item in
-                        self.viewModel.connect(to: item)
-                    }
+                                               self.viewModel.connect(to: item)
+                                           }
                     )
                     .transition(transitionOpacity)
                     .offset(x: isShowCityAnim ? 0 : 330, y: 0)
@@ -72,8 +71,8 @@ struct HomeView: View {
                 } else if viewModel.selectedMenuItem == .staticIp {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listStaticServer, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
                                             onTouchItem: { item in
-                        self.viewModel.connect(to: item)
-                    }
+                                                self.viewModel.connect(to: item)
+                                            }
                     )
                     .transition(transitionOpacity)
                     .onReceive(pub) { _ in
@@ -84,12 +83,12 @@ struct HomeView: View {
                 } else if viewModel.selectedMenuItem == .multiHop {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listMultiHop, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
                                             onTouchItem: { item in
-                        self.viewModel.connect(to: item)
-                        withAnimation {
-                            viewModel.selectedMenuItem = .none
-                        }
-                    }
-                    ) 
+                                                self.viewModel.connect(to: item)
+                                                withAnimation {
+                                                    viewModel.selectedMenuItem = .none
+                                                }
+                                            }
+                    )
                 }
             }
         }
@@ -149,7 +148,7 @@ struct HomeView: View {
     }
     
     var body: some View {
-        ZStack (alignment: .topLeading){
+        ZStack(alignment: .topLeading) {
             HStack(spacing: 0) {
                 HomeLeftPanelView(selectedItem: $viewModel.selectedMenuItem, onTouchSetting: {
                     withAnimation {
@@ -228,8 +227,8 @@ struct HomeView: View {
                 }
             }
             .onChange(of: viewModel.selectedMenuItem) { _ in
-               // viewModel.onChangeState()
-                if viewModel.selectedMenuItem != .none &&  viewModel.isOpenSetting {
+                // viewModel.onChangeState()
+                if viewModel.selectedMenuItem != .none && viewModel.isOpenSetting {
                     viewModel.isOpenSetting = false
                 }
             }

@@ -318,6 +318,9 @@ class SysVpnAppStateManagement: AppStateManagement {
         }
         MapAppStates.shared.serverInfo = lastConfig.serverInfo
         MapAppStates.shared.connectedNode = AppDataManager.shared.getNodeByServerInfo(server: lastConfig.serverInfo)
+        if let info = MapAppStates.shared.connectedNode {
+            AppDataManager.shared.addRecent(node: info)
+        }
     }
     
     private func updateUIDisconnectedInfo() {

@@ -22,7 +22,7 @@ struct SettingSelectViewComponent: View {
                 if selectItem.settingDesc != nil {
                     Text(selectItem.settingDesc!)
                         .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                        .font(Font.system(size: 12, weight: .regular))
+                        .font(Font.system(size: 13, weight: .regular))
                 }
             }
             Spacer()
@@ -33,7 +33,7 @@ struct SettingSelectViewComponent: View {
                         .frame(width: 20, height: 20)
                     Text(valueSelect)
                         .foregroundColor(Color.white)
-                        .font(Font.system(size: 12, weight: .regular))
+                        .font(Font.system(size: 13, weight: .regular))
                 }
                 .onTapGesture {
                     self.isShowingPopover = true

@@ -5,6 +5,7 @@
 //  Created by doragon on 26/10/2022.
 //
 
+import Kingfisher
 import SwiftUI
 
 struct TabbarListItemView: View {
@@ -37,4 +38,6 @@ struct TabbarListItemModel: Identifiable {
     var isConnecting: Bool = false
     var isShowDate: Bool = false
     var raw: INodeInfo?
+    
+    var image: NodeFlagThumbView?
 }

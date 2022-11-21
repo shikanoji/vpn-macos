@@ -14,7 +14,10 @@ class IPCNetworkExtension: XPCBaseService {
     let userDefaults = UserDefaults(suiteName: CoreAppConstants.AppGroups.main)
 
     lazy var urlConfiguration: URLSessionConfiguration = {
-        let urlconfig = URLSessionConfiguration.default
+        let urlconfig = URLSessionConfiguration.ephemeral
+        // let config = URLSessionConfiguration.ephemeral
+        urlconfig.waitsForConnectivity = true
+        urlconfig.allowsCellularAccess = true
         urlconfig.timeoutIntervalForRequest = 10
         urlconfig.timeoutIntervalForResource = 10
         return urlconfig
@@ -66,7 +69,7 @@ class IPCNetworkExtension: XPCBaseService {
         httpService.performRequest(urlRequest: finalRequest) { response in
         
             completionHandler(response)
-            os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "success")
+            os_log("%{public}s", log: OSLog(subsystem: "SysVPNIPC", category: "IPC"), type: .default, "success \(response)")
         }
     }
 }

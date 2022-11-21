@@ -23,7 +23,7 @@ struct HomeConnectionButtonView: View {
                let image1 = multipleHop.entry?.country?.image,
                let image2 = multipleHop.exit?.country?.image {
                 ZStack {
-                    ZStack{
+                    ZStack {
                         image1.resizable()
                             .padding(2)
                         RoundedRectangle(cornerRadius: 25)
@@ -33,7 +33,7 @@ struct HomeConnectionButtonView: View {
                     .frame(width: 50, height: 50)
                     .transformEffect(.init(translationX: -20, y: 0))
                     
-                        .opacity(0.3)
+                    .opacity(0.3)
                     image2.resizable()
                         .frame(width: 60, height: 60)
                         .overlay {

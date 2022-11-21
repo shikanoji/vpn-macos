@@ -25,8 +25,7 @@ struct BoxSaveRecent: Codable {
 
 let keyListRecent = "SAVE_LIST_RECENT"
 extension AppDataManager {
-    
-    var listRecents: [SavedRecentStruct]  {
+    var listRecents: [SavedRecentStruct] {
         get {
             return BoxSaveRecent.readUserDefault(keyUserDefault: keyListRecent)?.recents ?? []
         }
@@ -48,7 +47,7 @@ extension AppDataManager {
         } else if let staticServer = node as? CountryStaticServers, let stId = staticServer.serverId {
             id = String(stId)
             prefix = PrefixRecentSave.staticServer
-        } else if let multipleHop = node as? MultiHopResult, let st1 = multipleHop.entry?.serverId,let st2 = multipleHop.exit?.city?.id {
+        } else if let multipleHop = node as? MultiHopResult, let st1 = multipleHop.entry?.serverId, let st2 = multipleHop.exit?.city?.id {
             id = "\(st1)_\(st2)"
             prefix = PrefixRecentSave.multipleHop
         }
@@ -58,15 +57,16 @@ extension AppDataManager {
         }
         
         var list = AppDataManager.shared.listRecents
-        if list.count >= 5 {
-            list.removeFirst()
-        }
-        
+       
         list.removeAll { value in
             return value.id == id && value.prefix == prefix.rawValue
         }
         
-        var saveNode = SavedRecentStruct(prefix: prefix.rawValue, id: id, date: Date().timeIntervalSince1970)
+        if list.count >= 5 {
+            list.removeFirst()
+        }
+        
+        let saveNode = SavedRecentStruct(prefix: prefix.rawValue, id: id, date: Date().timeIntervalSince1970)
         list.append(saveNode)
         
         AppDataManager.shared.listRecents = list
@@ -84,7 +84,6 @@ extension AppDataManager {
         }
         var recents = [RecentModel]()
         for preId in list {
-            
             let prefix = preId.prefix
             let idValue = preId.id
             
@@ -94,42 +93,42 @@ extension AppDataManager {
             
             switch prefix {
             case .country:
-              let id = Int( idValue ) ?? 0
-              if let ct =  userCountry.availableCountries?.first(where: { country in
-                  return country.id == id
-              }) {
-                  recents.append(RecentModel(logDate: Date(timeIntervalSince1970:  preId.date) , node: ct))
-              }
+                let id = Int(idValue) ?? 0
+                if let ct = userCountry.availableCountries?.first(where: { country in
+                    return country.id == id
+                }) {
+                    recents.append(RecentModel(logDate: Date(timeIntervalSince1970: preId.date), node: ct))
+                }
             case .city:
-                let id = Int( idValue ) ?? 0
-                for  country in userCountry.availableCountries ?? [] {
+                let id = Int(idValue) ?? 0
+                for country in userCountry.availableCountries ?? [] {
                     if let city = country.city?.first(where: { city in
                         return city.id == id
                     }) {
                         city.country = country
-                        recents.append(RecentModel(logDate: Date(timeIntervalSince1970:  preId.date) , node: city))
-                        break;
+                        recents.append(RecentModel(logDate: Date(timeIntervalSince1970: preId.date), node: city))
+                        break
                     }
                 }
             case .staticServer:
-                let id = Int( idValue ) ?? 0
+                let id = Int(idValue) ?? 0
                 if let st = userCountry.staticServers?.first(where: { st in
                     return st.serverId == id
                 }) {
-                    recents.append(RecentModel(logDate: Date(timeIntervalSince1970:  preId.date) , node: st))
+                    recents.append(RecentModel(logDate: Date(timeIntervalSince1970: preId.date), node: st))
                 }
             case .multipleHop:
                 let ids = idValue.split(separator: "_")
                 if ids.count < 2 {
                     break
                 }
-                let serverId = Int( ids[0] )
-                let exitCityId = Int( ids[1] )
+                let serverId = Int(ids[0])
+                let exitCityId = Int(ids[1])
                 if let mh = mutilHopServer?.first(where: { mh in
                     return mh.entry?.serverId == serverId && mh.exit?.city?.id == exitCityId
                 }) {
                     mh.exit?.city?.country = mh.exit?.country
-                    recents.append(RecentModel(logDate: Date(timeIntervalSince1970:  preId.date) , node: mh))
+                    recents.append(RecentModel(logDate: Date(timeIntervalSince1970: preId.date), node: mh))
                 }
             }
         }

@@ -542,7 +542,13 @@ class SysVPNManager: SysVPNManagerProtocol {
     
     func disconnectLocalAgent() {}
     
-    func connectLocalAgent() {}
+    func connectLocalAgent() {
+        connectedDate { date in
+            if let date = date {
+                self.sessionStartTime = date.timeIntervalSince1970
+            }
+        }
+    }
 
     private func executeDisconnectionRequestWhenReady(request: @escaping () -> Void) {
         print("[VPN] call executeDisconnectionRequestWhenReady")
@@ -558,7 +564,6 @@ extension SysVPNManager {
     private func beginTimeoutCountdown() {
         print("[VPN] begin stop")
         cancelTimeout()
-
         timeoutTimer = timerFactory.scheduledTimer(runAt: Date().addingTimeInterval(5),
                                                    leeway: .seconds(5),
                                                    queue: .main) { [weak self] in
@@ -574,6 +579,9 @@ extension SysVPNManager {
         
         currentVpnProtocolFactory.vpnProviderManager(for: .configuration) { [weak self] vpnManager, _ in
             vpnManager?.vpnConnection.stopVPNTunnel()
+            if let vpnManager = vpnManager {
+                self?.updateState(vpnManager)
+            }
         }
     }
      
