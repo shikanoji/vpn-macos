@@ -102,7 +102,7 @@ struct HomeLeftPanelView: View {
     
     var footerSection: some View {
         HStack {
-            Asset.Assets.avatarTest.swiftUIImage
+            Asset.Assets.avatarDefault.swiftUIImage
                 .resizable()
                 .frame(width: 40, height: 40)
                 .cornerRadius(20)

@@ -216,6 +216,7 @@
 		FACEC9BC290503DA0014ABC9 /* CoreAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BA128FD41C900205ECD /* CoreAppConstants.swift */; };
 		FACEC9BD290503DA0014ABC9 /* CoreAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BA128FD41C900205ECD /* CoreAppConstants.swift */; };
 		FACEC9BE290503DB0014ABC9 /* CoreAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BA128FD41C900205ECD /* CoreAppConstants.swift */; };
+		FAD511DA292BDAD200194004 /* get_interface.c in Sources */ = {isa = PBXBuildFile; fileRef = FAD511D9292BDAD200194004 /* get_interface.c */; };
 		FADF0E602916260E00C88618 /* LoginBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF0E5F2916260E00C88618 /* LoginBannerView.swift */; };
 		FADFCE7729006C7600219BB0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FADFCE7629006C7600219BB0 /* Kingfisher */; };
 		FADFCE7929006EEE00219BB0 /* BlinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFCE7829006EEE00219BB0 /* BlinkingView.swift */; };
@@ -519,6 +520,7 @@
 		FACEC9B029046BE20014ABC9 /* OpenVpnAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenVpnAdapter.swift; sourceTree = "<group>"; };
 		FACEC9B22904D71A0014ABC9 /* SysMessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SysMessageService.swift; sourceTree = "<group>"; };
 		FACEC9B42904F82D0014ABC9 /* ExKeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExKeyChain.swift; sourceTree = "<group>"; };
+		FAD511D9292BDAD200194004 /* get_interface.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = get_interface.c; sourceTree = "<group>"; };
 		FADF0E5F2916260E00C88618 /* LoginBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginBannerView.swift; sourceTree = "<group>"; };
 		FADFCE7829006EEE00219BB0 /* BlinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingView.swift; sourceTree = "<group>"; };
 		FAEE1BF928FF1A830044B5CD /* TimerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerFactory.swift; sourceTree = "<group>"; };
@@ -1119,6 +1121,7 @@
 			children = (
 				FA12F19C28FDAE9D009753EE /* SystemNetworkingMonitor.swift */,
 				FA12F19E28FDB61A009753EE /* NetworkStatistics.swift */,
+				FAD511D9292BDAD200194004 /* get_interface.c */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -1829,6 +1832,7 @@
 				FAA35BB728FD41CB00205ECD /* Thread.swift in Sources */,
 				B99DB42B28E455F400331AFB /* AuthenTokenModel.swift in Sources */,
 				FAA35BCF28FD41CB00205ECD /* IPCFactory.swift in Sources */,
+				FAD511DA292BDAD200194004 /* get_interface.c in Sources */,
 				B99DB43228E5896900331AFB /* SplashViewModel.swift in Sources */,
 				B9ABE68A290BB341009C7A00 /* AccountSettingViewModel.swift in Sources */,
 				B9D7F70E28D21421008B1D39 /* HomeView.swift in Sources */,
