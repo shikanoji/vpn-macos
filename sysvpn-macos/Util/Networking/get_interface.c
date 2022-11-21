@@ -44,9 +44,6 @@ struct netagent_req {
 };
 // ---------- END APPLE API ITOC ---------
 
-#define DOMAIN_NAME "NetworkExtension"
-#define AGENT_TYPE  "VPN"
-#define AGENT_NAME "sysvpn-macos"
 
 int getSysVpnProto(struct ifaddrs *outputIfa) {
     struct ifaddrs *ifap, *ifa;
