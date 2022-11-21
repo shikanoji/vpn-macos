@@ -70,7 +70,7 @@ extension MenuQuickAccessView {
                 if let window = NSApp.mainWindow {
                     window.orderFrontRegardless()
                 } else {
-                    if let url = URL(string: "sysvpn://main") {
+                    if let url = URL(string: "sysvpn:/main") {
                         NSWorkspace.shared.open(url)
                     }
                 }

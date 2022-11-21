@@ -202,6 +202,7 @@
 		FAC3CB472901355B0095F30E /* MapTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC3CB462901355B0095F30E /* MapTooltipView.swift */; };
 		FAC7FC07292A5ABA002A91E3 /* NodeFlagThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7FC06292A5ABA002A91E3 /* NodeFlagThumbView.swift */; };
 		FAC7FC09292A71D2002A91E3 /* ProfileTabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7FC08292A71D2002A91E3 /* ProfileTabbarView.swift */; };
+		FAC7FC0B292B3439002A91E3 /* SocialSigninHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7FC0A292B3439002A91E3 /* SocialSigninHelper.swift */; };
 		FACEC9AD29046B080014ABC9 /* WireGuardTunnelAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACEC9AC29046B080014ABC9 /* WireGuardTunnelAdapter.swift */; };
 		FACEC9AF29046B6C0014ABC9 /* TunnelKitWireGuardAppExtension in Frameworks */ = {isa = PBXBuildFile; productRef = FACEC9AE29046B6C0014ABC9 /* TunnelKitWireGuardAppExtension */; };
 		FACEC9B129046BE20014ABC9 /* OpenVpnAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACEC9B029046BE20014ABC9 /* OpenVpnAdapter.swift */; };
@@ -513,6 +514,7 @@
 		FAC3CB462901355B0095F30E /* MapTooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTooltipView.swift; sourceTree = "<group>"; };
 		FAC7FC06292A5ABA002A91E3 /* NodeFlagThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeFlagThumbView.swift; sourceTree = "<group>"; };
 		FAC7FC08292A71D2002A91E3 /* ProfileTabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabbarView.swift; sourceTree = "<group>"; };
+		FAC7FC0A292B3439002A91E3 /* SocialSigninHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialSigninHelper.swift; sourceTree = "<group>"; };
 		FACEC9AC29046B080014ABC9 /* WireGuardTunnelAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireGuardTunnelAdapter.swift; sourceTree = "<group>"; };
 		FACEC9B029046BE20014ABC9 /* OpenVpnAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenVpnAdapter.swift; sourceTree = "<group>"; };
 		FACEC9B22904D71A0014ABC9 /* SysMessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SysMessageService.swift; sourceTree = "<group>"; };
@@ -683,6 +685,7 @@
 				9EC3322B28C108B000CA5DF5 /* LoginViewModel.swift */,
 				9EC3323428C254DF00CA5DF5 /* LoginLoadingView.swift */,
 				FADF0E5F2916260E00C88618 /* LoginBannerView.swift */,
+				FAC7FC0A292B3439002A91E3 /* SocialSigninHelper.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1776,6 +1779,7 @@
 				B9B3705728FE4FE70022498B /* VPNResult.swift in Sources */,
 				AC09D7A528BF10D30078E928 /* Constant.swift in Sources */,
 				FAA35BC128FD41CB00205ECD /* SysVPNState.swift in Sources */,
+				FAC7FC0B292B3439002A91E3 /* SocialSigninHelper.swift in Sources */,
 				FAA35BC328FD41CB00205ECD /* SysVPNCredential.swift in Sources */,
 				B9ABE670290A9329009C7A00 /* TabbarSettingView.swift in Sources */,
 				AC09D79E28BE12480078E928 /* BaseServiceManager.swift in Sources */,
