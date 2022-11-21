@@ -18,6 +18,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <uuid/uuid.h>
+#include "../../define.h"
 
 // Apple API ITOC
 #define SIOCGIFAGENTDATA        _IOWR('i', 168, struct netagent_req)
@@ -45,7 +46,7 @@ struct netagent_req {
 // ---------- END APPLE API ITOC ---------
 
 
-int getSysVpnProto(struct ifaddrs *outputIfa) {
+int get_sys_vpn_ifdv(struct ifaddrs *outputIfa) {
     struct ifaddrs *ifap, *ifa;
     char name[IFNAMSIZ];
     int s = socket(AF_INET, SOCK_DGRAM, 0);

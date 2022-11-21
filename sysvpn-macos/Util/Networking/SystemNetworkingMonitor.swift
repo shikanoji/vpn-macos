@@ -75,7 +75,7 @@ class SystemDataUsage {
     private class func _appVpnDataUsageInfo() -> SingleDataUsageInfo {
         var dataUsageInfo = SingleDataUsageInfo()
         var utunAddr: ifaddrs = ifaddrs()
-        if getSysVpnProto(&utunAddr) == 1  {
+        if get_sys_vpn_ifdv(&utunAddr) == 1  {
             let name: String = String(cString: utunAddr.ifa_name)
             
             if !mayBeVPNInterface(name: name) {

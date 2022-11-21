@@ -8,13 +8,9 @@
 #ifndef sysvpn_macos_birdge_header_h
 #define sysvpn_macos_birdge_header_h
     #include "VPNCore/IPC/AuditTokenGetter.h"
+    #include "define.h"
     #include <ifaddrs.h>
 
-    #define DOMAIN_NAME "NetworkExtension"
-    #define AGENT_TYPE  "VPN"
-    #define AGENT_NAME "sysvpn-macos"
-
-
-    int getSysVpnProto(struct ifaddrs *outputIfa);
+    int get_sys_vpn_ifdv(struct ifaddrs *outputIfa);
 #endif /* sysvpn_macos_birdge_header_h */
 

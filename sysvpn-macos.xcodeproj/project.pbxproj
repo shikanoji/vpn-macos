@@ -521,6 +521,7 @@
 		FACEC9B22904D71A0014ABC9 /* SysMessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SysMessageService.swift; sourceTree = "<group>"; };
 		FACEC9B42904F82D0014ABC9 /* ExKeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExKeyChain.swift; sourceTree = "<group>"; };
 		FAD511D9292BDAD200194004 /* get_interface.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = get_interface.c; sourceTree = "<group>"; };
+		FAD511DB292BEEEB00194004 /* define.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = define.h; sourceTree = "<group>"; };
 		FADF0E5F2916260E00C88618 /* LoginBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginBannerView.swift; sourceTree = "<group>"; };
 		FADFCE7829006EEE00219BB0 /* BlinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingView.swift; sourceTree = "<group>"; };
 		FAEE1BF928FF1A830044B5CD /* TimerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerFactory.swift; sourceTree = "<group>"; };
@@ -755,6 +756,7 @@
 				AC09D79528BE0D1F0078E928 /* AppDelegate.swift */,
 				AC09D72328BCDCD70078E928 /* sysvpn_macos.entitlements */,
 				FAA35BD228FD423200205ECD /* sysvpn_macos_birdge_header.h */,
+				FAD511DB292BEEEB00194004 /* define.h */,
 			);
 			path = "sysvpn-macos";
 			sourceTree = "<group>";
