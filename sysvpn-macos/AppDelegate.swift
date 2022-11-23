@@ -13,6 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var appState = GlobalAppStates()
     var timmerJob: Timer?
     var timmerAppSetting: Timer?
+    
 
     // for  demo bit rate
     var statistics: NetworkStatistics?
@@ -22,6 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         OSExtensionManager.shared.startExtension()
         initNotificationObs()
         SettingUtils.shared.restoreStartOnBootStatus()
+        
     }
     
     func setupMenu() {

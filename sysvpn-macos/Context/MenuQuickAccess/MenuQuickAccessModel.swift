@@ -60,7 +60,9 @@ extension MenuQuickAccessView {
         
         func onQuit() {
             AppDataManager.shared.logOut {
-                NSApp.terminate(nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    NSApp.terminate(nil)
+                }
             }
         }
         

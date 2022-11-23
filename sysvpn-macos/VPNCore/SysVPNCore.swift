@@ -69,31 +69,39 @@ class SysVPNCore: SysVPNGatewayProtocol {
         return SysVPNConnectionRequest(connectType: .quick, params: SysVPNConnectParams(isHop: false))
     }
     
-    func connectTo(connectType: ConnectionType, params: SysVPNConnectParams?) {
-        let request = SysVPNConnectionRequest(connectType: connectType, params: params)
+    func connectTo(connectType: ConnectionType, params: SysVPNConnectParams?, isRetry: Bool = false) {
+        let request = SysVPNConnectionRequest(connectType: connectType, params: params, retry: isRetry)
         connect(with: request)
     }
     
-    func retryConnection() {
-        let lastSessionCode = ""
-        connectTo(connectType: .lastSessionCode(code: lastSessionCode), params: nil)
+    func retryConnection(_ time: Int) {
+        if let  lastSessionCode = self.lastConnectionConiguration?.connectionDetermine.disconnectParam?.sessionId,  let id = self.lastConnectionConiguration?.serverInfo.id {
+            connectTo(connectType: .lastSessionCode(code: lastSessionCode, id: id ), params: nil, isRetry: true)
+        }
     }
     
     func connect(with request: SysVPNConnectionRequest) {
         print("[VPN-Core] start connect vpn")
-        DispatchQueue.main.async {
-            self.appStateManager.prepareToConnect()
+        if !request.retry {
+            DispatchQueue.main.async {
+                self.appStateManager.prepareToConnect()
+            }
+            PropertiesManager.shared.intentionallyDisconnected = false
+        } else {
+            PropertiesManager.shared.intentionallyDisconnected = true
         }
         vpnService.prepareConection(connectType: request.connectType, params: request.params, callback: { response in
             switch response {
             case let .failure(e):
                 print("[VPN-Core] request determine vpn config failed \(e) ")
-                DispatchQueue.main.async { [weak self] in
-                    // To-do: push error
-                    self?.stopConnecting(userInitiated: false)
+                if !request.retry {
+                    DispatchQueue.main.async { [weak self] in
+                        // To-do: push error
+                        self?.stopConnecting(userInitiated: false)
+                    }
                 }
             case let .success(result):
-                let connectionConfig = ConnectionConfiguration(connectionDetermine: result, connectionParam: request.params, vpnProtocol: result.vpnProtocol, serverInfo: result.serverInfo)
+                let connectionConfig = ConnectionConfiguration(connectionDetermine: result, connectionParam: request.params, vpnProtocol: result.vpnProtocol, serverInfo: result.serverInfo, isRetry: request.retry)
                 self.lastConnectionConiguration = connectionConfig
                 if result.vpnProtocol == .wireGuard {
                     PropertiesManager.shared.lastWireguardConnection = connectionConfig

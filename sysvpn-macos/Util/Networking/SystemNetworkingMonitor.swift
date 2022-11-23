@@ -11,6 +11,15 @@ import SystemConfiguration.CaptiveNetwork
 class SystemDataUsage {
     private static let wwanInterfacePrefix = "pdp_ip"
     private static let wifiInterfacePrefix = "en"
+    static var hadCanGetAppNetworkInterface = false
+    static var canGetAppNetworkInterface = false {
+        didSet{
+            if canGetAppNetworkInterface {
+                hadCanGetAppNetworkInterface = true
+            }
+        }
+    }
+    static var canGetSystemVpnInterface = false
     
     static var lastestVpnUsageInfo: SingleDataUsageInfo = .init(received: 0, sent: 0)
     class func getDataUsage() -> DataUsageInfo {
@@ -28,7 +37,6 @@ class SystemDataUsage {
         }
         
         freeifaddrs(ifaddr)
-        
         return dataUsageInfo
     }
     
@@ -38,7 +46,7 @@ class SystemDataUsage {
     
     private class func _allVpnDataUsageInfo() -> SingleDataUsageInfo {
         var dataUsageInfo = SingleDataUsageInfo()
-       
+        var canGetData = false
         var ifaddr: UnsafeMutablePointer<ifaddrs>?
         guard getifaddrs(&ifaddr) == 0 else { return dataUsageInfo }
         while let pointer = ifaddr {
@@ -52,6 +60,7 @@ class SystemDataUsage {
             }
             
             if !mayBeVPNInterface(name: name){
+                ifaddr = pointer.pointee.ifa_next
                 continue
             }
            
@@ -66,8 +75,9 @@ class SystemDataUsage {
                 
             }
             ifaddr = pointer.pointee.ifa_next
+            canGetData  = true
         }
-        
+        canGetSystemVpnInterface = canGetData
         freeifaddrs(ifaddr)
         return dataUsageInfo
     }
@@ -75,10 +85,12 @@ class SystemDataUsage {
     private class func _appVpnDataUsageInfo() -> SingleDataUsageInfo {
         var dataUsageInfo = SingleDataUsageInfo()
         var utunAddr: ifaddrs = ifaddrs()
+       
         if get_sys_vpn_ifdv(&utunAddr) == 1  {
+     
             let name: String = String(cString: utunAddr.ifa_name)
-            
             if !mayBeVPNInterface(name: name) {
+                canGetAppNetworkInterface = false
                 return  _allVpnDataUsageInfo()
             }
             
@@ -90,14 +102,17 @@ class SystemDataUsage {
                 dataUsageInfo.received += received
                 dataUsageInfo.sent += send
             }
+            canGetAppNetworkInterface = true
+            canGetSystemVpnInterface = true
         } else {
+            canGetAppNetworkInterface = false
             dataUsageInfo = _allVpnDataUsageInfo()
         }
         return dataUsageInfo
     }
      
     class func vpnDataUsageInfo() -> SingleDataUsageInfo {
-        var dataUsageInfo = _appVpnDataUsageInfo()
+        let dataUsageInfo = _appVpnDataUsageInfo()
         lastestVpnUsageInfo = dataUsageInfo
         return dataUsageInfo
     }

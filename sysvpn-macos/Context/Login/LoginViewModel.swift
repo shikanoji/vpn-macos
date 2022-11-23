@@ -127,7 +127,13 @@ extension LoginView {
         
         
         func onLoginSuccess(result: LoginSType) {
-            
+            switch result {
+            case let .apple(idToken):
+                let idTokenString = String(decoding: idToken, as: UTF8.self)
+
+            case let .google(accessToken):
+                print("token \(accessToken)")
+            }
         }
         
         func onTouchSocialLoginApple() {

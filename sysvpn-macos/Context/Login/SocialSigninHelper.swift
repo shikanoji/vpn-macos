@@ -37,7 +37,7 @@ class SocialSigninHelper: NSObject, ASAuthorizationControllerDelegate {
                     return
                 }
                 // print("signin success")
-                let accessToken =  user?.authentication.accessToken ?? ""
+                let accessToken =  user?.authentication.idToken ?? ""
                 self?.onResult?(.success(.google(accessToken: accessToken)))
             }
     }

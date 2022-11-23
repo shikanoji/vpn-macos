@@ -32,7 +32,7 @@ enum ConnectionType {
     case serverId(id: Int)
     case countryId(id: Int)
     case cityId(id: Int)
-    case lastSessionCode(code: String)
+    case lastSessionCode(code: String, id: Int)
     case quick
 }
 

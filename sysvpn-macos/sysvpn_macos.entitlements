@@ -22,6 +22,8 @@
 	</array>
 	<key>com.apple.security.network.client</key>
 	<true/>
+	<key>com.apple.security.network.server</key>
+	<true/>
 	<key>com.apple.security.temporary-exception.mach-lookup.global-name</key>
 	<array>
 		<string>J953BZ6B49.group.com.syspvn.macos.openvpn</string>
