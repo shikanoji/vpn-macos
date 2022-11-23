@@ -10,6 +10,7 @@ import RxSwift
 import SwiftUI
 import SwiftyJSON
 
+
 extension LoginView {
     @MainActor class LoginViewModel: ObservableObject {
         @Published var userName: String = "test@gmail.com"
@@ -22,7 +23,8 @@ extension LoginView {
         @Environment(\.openURL) private var openURL
         @Published var showAlert = false
         @Published var errorMessage: String = ""
-
+        var signInHelper: SocialSigninHelper!
+        
         init() {
             isRemember = AppSetting.shared.isRememberLogin
             let isReady = GlobalAppStates.shared.initApp { [weak self] in
@@ -32,6 +34,17 @@ extension LoginView {
             if isReady {
                 isPresentedLoading = true
             }
+            
+            signInHelper = SocialSigninHelper(onResult: {  [weak self] result in
+                switch result {
+                case .failure(let error):
+                    self?.showAlert = true
+                    self?.errorMessage = error.localizedDescription
+                    break
+                case .success(let data):
+                    self?.onLoginSuccess(result: data)
+                }
+            }) 
         }
         
         func onViewAppear() {}
@@ -89,7 +102,7 @@ extension LoginView {
                 self.isPresentedLoading = true
             }
         }
-
+        
         func hideLoading() {
             withAnimation {
                 self.isPresentedLoading = false
@@ -106,17 +119,33 @@ extension LoginView {
                 openURL(url)
             }
         }
-    
+        
         func onTouchSocialLoginGoogle() {
-            print("Google button was tapped")
+            signInHelper.googleLogin()
+        }
+        
+        
+        
+        func onLoginSuccess(result: LoginSType) {
+            switch result {
+            case let .apple(idToken):
+                let idTokenString = String(decoding: idToken, as: UTF8.self)
+
+            case let .google(accessToken):
+                print("token \(accessToken)")
+            }
         }
         
         func onTouchSocialLoginApple() {
-            print("Apple button was tapped")
+            signInHelper.appleLogin()
         }
         
         func verifyInputLogin() {
             isVerifiedInput = !userName.isEmpty && !password.isEmpty
         }
+        
+       
     }
+    
 }
+

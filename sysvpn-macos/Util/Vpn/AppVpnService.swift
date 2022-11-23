@@ -38,8 +38,9 @@ class AppVpnService: SysVPNService {
             vpnParam.countryId = id
         case let .cityId(id):
             vpnParam.cityId = id
-        case let .lastSessionCode(code):
+        case let .lastSessionCode( code,  serverId):
             vpnParam.prevSessionId = code
+            vpnParam.serverId = serverId
         }
         if isWireGuard {
             _ = APIServiceManager.shared.onRequestCertWireGuard(param: vpnParam).subscribe { event in

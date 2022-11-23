@@ -60,7 +60,9 @@ extension MenuQuickAccessView {
         
         func onQuit() {
             AppDataManager.shared.logOut {
-                NSApp.terminate(nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    NSApp.terminate(nil)
+                }
             }
         }
         
@@ -70,7 +72,7 @@ extension MenuQuickAccessView {
                 if let window = NSApp.mainWindow {
                     window.orderFrontRegardless()
                 } else {
-                    if let url = URL(string: "sysvpn://main") {
+                    if let url = URL(string: "sysvpn:/main") {
                         NSWorkspace.shared.open(url)
                     }
                 }

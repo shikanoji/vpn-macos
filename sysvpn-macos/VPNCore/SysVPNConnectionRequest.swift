@@ -11,4 +11,5 @@ import Foundation
 struct SysVPNConnectionRequest {
     var connectType: ConnectionType
     var params: SysVPNConnectParams?
+    var retry: Bool  = false
 }

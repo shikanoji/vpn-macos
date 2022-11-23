@@ -51,6 +51,8 @@ class GlobalAppStates: ObservableObject {
     }
     
     func onVPNReady() {
+        
+        NetworkChecker.shared.checkInternet()
         if !AppDataManager.shared.isLogin {
             return
         }

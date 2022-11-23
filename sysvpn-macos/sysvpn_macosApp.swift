@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleSignIn
 
 @main
 struct sysvpn_macosApp: App {
@@ -41,6 +42,9 @@ struct sysvpn_macosApp: App {
                         isFirstLaunch = true
                     }
                 }
+            }
+            .onOpenURL { url in
+              GIDSignIn.sharedInstance.handle(url)
             }
         }
         .windowStyle(HiddenTitleBarWindowStyle())

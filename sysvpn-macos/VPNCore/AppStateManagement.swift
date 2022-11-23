@@ -54,6 +54,7 @@ class SysVpnAppStateManagement: AppStateManagement {
             GlobalAppStates.shared.displayState = displayState
             switch displayState {
             case .connected:
+                NetworkChecker.shared.resetByConnected()
                 startBitrateMonitor()
             case .disconnected:
                 stopBitrateMonitor()
@@ -206,7 +207,6 @@ class SysVpnAppStateManagement: AppStateManagement {
     }
     
     public func disconnect(completion: @escaping () -> Void) {
-        PropertiesManager.shared.intentionallyDisconnected = true
         vpnManager.disconnect(completion: completion)
     }
     
@@ -236,6 +236,7 @@ class SysVpnAppStateManagement: AppStateManagement {
                  self.vpnManager.setOnDemand(false)
              }*/
         }
+        
     }
     
     private func notifyObservers() {
@@ -362,20 +363,17 @@ class SysVpnAppStateManagement: AppStateManagement {
     
     @objc private func killSwitchChanged() {
         if state.isConnected {
-            PropertiesManager.shared.intentionallyDisconnected = true
             vpnManager.setOnDemand(PropertiesManager.shared.killSwitch)
         }
     }
     
     private func computeDisplayState(with localAgentConnectedState: Bool?) {
-        guard let isLocalAgentConnected = localAgentConnectedState else {
+     /*   guard let isLocalAgentConnected = localAgentConnectedState else {
             displayState = state.asDisplayState()
             return
-        }
+        }*/
  
-        if !isLocalAgentConnected, case AppState.connected = state, !PropertiesManager.shared.intentionallyDisconnected {
-            // log.debug("Showing state as Loading connection info because local agent not connected yet", category: .connectionConnect)
-            displayState = .loadingConnectionInfo
+        if  PropertiesManager.shared.intentionallyDisconnected {
             return
         }
 

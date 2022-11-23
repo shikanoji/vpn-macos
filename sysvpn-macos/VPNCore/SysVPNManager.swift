@@ -19,7 +19,7 @@ class SysVPNManager: SysVPNManagerProtocol {
     var stateChanged: (() -> Void)?
     private var delayedDisconnectRequest: (() -> Void)?
 
-    private var _isLocalAgentConnectedNoSync: Bool?
+    private var _isLocalAgentConnectedNoSync: Bool? = false
     private let appGroup: String
     private(set) var state: VpnState = .invalid
     var readyGroup: DispatchGroup? = DispatchGroup()

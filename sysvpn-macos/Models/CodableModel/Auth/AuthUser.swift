@@ -59,6 +59,6 @@ struct AuthUser: Codable {
     
     var dayPreniumLeft: Int {
         let now = max(0, Double(premiumExpire ?? 0) - Date.now.timeIntervalSince1970)
-        return Int(now / 3600)
+        return Int(now / 86400)
     }
 }

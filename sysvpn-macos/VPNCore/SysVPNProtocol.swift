@@ -18,8 +18,8 @@ protocol SysVPNGatewayProtocol: AnyObject {
     func autoConnect()
     func quickConnect()
     func quickConnectConnectionRequest() -> SysVPNConnectionRequest
-    func connectTo(connectType: ConnectionType, params: SysVPNConnectParams?)
-    func retryConnection()
+    func connectTo(connectType: ConnectionType, params: SysVPNConnectParams?, isRetry: Bool )
+    func retryConnection(_ time: Int)
     func connect(with request: SysVPNConnectionRequest)
     func stopConnecting(userInitiated: Bool)
     func disconnect()
@@ -108,6 +108,7 @@ struct ConnectionConfiguration: Codable {
     var connectionParam: SysVPNConnectParams?
     var vpnProtocol: VpnProtocol
     var serverInfo: VPNServer
+    var isRetry: Bool = false
 }
  
 protocol SysVpnService {
