@@ -15,20 +15,19 @@ struct AccountSettingView: View {
             ForEach(viewModel.listItem) { item in
                 if let itemSwitch = item as? SwitchSettingItem {
                     SettingSwitchComponent(itemSwitch: itemSwitch, isActive: itemSwitch.settingValue, onChangeValue: viewModel.onChangeValue)
-                } else if let itemPassword = item as? ChangePasswordSettingItem {
-                    SettingPasswordComponent(data: itemPassword, isActive: isActive, isChangePasswordSuccess: $viewModel.isChangePasswordSuccess, onTapAccept: viewModel.onAccept)
                 } else if let data = item as? SubscriptionSettingItem {
                     SettingSubscriptionComponent(data: data) {
-                        print("123123")
                     }
                 } else if let email = item as? EmailSettingItem {
                     SettingEmailComponent(data: email)
+                } else if let itemPassword = item as? ChangePasswordSettingItem {
+                    SettingPasswordComponent(data: itemPassword, isActive: isActive, onTapAccept: viewModel.onAccept)
                 }
                 
                 if item.settingName != viewModel.listItem.last?.settingName {
                     Divider()
                         .background(Asset.Colors.dividerColor.swiftUIColor)
-                }
+                } 
             }
             /*
              List(viewModel.listItem) { item in
@@ -45,7 +44,7 @@ struct AccountSettingView: View {
               */
         }
         .padding(.horizontal, 30)
-        .frame(width: 600)
+        .frame(maxWidth: .infinity)
     }
 }
  

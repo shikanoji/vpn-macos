@@ -15,6 +15,7 @@ extension HomeView {
         @Published var countrySelected: HomeListCountryModel?
         @Published var lookScrollZoom = false
         @Published var isOpenSetting = false
+        @Published var isShowPopupLogout = false
 
         var cancellabel: AnyCancellable?
 
@@ -57,6 +58,10 @@ extension HomeView {
                 let itemCityModel = HomeListCountryModel(type: .country, title: dataCity.name ?? "", origin: dataCity)
                 listCity.append(itemCityModel)
             }
+        }
+        
+        func onSignOut() {
+            AppDataManager.shared.logOut(openWindow: true)
         }
             
         func updateAvailableContry() {

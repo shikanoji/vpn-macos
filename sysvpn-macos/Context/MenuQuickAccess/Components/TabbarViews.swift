@@ -17,6 +17,6 @@ struct TabBarButton: View {
             .font(Font.system(size: 12))
             .foregroundColor(isSelected ? Asset.Colors.primaryColor.swiftUIColor : Asset.Colors.mainTextColor.swiftUIColor)
             .frame(minHeight: 45, alignment: .center)
-            .padding(.horizontal, 15)
+            .padding(.horizontal, 18)
     }
 }

@@ -35,11 +35,11 @@ class BaseServiceManager<API: TargetType> {
                 }
             }
             .retry { (error: Observable<TokenError>) in
-                error.flatMap { error in
+                error.flatMap { error -> Single<Bool>  in
                     if error == TokenError.tokenExpired {
                         return self.refreshToken()
                     } else {
-                        throw error
+                       throw error
                     }
                 }
             }
@@ -65,11 +65,11 @@ class BaseServiceManager<API: TargetType> {
                 }
             }
             .retry { (error: Observable<TokenError>) in
-                error.flatMap { error in
+                error.flatMap { error -> Single<Bool>  in
                     if error == TokenError.tokenExpired {
                         return self.refreshToken()
                     } else {
-                        throw error
+                       throw error
                     }
                 }
             }
@@ -187,6 +187,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     
     func handleEmptyResponse() -> Single<Bool> {
         return flatMap { response in
+            print("[RESPONSE]: \(String(data: response.data, encoding: .utf8) ?? "")")
             let data = try JSONSerialization.jsonObject(with: response.data, options: []) as? [String: Any]
             if !((data?["success"] as? Bool) ?? false) {
                 return Single.just(false)

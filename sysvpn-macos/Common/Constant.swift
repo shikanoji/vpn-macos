@@ -26,6 +26,8 @@ struct Constant {
             static let login = "/shared/module_auth/v1/login"
             static let disconnectSession = "/shared/module_server/v1/vpn/disconnect_session"
             static let resfreshToken = "/shared/module_auth/v1/refresh-tokens"
+            
+            static let changePassword = "/shared/module_user/v1/change-password"
         }
     }
 }

@@ -208,8 +208,32 @@ struct HomeView: View {
                         withAnimation {
                             viewModel.isOpenSetting = false
                         }
-                        
+                    },
+                    onTapLogout: {
+                        print("logout")
+                        withAnimation {
+                            viewModel.selectedMenuItem = .none
+                            viewModel.isOpenSetting = false
+                            viewModel.isShowPopupLogout = true
+                        }
                     })
+                }.zIndex(4)
+            }
+            if viewModel.isShowPopupLogout {
+                ZStack {
+                    Rectangle().fill(Color.black).opacity(0.5)
+                        .edgesIgnoringSafeArea([.top])
+                    PopupConfirmSignOutView(
+                        onCancel: {
+                            withAnimation {
+                                viewModel.isShowPopupLogout = false
+                                viewModel.isOpenSetting = true
+                            }
+                        }, onLogout: {
+                            viewModel.onSignOut()
+                            viewModel.isShowPopupLogout = false
+                        }
+                    )
                 }.zIndex(4)
             }
             
@@ -230,6 +254,10 @@ struct HomeView: View {
                 // viewModel.onChangeState()
                 if viewModel.selectedMenuItem != .none && viewModel.isOpenSetting {
                     viewModel.isOpenSetting = false
+                }
+                
+                if viewModel.selectedMenuItem != .none && viewModel.isShowPopupLogout {
+                    viewModel.isShowPopupLogout = false
                 }
             }
             .onChange(of: viewModel.countrySelected) { newValue in

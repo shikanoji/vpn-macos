@@ -88,6 +88,8 @@
 		B99DB43028E5869F00331AFB /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DB42F28E5869F00331AFB /* SplashView.swift */; };
 		B99DB43228E5896900331AFB /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DB43128E5896900331AFB /* SplashViewModel.swift */; };
 		B99DB43528E5955F00331AFB /* MenuQuickAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DB43428E5955F00331AFB /* MenuQuickAccessView.swift */; };
+		B9A69D26292B2F0800E6A76F /* SettingSearchViewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A69D25292B2F0800E6A76F /* SettingSearchViewComponent.swift */; };
+		B9A69D2A292DD17800E6A76F /* PopupConfirmSignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A69D29292DD17800E6A76F /* PopupConfirmSignOutView.swift */; };
 		B9ABE6642908E0AC009C7A00 /* TabbarListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABE6632908E0AC009C7A00 /* TabbarListItemView.swift */; };
 		B9ABE66629092211009C7A00 /* TabbarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABE66529092211009C7A00 /* TabbarItemView.swift */; };
 		B9ABE669290A8DCF009C7A00 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABE668290A8DCE009C7A00 /* SettingView.swift */; };
@@ -399,6 +401,8 @@
 		B99DB42F28E5869F00331AFB /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		B99DB43128E5896900331AFB /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
 		B99DB43428E5955F00331AFB /* MenuQuickAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuQuickAccessView.swift; sourceTree = "<group>"; };
+		B9A69D25292B2F0800E6A76F /* SettingSearchViewComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSearchViewComponent.swift; sourceTree = "<group>"; };
+		B9A69D29292DD17800E6A76F /* PopupConfirmSignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupConfirmSignOutView.swift; sourceTree = "<group>"; };
 		B9ABE6632908E0AC009C7A00 /* TabbarListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarListItemView.swift; sourceTree = "<group>"; };
 		B9ABE66529092211009C7A00 /* TabbarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarItemView.swift; sourceTree = "<group>"; };
 		B9ABE668290A8DCE009C7A00 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -939,6 +943,7 @@
 				B9ABE668290A8DCE009C7A00 /* SettingView.swift */,
 				B9ABE66C290A8E27009C7A00 /* SettingViewModel.swift */,
 				FA5382E429272FA800C1DA1E /* SettingUtils.swift */,
+				B9A69D29292DD17800E6A76F /* PopupConfirmSignOutView.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -950,6 +955,7 @@
 				B9ABE691290BBCE5009C7A00 /* SettingSwitchComponent.swift */,
 				B9ABE693290BC8FB009C7A00 /* SettingSelectViewComponent.swift */,
 				B998BA2B2915143B0057A60B /* SettingPasswordComponent.swift */,
+				B9A69D25292B2F0800E6A76F /* SettingSearchViewComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1741,6 +1747,7 @@
 				FAA35BC928FD41CB00205ECD /* XPCServiceUser.swift in Sources */,
 				9E3756C128E6DB6500E95C64 /* VpnMapPointView.swift in Sources */,
 				B9B3704B28FE4FE70022498B /* AuthTokens.swift in Sources */,
+				B9A69D2A292DD17800E6A76F /* PopupConfirmSignOutView.swift in Sources */,
 				FA3A885C292646CE000BDB3D /* AppDataManager+Recent.swift in Sources */,
 				FACEC9B52904F82D0014ABC9 /* ExKeyChain.swift in Sources */,
 				B9B3705928FE4FE80022498B /* CountryResult.swift in Sources */,
@@ -1846,6 +1853,7 @@
 				B9B3706428FE5FE40022498B /* AppVpnService.swift in Sources */,
 				9E3756C028E6DB6500E95C64 /* VpnMapViewModel.swift in Sources */,
 				FAA35B3D28FD2B2D00205ECD /* Moya+Rx+IPC.swift in Sources */,
+				B9A69D26292B2F0800E6A76F /* SettingSearchViewComponent.swift in Sources */,
 				B99DB42628E4496300331AFB /* AppAlertView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,6 +11,7 @@ struct SettingView: View {
     @StateObject private var viewModel = SettingViewModel()
     
     var onClose: (() -> Void)?
+    var onTapLogout: (() -> Void)?
     var body: some View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {
@@ -39,7 +40,9 @@ struct SettingView: View {
                 Spacer().frame(height: 10)
                 switch viewModel.selectTabbarItem {
                 case .general:
-                    GeneralSettingView()
+                    GeneralSettingView {
+                        onTapLogout?()
+                    }
                 case .vpnSetting:
                     VpnSettingView()
                 case .account:
@@ -48,15 +51,13 @@ struct SettingView: View {
                     StatisticsSettingView()
                 case .appearence:
                     AppearenceSettingView()
-                case .supportCenter:
-                    SupportCenterView()
                 }
             }
             .background(Asset.Colors.bodySettingColor.swiftUIColor)
         }
         .cornerRadius(16)
-        .frame(width: 600, height: 500, alignment: .center)
-        .frame(minWidth: 10, maxWidth: 600)
+        .frame(width: 560, height: 500, alignment: .center)
+        .frame(minWidth: 10, maxWidth: 560)
     }
 }
 

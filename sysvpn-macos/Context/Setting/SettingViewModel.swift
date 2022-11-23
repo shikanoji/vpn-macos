@@ -12,7 +12,7 @@ extension SettingView {
         @Published var listItem: [TabbarSettingItem]
             
         init() {
-            listItem = [TabbarSettingItem(type: .general), TabbarSettingItem(type: .vpnSetting), TabbarSettingItem(type: .account), TabbarSettingItem(type: .statistics), TabbarSettingItem(type: .appearence), TabbarSettingItem(type: .supportCenter)]
+            listItem = [TabbarSettingItem(type: .general), TabbarSettingItem(type: .vpnSetting), TabbarSettingItem(type: .account), TabbarSettingItem(type: .statistics), TabbarSettingItem(type: .appearence)]
         }
     }
 }

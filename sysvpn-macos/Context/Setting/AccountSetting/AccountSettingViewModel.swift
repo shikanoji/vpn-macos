@@ -6,11 +6,15 @@
 //
 
 import Foundation
+import Network
+import Moya
+import RxSwift
+import SwiftUI
+import SwiftyJSON
 
 extension AccountSettingView {
     @MainActor class AccountSettingViewModel: ObservableObject {
         @Published var listItem: [SettingElementType]
-        @Published var isChangePasswordSuccess: Bool = false
         init() {
             listItem = []
             let emailUser = AppDataManager.shared.userData?.email ?? ""
@@ -24,8 +28,8 @@ extension AccountSettingView {
             listItem.append(newsletters)
         }
         
-        func onAccept() {
-            isChangePasswordSuccess = true
+        func onAccept(currentPass: String, newPass: String) -> Single<Bool> { 
+            return APIServiceManager.shared.changePassword(oldPassword: currentPass, newPassword: newPass)
         }
         
         func onChangeValue(value: Bool, item: SwitchSettingItem) {

@@ -61,4 +61,10 @@ final class APIServiceManager: BaseServiceManager<APIService> {
     func getListMultiHop() -> Single<[MultiHopResult]> {
         return requestIPC(.getListMutilHop).handleApiResponseCodable(type: [MultiHopResult].self)
     }
+    
+    
+    func changePassword(oldPassword: String, newPassword: String) -> Single<Bool> {
+        return requestIPC(.changePassword(oldPassword: oldPassword, newPassword: newPassword)).handleEmptyResponse()
+    }
+    
 }

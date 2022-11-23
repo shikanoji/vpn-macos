@@ -29,12 +29,16 @@ public enum L10n {
     public static let autoLaunch = L10n.tr("Global", "autoLaunch", fallback: "Auto-launch")
     /// Start SysVPN automatically when system starts.
     public static let autoLaunchDesc = L10n.tr("Global", "autoLaunchDesc", fallback: "Start SysVPN automatically when system starts.")
+    /// Cancel
+    public static let cancel = L10n.tr("Global", "cancel", fallback: "Cancel")
     /// Change password
     public static let changePassword = L10n.tr("Global", "changePassword", fallback: "Change password")
     /// Password changed successfully
     public static let changePasswordSuccess = L10n.tr("Global", "changePasswordSuccess", fallback: "Password changed successfully")
     /// Confirm new password
     public static let confirmPassword = L10n.tr("Global", "confirmPassword", fallback: "Confirm new password")
+    /// Confirm sign out
+    public static let confirmSignOut = L10n.tr("Global", "confirmSignOut", fallback: "Confirm sign out")
     /// Connected
     public static let connected = L10n.tr("Global", "connected", fallback: "Connected")
     /// Current IP Address
@@ -94,6 +98,8 @@ public enum L10n {
     public static let newsletters = L10n.tr("Global", "newsletters", fallback: "Newsletters")
     /// Lorem ipsum dolor sit amet, consectetur adipiscing elit
     public static let newslettersDesc = L10n.tr("Global", "newslettersDesc", fallback: "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
+    /// No set
+    public static let noset = L10n.tr("Global", "noset", fallback: "No set")
     /// Protocol
     public static let `protocol` = L10n.tr("Global", "protocol", fallback: "Protocol")
     /// Protocol in use
@@ -105,8 +111,14 @@ public enum L10n {
     public static let quickConnectDesc = L10n.tr("Global", "quickConnectDesc", fallback: "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
     /// Quick connect
     public static let quickConnectSetting = L10n.tr("Global", "quickConnectSetting", fallback: "Quick connect")
+    /// No country found
+    public static let searchEmptyStr = L10n.tr("Global", "searchEmptyStr", fallback: "No country found")
+    /// Search
+    public static let searchStr = L10n.tr("Global", "searchStr", fallback: "Search")
     /// Settings
     public static let setting = L10n.tr("Global", "setting", fallback: "Settings")
+    /// You will be returned to the login screen
+    public static let signOutDesc = L10n.tr("Global", "signOutDesc", fallback: "You will be returned to the login screen")
     /// Start minimized
     public static let startMinimized = L10n.tr("Global", "startMinimized", fallback: "Start minimized")
     /// SysVPN starts in the background and remains out of your way.
