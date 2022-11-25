@@ -63,8 +63,14 @@ final class APIServiceManager: BaseServiceManager<APIService> {
     }
     
     
-    func changePassword(oldPassword: String, newPassword: String) -> Single<Bool> {
-        return requestIPC(.changePassword(oldPassword: oldPassword, newPassword: newPassword)).handleEmptyResponse()
+    func changePassword(oldPassword: String, newPassword: String) -> Single<EmptyData> { 
+        return requestIPC(.changePassword(oldPassword: oldPassword, newPassword: newPassword)).handleApiResponseCodable(type: EmptyData.self)
+    }
+    
+    func loginSocial (provider: String, token: String)  -> Single<AuthResult> {
+        return requestIPC(.loginSocial(provider: provider, token: token)).handleApiResponseCodable(type: AuthResult.self)
     }
     
 }
+
+

@@ -31,39 +31,45 @@ struct HomeLeftPanelView: View {
     
     var menuSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ProfileTabbarView()
+            ProfileTabbarView(index: $viewModel.indexTabbar)
                 .padding(.horizontal, 16)
             Spacer().frame(height: 20)
-            HomeMenuButtonView(
-                active: selectedItem == .manualConnection,
-                icon: Asset.Assets.icLocation.swiftUIImage,
-                title: L10n.Global.manualConnection,
-                content: "\(viewModel.totalCountry) \(L10n.Global.manualCDesc)"
-            ).onTapGesture {
-                withAnimation {
-                    selectedItem = .manualConnection
+            if viewModel.indexTabbar == 0 {
+                HomeMenuButtonView(
+                    active: selectedItem == .manualConnection,
+                    icon: Asset.Assets.icLocation.swiftUIImage,
+                    title: L10n.Global.manualConnection,
+                    content: "\(viewModel.totalCountry) \(L10n.Global.manualCDesc)"
+                ).onTapGesture {
+                    withAnimation {
+                        selectedItem = .manualConnection
+                    }
                 }
-            }
-            HomeMenuButtonView(
-                active: selectedItem == .staticIp,
-                icon: Asset.Assets.icIpAddress.swiftUIImage,
-                title: L10n.Global.staticIP,
-                content: L10n.Global.staticIPDesc
-            ).onTapGesture {
-                withAnimation {
-                    selectedItem = .staticIp
+                HomeMenuButtonView(
+                    active: selectedItem == .staticIp,
+                    icon: Asset.Assets.icIpAddress.swiftUIImage,
+                    title: L10n.Global.staticIP,
+                    content: L10n.Global.staticIPDesc
+                ).onTapGesture {
+                    withAnimation {
+                        selectedItem = .staticIp
+                    }
                 }
-            }
-            HomeMenuButtonView(
-                active: selectedItem == .multiHop,
-                icon: Asset.Assets.icLink.swiftUIImage,
-                title: L10n.Global.multiHop,
-                content: "\(viewModel.totalMultipleHop) \(L10n.Global.multiHopDesc)"
-            ).onTapGesture {
-                withAnimation {
-                    selectedItem = .multiHop
+                HomeMenuButtonView(
+                    active: selectedItem == .multiHop,
+                    icon: Asset.Assets.icLink.swiftUIImage,
+                    title: L10n.Global.multiHop,
+                    content: "\(viewModel.totalMultipleHop) \(L10n.Global.multiHopDesc)"
+                ).onTapGesture {
+                    withAnimation {
+                        selectedItem = .multiHop
+                    }
                 }
+            } else {
+                Text(L10n.Global.setting)
+                    .font(.system(size: 12, weight: .medium))
             }
+            
         }.frame(maxWidth: .infinity, alignment: .leading)
     }
     

@@ -21,7 +21,7 @@ struct AuthUser: Codable {
         case freePremiumDays = "free_premium_days"
         case hasPassword = "has_password"
     }
-
+       
     var emailVerified: Bool?
     var premiumExpire: Int?
     var createdAt: Int?

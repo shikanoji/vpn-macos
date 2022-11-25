@@ -20,13 +20,14 @@ enum APIService {
     case getListMutilHop
     case refreshToken
     case changePassword(oldPassword: String, newPassword: String)
+    case loginSocial(provider: String, token: String)
 }
 
 extension APIService: TargetType {
     // This is the base URL we'll be using, typically our server.
     var baseURL: URL {
         switch self {
-        case .getAppSettings, .login, .getListCountry, .logout, .requestCert, .disconnectSession, .getStartServer, .getListMutilHop, .refreshToken, .changePassword:
+        case .getAppSettings, .login, .getListCountry, .logout, .requestCert, .disconnectSession, .getStartServer, .getListMutilHop, .refreshToken, .changePassword, .loginSocial:
             return URL(string: Constant.API.root)!
         }
     }
@@ -54,6 +55,8 @@ extension APIService: TargetType {
             return Constant.API.Path.mutilHopServer
         case .changePassword:
             return Constant.API.Path.changePassword
+        case .loginSocial:
+            return Constant.API.Path.loginSocial
         }
     }
 
@@ -62,12 +65,10 @@ extension APIService: TargetType {
         switch self {
         case .getAppSettings, .getListCountry, .requestCert, .getStartServer, .getListMutilHop:
             return .get
-        case .login, .logout:
+        case .login, .logout, .loginSocial, .refreshToken:
             return .post
         case .disconnectSession:
             return .patch
-        case .refreshToken:
-            return .post
         case .changePassword:
             return .put
         }
@@ -118,6 +119,12 @@ extension APIService: TargetType {
         case let .changePassword(oldPassword, newPassword):
             param["oldPassword"] = oldPassword
             param["newPassword"] = newPassword
+            return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
+            
+        case let .loginSocial(provider, token):
+            param["provider"] = provider
+            param["token"] = token
+            param["deviceInfo"] = AppSetting.shared.getDeviceInfo()
             return .requestParameters(parameters: param, encoding: URLEncoding.httpBody)
         }
     }

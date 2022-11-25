@@ -30,9 +30,12 @@ struct SettingPasswordComponent: View {
     @State var isActive = true
     @State var currentPass: String = ""
     @State var newPass: String = ""
-    @State var confirmPass: String = "" 
+    @State var confirmPass: String = ""
+    @State var errorMessage: String = ""
+    @State var hasError: Bool = false
+    @State var isVerifiedInput: Bool = false
     
-    var onTapAccept: @MainActor (_ currentPass: String, _ newPass: String) -> Single<Bool>
+    var onTapAccept: @MainActor (_ currentPass: String, _ newPass: String) -> Single<EmptyData>
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -57,28 +60,61 @@ struct SettingPasswordComponent: View {
                         .font(Font.system(size: 12, weight: .regular))
                 }
                 .onTapGesture {
-                    self.settingPasswordState = .input
+                    if self.settingPasswordState == .input {
+                        self.settingPasswordState = .none
+                        currentPass = ""
+                        newPass = ""
+                        confirmPass = ""
+                    } else {
+                        self.settingPasswordState = .input
+                    }
                 }
             }
             .padding(.vertical, 15)
             if settingPasswordState == .input {
-                ChangePasswordItem(currenPassword: $currentPass, newPassword: $newPass, confirmPassword: $confirmPass, onTapAccept: {
-                    onTapAccept(currentPass, newPass).subscribe { result in
+                ChangePasswordItem(currenPassword: $currentPass, newPassword: $newPass, confirmPassword: $confirmPass, isVerifiedInput: isVerifiedInput, errorMessage: errorMessage, hasError: hasError, onTapAccept: {
+                    _ = onTapAccept(currentPass, newPass).subscribe { result in
                         switch result {
-                        case let .success(res):
-                            if res {
-                                settingPasswordState = .success
-                            } else {
-                                settingPasswordState = .failure
-                            }
+                        case .success:
+                            settingPasswordState = .success
+                            currentPass = ""
+                            newPass = ""
+                            confirmPass = ""
                         case let .failure(e):
-                            print("Error: \(e)")
+                            guard let error = e as? ResponseError else {
+                                self.errorMessage = L10n.Global.unknowError
+                                self.hasError = true
+                                return
+                            }
+                            print("Error: \(error.error)")
+                            errorMessage = error.error.isEmpty ? L10n.Global.unknowError : error.error
+                            hasError = true
                         }
-                        currentPass = ""
-                        newPass = ""
-                        confirmPass = ""
                     }
-                   
+                    
+                }, onChangeText: {
+                    if !currentPass.isEmpty && newPass.count >= 8 && newPass == confirmPass {
+                        isVerifiedInput = true
+                        hasError = false
+                    } else if newPass.count <= 8 {
+                        hasError = false
+                        if !newPass.isEmpty {
+                            hasError = true
+                            errorMessage = L10n.Global.unsatisfactoryPassword
+                        }
+                        isVerifiedInput = false
+                    } else if newPass != confirmPass {
+                        hasError = false
+                        if !confirmPass.isEmpty {
+                            hasError = true
+                            errorMessage = L10n.Global.passNotMatch
+                        }
+                        isVerifiedInput = false
+                    }
+                    else {
+                        hasError = false
+                        isVerifiedInput = false
+                    }
                 })
             } else if settingPasswordState == .success {
                 ChangePasswordSuccessItem()
@@ -94,9 +130,13 @@ struct ChangePasswordItem: View {
     @State var isCurrentPass = false
     @State var isNewPass = false
     @State var isRepass = false
-    @State var isVerifiedInput: Bool = false
+    var isVerifiedInput: Bool
+    var errorMessage: String = ""
+    var hasError: Bool
     @FocusState private var focusState: Field?
     var onTapAccept: () -> Void
+    var onChangeText: () -> Void
+    
     var body: some View {
         VStack {
             formInput
@@ -119,7 +159,13 @@ struct ChangePasswordItem: View {
                     .focused($focusState, equals: .confirmPassword)
                     .textContentType(nil)
             }
-            Spacer().frame(height: 5)
+            if hasError {
+                Text(errorMessage)
+                    .foregroundColor(Asset.Colors.errorColor.swiftUIColor)
+                    .font(Font.system(size: 12, weight: .semibold))
+            } else {
+                Spacer().frame(height: 5)
+            }
             Button {
                 onTapAccept()
             } label: {
@@ -133,10 +179,13 @@ struct ChangePasswordItem: View {
             isNewPass = newValue == .newPassword
             isRepass = newValue == .confirmPassword
         }
+        .onChange(of: currenPassword, perform: { _ in
+            onChangeText()
+        })
         .onChange(of: newPassword) { _ in
-            isVerifiedInput = (newPassword == confirmPassword && !newPassword.isEmpty)
+            onChangeText()
         }.onChange(of: confirmPassword) { _ in
-            isVerifiedInput = (newPassword == confirmPassword && !confirmPassword.isEmpty)
+            onChangeText()
         }
     }
 }

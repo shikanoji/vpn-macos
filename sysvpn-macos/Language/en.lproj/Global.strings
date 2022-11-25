@@ -24,6 +24,11 @@
 "setting" = "Settings";
 "helpCenter" = "Help Center";
 
+"manualStr" = "Manual";
+"profileStr" = "Profiles";
+
+"whatIsMultihop" = "What is multihop?";
+
 //setting
 "general" = "General";
 "vpnSetting" = "VPN Settings";
@@ -74,6 +79,10 @@
 "confirmPassword" = "Confirm new password";
 "changePassword" = "Change password";
 "changePasswordSuccess" = "Password changed successfully";
+"passNotMatch" = "Password not match";
+"unsatisfactoryPassword" = "At least 8 characters including a number and lowercase letter";
+"unknowError" = "An error occurred. Please try again later";
+
 
 ///Statistics
 "vpnStatus" = "VPN Status";

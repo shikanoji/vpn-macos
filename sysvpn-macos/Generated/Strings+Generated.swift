@@ -88,6 +88,8 @@ public enum L10n {
     public static let manualCDesc = L10n.tr("Global", "manualCDesc", fallback: "available")
     /// Locations
     public static let manualConnection = L10n.tr("Global", "manualConnection", fallback: "Locations")
+    /// Manual
+    public static let manualStr = L10n.tr("Global", "manualStr", fallback: "Manual")
     /// MultiHop
     public static let multiHop = L10n.tr("Global", "multiHop", fallback: "MultiHop")
     /// available
@@ -100,6 +102,10 @@ public enum L10n {
     public static let newslettersDesc = L10n.tr("Global", "newslettersDesc", fallback: "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
     /// No set
     public static let noset = L10n.tr("Global", "noset", fallback: "No set")
+    /// Password not match
+    public static let passNotMatch = L10n.tr("Global", "passNotMatch", fallback: "Password not match")
+    /// Profiles
+    public static let profileStr = L10n.tr("Global", "profileStr", fallback: "Profiles")
     /// Protocol
     public static let `protocol` = L10n.tr("Global", "protocol", fallback: "Protocol")
     /// Protocol in use
@@ -143,6 +149,10 @@ public enum L10n {
     public static let themeMode = L10n.tr("Global", "themeMode", fallback: "Theme mode")
     /// Sign Out
     public static let titleLogout = L10n.tr("Global", "titleLogout", fallback: "Sign Out")
+    /// An error occurred. Please try again later
+    public static let unknowError = L10n.tr("Global", "unknowError", fallback: "An error occurred. Please try again later")
+    /// At least 8 characters including a number and lowercase letter
+    public static let unsatisfactoryPassword = L10n.tr("Global", "unsatisfactoryPassword", fallback: "At least 8 characters including a number and lowercase letter")
     /// VPN Connected
     public static let vpnConnected = L10n.tr("Global", "vpnConnected", fallback: "VPN Connected")
     /// VPN not connected
@@ -153,6 +163,8 @@ public enum L10n {
     public static let vpnStatus = L10n.tr("Global", "vpnStatus", fallback: "VPN Status")
     /// Weekly time protected
     public static let weeklyTimeStr = L10n.tr("Global", "weeklyTimeStr", fallback: "Weekly time protected")
+    /// What is multihop?
+    public static let whatIsMultihop = L10n.tr("Global", "whatIsMultihop", fallback: "What is multihop?")
   }
   public enum Login {
     /// All Country

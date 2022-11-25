@@ -37,8 +37,7 @@ struct HomeView: View {
                     HomeListCountryNodeView(selectedItem: $viewModel.selectedMenuItem, countries: $viewModel.listCountry, isShowCity: $isShowCity, countrySelected: $viewModel.countrySelected,
                                             onTouchItem: { item in
                                                 self.viewModel.connect(to: item)
-                                            }
-                    )
+                    } )
                     .transition(transitionOpacity)
                     .overlay {
                         if isShowMoreScrollTop {
@@ -87,6 +86,8 @@ struct HomeView: View {
                                                 withAnimation {
                                                     viewModel.selectedMenuItem = .none
                                                 }
+                                            }, onTouchQuestion: {
+                                                viewModel.isShowPopupQuestion = true
                                             }
                     )
                 }
@@ -237,6 +238,20 @@ struct HomeView: View {
                 }.zIndex(4)
             }
             
+            if viewModel.isShowPopupQuestion {
+                ZStack {
+                    Rectangle().fill(Color.black).opacity(0.5)
+                        .edgesIgnoringSafeArea([.top])
+                    PopupQuestionMutilHop(
+                        onCancel: {
+                            withAnimation {
+                                viewModel.isShowPopupQuestion = false
+                            }
+                        }
+                    )
+                }.zIndex(4)
+            }
+            
         }.frame(minWidth: 1000, minHeight: 650)
             .onAppear {
                 localIsConnected = appState.displayState == .connected
@@ -248,6 +263,11 @@ struct HomeView: View {
             .onChange(of: appState.displayState) { newValue in
                 withAnimation {
                     localIsConnected = newValue == .connected
+                }
+                DispatchQueue.main.async {
+                    if appState.displayState == .connected || appState.displayState == .disconnected {
+                        viewModel.getListCountry()
+                    }
                 }
             }
             .onChange(of: viewModel.selectedMenuItem) { _ in
