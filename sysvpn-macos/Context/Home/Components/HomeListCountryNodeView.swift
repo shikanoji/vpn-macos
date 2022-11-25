@@ -15,17 +15,43 @@ struct HomeListCountryNodeView: View {
     @Binding var isShowCity: Bool
     @Binding var countrySelected: HomeListCountryModel?
     var onTouchItem: ((INodeInfo) -> Void)?
+    var onTouchQuestion: (() -> Void)?
+    @State var textInput: String = ""
+    var listFilter: [HomeListCountryModel] {
+        if textInput.isEmpty {
+            return countries
+        } else {
+            return countries.filter { item in
+                if item.type == .spacing || item.type == .header {
+                    return false
+                }
+                return item.title.localizedCaseInsensitiveContains(textInput)
+            }
+        }
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
+            if selectedItem == .multiHop {
+                questionHeader
+                    .padding(.bottom, 20)
+            }
+            if countries.count >= 5 {
+                searchInput
+                    .padding(.top, 2)
+                    .padding(.bottom, 12)
+            }
+            
             ScrollView([.vertical], showsIndicators: false) {
                 LazyVStack(alignment: .leading) {
-                    ForEach(countries) { item in
+                    ForEach(listFilter) { item in
                         Group {
                             switch item.type {
+                                
                             case .spacing:
                                 Spacer().frame(height: 30)
                             case .country:
-                                if selectedItem == .manualConnection {
+                                if item.origin is CountryAvailables {
                                     CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
                                         .onTapGesture {
                                             if item.totalCity > 1 {
@@ -38,7 +64,28 @@ struct HomeListCountryNodeView: View {
                                                 onTouchItem?(origin)
                                             }
                                         }
-                                } else if selectedItem == .staticIp {
+                                } else if item.origin is CountryCity {
+                                    CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
+                                        .onTapGesture {
+                                            if item.totalCity > 1 {
+                                                isShowCity = true
+                                                countrySelected = item
+                                            } else {
+                                                guard let origin = item.origin else {
+                                                    return
+                                                }
+                                                onTouchItem?(origin)
+                                            }
+                                        }
+                                } else if let data = item.origin as? MultiHopResult {
+                                    MultiHopItemView(countryNameStart: data.entry?.country?.name ?? "", countryNameEnd: data.exit?.country?.name ?? "", imageUrlStart: item.imageUrl, imageUrlEnd: item.imageUrl2 ?? data.exit?.country?.imageUrl ?? "")
+                                        .onTapGesture {
+                                            guard let origin = item.origin else {
+                                                return
+                                            }
+                                            onTouchItem?(origin)
+                                        }
+                                } else if item.origin is CountryStaticServers {
                                     StaticItemView(countryName: item.title, cityName: item.cityName, imageUrl: item.imageUrl, serverNumber: item.serverNumber, percent: item.serverStar)
                                         .onTapGesture {
                                             guard let origin = item.origin else {
@@ -46,15 +93,8 @@ struct HomeListCountryNodeView: View {
                                             }
                                             onTouchItem?(origin)
                                         }
-                                } else if selectedItem == .multiHop {
-                                    MultiHopItemView(countryNameStart: item.title, countryNameEnd: item.title2, imageUrlStart: item.imageUrl, imageUrlEnd: item.imageUrl2)
-                                              
-                                        .onTapGesture {
-                                            guard let origin = item.origin else {
-                                                return
-                                            }
-                                            onTouchItem?(origin)
-                                        }
+                                } else {
+                                    Spacer()
                                 }
                             case .header:
                                 if selectedItem == .manualConnection || selectedItem == .multiHop {
@@ -83,6 +123,41 @@ struct HomeListCountryNodeView: View {
         }
         .padding(.horizontal, 20)
         .background(Asset.Colors.backgroundColor.swiftUIColor)
+    }
+    
+    
+    var questionHeader: some View {
+        HStack (spacing: 8) {
+            Asset.Assets.icQuestion.swiftUIImage
+                .resizable()
+                .frame(width: 20, height: 20)
+            Text(L10n.Global.whatIsMultihop)
+                .foregroundColor(.white)
+                .font(Font.system(size: 14, weight: .regular))
+        }
+        .contentShape(Rectangle())
+        .onTapGesture { 
+            onTouchQuestion?()
+        }
+        
+    }
+    
+    
+    var searchInput: some View {
+        HStack (spacing: 0) {
+            Spacer().frame(width: 12)
+            Asset.Assets.icSearch.swiftUIImage
+                .resizable()
+                .frame(width: 16, height: 16)
+            Spacer().frame(width: 12)
+            TextField(L10n.Global.searchStr, text: $textInput)
+                .textFieldStyle(PlainTextFieldStyle())
+                
+        }
+        .frame(height: 40)
+        .overlay(RoundedRectangle(cornerRadius: 22).stroke(style: .init(lineWidth: 1.2))
+            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor))
+        
     }
 }
 

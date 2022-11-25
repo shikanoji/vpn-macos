@@ -7,15 +7,21 @@
 
 import Foundation
 
+struct EmptyData: Codable { 
+}
+
+
 struct BaseCodable<T: Decodable>: Decodable {
     var message: String
     var result: T?
     var success: Bool
+    var errors: [String]
     
     enum CodingKeys: String, CodingKey {
         case message
         case result
         case success
+        case errors
     }
     
     init(from decoder: Decoder) throws {
@@ -23,6 +29,7 @@ struct BaseCodable<T: Decodable>: Decodable {
         message = (try? container.decodeIfPresent(String.self, forKey: .message)) ?? ""
         result = try container.decodeIfPresent(T.self, forKey: .result)
         success = (try? container.decodeIfPresent(Bool.self, forKey: .success)) ?? false
+        errors = (try? container.decodeIfPresent([String].self, forKey: .errors)) ?? []
     }
 }
 

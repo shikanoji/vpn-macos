@@ -35,7 +35,7 @@ extension AccountSettingView {
             listItem.append(newsletters)
         }
         
-        func onAccept(currentPass: String, newPass: String) -> Single<Bool> { 
+        func onAccept(currentPass: String, newPass: String) -> Single<EmptyData> {
             return APIServiceManager.shared.changePassword(oldPassword: currentPass, newPassword: newPass)
         }
         

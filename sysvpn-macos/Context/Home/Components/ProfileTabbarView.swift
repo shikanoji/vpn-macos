@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct ProfileTabbarView: View {
+    @Binding var index: CGFloat
     var body: some View {
         ZStack(alignment: .leading) {
             GeometryReader { proxy in
@@ -16,17 +17,30 @@ struct ProfileTabbarView: View {
                     Rectangle().fill(Color.white)
                         .frame(width: (proxy.size.width - 8) / 2)
                         .cornerRadius(15)
+                        .offset(x: CGFloat(index) * (proxy.size.width - 8) / 2, y: 0)
                     
                     HStack {
-                        Text("Manual")
+                        Text(L10n.Global.manualStr)
                             .font(.system(size: 12, weight: .semibold))
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(Color.black)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .foregroundColor(index == 0 ? Color.black : Asset.Colors.subTextColor.swiftUIColor)
+                            .contentShape(Rectangle()) 
+                            .onTapGesture {
+                                withAnimation {
+                                    index = 0
+                                }
+                            }
                         
-                        Text("Profiles")
-                            .frame(maxWidth: .infinity)
+                        Text(L10n.Global.profileStr)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                            .foregroundColor(index == 1 ? Color.black : Asset.Colors.subTextColor.swiftUIColor)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                withAnimation {
+                                    index = 1
+                                }
+                            }
                     }
                     .frame(height: proxy.size.height - 8)
                 }
@@ -36,16 +50,6 @@ struct ProfileTabbarView: View {
         }.background(Asset.Colors.secondary3.swiftUIColor)
             .frame(height: 36)
             .cornerRadius(18)
-    }
-}
-
-struct ProfileTabbarView_Previews: PreviewProvider {
-    @State static var selectedItem: HomeMenuItem = .none
-    
-    static var previews: some View {
-        ProfileTabbarView()
-            .frame(width: 240, height: 40)
-            .environmentObject(GlobalAppStates.shared)
     }
 }
  

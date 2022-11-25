@@ -127,13 +127,39 @@ extension LoginView {
         
         
         func onLoginSuccess(result: LoginSType) {
+            showLoading()
+            var token = ""
+            var provider = "google"
             switch result {
             case let .apple(idToken):
                 let idTokenString = String(decoding: idToken, as: UTF8.self)
-
+                provider = "apple"
+                token = idTokenString
             case let .google(accessToken):
                 print("token \(accessToken)")
+                provider = "google"
+                token = accessToken
             }
+            
+            _ = APIServiceManager.shared.loginSocial(provider: provider, token: token).subscribe({ event in
+                switch event {
+                case let .success(authenModel):
+                    AppDataManager.shared.userData = authenModel.user
+                    AppDataManager.shared.accessToken = authenModel.tokens?.access
+                    AppDataManager.shared.refreshToken = authenModel.tokens?.refresh
+                    self.loadCountry()
+                    self.hideLoading()
+                case let .failure(e):
+                    self.hideLoading()
+                    guard let error = e as? ResponseError else {
+                        self.errorMessage = L10n.Login.tryAgain
+                        self.showAlert = true
+                        return
+                    }
+                    self.errorMessage = error.message
+                    self.showAlert = true
+                }
+            })
         }
         
         func onTouchSocialLoginApple() {

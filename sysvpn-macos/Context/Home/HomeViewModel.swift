@@ -16,13 +16,14 @@ extension HomeView {
         @Published var lookScrollZoom = false
         @Published var isOpenSetting = false
         @Published var isShowPopupLogout = false
+        @Published var isShowPopupQuestion = false
 
         var cancellabel: AnyCancellable?
 
         var isConnected: Bool = false
-        var listCountry: [HomeListCountryModel]
-        var listStaticServer: [HomeListCountryModel]
-        var listMultiHop: [HomeListCountryModel]
+        @Published var listCountry: [HomeListCountryModel]
+        @Published var listStaticServer: [HomeListCountryModel]
+        @Published var listMultiHop: [HomeListCountryModel]
         init() {
             listCountry = []
             listStaticServer = []
@@ -65,35 +66,43 @@ extension HomeView {
         }
             
         func updateAvailableContry() {
+            var listCountryTemp = [HomeListCountryModel]()
+            if GlobalAppStates.shared.recentList.isEmpty {
+                AppDataManager.shared.readRecent()
+            }
+            
+            let recentCountry = GlobalAppStates.shared.recentList
             let availableCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
             let recommendCountry = AppDataManager.shared.userCountry?.recommendedCountries ?? []
-            let recentCountry = AppDataManager.shared.userCountry?.recentCountries ?? []
-                
+            
             if !recentCountry.isEmpty {
-                listCountry.append(HomeListCountryModel(type: .header, title: "Recent locations"))
                 for item in recentCountry {
-                    let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0, origin: item)
-                    listCountry.append(countryItemModel)
+                    let countryItemModel = HomeListCountryModel(type: .country, title: item.node.locationName, imageUrl: item.node.imageUrl,idCountry: 0, title2: item.node.locationSubname ?? "", origin: item.node)
+                    listCountryTemp.insert(countryItemModel, at: 0)
+                    print("DATA: \(item.node.locationName)")
                 }
-                listCountry.append(HomeListCountryModel(type: .spacing))
+                listCountryTemp.insert(HomeListCountryModel(type: .header, title: "Recent locations"), at: 0)
+                listCountryTemp.append(HomeListCountryModel(type: .spacing))
             }
-                
+            print("LIST 2: \(listCountry.count)")
             if !recommendCountry.isEmpty {
-                listCountry.append(HomeListCountryModel(type: .header, title: "Recommended"))
+                listCountryTemp.append(HomeListCountryModel(type: .header, title: "Recommended"))
                 for item in recommendCountry {
                     let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0, origin: item)
-                    listCountry.append(countryItemModel)
+                    listCountryTemp.append(countryItemModel)
                 }
-                listCountry.append(HomeListCountryModel(type: .spacing))
+                listCountryTemp.append(HomeListCountryModel(type: .spacing))
             }
             if !availableCountry.isEmpty {
-                listCountry.append(HomeListCountryModel(type: .header, title: "All countries"))
+                listCountryTemp.append(HomeListCountryModel(type: .header, title: "All countries"))
                 for item in availableCountry {
                     let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0, origin: item)
-                    listCountry.append(countryItemModel)
+                    listCountryTemp.append(countryItemModel)
                 }
-                listCountry.append(HomeListCountryModel(type: .spacing))
+                listCountryTemp.append(HomeListCountryModel(type: .spacing))
             }
+            
+            listCountry = listCountryTemp
         }
             
         func getListStaticServer(firstLoadData: Bool = true) {
@@ -153,6 +162,7 @@ extension HomeLeftPanelView {
         @Published var selectedMenuItem: HomeMenuItem = .none
         @Published var totalCountry: Int = 0
         @Published var totalMultipleHop: Int = 0
+        @Published var indexTabbar: CGFloat = 0
         
         var email: String {
             return AppDataManager.shared.userData?.email ?? ""

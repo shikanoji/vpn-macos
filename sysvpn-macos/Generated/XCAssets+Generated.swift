@@ -63,6 +63,7 @@ internal enum Asset {
     internal static let icOff = ImageAsset(name: "ic_off")
     internal static let icPickLocationSm = ImageAsset(name: "ic_pick_location_sm")
     internal static let icPower = ImageAsset(name: "ic_power")
+    internal static let icQuestion = ImageAsset(name: "ic_question")
     internal static let icRightArrow = ImageAsset(name: "ic_right_arrow")
     internal static let icSearch = ImageAsset(name: "ic_search")
     internal static let icSend = ImageAsset(name: "ic_send")
