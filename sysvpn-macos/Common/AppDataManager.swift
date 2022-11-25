@@ -24,6 +24,12 @@ extension String {
     static var keySaveLastChange = "KEY_SAVE_LAST_CHANGE"
     static var keySaveMutilHop = "KEY_SAVE_MULTI_HOP"
     static var keyIsMultiplehop = "KEY_IS_MULTI_HOP"
+    static var keySaveLongestSessionTime = "KEY_SAVE_LONG_ST1"
+    static var keySaveWeeklyTime = "KEY_SAVE_WEEKLY_TIME1"
+    static var keySaveWeeklyIndex = "KEY_SAVE_WEEKLY_TIME_INDEX1 "
+    
+    
+
 }
 
 class AppDataManager {
@@ -160,11 +166,14 @@ class AppDataManager {
     
     func saveIpInfo(info: AppSettingIpInfo?) {
         userIp = info?.ip ?? "127.0.0.1"
-        userCity = info?.city ?? "Ha Noi"
-        userCountryCode = info?.countryCode ?? "VN"
+        userCity = info?.city ?? "Unknown"
+        userCountryCode = info?.countryCode ?? " "
         latitude = info?.latitude ?? 0.0
         longitude = info?.longitude ?? 0.0
         userIsp = info?.isp ?? ""
+        DispatchQueue.main.async {
+            GlobalAppStates.shared.userIpAddress = self.userIp
+        }
     }
     
     private var _userEtting: AppSettingResult?

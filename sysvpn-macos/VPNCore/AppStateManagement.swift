@@ -55,9 +55,13 @@ class SysVpnAppStateManagement: AppStateManagement {
             switch displayState {
             case .connected:
                 NetworkChecker.shared.resetByConnected()
+                NetworkChecker.shared.isStart = true
                 startBitrateMonitor()
             case .disconnected:
                 stopBitrateMonitor()
+                NetworkChecker.shared.isStart = false
+            case .disconnecting:
+                NetworkChecker.shared.isStart = false
             default:
                 break
             }
@@ -373,11 +377,24 @@ class SysVpnAppStateManagement: AppStateManagement {
             return
         }*/
  
-        if  PropertiesManager.shared.intentionallyDisconnected {
+        if  PropertiesManager.shared.intentionallyDisconnected && displayState == .connected {
             return
         }
-
-        displayState = state.asDisplayState()
+        var tempState = state.asDisplayState()
+        
+        if !NetworkChecker.shared.isStart  && ( tempState == .disconnected  || tempState == .disconnecting ) {
+             vpnManager.isOnDemandEnabled(handler: { enable in
+                if enable {
+                    NetworkChecker.shared.isStart = true
+                    return
+                }
+                 self.displayState = tempState
+            })
+        } else {
+            displayState = tempState
+        }
+        
+        
     }
 }
 

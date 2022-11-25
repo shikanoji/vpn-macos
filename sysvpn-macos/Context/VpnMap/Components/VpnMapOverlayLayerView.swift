@@ -21,9 +21,8 @@ struct VpnMapOverlayLayer: ViewModifier {
     
     @State var tooltipNodeX: CGFloat = 0
     @State var tooltipNodeY: CGFloat = 0
-    
     @State var connectedPosition: CGPoint = .zero
-    
+ 
     var computedScale: Double {
         return scaleVector * scaleValue / rescaleView
     }
@@ -106,7 +105,9 @@ struct VpnMapOverlayLayer: ViewModifier {
                 tooltipConnectedNode.opacity((!isShowConnectedNode || mapState.hoverNode != connectedNode) ? 0 : 1)
             }
         }.onChange(of: nodePoint) { newValue in
-            if nodePoint == nil {
+            
+         
+            if nodePoint == nil  || newValue == nil {
                 self.updateLocation(nodePoint: newValue)
             } else {
                 withAnimation {

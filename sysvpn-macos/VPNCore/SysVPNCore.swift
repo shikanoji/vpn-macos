@@ -49,6 +49,10 @@ class SysVPNCore: SysVPNGatewayProtocol {
     func _checkAutoConnect() {
         if connection == .disconnected {
             appStateManager.isOnDemandEnabled { [weak self] enabled in
+                
+                if enabled {
+                    NetworkChecker.shared.isStart = true
+                }
                 guard let self = self, !enabled else {
                     return
                 }
@@ -76,7 +80,9 @@ class SysVPNCore: SysVPNGatewayProtocol {
     
     func retryConnection(_ time: Int) {
         if let  lastSessionCode = self.lastConnectionConiguration?.connectionDetermine.disconnectParam?.sessionId,  let id = self.lastConnectionConiguration?.serverInfo.id {
-            connectTo(connectType: .lastSessionCode(code: lastSessionCode, id: id ), params: nil, isRetry: true)
+            connectTo(connectType: .lastSessionCode(code: lastSessionCode, id: id ), params: self.lastConnectionConiguration?.connectionParam , isRetry: true)
+        } else {
+            quickConnect()
         }
     }
     
@@ -123,7 +129,14 @@ class SysVPNCore: SysVPNGatewayProtocol {
     }
     
     public func disconnect() {
-        disconnect {}
+        PropertiesManager.shared.intentionallyDisconnected = false
+        disconnect {
+            DispatchQueue.main.async {
+                if self.connection != .disconnected {
+                    self.appStateManager.refreshState()
+                }
+            }
+        }
     }
     
     func disconnect(completion: @escaping () -> Void) {

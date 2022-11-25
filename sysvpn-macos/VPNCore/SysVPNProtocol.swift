@@ -57,6 +57,7 @@ protocol SysVPNManagerProtocol {
     var sessionStartTime: Double? {
         get
     }
+    
     var stateChanged: (() -> Void)? { get set }
     var state: VpnState { get }
     var localAgentStateChanged: ((Bool?) -> Void)? { get set }

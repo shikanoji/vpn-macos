@@ -14,9 +14,7 @@ class GlobalAppStates: ObservableObject {
     var onReady: (() -> Void)?
     var isInitApp = false
     var isWaitingInitApp = false
-    var userIpAddress: String {
-        return AppDataManager.shared.userIp
-    }
+    @Published var userIpAddress: String = ""
     
     var sessionStartTime: Double? {
         return DependencyContainer.shared.appStateMgr.sessionStartTime

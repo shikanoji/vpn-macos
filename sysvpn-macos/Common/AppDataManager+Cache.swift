@@ -135,4 +135,31 @@ extension AppDataManager {
             }
         }
     }
+    
+    var longestSessiontime: Double {
+        get {
+            return UserDefaults.standard.double(forKey: .keySaveLongestSessionTime)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: .keySaveLongestSessionTime)
+        }
+    }
+    
+    var weeklyIndex: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: .keySaveWeeklyIndex)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: .keySaveWeeklyIndex)
+        }
+    }
+    
+    var weeklySessionTime: Double {
+        get {
+            return UserDefaults.standard.double(forKey: .keySaveWeeklyTime)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: .keySaveWeeklyTime)
+        }
+    }
 }

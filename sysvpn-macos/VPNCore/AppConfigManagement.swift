@@ -247,7 +247,8 @@ class PropertiesManager: PropertiesManagerProtocol {
     
     var countryQuickConnect: Int? {
         get {
-            return storage.integer(forKey: "CountryQuickConnect")
+            var value = storage.integer(forKey: "CountryQuickConnect")
+            return value == 0 ? nil : value
         }
         set {
             storage.setValue(newValue, forKey: "CountryQuickConnect")

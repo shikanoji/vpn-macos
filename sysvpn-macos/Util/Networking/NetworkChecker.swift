@@ -22,7 +22,10 @@ class NetworkChecker {
     var flagLostInternet = false
     var flagIsRertryConnect  = false
     
+    
     var retryTime = 0
+    
+    var isStart = false
     
     var lastRetryTime: Double {
         get {
@@ -57,7 +60,12 @@ class NetworkChecker {
     func pingInternetResponse(_ response: PingResponse) {
         let duration = response.duration
         print(duration)
-        if GlobalAppStates.shared.displayState != AppDisplayState.connected {
+        if !isStart {
+            print("[NetworkChecker] abort by flag start")
+            return
+        }
+        
+        if GlobalAppStates.shared.displayState == AppDisplayState.disconnected {
             print("[NetworkChecker] abort by disconnected")
             return
         }
@@ -70,10 +78,13 @@ class NetworkChecker {
         
         if flagIsRertryConnect {
             print("[NetworkChecker] abort by flagIsRertryConnect ")
+            if  Date().timeIntervalSince1970 > lastRetryTime  + 20  {
+                flagIsRertryConnect = false
+            }
             return
         }
         
-        if SystemDataUsage.hadCanGetAppNetworkInterface && !SystemDataUsage.canGetAppNetworkInterface {
+        /*if SystemDataUsage.hadCanGetAppNetworkInterface && !SystemDataUsage.canGetAppNetworkInterface {
             print("[NetworkChecker] flagLostInternet true case 1")
             flagLostInternet = true
         } else if !SystemDataUsage.canGetSystemVpnInterface {
@@ -81,7 +92,8 @@ class NetworkChecker {
             flagLostInternet = true
         } else {
             retryRefreshVPNConnect()
-        }
+        }*/
+        retryRefreshVPNConnect()
     }
     
     func checkRetryLostInternetConnect() {

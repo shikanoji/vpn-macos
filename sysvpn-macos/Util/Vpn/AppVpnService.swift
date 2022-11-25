@@ -31,7 +31,8 @@ class AppVpnService: SysVPNService {
         
         switch connectType {
         case .quick:
-            vpnParam.countryId = (AppDataManager.shared.userCountry?.recommendedCountries?.first ?? AppDataManager.shared.userCountry?.availableCountries?.first)?.id
+            var quickConnectId = PropertiesManager.shared.countryQuickConnect ?? (AppDataManager.shared.userCountry?.recommendedCountries?.first ?? AppDataManager.shared.userCountry?.availableCountries?.first)?.id 
+            vpnParam.countryId = quickConnectId
         case let .serverId(id):
             vpnParam.serverId = id
         case let .countryId(id):

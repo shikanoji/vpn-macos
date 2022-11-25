@@ -73,7 +73,7 @@ struct SettingSubscriptionComponent: View {
                     .padding(.bottom, 2)
                 if data.settingDesc != nil {
                     HStack {
-                        Text("PREMIUM")
+                        Text( data.isPremium ? "PREMIUM" : "FREE")
                             .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
                             .font(Font.system(size: 13, weight: .regular))
                             .padding(EdgeInsets(top: 6, leading: 8, bottom: 6, trailing: 8))
@@ -81,10 +81,12 @@ struct SettingSubscriptionComponent: View {
                                 RoundedRectangle(cornerRadius: 4)
                                     .stroke(Asset.Colors.subTextColor.swiftUIColor, lineWidth: 1.2)
                             )
-                           
-                        Text("Exprire on 2023-10-27")
-                            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                            .font(Font.system(size: 13, weight: .regular))
+                        if let date = data.premiumDateExpried {
+                            Text("Exprire on \(formatDate(date: date))")
+                                .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
+                                .font(Font.system(size: 13, weight: .regular))
+                        }
+                        
                     }
                 }
             }
@@ -98,5 +100,11 @@ struct SettingSubscriptionComponent: View {
                 }
         }
         .padding(.vertical, 15)
+    }
+    
+    func formatDate(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.string(from: date)
     }
 }
