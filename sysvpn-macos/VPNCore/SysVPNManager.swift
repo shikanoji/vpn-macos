@@ -73,18 +73,16 @@ class SysVPNManager: SysVPNManagerProtocol {
         }
     }
     
-    
     var keepSessionStartTime: Double? {
         get {
-            var value =  UserDefaults.standard.double(forKey: "keepSessionStartTime")
-            return value == 0 ?  nil :  value
+            var value = UserDefaults.standard.double(forKey: "keepSessionStartTime")
+            return value == 0 ? nil : value
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: "keepSessionStartTime")
             UserDefaults.standard.synchronize()
         }
     }
-    
     
     private let vpnStateConfiguration: SysVPNStateConfiguration
     
@@ -143,8 +141,7 @@ class SysVPNManager: SysVPNManagerProtocol {
             
             if PropertiesManager.shared.intentionallyDisconnected {
                 self?.keepSessionStartTime = self?.sessionStartTime
-            }
-            else {
+            } else {
                 self?.keepSessionStartTime = nil
             }
             print("[VPN] debug \(configuration.vpnProtocol)")
@@ -153,7 +150,6 @@ class SysVPNManager: SysVPNManagerProtocol {
             self?.connectionQueue.asyncAfter(deadline: .now() + pause) { [weak self] in
                 self?.prepareConnection(forConfiguration: configuration, completion: completion)
                 self?.sessionStartTime = self?.keepSessionStartTime ?? Date().timeIntervalSince1970
-               
             }
         }
         disconnect {
@@ -163,7 +159,7 @@ class SysVPNManager: SysVPNManagerProtocol {
     
     func disconnect(completion: @escaping () -> Void) {
         executeDisconnectionRequestWhenReady { [weak self] in
-            if !PropertiesManager.shared.intentionallyDisconnected { 
+            if !PropertiesManager.shared.intentionallyDisconnected {
                 self?.logSessionTime()
             }
             self?.connectAllowed = false
@@ -178,7 +174,7 @@ class SysVPNManager: SysVPNManagerProtocol {
     }
     
     func logSessionTime() {
-        guard let sessionTime = self.sessionStartTime else {
+        guard let sessionTime = sessionStartTime else {
             return
         }
         if sessionTime <= 1000 {
@@ -191,17 +187,16 @@ class SysVPNManager: SysVPNManagerProtocol {
         AppDataManager.shared.longestSessiontime = max(time, longest)
        
         let calendar = Calendar.current
-        let weekOfYear = calendar.component(.weekOfYear, from:Date()) + 1
+        let weekOfYear = calendar.component(.weekOfYear, from: Date()) + 1
         
-        if  AppDataManager.shared.weeklyIndex == 0 ||  AppDataManager.shared.weeklyIndex != weekOfYear {
+        if AppDataManager.shared.weeklyIndex == 0 || AppDataManager.shared.weeklyIndex != weekOfYear {
             AppDataManager.shared.weeklyIndex = weekOfYear
             AppDataManager.shared.weeklySessionTime = time
         } else {
-            AppDataManager.shared.weeklySessionTime =  AppDataManager.shared.weeklySessionTime + time
+            AppDataManager.shared.weeklySessionTime = AppDataManager.shared.weeklySessionTime + time
         }
         
-        self.sessionStartTime = 0
-        
+        sessionStartTime = 0
     }
     
     public func connectedDate(completion: @escaping (Date?) -> Void) {

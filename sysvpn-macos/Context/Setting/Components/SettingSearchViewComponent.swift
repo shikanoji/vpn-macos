@@ -5,9 +5,9 @@
 //  Created by doragon on 28/10/2022.
 //
 
-import SwiftUI
 import Kingfisher
 import Network
+import SwiftUI
 
 struct SettingSearchViewComponent: View {
     var selectItem: SettingElementType
@@ -50,7 +50,7 @@ struct SettingSearchViewComponent: View {
                     self.isShowingPopover = true
                 }
                 .popover(isPresented: $isShowingPopover, arrowEdge: .bottom, content: {
-                    SearchPopoverView(listItem: data.settingData ?? [], itemSelect: $valueSelect, onChangeValue: { (itemSelect) in
+                    SearchPopoverView(listItem: data.settingData ?? [], itemSelect: $valueSelect, onChangeValue: { itemSelect in
                         self.isShowingPopover = false
                         onChangeValue(itemSelect)
                     }, settingType: selectItem)
@@ -71,7 +71,7 @@ struct SearchPopoverView: View {
     var listFilter: [CountryAvailables] {
         if textInput.isEmpty {
             return listItem
-        } else  {
+        } else {
             return listItem.filter { item in
                 return item.name?.localizedCaseInsensitiveContains(textInput) ?? false
             }
@@ -83,7 +83,7 @@ struct SearchPopoverView: View {
             searchInput
                 .padding(15)
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading) { 
+                VStack(alignment: .leading) {
                     if listFilter.isEmpty {
                         Text(L10n.Global.searchEmptyStr)
                             .font(Font.system(size: 14, weight: .semibold))
@@ -127,7 +127,7 @@ struct SearchPopoverView: View {
     }
     
     var searchInput: some View {
-        HStack (spacing: 0) {
+        HStack(spacing: 0) {
             Spacer().frame(width: 12)
             Asset.Assets.icSearch.swiftUIImage
                 .resizable()
@@ -135,18 +135,12 @@ struct SearchPopoverView: View {
             Spacer().frame(width: 12)
             TextField(L10n.Global.searchStr, text: $textInput)
                 .placeholder(when: textInput.isEmpty) {
-                        Text(L10n.Global.searchStr).foregroundColor(.white)
+                    Text(L10n.Global.searchStr).foregroundColor(.white)
                 }
                 .textFieldStyle(PlainTextFieldStyle())
-                
         }
         .frame(height: 46)
         .overlay(RoundedRectangle(cornerRadius: 22).stroke(style: .init(lineWidth: 1.2))
             .foregroundColor(Asset.Colors.subTextColor.swiftUIColor))
-        
     }
-     
 }
-
-
- 

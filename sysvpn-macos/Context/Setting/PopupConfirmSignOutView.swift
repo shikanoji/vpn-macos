@@ -35,7 +35,7 @@ struct PopupConfirmSignOutView: View {
                     Button {
                         onLogout?()
                     } label: {
-                        HStack (spacing: 10){
+                        HStack(spacing: 10) {
                             Text(L10n.Global.titleLogout)
                                 .foregroundColor(Color.black)
                                 .font(Font.system(size: 13, weight: .semibold))

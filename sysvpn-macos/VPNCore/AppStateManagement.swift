@@ -240,7 +240,6 @@ class SysVpnAppStateManagement: AppStateManagement {
                  self.vpnManager.setOnDemand(false)
              }*/
         }
-        
     }
     
     private func notifyObservers() {
@@ -372,29 +371,27 @@ class SysVpnAppStateManagement: AppStateManagement {
     }
     
     private func computeDisplayState(with localAgentConnectedState: Bool?) {
-     /*   guard let isLocalAgentConnected = localAgentConnectedState else {
-            displayState = state.asDisplayState()
-            return
-        }*/
+        /*   guard let isLocalAgentConnected = localAgentConnectedState else {
+             displayState = state.asDisplayState()
+             return
+         }*/
  
-        if  PropertiesManager.shared.intentionallyDisconnected && displayState == .connected {
+        if PropertiesManager.shared.intentionallyDisconnected && displayState == .connected {
             return
         }
         var tempState = state.asDisplayState()
         
-        if !NetworkChecker.shared.isStart  && ( tempState == .disconnected  || tempState == .disconnecting ) {
-             vpnManager.isOnDemandEnabled(handler: { enable in
+        if !NetworkChecker.shared.isStart && (tempState == .disconnected || tempState == .disconnecting) {
+            vpnManager.isOnDemandEnabled(handler: { enable in
                 if enable {
                     NetworkChecker.shared.isStart = true
                     return
                 }
-                 self.displayState = tempState
+                self.displayState = tempState
             })
         } else {
             displayState = tempState
         }
-        
-        
     }
 }
 

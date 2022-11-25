@@ -25,7 +25,7 @@ enum TabbarSettingType {
         case .statistics:
             return L10n.Global.statistics
         case .appearence:
-            return L10n.Global.appearence 
+            return L10n.Global.appearence
         }
     }
 }

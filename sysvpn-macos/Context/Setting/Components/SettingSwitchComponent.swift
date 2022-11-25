@@ -73,7 +73,7 @@ struct SettingSubscriptionComponent: View {
                     .padding(.bottom, 2)
                 if data.settingDesc != nil {
                     HStack {
-                        Text( data.isPremium ? "PREMIUM" : "FREE")
+                        Text(data.isPremium ? "PREMIUM" : "FREE")
                             .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
                             .font(Font.system(size: 13, weight: .regular))
                             .padding(EdgeInsets(top: 6, leading: 8, bottom: 6, trailing: 8))
@@ -86,7 +86,6 @@ struct SettingSubscriptionComponent: View {
                                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
                                 .font(Font.system(size: 13, weight: .regular))
                         }
-                        
                     }
                 }
             }

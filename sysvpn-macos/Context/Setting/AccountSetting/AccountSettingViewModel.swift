@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import Network
 import Moya
+import Network
 import RxSwift
 import SwiftUI
 import SwiftyJSON

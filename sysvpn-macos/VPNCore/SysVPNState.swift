@@ -24,7 +24,7 @@ extension AppState {
         case .preparingConnection, .connecting:
             return .connecting
         case .disconnecting:
-            //return .disconnecting
+            // return .disconnecting
             return .disconnected
         case .error, .disconnected, .aborted:
             return .disconnected

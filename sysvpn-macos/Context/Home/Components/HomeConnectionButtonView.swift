@@ -72,12 +72,12 @@ struct HomeConnectionButtonView: View {
             }
             
             Spacer().frame(height: 16)
-            if displayAppState == .disconnecting {
+            /*if displayAppState == .disconnecting {
                 Button {} label: {
                     AppActivityIndicator()
                 }
                 .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
-            } else {
+            } else {*/
                 Button {
                     lastAppState = displayAppState
                     withAnimation {
@@ -91,7 +91,7 @@ struct HomeConnectionButtonView: View {
                 }
                 .buttonStyle(LoginButtonCTAStyle(bgColor: Color(rgb: 0x242532)))
                 .frame(width: 114)
-            }
+            //}
         }
         .foregroundColor(Color.white)
     }

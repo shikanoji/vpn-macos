@@ -70,20 +70,12 @@ struct MenuQuickAccessView: View {
                 .font(Font.system(size: 14))
                 .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
             Spacer().frame(height: 15)
-            if connectionState == .connecting {
-                Button {} label: {
-                    AppActivityIndicator()
-                    //  Text("• • •")
-                    //      .font(Font.system(size: 14, weight: .semibold))
-                }.buttonStyle(LoginButtonCTAStyle(bgColor: Color.white))
-            } else {
-                Button {
-                    viewModel.onTouchConnect()
-                } label: {
-                    Text(L10n.Login.quickConnect)
-                        .font(Font.system(size: 14, weight: .semibold))
-                }.buttonStyle(LoginButtonCTAStyle())
-            }
+            Button {
+                viewModel.onTouchConnect()
+            } label: {
+                Text(L10n.Login.quickConnect)
+                    .font(Font.system(size: 14, weight: .semibold))
+            }.buttonStyle(LoginButtonCTAStyle())
         }
         .frame(
             maxWidth: .infinity,

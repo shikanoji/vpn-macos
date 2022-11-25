@@ -5,7 +5,6 @@
 //  Created by doragon on 04/11/2022.
 //
 
-import SwiftUI
 import Moya
 import RxSwift
 import SwiftUI
@@ -110,8 +109,7 @@ struct SettingPasswordComponent: View {
                             errorMessage = L10n.Global.passNotMatch
                         }
                         isVerifiedInput = false
-                    }
-                    else {
+                    } else {
                         hasError = false
                         isVerifiedInput = false
                     }

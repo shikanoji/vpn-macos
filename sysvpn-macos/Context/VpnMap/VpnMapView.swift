@@ -69,8 +69,7 @@ struct VpnMapView: View {
       
             .simultaneousGesture(TapGesture().onEnded {
                 selectedNode = nil
-            })
-            // .clipped()
+            }) 
             .onChange(of: scale) { _ in
                 withAnimation {
                     isShowCity = scale > 1.5

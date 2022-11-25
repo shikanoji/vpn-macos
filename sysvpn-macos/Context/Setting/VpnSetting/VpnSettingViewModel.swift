@@ -8,7 +8,6 @@
 import Foundation
 import Moya
 
-
 extension VpnSettingView {
     @MainActor class VpnSettingViewModel: ObservableObject {
         @Published var listItem: [SettingElementType]
@@ -22,7 +21,6 @@ extension VpnSettingView {
                 return countryQuickConnect == item.id
             }.first
              
-          
             let itemAutoConnect = SwitchSettingItem(settingName: L10n.Global.autoConnect, settingDesc: L10n.Global.autoConnectDesc, settingValue: PropertiesManager.shared.getAutoConnect(for: AppDataManager.shared.userData?.email ?? "default").enabled, itemType: .autoConnect)
             let killSwitch = SwitchSettingItem(settingName: L10n.Global.killSwitch, settingDesc: L10n.Global.killSwitchDesc, settingValue: PropertiesManager.shared.killSwitch, itemType: .killSwitch)
             let cyberSec = SwitchSettingItem(settingName: L10n.Global.cyberSec, settingDesc: L10n.Global.cyberSecDesc, settingValue: PropertiesManager.shared.cybersec, itemType: .cyberSec)
@@ -62,12 +60,9 @@ extension VpnSettingView {
             }
         }
         
-        
         func onSelectValueCountry(value: CountryAvailables) {
             print("ID Country: \(String(describing: value.id))")
             PropertiesManager.shared.countryQuickConnect = value.id
         }
-        
-        
     }
 }

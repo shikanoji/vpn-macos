@@ -247,11 +247,20 @@ class PropertiesManager: PropertiesManagerProtocol {
     
     var countryQuickConnect: Int? {
         get {
-            var value = storage.integer(forKey: "CountryQuickConnect")
+            let value = storage.integer(forKey: "CountryQuickConnect")
             return value == 0 ? nil : value
         }
         set {
             storage.setValue(newValue, forKey: "CountryQuickConnect")
+        }
+    }
+    
+    var isFirstSetup: Bool {
+        get {
+            return storage.bool(forKey: "isFirstSetup")
+        }
+        set {
+            storage.setValue(newValue, forKey: "isFirstSetup")
         }
     }
 }

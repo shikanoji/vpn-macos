@@ -10,19 +10,20 @@ import Kingfisher
 import SwiftUI
 
 struct HomeListCountryNodeView: View {
-    @Binding var selectedItem: HomeMenuItem
-    @Binding var countries: [HomeListCountryModel]
-    @Binding var isShowCity: Bool
-    @Binding var countrySelected: HomeListCountryModel?
+    var selectedItem: HomeMenuItem
+    var countries: [HomeListCountryModel]
+    var isShowCity: Bool
+    var countrySelected: HomeListCountryModel?
     var onTouchItem: ((INodeInfo) -> Void)?
     var onTouchQuestion: (() -> Void)?
+    var onDetailCountry: ((HomeListCountryModel) -> Void)?
     @State var textInput: String = ""
     var listFilter: [HomeListCountryModel] {
         if textInput.isEmpty {
             return countries
         } else {
             return countries.filter { item in
-                if item.type == .spacing || item.type == .header {
+                if item.type == .spacing || item.type == .header || !item.canFilter {
                     return false
                 }
                 return item.title.localizedCaseInsensitiveContains(textInput)
@@ -47,7 +48,6 @@ struct HomeListCountryNodeView: View {
                     ForEach(listFilter) { item in
                         Group {
                             switch item.type {
-                                
                             case .spacing:
                                 Spacer().frame(height: 30)
                             case .country:
@@ -55,8 +55,9 @@ struct HomeListCountryNodeView: View {
                                     CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
                                         .onTapGesture {
                                             if item.totalCity > 1 {
-                                                isShowCity = true
-                                                countrySelected = item
+                                               /* self.isShowCity = true
+                                                self.countrySelected = item*/
+                                                onDetailCountry?(item)
                                             } else {
                                                 guard let origin = item.origin else {
                                                     return
@@ -68,8 +69,9 @@ struct HomeListCountryNodeView: View {
                                     CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
                                         .onTapGesture {
                                             if item.totalCity > 1 {
-                                                isShowCity = true
-                                                countrySelected = item
+                                                /*self.isShowCity = true
+                                                self.countrySelected = item*/
+                                                onDetailCountry?(item)
                                             } else {
                                                 guard let origin = item.origin else {
                                                     return
@@ -125,9 +127,8 @@ struct HomeListCountryNodeView: View {
         .background(Asset.Colors.backgroundColor.swiftUIColor)
     }
     
-    
     var questionHeader: some View {
-        HStack (spacing: 8) {
+        HStack(spacing: 8) {
             Asset.Assets.icQuestion.swiftUIImage
                 .resizable()
                 .frame(width: 20, height: 20)
@@ -136,15 +137,13 @@ struct HomeListCountryNodeView: View {
                 .font(Font.system(size: 14, weight: .regular))
         }
         .contentShape(Rectangle())
-        .onTapGesture { 
+        .onTapGesture {
             onTouchQuestion?()
         }
-        
     }
     
-    
     var searchInput: some View {
-        HStack (spacing: 0) {
+        HStack(spacing: 0) {
             Spacer().frame(width: 12)
             Asset.Assets.icSearch.swiftUIImage
                 .resizable()
@@ -152,21 +151,20 @@ struct HomeListCountryNodeView: View {
             Spacer().frame(width: 12)
             TextField(L10n.Global.searchStr, text: $textInput)
                 .textFieldStyle(PlainTextFieldStyle())
-                
         }
         .frame(height: 40)
         .overlay(RoundedRectangle(cornerRadius: 22).stroke(style: .init(lineWidth: 1.2))
             .foregroundColor(Asset.Colors.subTextColor.swiftUIColor))
-        
     }
 }
 
 struct HomeDetailCityNodeView: View {
-    @Binding var selectedItem: HomeMenuItem
-    @Binding var listCity: [HomeListCountryModel]
-    @Binding var isShowCity: Bool
+    var selectedItem: HomeMenuItem
+    var listCity: [HomeListCountryModel]
+    var isShowCity: Bool
     var countryItem: HomeListCountryModel?
     var onTouchItem: ((INodeInfo) -> Void)?
+    var onBack: (() -> Void)?
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
@@ -190,23 +188,29 @@ struct HomeDetailCityNodeView: View {
             }
             .contentShape(Rectangle())
             .onTapGesture {
-                isShowCity = false
+                onBack?()
             }
-            List(listCity) { item in
-                CityItemView(countryName: countryItem?.title ?? "", cityName: item.title, imageUrl: item.imageUrl)
-                    .transaction { transaction in
-                        transaction.animation = nil
+            
+            ScrollView([.vertical], showsIndicators: false) {
+                LazyVStack(alignment: .leading) {
+                    ForEach(listCity) { item in
+                        CityItemView(countryName: countryItem?.title ?? "", cityName: item.title, imageUrl: item.imageUrl)
+                            .transaction { transaction in
+                                transaction.animation = nil
+                            }
+                            .onTapGesture {
+                                guard let origin = item.origin else {
+                                    return
+                                }
+                                onTouchItem?(origin)
+                            }
                     }
-                    .onTapGesture {
-                        guard let origin = item.origin else {
-                            return
-                        }
-                        onTouchItem?(origin)
-                    }
+                }
             }
-            .modifier(ListViewModifier())
+          
         }
-        .padding(.horizontal, 6)
+        .padding(.horizontal, 20)
+        .padding(.top, 12)
         .background(Asset.Colors.backgroundColor.swiftUIColor)
     }
 }
@@ -250,6 +254,7 @@ struct HomeListCountryModel: Identifiable, Equatable {
     var title2: String = ""
     var imageUrl2: String?
     var origin: INodeInfo?
+    var canFilter:Bool = true
 }
 
 struct ListViewModifier: ViewModifier {

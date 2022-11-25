@@ -35,11 +35,11 @@ class BaseServiceManager<API: TargetType> {
                 }
             }
             .retry { (error: Observable<TokenError>) in
-                error.flatMap { error -> Single<Bool>  in
+                error.flatMap { error -> Single<Bool> in
                     if error == TokenError.tokenExpired {
                         return self.refreshToken()
                     } else {
-                       throw error
+                        throw error
                     }
                 }
             }
@@ -65,11 +65,11 @@ class BaseServiceManager<API: TargetType> {
                 }
             }
             .retry { (error: Observable<TokenError>) in
-                error.flatMap { error -> Single<Bool>  in
+                error.flatMap { error -> Single<Bool> in
                     if error == TokenError.tokenExpired {
                         return self.refreshToken()
                     } else {
-                       throw error
+                        throw error
                     }
                 }
             }
@@ -162,7 +162,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                 let result = try JSONDecoder().decode(BaseCodable<T>.self, from: response.data)
                 if !result.success {
                     let genericError = ResponseError(statusCode: response.statusCode,
-                                                     message: result.message, error: result.errors.first ?? "" )
+                                                     message: result.message, error: result.errors.first ?? "")
                     print("[RESULT ERROR]: \(genericError)")
                     return Single.error(genericError)
                 }

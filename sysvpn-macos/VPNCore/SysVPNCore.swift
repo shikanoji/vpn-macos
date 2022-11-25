@@ -62,6 +62,12 @@ class SysVPNCore: SysVPNGatewayProtocol {
                     self.quickConnect()
                 }
             }
+        } else if connection == .connecting {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                if self.connection == .connecting  {
+                    NetworkChecker.shared.isStart = true
+                }
+            }
         }
     }
     
@@ -78,9 +84,9 @@ class SysVPNCore: SysVPNGatewayProtocol {
         connect(with: request)
     }
     
-    func retryConnection(_ time: Int) {
-        if let  lastSessionCode = self.lastConnectionConiguration?.connectionDetermine.disconnectParam?.sessionId,  let id = self.lastConnectionConiguration?.serverInfo.id {
-            connectTo(connectType: .lastSessionCode(code: lastSessionCode, id: id ), params: self.lastConnectionConiguration?.connectionParam , isRetry: true)
+    func retryConnection(_: Int) {
+        if let lastSessionCode = lastConnectionConiguration?.connectionDetermine.disconnectParam?.sessionId, let id = lastConnectionConiguration?.serverInfo.id {
+            connectTo(connectType: .lastSessionCode(code: lastSessionCode, id: id), params: lastConnectionConiguration?.connectionParam, isRetry: true)
         } else {
             quickConnect()
         }
@@ -97,6 +103,10 @@ class SysVPNCore: SysVPNGatewayProtocol {
             PropertiesManager.shared.intentionallyDisconnected = true
         }
         vpnService.prepareConection(connectType: request.connectType, params: request.params, callback: { response in
+            
+           /* if case AppState.disconnected = self.appStateManager.state {
+                return
+            }*/
             switch response {
             case let .failure(e):
                 print("[VPN-Core] request determine vpn config failed \(e) ")
@@ -105,6 +115,7 @@ class SysVPNCore: SysVPNGatewayProtocol {
                         // To-do: push error
                         self?.stopConnecting(userInitiated: false)
                     }
+                    AppAlertManager.shared.showAlert(title: "Connection failed", message: e.localizedDescription)
                 }
             case let .success(result):
                 let connectionConfig = ConnectionConfiguration(connectionDetermine: result, connectionParam: request.params, vpnProtocol: result.vpnProtocol, serverInfo: result.serverInfo, isRetry: request.retry)

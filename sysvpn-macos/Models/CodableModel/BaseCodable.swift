@@ -7,9 +7,7 @@
 
 import Foundation
 
-struct EmptyData: Codable { 
-}
-
+struct EmptyData: Codable {}
 
 struct BaseCodable<T: Decodable>: Decodable {
     var message: String

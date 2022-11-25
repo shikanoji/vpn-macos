@@ -68,7 +68,7 @@ class EmailSettingItem: SettingElementType {
 class SubscriptionSettingItem: SettingElementType {
     var isPremium: Bool = false
     var premiumDateExpried: Date?
-    init(settingName: String, settingDesc: String?, isPremium: Bool, premiumDateExpried: Date? ) {
+    init(settingName: String, settingDesc: String?, isPremium: Bool, premiumDateExpried: Date?) {
         super.init()
         self.isPremium = isPremium
         self.premiumDateExpried = premiumDateExpried

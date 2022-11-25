@@ -13,12 +13,13 @@ class SystemDataUsage {
     private static let wifiInterfacePrefix = "en"
     static var hadCanGetAppNetworkInterface = false
     static var canGetAppNetworkInterface = false {
-        didSet{
+        didSet {
             if canGetAppNetworkInterface {
                 hadCanGetAppNetworkInterface = true
             }
         }
     }
+
     static var canGetSystemVpnInterface = false
     
     static var lastestVpnUsageInfo: SingleDataUsageInfo = .init(received: 0, sent: 0)
@@ -59,7 +60,7 @@ class SystemDataUsage {
                 continue
             }
             
-            if !mayBeVPNInterface(name: name){
+            if !mayBeVPNInterface(name: name) {
                 ifaddr = pointer.pointee.ifa_next
                 continue
             }
@@ -67,15 +68,13 @@ class SystemDataUsage {
             var networkData: UnsafeMutablePointer<if_data>?
             networkData = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
             if let data = networkData {
-                
                 let send = UInt64(data.pointee.ifi_obytes)
                 let received = UInt64(data.pointee.ifi_ibytes)
                 dataUsageInfo.received += received
                 dataUsageInfo.sent += send
-                
             }
             ifaddr = pointer.pointee.ifa_next
-            canGetData  = true
+            canGetData = true
         }
         canGetSystemVpnInterface = canGetData
         freeifaddrs(ifaddr)
@@ -84,14 +83,13 @@ class SystemDataUsage {
     
     private class func _appVpnDataUsageInfo() -> SingleDataUsageInfo {
         var dataUsageInfo = SingleDataUsageInfo()
-        var utunAddr: ifaddrs = ifaddrs()
+        var utunAddr = ifaddrs()
        
-        if get_sys_vpn_ifdv(&utunAddr) == 1  {
-     
-            let name: String = String(cString: utunAddr.ifa_name)
+        if get_sys_vpn_ifdv(&utunAddr) == 1 {
+            let name = String(cString: utunAddr.ifa_name)
             if !mayBeVPNInterface(name: name) {
                 canGetAppNetworkInterface = false
-                return  _allVpnDataUsageInfo()
+                return _allVpnDataUsageInfo()
             }
             
             var networkData: UnsafeMutablePointer<if_data>?

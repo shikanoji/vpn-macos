@@ -11,19 +11,20 @@ import Foundation
 extension HomeView {
     @MainActor class HomeViewModel: ObservableObject {
         @Published var selectedMenuItem: HomeMenuItem = .none
-        @Published var listCity: [HomeListCountryModel]
-        @Published var countrySelected: HomeListCountryModel?
+  
         @Published var lookScrollZoom = false
         @Published var isOpenSetting = false
         @Published var isShowPopupLogout = false
         @Published var isShowPopupQuestion = false
-
-        var cancellabel: AnyCancellable?
-
-        var isConnected: Bool = false
         @Published var listCountry: [HomeListCountryModel]
         @Published var listStaticServer: [HomeListCountryModel]
         @Published var listMultiHop: [HomeListCountryModel]
+        
+        var listCity: [HomeListCountryModel]
+        var countrySelected: HomeListCountryModel?
+        var cancellabel: AnyCancellable?
+        var isConnected: Bool = false
+        
         init() {
             listCountry = []
             listStaticServer = []
@@ -76,13 +77,28 @@ extension HomeView {
             let recommendCountry = AppDataManager.shared.userCountry?.recommendedCountries ?? []
             
             if !recentCountry.isEmpty {
+                var insertedRecent = false
                 for item in recentCountry {
-                    let countryItemModel = HomeListCountryModel(type: .country, title: item.node.locationName, imageUrl: item.node.imageUrl,idCountry: 0, title2: item.node.locationSubname ?? "", origin: item.node)
-                    listCountryTemp.insert(countryItemModel, at: 0)
-                    print("DATA: \(item.node.locationName)")
+                    if item.node is CountryCity || item.node is CountryAvailables {
+                        var rawNode: INodeInfo = item.node
+                        var totalChild = 0
+                        var countryId = 0
+                        if let nodeCity = item.node as? CountryCity {
+                            rawNode = nodeCity.country ?? nodeCity
+                            totalChild = nodeCity.country?.city?.count ?? 0
+                            countryId = nodeCity.countryId ?? 0
+                        }
+                        let countryItemModel = HomeListCountryModel(type: .country, title: item.node.locationName, totalCity: totalChild, imageUrl: item.node.imageUrl, idCountry: countryId, title2: item.node.locationSubname ?? "", origin: rawNode, canFilter: false)
+                        listCountryTemp.insert(countryItemModel, at: 0)
+                        insertedRecent = true
+                    }
                 }
-                listCountryTemp.insert(HomeListCountryModel(type: .header, title: "Recent locations"), at: 0)
-                listCountryTemp.append(HomeListCountryModel(type: .spacing))
+                
+                if insertedRecent {
+                    listCountryTemp.insert(HomeListCountryModel(type: .header, title: "Recent locations"), at: 0)
+                    listCountryTemp.append(HomeListCountryModel(type: .spacing))
+                }
+                
             }
             print("LIST 2: \(listCountry.count)")
             if !recommendCountry.isEmpty {
@@ -211,7 +227,7 @@ extension HomeLeftPanelView {
         }
         
         func onTapConnect() {
-            if GlobalAppStates.shared.displayState == .disconnected {
+            if GlobalAppStates.shared.displayState == .disconnected  {
                 MapAppStates.shared.connectedNode = nil
                 let dj = DependencyContainer.shared
                 if let selectedNode = MapAppStates.shared.selectedNode {
@@ -229,6 +245,7 @@ extension HomeLeftPanelView {
                 if GlobalAppStates.shared.displayState == .disconnecting {
                     return
                 }
+                GlobalAppStates.shared.displayState = .disconnected
                 DependencyContainer.shared.vpnCore.disconnect()
             }
         }

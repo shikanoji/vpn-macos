@@ -5,8 +5,8 @@
 //  Created by Nguyen Dinh Thach on 29/08/2022.
 //
 
-import SwiftUI
 import GoogleSignIn
+import SwiftUI
 
 @main
 struct sysvpn_macosApp: App {
@@ -44,7 +44,7 @@ struct sysvpn_macosApp: App {
                 }
             }
             .onOpenURL { url in
-              GIDSignIn.sharedInstance.handle(url)
+                GIDSignIn.sharedInstance.handle(url)
             }
         }
         .windowStyle(HiddenTitleBarWindowStyle())

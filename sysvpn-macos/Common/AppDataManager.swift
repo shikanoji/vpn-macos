@@ -27,9 +27,6 @@ extension String {
     static var keySaveLongestSessionTime = "KEY_SAVE_LONG_ST1"
     static var keySaveWeeklyTime = "KEY_SAVE_WEEKLY_TIME1"
     static var keySaveWeeklyIndex = "KEY_SAVE_WEEKLY_TIME_INDEX1 "
-    
-    
-
 }
 
 class AppDataManager {

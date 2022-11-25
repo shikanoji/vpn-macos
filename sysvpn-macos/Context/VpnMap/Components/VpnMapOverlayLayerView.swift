@@ -106,8 +106,7 @@ struct VpnMapOverlayLayer: ViewModifier {
             }
         }.onChange(of: nodePoint) { newValue in
             
-         
-            if nodePoint == nil  || newValue == nil {
+            if nodePoint == nil || newValue == nil {
                 self.updateLocation(nodePoint: newValue)
             } else {
                 withAnimation {

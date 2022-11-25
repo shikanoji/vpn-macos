@@ -10,7 +10,6 @@ import RxSwift
 import SwiftUI
 import SwiftyJSON
 
-
 extension LoginView {
     @MainActor class LoginViewModel: ObservableObject {
         @Published var userName: String = "test@gmail.com"
@@ -35,16 +34,15 @@ extension LoginView {
                 isPresentedLoading = true
             }
             
-            signInHelper = SocialSigninHelper(onResult: {  [weak self] result in
+            signInHelper = SocialSigninHelper(onResult: { [weak self] result in
                 switch result {
-                case .failure(let error):
+                case let .failure(error):
                     self?.showAlert = true
                     self?.errorMessage = error.localizedDescription
-                    break
-                case .success(let data):
+                case let .success(data):
                     self?.onLoginSuccess(result: data)
                 }
-            }) 
+            })
         }
         
         func onViewAppear() {}
@@ -124,8 +122,6 @@ extension LoginView {
             signInHelper.googleLogin()
         }
         
-        
-        
         func onLoginSuccess(result: LoginSType) {
             showLoading()
             var token = ""
@@ -141,7 +137,7 @@ extension LoginView {
                 token = accessToken
             }
             
-            _ = APIServiceManager.shared.loginSocial(provider: provider, token: token).subscribe({ event in
+            _ = APIServiceManager.shared.loginSocial(provider: provider, token: token).subscribe { event in
                 switch event {
                 case let .success(authenModel):
                     AppDataManager.shared.userData = authenModel.user
@@ -159,7 +155,7 @@ extension LoginView {
                     self.errorMessage = error.message
                     self.showAlert = true
                 }
-            })
+            }
         }
         
         func onTouchSocialLoginApple() {
@@ -169,9 +165,5 @@ extension LoginView {
         func verifyInputLogin() {
             isVerifiedInput = !userName.isEmpty && !password.isEmpty
         }
-        
-       
     }
-    
 }
-

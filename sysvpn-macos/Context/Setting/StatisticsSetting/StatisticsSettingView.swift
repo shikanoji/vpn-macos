@@ -33,7 +33,7 @@ struct StatisticsSettingView: View {
                                     StaticSettingItemValue(text: getTime(now: Date().timeIntervalSince1970))
                                 case .weeklyTime:
                                     StaticSettingItemValue(text: formatDisplayDuringTime(during: AppDataManager.shared.weeklySessionTime))
-                                case .longestConnection :
+                                case .longestConnection:
                                     StaticSettingItemValue(text: formatDisplayDuringTime(during: AppDataManager.shared.longestSessiontime))
                                 default:
                                     StaticSettingItemValue(text: "---")
@@ -55,16 +55,15 @@ struct StatisticsSettingView: View {
         guard let startTime = appState.sessionStartTime else {
             return "--:--:--"
         }
-        if  appState.displayState != .connected {
+        if appState.displayState != .connected {
             return "--:--:--"
         }
         
-       let diff = now - startTime
-       return formatDisplayDuringTime(during: diff)
+        let diff = now - startTime
+        return formatDisplayDuringTime(during: diff)
     }
     
     func formatDisplayDuringTime(during diff: Double) -> String {
-        
         if diff <= 0 {
             return "--:--:--"
         }

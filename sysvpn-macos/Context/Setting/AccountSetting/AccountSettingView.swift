@@ -16,8 +16,7 @@ struct AccountSettingView: View {
                 if let itemSwitch = item as? SwitchSettingItem {
                     SettingSwitchComponent(itemSwitch: itemSwitch, isActive: itemSwitch.settingValue, onChangeValue: viewModel.onChangeValue)
                 } else if let data = item as? SubscriptionSettingItem {
-                    SettingSubscriptionComponent(data: data) {
-                    }
+                    SettingSubscriptionComponent(data: data) {}
                 } else if let email = item as? EmailSettingItem {
                     SettingEmailComponent(data: email)
                 } else if let itemPassword = item as? ChangePasswordSettingItem {
@@ -27,7 +26,7 @@ struct AccountSettingView: View {
                 if item.settingName != viewModel.listItem.last?.settingName {
                     Divider()
                         .background(Asset.Colors.dividerColor.swiftUIColor)
-                } 
+                }
             }
             /*
              List(viewModel.listItem) { item in

@@ -147,6 +147,8 @@
 		FA12F19F28FDB61A009753EE /* NetworkStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12F19E28FDB61A009753EE /* NetworkStatistics.swift */; };
 		FA12F1A328FDCBAD009753EE /* IPCHttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12F1A128FDCB0D009753EE /* IPCHttpRequest.swift */; };
 		FA12F1A428FDCBAD009753EE /* IPCHttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12F1A128FDCB0D009753EE /* IPCHttpRequest.swift */; };
+		FA21620829312F1000F2F616 /* HomeViewProto.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21620729312F1000F2F616 /* HomeViewProto.swift */; };
+		FA21620A29313F4B00F2F616 /* AppAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21620929313F4B00F2F616 /* AppAlertManager.swift */; };
 		FA3A885C292646CE000BDB3D /* AppDataManager+Recent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3A885B292646CE000BDB3D /* AppDataManager+Recent.swift */; };
 		FA5382E529272FA800C1DA1E /* SettingUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5382E429272FA800C1DA1E /* SettingUtils.swift */; };
 		FA53831C2927332800C1DA1E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA53831B2927332800C1DA1E /* AppDelegate.swift */; };
@@ -464,6 +466,8 @@
 		FA12F19C28FDAE9D009753EE /* SystemNetworkingMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemNetworkingMonitor.swift; sourceTree = "<group>"; };
 		FA12F19E28FDB61A009753EE /* NetworkStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatistics.swift; sourceTree = "<group>"; };
 		FA12F1A128FDCB0D009753EE /* IPCHttpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPCHttpRequest.swift; sourceTree = "<group>"; };
+		FA21620729312F1000F2F616 /* HomeViewProto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewProto.swift; sourceTree = "<group>"; };
+		FA21620929313F4B00F2F616 /* AppAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlertManager.swift; sourceTree = "<group>"; };
 		FA3A885B292646CE000BDB3D /* AppDataManager+Recent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDataManager+Recent.swift"; sourceTree = "<group>"; };
 		FA5382E429272FA800C1DA1E /* SettingUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUtils.swift; sourceTree = "<group>"; };
 		FA5383192927332800C1DA1E /* SysVPNStarter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SysVPNStarter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -687,6 +691,7 @@
 				FAFAAE4C2902962A006A69E3 /* HomeConnectionButtonView.swift */,
 				FAC7FC08292A71D2002A91E3 /* ProfileTabbarView.swift */,
 				B9A69D2F2930B5BB00E6A76F /* PopupQuestionMutilHop.swift */,
+				FA21620729312F1000F2F616 /* HomeViewProto.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -869,6 +874,7 @@
 				9E668DFD28E8AF9F009CDC95 /* GlobalAppStates.swift */,
 				9E34CF17290AE493002768B6 /* AppDataManager+Cache.swift */,
 				FA3A885B292646CE000BDB3D /* AppDataManager+Recent.swift */,
+				FA21620929313F4B00F2F616 /* AppAlertManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1747,6 +1753,7 @@
 				FACEC9B32904D71A0014ABC9 /* SysMessageService.swift in Sources */,
 				9E668DF828E8A6F7009CDC95 /* TabbarViews.swift in Sources */,
 				FADFCE7929006EEE00219BB0 /* BlinkingView.swift in Sources */,
+				FA21620A29313F4B00F2F616 /* AppAlertManager.swift in Sources */,
 				B9ABE6642908E0AC009C7A00 /* TabbarListItemView.swift in Sources */,
 				9EC3323528C254DF00CA5DF5 /* LoginLoadingView.swift in Sources */,
 				AC09D7A728BF13400078E928 /* AppSetting.swift in Sources */,
@@ -1798,6 +1805,7 @@
 				B9B3705B28FE4FE80022498B /* CountryAvailables.swift in Sources */,
 				B9B3706928FEAB090022498B /* ServerStateResult.swift in Sources */,
 				B9B3705028FE4FE70022498B /* AppSettingIpInfo.swift in Sources */,
+				FA21620829312F1000F2F616 /* HomeViewProto.swift in Sources */,
 				B9B3705728FE4FE70022498B /* VPNResult.swift in Sources */,
 				AC09D7A528BF10D30078E928 /* Constant.swift in Sources */,
 				FAA35BC128FD41CB00205ECD /* SysVPNState.swift in Sources */,

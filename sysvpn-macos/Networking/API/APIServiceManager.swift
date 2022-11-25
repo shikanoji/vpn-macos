@@ -62,15 +62,11 @@ final class APIServiceManager: BaseServiceManager<APIService> {
         return requestIPC(.getListMutilHop).handleApiResponseCodable(type: [MultiHopResult].self)
     }
     
-    
-    func changePassword(oldPassword: String, newPassword: String) -> Single<EmptyData> { 
+    func changePassword(oldPassword: String, newPassword: String) -> Single<EmptyData> {
         return requestIPC(.changePassword(oldPassword: oldPassword, newPassword: newPassword)).handleApiResponseCodable(type: EmptyData.self)
     }
     
-    func loginSocial (provider: String, token: String)  -> Single<AuthResult> {
+    func loginSocial(provider: String, token: String) -> Single<AuthResult> {
         return requestIPC(.loginSocial(provider: provider, token: token)).handleApiResponseCodable(type: AuthResult.self)
     }
-    
 }
-
-

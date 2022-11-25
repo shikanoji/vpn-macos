@@ -6,11 +6,14 @@
 //
 
 import Foundation
+import RxSwift
 
 class AppVpnService: SysVPNService {
+    var cancelPrepare: Disposable?
     func prepareConection(connectType: ConnectionType, params: SysVPNConnectParams?, callback: SysVPNPrepareConnecitonStringCallback?) {
         // let userSetting = AppDataManager.shared.userSetting
-       
+        cancelPrepare?.dispose()
+        cancelPrepare = nil
         var appProtocol = PropertiesManager.shared.vpnProtocol
         let isWireGuard = appProtocol == .wireGuard
         var transportProtocol = OpenVpnTransport.udp
@@ -31,7 +34,7 @@ class AppVpnService: SysVPNService {
         
         switch connectType {
         case .quick:
-            var quickConnectId = PropertiesManager.shared.countryQuickConnect ?? (AppDataManager.shared.userCountry?.recommendedCountries?.first ?? AppDataManager.shared.userCountry?.availableCountries?.first)?.id 
+            var quickConnectId = PropertiesManager.shared.countryQuickConnect ?? (AppDataManager.shared.userCountry?.recommendedCountries?.first ?? AppDataManager.shared.userCountry?.availableCountries?.first)?.id
             vpnParam.countryId = quickConnectId
         case let .serverId(id):
             vpnParam.serverId = id
@@ -39,12 +42,12 @@ class AppVpnService: SysVPNService {
             vpnParam.countryId = id
         case let .cityId(id):
             vpnParam.cityId = id
-        case let .lastSessionCode( code,  serverId):
+        case let .lastSessionCode(code, serverId):
             vpnParam.prevSessionId = code
             vpnParam.serverId = serverId
         }
         if isWireGuard {
-            _ = APIServiceManager.shared.onRequestCertWireGuard(param: vpnParam).subscribe { event in
+            cancelPrepare = APIServiceManager.shared.onRequestCertWireGuard(param: vpnParam).subscribe { event in
                 switch event {
                 case let .success(response):
                     let strConfig = response.parseVpnConfig()
@@ -57,7 +60,7 @@ class AppVpnService: SysVPNService {
                 }
             }
         } else {
-            _ = APIServiceManager.shared.onRequestCert(param: vpnParam).subscribe { event in
+            cancelPrepare = APIServiceManager.shared.onRequestCert(param: vpnParam).subscribe { event in
                 switch event {
                 case let .success(response):
                     let strConfig = response.parseVpnConfig()
@@ -73,6 +76,8 @@ class AppVpnService: SysVPNService {
     }
     
     func disconnectLastSession(disconnectParam: DisconnectVPNParams?, callback: ((Result<Bool, Error>) -> Void)?) {
+        cancelPrepare?.dispose()
+        cancelPrepare = nil
         _ = APIServiceManager.shared.onDisconnect(sectionId: disconnectParam?.sessionId ?? "", disconnectedBy: disconnectParam?.disconnectedBy ?? "").subscribe { event in
             switch event {
             case .success:

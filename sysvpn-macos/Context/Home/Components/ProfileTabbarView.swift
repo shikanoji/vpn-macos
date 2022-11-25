@@ -24,7 +24,7 @@ struct ProfileTabbarView: View {
                             .font(.system(size: 12, weight: .semibold))
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .foregroundColor(index == 0 ? Color.black : Asset.Colors.subTextColor.swiftUIColor)
-                            .contentShape(Rectangle()) 
+                            .contentShape(Rectangle())
                             .onTapGesture {
                                 withAnimation {
                                     index = 0

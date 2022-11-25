@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 class NetworkChecker {
     static let shared = NetworkChecker()
     let kSaveUserDefaulTime = "klastRefreshByPingTime"
@@ -20,8 +19,7 @@ class NetworkChecker {
     var timerPingInternet: Timer?
     var pingInternetTimeout: Double = 10
     var flagLostInternet = false
-    var flagIsRertryConnect  = false
-    
+    var flagIsRertryConnect = false
     
     var retryTime = 0
     
@@ -36,6 +34,7 @@ class NetworkChecker {
             UserDefaults.standard.synchronize()
         }
     }
+
     var lastRefreshByPingTime: Double {
         get {
             return UserDefaults.standard.double(forKey: kSaveUserDefaulTime)
@@ -50,11 +49,9 @@ class NetworkChecker {
         internetPinger = try? SwiftyPing(host: ipCheckInternet, configuration: PingConfiguration(interval: 1, with: pingInternetTimeout), queue: DispatchQueue.global())
         internetPinger?.observer = pingInternetResponse
       
-        
         internetPinger?.targetCount = 1
         try? internetPinger?.startPinging()
         timerPingInternet = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(doPing), userInfo: internetPinger, repeats: true)
-       
     }
     
     func pingInternetResponse(_ response: PingResponse) {
@@ -70,7 +67,7 @@ class NetworkChecker {
             return
         }
         
-        if duration < pingInternetTimeout &&  response.error == nil {
+        if duration < pingInternetTimeout && response.error == nil {
             checkRetryLostInternetConnect()
             print("[NetworkChecker] abort by pingInternetTimeout")
             return
@@ -78,21 +75,21 @@ class NetworkChecker {
         
         if flagIsRertryConnect {
             print("[NetworkChecker] abort by flagIsRertryConnect ")
-            if  Date().timeIntervalSince1970 > lastRetryTime  + 20  {
+            if Date().timeIntervalSince1970 > lastRetryTime + 20 {
                 flagIsRertryConnect = false
             }
             return
         }
         
-        /*if SystemDataUsage.hadCanGetAppNetworkInterface && !SystemDataUsage.canGetAppNetworkInterface {
-            print("[NetworkChecker] flagLostInternet true case 1")
-            flagLostInternet = true
-        } else if !SystemDataUsage.canGetSystemVpnInterface {
-            print("[NetworkChecker] flagLostInternet true case 2")
-            flagLostInternet = true
-        } else {
-            retryRefreshVPNConnect()
-        }*/
+        /* if SystemDataUsage.hadCanGetAppNetworkInterface && !SystemDataUsage.canGetAppNetworkInterface {
+             print("[NetworkChecker] flagLostInternet true case 1")
+             flagLostInternet = true
+         } else if !SystemDataUsage.canGetSystemVpnInterface {
+             print("[NetworkChecker] flagLostInternet true case 2")
+             flagLostInternet = true
+         } else {
+             retryRefreshVPNConnect()
+         } */
         retryRefreshVPNConnect()
     }
     
@@ -102,7 +99,6 @@ class NetworkChecker {
         }
         
         print("[NetworkChecker] check connected Internet")
-        
     }
     
     func resetByConnected() {
@@ -114,7 +110,7 @@ class NetworkChecker {
     
     func retryRefreshVPNConnect() {
         let now = Date().timeIntervalSince1970
-        if lastRetryTime + 20  > now  {
+        if lastRetryTime + 20 > now {
             return
         }
         lastRetryTime = now
@@ -136,7 +132,5 @@ class NetworkChecker {
         internetPinger?.stopPinging()
     }
     
-    func onTimeout() {
-        
-    }
+    func onTimeout() {}
 }

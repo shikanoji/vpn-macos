@@ -33,6 +33,9 @@ extension GeneralSettingView {
                 PropertiesManager.shared.startMinimized = value
             case .systemNoti:
                 PropertiesManager.shared.systemNotification = value
+                if value {
+                    AppAlertManager.shared.requestPermission()
+                }
             default:
                 break
             }
