@@ -30,7 +30,7 @@ protocol AppStateManagement {
 class SysVpnAppStateManagement: AppStateManagement {
     private var attemptingConnection = false
     private var _state: AppState = .disconnected
-
+    
     public private(set) var state: AppState {
         get {
             dispatchAssert(condition: .onQueue(.main))
@@ -146,7 +146,6 @@ class SysVpnAppStateManagement: AppStateManagement {
         }
         
         // check cert / keychain
-        
         if case VpnState.disconnecting = vpnState {
             stuckDisconnecting = true
         }
@@ -194,6 +193,7 @@ class SysVpnAppStateManagement: AppStateManagement {
         cancelTimeout()
         stopAttemptingConnection()
         notifyObservers()
+        AppAlertManager.shared.showAlert(title: "Connection failed", message: "Timeout connect to vpn server")
     }
     
     private func stopAttemptingConnection() {
@@ -320,8 +320,15 @@ class SysVpnAppStateManagement: AppStateManagement {
         guard let lastConfig = lastAttemptedConfiguration else {
             return
         }
+        
         MapAppStates.shared.serverInfo = lastConfig.serverInfo
-        MapAppStates.shared.connectedNode = AppDataManager.shared.getNodeByServerInfo(server: lastConfig.serverInfo)
+        
+        if let deepId = lastConfig.deepId, let nodeInfo = deepId.starts(with: PrefixNodeInfo.country.rawValue) ? AppDataManager.shared.getNodeByServerInfo(server: lastConfig.serverInfo) : AppDataManager.shared.getNodeByDeepId(deepId: deepId) {
+            MapAppStates.shared.connectedNode = nodeInfo
+        } else {
+            MapAppStates.shared.connectedNode = AppDataManager.shared.getNodeByServerInfo(server: lastConfig.serverInfo)
+        }
+       
         if let info = MapAppStates.shared.connectedNode {
             AppDataManager.shared.addRecent(node: info)
         }

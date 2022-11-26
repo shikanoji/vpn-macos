@@ -9,12 +9,11 @@ import Foundation
 import SwiftUI
 
 extension HomeView {
-    
-    var tooltipScrollDown : some View {
+    var tooltipScrollDown: some View {
         VStack {
             Spacer()
             HStack {
-                Text("Scroll down to more")
+                Text(L10n.Global.alertScrollToShowMore)
                     .padding(10)
             }
             .background(Color.black)
@@ -159,7 +158,6 @@ extension HomeView {
     
     var popupDialog: some View {
         Group {
-            
             if viewModel.isOpenSetting {
                 ZStack {
                     Rectangle().fill(Color.black).opacity(0.5)
@@ -169,7 +167,7 @@ extension HomeView {
                                         viewModel.isOpenSetting = false
                                     }
                                 },
-                                onTapLogout: { 
+                                onTapLogout: {
                                     withAnimation {
                                         viewModel.selectedMenuItem = .none
                                         viewModel.isOpenSetting = false
@@ -212,5 +210,4 @@ extension HomeView {
             }
         }
     }
-    
 }

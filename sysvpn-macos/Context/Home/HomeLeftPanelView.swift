@@ -119,19 +119,19 @@ struct HomeLeftPanelView: View {
                 Spacer().frame(height: 8)
                 if viewModel.isPremium {
                     HStack {
-                        Text("\(viewModel.dayPremiumLeft) days left")
+                        Text(L10n.Global.daysLeft(viewModel.dayPremiumLeft) )
                             .font(Font.system(size: 12, weight: .medium))
                             .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                        Text("+Extended")
+                        Text(L10n.Global.plusExtended)
                             .font(Font.system(size: 12, weight: .medium))
                             .foregroundColor(Color.white)
                     }
                 } else {
                     HStack {
-                        Text("\(viewModel.dayFree) free day")
+                        Text( L10n.Global.daysFree(viewModel.dayFree))
                             .font(Font.system(size: 12, weight: .medium))
                             .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                        Text("+Extended")
+                        Text(L10n.Global.plusExtended)
                             .font(Font.system(size: 12, weight: .medium))
                             .foregroundColor(Color.white)
                     }

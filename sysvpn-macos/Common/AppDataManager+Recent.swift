@@ -6,7 +6,7 @@
 //
 
 import Foundation
-enum PrefixRecentSave: String {
+enum PrefixNodeInfo: String {
     case country = "CT_"
     case city = "CC_"
     case staticServer = "ST_"
@@ -37,19 +37,19 @@ extension AppDataManager {
     
     func addRecent(node: INodeInfo) {
         var id = ""
-        var prefix = PrefixRecentSave.country
+        var prefix = PrefixNodeInfo.country
         if let country = node as? CountryAvailables, let ctId = country.id {
             id = String(ctId)
-            prefix = PrefixRecentSave.country
+            prefix = PrefixNodeInfo.country
         } else if let city = node as? CountryCity, let ccId = city.id {
             id = String(ccId)
-            prefix = PrefixRecentSave.city
+            prefix = PrefixNodeInfo.city
         } else if let staticServer = node as? CountryStaticServers, let stId = staticServer.serverId {
             id = String(stId)
-            prefix = PrefixRecentSave.staticServer
+            prefix = PrefixNodeInfo.staticServer
         } else if let multipleHop = node as? MultiHopResult, let st1 = multipleHop.entry?.serverId, let st2 = multipleHop.exit?.city?.id {
             id = "\(st1)_\(st2)"
-            prefix = PrefixRecentSave.multipleHop
+            prefix = PrefixNodeInfo.multipleHop
         }
         
         if id.isEmpty {
@@ -87,7 +87,7 @@ extension AppDataManager {
             let prefix = preId.prefix
             let idValue = preId.id
             
-            guard let prefix = PrefixRecentSave(rawValue: prefix) else {
+            guard let prefix = PrefixNodeInfo(rawValue: prefix) else {
                 return
             }
             

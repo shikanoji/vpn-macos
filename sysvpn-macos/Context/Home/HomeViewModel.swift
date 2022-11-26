@@ -95,14 +95,13 @@ extension HomeView {
                 }
                 
                 if insertedRecent {
-                    listCountryTemp.insert(HomeListCountryModel(type: .header, title: "Recent locations"), at: 0)
+                    listCountryTemp.insert(HomeListCountryModel(type: .header, title: L10n.Global.recentLocationsLabel), at: 0)
                     listCountryTemp.append(HomeListCountryModel(type: .spacing))
                 }
-                
             }
-            print("LIST 2: \(listCountry.count)")
+            
             if !recommendCountry.isEmpty {
-                listCountryTemp.append(HomeListCountryModel(type: .header, title: "Recommended"))
+                listCountryTemp.append(HomeListCountryModel(type: .header, title:  L10n.Global.recommendedLabel))
                 for item in recommendCountry {
                     let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0, origin: item)
                     listCountryTemp.append(countryItemModel)
@@ -110,7 +109,7 @@ extension HomeView {
                 listCountryTemp.append(HomeListCountryModel(type: .spacing))
             }
             if !availableCountry.isEmpty {
-                listCountryTemp.append(HomeListCountryModel(type: .header, title: "All countries"))
+                listCountryTemp.append(HomeListCountryModel(type: .header, title:  L10n.Global.allCountriesLabel))
                 for item in availableCountry {
                     let countryItemModel = HomeListCountryModel(type: .country, title: item.name ?? "", totalCity: item.city?.count ?? 0, imageUrl: item.flag, idCountry: item.id ?? 0, origin: item)
                     listCountryTemp.append(countryItemModel)
@@ -125,7 +124,7 @@ extension HomeView {
             listStaticServer.removeAll()
             let staticServer = AppDataManager.shared.userCountry?.staticServers ?? []
             if !staticServer.isEmpty {
-                listStaticServer.append(HomeListCountryModel(type: .header, title: "Static ip"))
+                listStaticServer.append(HomeListCountryModel(type: .header, title:  L10n.Global.staticIpLabel))
                 for item in staticServer {
                     let score = item.score ?? 1
                     let staticItem = HomeListCountryModel(type: .country, title: item.countryName ?? "", imageUrl: item.flag, cityName: item.cityName ?? "", serverNumber: item.serverNumber ?? 1, serverStar: score + 1, origin: item)
@@ -138,7 +137,7 @@ extension HomeView {
         func getListMultiHop() {
             let multiHopServer = AppDataManager.shared.mutilHopServer ?? []
             if !multiHopServer.isEmpty {
-                listMultiHop.append(HomeListCountryModel(type: .header, title: "MultiHop"))
+                listMultiHop.append(HomeListCountryModel(type: .header, title:  L10n.Global.multihopLabel))
                 for item in multiHopServer {
                     let multiHopItem = HomeListCountryModel(type: .country, title: item.entry?.country?.name ?? "", imageUrl: item.entry?.country?.flag, title2: item.exit?.country?.name ?? "", imageUrl2: item.exit?.country?.flag, origin: item)
                     listMultiHop.append(multiHopItem)
@@ -156,19 +155,11 @@ extension HomeView {
             
         func connect(to info: INodeInfo? = nil) {
             MapAppStates.shared.connectedNode = nil
-            let dj = DependencyContainer.shared
-            if let city = info as? CountryCity {
-                dj.vpnCore.connect(with: .init(connectType: .cityId(id: city.id ?? 0)))
-            } else if let country = info as? CountryAvailables {
-                dj.vpnCore.connect(with: .init(connectType: .countryId(id: country.id ?? 0)))
-            } else if let staticServer = info as? CountryStaticServers {
-                dj.vpnCore.connectTo(connectType: .serverId(id: staticServer.serverId ?? 0), params: nil)
-            } else if let multiplehop = info as? MultiHopResult {
-                dj.vpnCore.connect(with: .init(connectType: .serverId(id: multiplehop.entry?.serverId ?? 0), params: SysVPNConnectParams(isHop: true)))
-                multiplehop.entry?.city?.country = multiplehop.entry?.country
-                multiplehop.exit?.city?.country = multiplehop.exit?.country
-                MapAppStates.shared.connectedNode = multiplehop
+            guard let info = info else {
+                return
             }
+            _ = DependencyContainer.shared
+                .vpnCore.connectTo(node: info, isRetry: false)
         }
     }
 }
@@ -227,15 +218,11 @@ extension HomeLeftPanelView {
         }
         
         func onTapConnect() {
-            if GlobalAppStates.shared.displayState == .disconnected  {
+            if GlobalAppStates.shared.displayState == .disconnected {
                 MapAppStates.shared.connectedNode = nil
                 let dj = DependencyContainer.shared
                 if let selectedNode = MapAppStates.shared.selectedNode {
-                    if let city = selectedNode as? CountryCity {
-                        dj.vpnCore.connect(with: .init(connectType: .cityId(id: city.id ?? 0)))
-                    } else if let country = selectedNode as? CountryAvailables {
-                        dj.vpnCore.connect(with: .init(connectType: .countryId(id: country.id ?? 0)))
-                    } else {
+                    if !dj.vpnCore.connectTo(node: selectedNode, isRetry: false) {
                         dj.vpnCore.quickConnect()
                     }
                 } else {
@@ -244,6 +231,9 @@ extension HomeLeftPanelView {
             } else {
                 if GlobalAppStates.shared.displayState == .disconnecting {
                     return
+                }
+                if GlobalAppStates.shared.displayState == .connecting {
+                    DependencyContainer.shared.vpnCore.stopConnecting(userInitiated: true)
                 }
                 GlobalAppStates.shared.displayState = .disconnected
                 DependencyContainer.shared.vpnCore.disconnect()

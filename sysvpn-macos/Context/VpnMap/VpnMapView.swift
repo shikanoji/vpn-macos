@@ -43,7 +43,7 @@ struct VpnMapView: View {
                     mapState.selectedNode = node.info
                 }, onHoverNode: {
                     node, hover in
-                    if node.info.state == .disabled {
+                    if node != connectedNode {
                         return
                     }
                     if hover {
@@ -69,7 +69,7 @@ struct VpnMapView: View {
       
             .simultaneousGesture(TapGesture().onEnded {
                 selectedNode = nil
-            }) 
+            })
             .onChange(of: scale) { _ in
                 withAnimation {
                     isShowCity = scale > 1.5

@@ -101,3 +101,30 @@
 "fontSize" = "Font Size";
 "fontSizeDesc" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
 
+"downSpeed" = "Down speed";
+"upSpeed" = "Up speed";
+"sessionTraffics" = "Session Traffics";
+"sessionLabel" = "Session:";
+"downVolumeLabel" = "Down Volume:";
+"upVolumeLabel" = "Up Volume:";
+ 
+"unprotectedAlertTitle" = "Your IP: %s Unprotected";
+"unprotectedAlertMessage" = "Connect to VPN to online sercurity";
+"cityOf"="City Of %s";
+
+"currentLoadLabel" = "CURRENT LOAD";
+"countryCitiesSubtitle" = "%d cities available";
+"countrySingleSubtitle" = "Single location";
+"alertScrollToShowMore" = "Scroll down to more";
+"recentLocationsLabel"= "Recent locations";
+
+"recommendedLabel" = "Recommended";
+"allCountriesLabel" = "All countries";
+"staticIpLabel" = "Static ip";
+"multihopLabel" = "MultiHop";
+"plusExtended" = "+Extended";
+
+"daysLeft" = "%d days left";
+"daysFree" = "%d free days";
+"ipLabel" = "IP:";
+"locationLabel" = "Location:";

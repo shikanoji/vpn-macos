@@ -42,7 +42,7 @@ class AppVpnService: SysVPNService {
             vpnParam.countryId = id
         case let .cityId(id):
             vpnParam.cityId = id
-        case let .lastSessionCode(code, serverId):
+        case let .lastSessionCode(code, serverId, _):
             vpnParam.prevSessionId = code
             vpnParam.serverId = serverId
         }

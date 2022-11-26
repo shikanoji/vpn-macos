@@ -44,7 +44,7 @@ struct HomeListCountryNodeView: View {
             }
             
             ScrollView([.vertical], showsIndicators: false) {
-                LazyVStack(alignment: .leading) {
+                VStack(alignment: .leading) {
                     ForEach(listFilter) { item in
                         Group {
                             switch item.type {
@@ -55,8 +55,8 @@ struct HomeListCountryNodeView: View {
                                     CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
                                         .onTapGesture {
                                             if item.totalCity > 1 {
-                                               /* self.isShowCity = true
-                                                self.countrySelected = item*/
+                                                /* self.isShowCity = true
+                                                 self.countrySelected = item*/
                                                 onDetailCountry?(item)
                                             } else {
                                                 guard let origin = item.origin else {
@@ -69,8 +69,8 @@ struct HomeListCountryNodeView: View {
                                     CountryItemView(countryName: item.title, imageUrl: item.imageUrl, totalCity: item.totalCity)
                                         .onTapGesture {
                                             if item.totalCity > 1 {
-                                                /*self.isShowCity = true
-                                                self.countrySelected = item*/
+                                                /* self.isShowCity = true
+                                                 self.countrySelected = item */
                                                 onDetailCountry?(item)
                                             } else {
                                                 guard let origin = item.origin else {
@@ -112,7 +112,7 @@ struct HomeListCountryNodeView: View {
                                             .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
                                             .font(Font.system(size: 14, weight: .regular))
                                         Spacer()
-                                        Text("CURRENT LOAD")
+                                        Text(L10n.Global.currentLoadLabel)
                                             .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
                                             .font(Font.system(size: 11, weight: .medium))
                                     }.padding(.bottom, 16)
@@ -207,7 +207,6 @@ struct HomeDetailCityNodeView: View {
                     }
                 }
             }
-          
         }
         .padding(.horizontal, 20)
         .padding(.top, 12)
@@ -254,7 +253,7 @@ struct HomeListCountryModel: Identifiable, Equatable {
     var title2: String = ""
     var imageUrl2: String?
     var origin: INodeInfo?
-    var canFilter:Bool = true
+    var canFilter: Bool = true
 }
 
 struct ListViewModifier: ViewModifier {

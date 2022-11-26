@@ -26,6 +26,7 @@ protocol SysVPNGatewayProtocol: AnyObject {
     func disconnect(completion: @escaping () -> Void)
     func postConnectionInformation()
     var lastConnectionConiguration: ConnectionConfiguration? { get set }
+    func connectTo(node: INodeInfo, isRetry: Bool) -> Bool
 }
 
 protocol SysVPNnGatewayFactory {
@@ -110,6 +111,7 @@ struct ConnectionConfiguration: Codable {
     var vpnProtocol: VpnProtocol
     var serverInfo: VPNServer
     var isRetry: Bool = false
+    var deepId: String?
 }
  
 protocol SysVpnService {

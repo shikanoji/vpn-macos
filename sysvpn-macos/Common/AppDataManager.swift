@@ -237,7 +237,51 @@ class AppDataManager {
         
         return nil
     }
-
+    
+    func getNodeByDeepId(deepId: String) -> INodeInfo? {
+        if deepId.starts(with: PrefixNodeInfo.multipleHop.rawValue) {
+            guard let hop = mutilHopServer?.first(where: { sv in
+                return sv.deepId == deepId
+            }) else {
+                return nil
+            }
+            hop.entry?.city?.country = hop.entry?.country
+            hop.exit?.city?.country = hop.exit?.country
+            return hop
+        } else if deepId.starts(with: PrefixNodeInfo.city.rawValue) {
+            guard let country = userCountry?.availableCountries?.first(where: { ct in
+                return ct.city?.contains(where: { city in
+                    return city.deepId == deepId
+                }) ?? false
+            }) else {
+                return nil
+            }
+            
+            guard let city = country.city?.first(where: { city in
+                return city.deepId == deepId
+            }) else {
+                return country
+            }
+            let updateCity = city
+            updateCity.country = country
+            return updateCity
+        } else if deepId.starts(with: PrefixNodeInfo.country.rawValue) {
+            guard let country = userCountry?.availableCountries?.first(where: { ct in
+                return ct.deepId == deepId
+            }) else {
+                return nil
+            }
+            return country
+        } else if deepId.starts(with: PrefixNodeInfo.staticServer.rawValue) {
+            if let node = userCountry?.staticServers?.first(where: { sInfo in
+                return sInfo.deepId == deepId
+            }) {
+                return node
+            }
+        }
+        return nil
+    }
+    
     func getNodeByServerInfo(server: VPNServer) -> INodeInfo? {
         if isMultipleHop {
             guard let hop = mutilHopServer?.first(where: { sv in
@@ -249,6 +293,7 @@ class AppDataManager {
             hop.exit?.city?.country = hop.exit?.country
             return hop
         }
+        
         guard let country = userCountry?.availableCountries?.first(where: { ct in
             return ct.city?.contains(where: { city in
                 return city.id == server.cityId

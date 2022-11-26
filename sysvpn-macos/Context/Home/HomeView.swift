@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    
     @StateObject var viewModel = HomeViewModel()
    
     @EnvironmentObject var appState: GlobalAppStates
@@ -32,7 +31,6 @@ struct HomeView: View {
         removal: .move(edge: .bottom)
     )
      
-    
     var body: some View {
         ZStack(alignment: .topLeading) {
             HStack(spacing: 0) {
@@ -86,8 +84,6 @@ struct HomeView: View {
             }
             .padding(.leading, 240)
             
-           
-            
             popupDialog
             
         }.frame(minWidth: 1000, minHeight: 650)
@@ -117,7 +113,7 @@ struct HomeView: View {
                 if viewModel.selectedMenuItem != .none && viewModel.isShowPopupLogout {
                     viewModel.isShowPopupLogout = false
                 }
-            } 
+            }
     }
 }
 

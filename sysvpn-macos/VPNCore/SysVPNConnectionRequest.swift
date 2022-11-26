@@ -12,4 +12,5 @@ struct SysVPNConnectionRequest {
     var connectType: ConnectionType
     var params: SysVPNConnectParams?
     var retry: Bool = false
+    var nodeInfo: INodeInfo?
 }

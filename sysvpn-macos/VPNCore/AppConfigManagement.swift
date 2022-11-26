@@ -263,4 +263,13 @@ class PropertiesManager: PropertiesManagerProtocol {
             storage.setValue(newValue, forKey: "isFirstSetup")
         }
     }
+    
+    var lastConnectedDeepId: String? {
+        get {
+            return storage.string(forKey: "lastConnectedDeepId")
+        }
+        set {
+            storage.setValue(newValue, forKey: "lastConnectedDeepId")
+        }
+    }
 }

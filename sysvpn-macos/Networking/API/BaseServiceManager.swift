@@ -201,6 +201,9 @@ struct ResponseError: Decodable, Error {
     var statusCode: Int?
     let message: String
     var error: String = ""
+    var description: String {
+        return message
+    }
 }
 
 enum TokenError: Swift.Error {

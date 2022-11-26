@@ -22,14 +22,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         OSExtensionManager.shared.startExtension()
         initNotificationObs()
         SettingUtils.shared.restoreStartOnBootStatus()
-        if (!PropertiesManager.shared.isFirstSetup) {
+        if !PropertiesManager.shared.isFirstSetup {
             PropertiesManager.shared.isFirstSetup = true
             PropertiesManager.shared.systemNotification = true
             PropertiesManager.shared.killSwitch = true
         }
     }
-    
-    
     
     func setupMenu() {
         #if !targetEnvironment(simulator)
@@ -127,7 +125,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationDidBecomeActive(_: Notification) {
-        if PropertiesManager.shared.systemNotification { 
+        if PropertiesManager.shared.systemNotification {
             AppAlertManager.shared.requestPermission()
         }
     }

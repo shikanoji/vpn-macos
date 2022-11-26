@@ -25,8 +25,8 @@ extension MenuQuickAccessView {
         @Published var listCountry: [TabbarListItemModel]
     
         init() {
-            userIp = "IP: \(AppDataManager.shared.userIp) -"
-            location = AppDataManager.shared.isConnect ? L10n.Login.titleNotConnect : "Location: \(AppDataManager.shared.userCity)"
+            userIp = "\(L10n.Global.ipLabel) \(AppDataManager.shared.userIp) -"
+            location = AppDataManager.shared.isConnect ? L10n.Login.titleNotConnect : "\(L10n.Global.locationLabel) \(AppDataManager.shared.userCity)"
             tabIndex = 0
             downloadSpeed = "0 B/s"
             uploadSpeed = "0 B/s"
@@ -39,10 +39,22 @@ extension MenuQuickAccessView {
             getListCountry()
             // listData = listRecent
             NotificationCenter.default.addObserver(self, selector: #selector(onUpdateServer), name: .updateCountry, object: nil)
+            onNeedRefreshUI()
         }
         
         deinit {
             NotificationCenter.default.removeObserver(self, name: .updateCountry, object: nil)
+        }
+        
+        func onNeedRefreshUI() {
+            
+            if GlobalAppStates.shared.displayState != .connected {
+                userIp = "\(L10n.Global.ipLabel) \(AppDataManager.shared.userIp) -"
+                location = AppDataManager.shared.isConnect ? L10n.Login.titleNotConnect : "\(L10n.Global.locationLabel) \(AppDataManager.shared.userCity)"
+            } else {
+                userIp = "\(L10n.Global.ipLabel) \(MapAppStates.shared.serverInfo?.ipAddress ?? "") -"
+                location = AppDataManager.shared.isConnect ? L10n.Login.titleNotConnect : "\(L10n.Global.locationLabel) \(MapAppStates.shared.connectedNode?.locationName ?? "")"
+            }
         }
         
         @objc func onUpdateServer() {
@@ -55,6 +67,9 @@ extension MenuQuickAccessView {
         }
         
         func onTouchDisconnect() {
+            if GlobalAppStates.shared.displayState == .connecting {
+                DependencyContainer.shared.vpnCore.stopConnecting(userInitiated: true)
+            }
             DependencyContainer.shared.vpnCore.disconnect()
         }
         
@@ -96,7 +111,7 @@ extension MenuQuickAccessView {
             let recentCountry = GlobalAppStates.shared.recentList
            
             for item in recentCountry {
-                let isConnecting = item.node.locationName == node?.locationName && item.node.locationSubname == node?.locationSubname
+                let isConnecting = GlobalAppStates.shared.displayState == .connected && item.node.deepId == node?.deepId
                 
                 let itemModel = TabbarListItemModel(title: item.node.locationName, imageUrl: item.node.imageUrl, lastUse: item.logDate, isConnecting: isConnecting, isShowDate: true, raw: item.node, image: NodeFlagThumbView(image: item.node.imageUrl, image2: (item.node as? MultiHopResult)?.entry?.country?.flag))
                 listRecent.insert(itemModel, at: 0)
@@ -123,19 +138,11 @@ extension MenuQuickAccessView {
         
         func connect(to info: INodeInfo? = nil) {
             MapAppStates.shared.connectedNode = nil
-            let dj = DependencyContainer.shared
-            if let city = info as? CountryCity {
-                dj.vpnCore.connect(with: .init(connectType: .cityId(id: city.id ?? 0)))
-            } else if let country = info as? CountryAvailables {
-                dj.vpnCore.connect(with: .init(connectType: .countryId(id: country.id ?? 0)))
-            } else if let staticServer = info as? CountryStaticServers {
-                dj.vpnCore.connectTo(connectType: .serverId(id: staticServer.serverId ?? 0), params: nil)
-            } else if let multiplehop = info as? MultiHopResult {
-                dj.vpnCore.connect(with: .init(connectType: .serverId(id: multiplehop.entry?.serverId ?? 0), params: SysVPNConnectParams(isHop: true)))
-                multiplehop.entry?.city?.country = multiplehop.entry?.country
-                multiplehop.exit?.city?.country = multiplehop.exit?.country
-                MapAppStates.shared.connectedNode = multiplehop
+            guard let info = info else {
+                return
             }
+            _ = DependencyContainer.shared
+                .vpnCore.connectTo(node: info, isRetry: false)
         }
     }
 }

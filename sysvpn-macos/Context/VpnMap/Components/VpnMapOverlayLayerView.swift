@@ -32,7 +32,7 @@ struct VpnMapOverlayLayer: ViewModifier {
     }
     
     var idName: String {
-        return (nodePoint?.info.locationDescription ?? "") + tooltipNodeName + (nodePoint?.info.locationSubname ?? "")
+        return nodePoint?.info.deepId ?? ""
     }
     
     var localDescription: String? {
@@ -60,7 +60,7 @@ struct VpnMapOverlayLayer: ViewModifier {
             .modifier(
                 MapTooltipModifier(name: "connected", enabled: connectedNode != nil, config: AppTooltipConfig(), content: {
                     VStack {
-                        Text("Connected")
+                        Text(L10n.Global.connected)
                             .foregroundColor(Color.black)
                     }
                 })
@@ -100,7 +100,6 @@ struct VpnMapOverlayLayer: ViewModifier {
         VStack {
             content.overlay {
                 tooltipInfo
-                
                 tooltipConnectedText.opacity((isShowConnectedNode && mapState.hoverNode != connectedNode) ? 1 : 0)
                 tooltipConnectedNode.opacity((!isShowConnectedNode || mapState.hoverNode != connectedNode) ? 0 : 1)
             }

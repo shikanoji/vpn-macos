@@ -23,13 +23,15 @@ struct MenuQuickAccessView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            if connectionState == .connected || connectionState == .disconnecting {
-                headerMenuConnected
-                    .transition(.opacity)
-            } else {
-                headerMenuNotConnect
-                    .transition(.opacity)
-            }
+            Group {
+                if connectionState == .connected || connectionState == .disconnecting {
+                    headerMenuConnected
+                        .transition(.opacity)
+                } else {
+                    headerMenuNotConnect
+                        .transition(.opacity)
+                }
+            }.frame(height: 155)
             bodyMenu
             footerMenu
         }
@@ -42,7 +44,10 @@ struct MenuQuickAccessView: View {
                 connectionState = newValue
             }
             if connectionState == .connected || connectionState == .disconnected {
-                viewModel.getListRecent()
+                DispatchQueue.main.async {
+                    viewModel.getListRecent()
+                }
+                viewModel.onNeedRefreshUI()
             }
         }
         .onChange(of: networkState.bitRate) { _ in
@@ -70,12 +75,22 @@ struct MenuQuickAccessView: View {
                 .font(Font.system(size: 14))
                 .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
             Spacer().frame(height: 15)
-            Button {
-                viewModel.onTouchConnect()
-            } label: {
-                Text(L10n.Login.quickConnect)
-                    .font(Font.system(size: 14, weight: .semibold))
-            }.buttonStyle(LoginButtonCTAStyle())
+            if connectionState == .connecting {
+                Button {
+                    GlobalAppStates.shared.displayState = .disconnected
+                    viewModel.onTouchDisconnect()
+                } label: {
+                    AppActivityIndicator()
+                }.buttonStyle(LoginButtonCTAStyle())
+            } else {
+                Button {
+                    viewModel.onTouchConnect()
+                    
+                } label: {
+                    Text(L10n.Login.quickConnect)
+                        .font(Font.system(size: 14, weight: .semibold))
+                }.buttonStyle(LoginButtonCTAStyle())
+            }
         }
         .frame(
             maxWidth: .infinity,
@@ -138,24 +153,15 @@ struct MenuQuickAccessView: View {
                 .background(Color(hexString: "FFFFFF").opacity(0.2))
                 .cornerRadius(8)
                 
-                if connectionState == .disconnecting {
-                    Button {} label: {
-                        AppActivityIndicator()
-                        //   .font(Font.system(size: 14, weight: .semibold))
-                    }
-                    .frame(width: 120)
-                    .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
-                } else {
-                    Button {
-                        connectionState = .disconnecting
-                        viewModel.onTouchDisconnect()
-                    } label: {
-                        Text(L10n.Login.disconnect)
-                            .font(Font.system(size: 14, weight: .semibold))
-                    }
-                    .frame(width: 120)
-                    .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
+                Button {
+                    GlobalAppStates.shared.displayState = .disconnected
+                    viewModel.onTouchDisconnect()
+                } label: {
+                    Text(L10n.Login.disconnect)
+                        .font(Font.system(size: 14, weight: .semibold))
                 }
+                .frame(width: 120)
+                .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
             }
         }
         .frame(

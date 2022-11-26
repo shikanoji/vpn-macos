@@ -32,8 +32,10 @@ struct HomeConnectionButtonView: View {
                     }
                     .frame(width: 50, height: 50)
                     .transformEffect(.init(translationX: -20, y: 0))
-                    
+                    .compositingGroup()
                     .opacity(0.3)
+                    .drawingGroup()
+                    
                     image2.resizable()
                         .frame(width: 60, height: 60)
                         .overlay {
@@ -51,7 +53,7 @@ struct HomeConnectionButtonView: View {
                             .foregroundColor(.white)
                     }
             }
-        }
+        }.padding(.top, 4)
     }
     
     var connectedButtonView: some View {
@@ -72,28 +74,23 @@ struct HomeConnectionButtonView: View {
             }
             
             Spacer().frame(height: 16)
-            /*if displayAppState == .disconnecting {
-                Button {} label: {
-                    AppActivityIndicator()
+            Button {
+                lastAppState = displayAppState
+                withAnimation {
+                    displayAppState = .disconnecting
                 }
-                .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
-            } else {*/
-                Button {
-                    lastAppState = displayAppState
-                    withAnimation {
-                        displayAppState = .disconnecting
-                    }
-                    onTap?()
-                } label: {
-                    Text(L10n.Login.disconnect)
-                        .foregroundColor(Color(rgb: 0xF54343))
-                        .font(Font.system(size: 12, weight: .semibold))
-                }
-                .buttonStyle(LoginButtonCTAStyle(bgColor: Color(rgb: 0x242532)))
-                .frame(width: 114)
-            //}
+                onTap?()
+            } label: {
+                Text(L10n.Login.disconnect)
+                    .foregroundColor(Color(rgb: 0xF54343))
+                    .font(Font.system(size: 12, weight: .semibold))
+            }
+            .buttonStyle(LoginButtonCTAStyle(bgColor: Color(rgb: 0x242532)))
+            .frame(width: 114)
+            // }
         }
         .foregroundColor(Color.white)
+        .drawingGroup()
     }
     
     var connectButtonView: some View {
@@ -117,6 +114,7 @@ struct HomeConnectionButtonView: View {
                 AppActivityIndicator(color: Asset.Colors.backgroundColor.swiftUIColor)
             }
         }
+        .drawingGroup()
     }
 
     var body: some View {
@@ -124,7 +122,7 @@ struct HomeConnectionButtonView: View {
             Text((displayAppState == .connected) ? L10n.Global.vpnConnected : L10n.Global.vpnNotConnected)
                 .font(.system(size: 14, weight: .regular))
                 .foregroundColor(Color.white)
-            Spacer().frame(height: 24)
+            Spacer().frame(height: 20)
             
             if displayAppState == .connected {
                 connectedButtonView

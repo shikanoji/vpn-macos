@@ -79,6 +79,10 @@ extension NodePoint {
 }
 
 extension CountryStaticServers: INodeInfo, Equatable {
+    var deepId: String {
+        return "\(PrefixNodeInfo.staticServer.rawValue)\(serverId ?? 0)"
+    }
+    
     var level1Id: String {
         return String(countryId ?? 0)
     }
@@ -129,6 +133,10 @@ extension CountryCity: INodeInfo, Equatable {
         return CountryCity.equal(lhs: lhs, rhs: rhs)
     }
     
+    var deepId: String {
+        return "\(PrefixNodeInfo.city.rawValue)\(id ?? 0)"
+    }
+    
     var imageUrl: String? {
         return country?.flag
     }
@@ -151,11 +159,6 @@ extension CountryCity: INodeInfo, Equatable {
     
     var state: VpnMapPontState {
         if GlobalAppStates.shared.displayState == .connected {
-            if let connectedNode = MapAppStates.shared.connectedNode {
-                if CountryAvailables.equal(lhs: connectedNode, rhs: self) {
-                    return .activated
-                }
-            }
             return .disabled
         }
         return .normal
@@ -178,6 +181,10 @@ extension CountryCity: INodeInfo, Equatable {
 extension CountryAvailables: INodeInfo, Equatable {
     var imageUrl: String? {
         return flag
+    }
+    
+    var deepId: String {
+        return "\(PrefixNodeInfo.country.rawValue)\(id ?? 0)"
     }
     
     var level1Id: String {
@@ -205,11 +212,6 @@ extension CountryAvailables: INodeInfo, Equatable {
     
     var state: VpnMapPontState {
         if GlobalAppStates.shared.displayState == .connected {
-            if let connectedNode = MapAppStates.shared.connectedNode {
-                if CountryAvailables.equal(lhs: connectedNode, rhs: self) {
-                    return .activated
-                }
-            }
             return .disabled
         }
         
@@ -238,6 +240,10 @@ extension MultiHopResult: INodeInfo, Equatable {
         return .normal
     }
     
+    var deepId: String {
+        return "\(PrefixNodeInfo.multipleHop.rawValue)\(entry?.serverId ?? 0)-\(exit?.city?.id ?? 0)"
+    }
+
     var imageUrl: String? {
         return exit?.country?.flag
     }
