@@ -27,7 +27,6 @@
 		9E668E0228E8BC62009CDC95 /* CountryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E668E0128E8BC62009CDC95 /* CountryItemView.swift */; };
 		9E9C9564290A8348009B2FFE /* IPCHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BB228FD41CA00205ECD /* IPCHelper.swift */; };
 		9E9C9565290A834C009B2FFE /* IPCHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35BB228FD41CA00205ECD /* IPCHelper.swift */; };
-		9E9C956A290A83A7009B2FFE /* OpenVpnAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACEC9B029046BE20014ABC9 /* OpenVpnAdapter.swift */; };
 		9E9C956B290A83AA009B2FFE /* WireGuardTunnelAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACEC9AC29046B080014ABC9 /* WireGuardTunnelAdapter.swift */; };
 		9E9C956F290A8699009B2FFE /* WireGuardAdapterEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9C956C290A8695009B2FFE /* WireGuardAdapterEx.swift */; };
 		9E9C9571290A8929009B2FFE /* WireGuardAdapterEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9C956C290A8695009B2FFE /* WireGuardAdapterEx.swift */; };
@@ -142,6 +141,14 @@
 		B9D7F71728D3324C008B1D39 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71628D3324C008B1D39 /* UserModel.swift */; };
 		B9D7F71928D38343008B1D39 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71828D38343008B1D39 /* System.swift */; };
 		B9D7F71C28D781A8008B1D39 /* AppDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7F71B28D781A8008B1D39 /* AppDataManager.swift */; };
+		FA00FA082934B7D900BC1AF7 /* ProtoAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00FA072934B7D900BC1AF7 /* ProtoAdapter.swift */; };
+		FA00FA092934B7D900BC1AF7 /* ProtoAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00FA072934B7D900BC1AF7 /* ProtoAdapter.swift */; };
+		FA00FA0B2934B7D900BC1AF7 /* ProtoAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00FA072934B7D900BC1AF7 /* ProtoAdapter.swift */; };
+		FA00FA0F2934C13200BC1AF7 /* WireGuardAdapterEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9C956C290A8695009B2FFE /* WireGuardAdapterEx.swift */; };
+		FA00FA102934C13200BC1AF7 /* ProtoAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00FA072934B7D900BC1AF7 /* ProtoAdapter.swift */; };
+		FA00FA112934C13200BC1AF7 /* WireGuardTunnelAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACEC9AC29046B080014ABC9 /* WireGuardTunnelAdapter.swift */; };
+		FA00FA122934C13200BC1AF7 /* OpenVpnAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACEC9B029046BE20014ABC9 /* OpenVpnAdapter.swift */; };
+		FA00FA142934C14C00BC1AF7 /* TunnelKitWireGuardAppExtension in Frameworks */ = {isa = PBXBuildFile; productRef = FA00FA132934C14C00BC1AF7 /* TunnelKitWireGuardAppExtension */; };
 		FA12F19828FDA98A009753EE /* com.syspvn.client.macos.OpenVpnSysExtension.systemextension in Embed System Extensions */ = {isa = PBXBuildFile; fileRef = FAA35B4528FD335600205ECD /* com.syspvn.client.macos.OpenVpnSysExtension.systemextension */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FA12F19D28FDAE9D009753EE /* SystemNetworkingMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12F19C28FDAE9D009753EE /* SystemNetworkingMonitor.swift */; };
 		FA12F19F28FDB61A009753EE /* NetworkStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA12F19E28FDB61A009753EE /* NetworkStatistics.swift */; };
@@ -157,6 +164,7 @@
 		FA53832E2927387200C1DA1E /* SysVPNStarter.app in [CP]Starter */ = {isa = PBXBuildFile; fileRef = FA5383192927332800C1DA1E /* SysVPNStarter.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FA538330292738BB00C1DA1E /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA53832F292738BB00C1DA1E /* ServiceManagement.framework */; };
 		FA8DEA8A291956F1000A6818 /* LogFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DEA89291956F1000A6818 /* LogFunc.swift */; };
+		FA91BD3229389991001C49D1 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35B4A28FD335600205ECD /* PacketTunnelProvider.swift */; };
 		FAA35B3D28FD2B2D00205ECD /* Moya+Rx+IPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35B3C28FD2B2D00205ECD /* Moya+Rx+IPC.swift */; };
 		FAA35B4828FD335600205ECD /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA35B4728FD335600205ECD /* NetworkExtension.framework */; };
 		FAA35B4B28FD335600205ECD /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA35B4A28FD335600205ECD /* PacketTunnelProvider.swift */; };
@@ -229,7 +237,6 @@
 		FADFCE7929006EEE00219BB0 /* BlinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFCE7829006EEE00219BB0 /* BlinkingView.swift */; };
 		FAEE1BFA28FF1A830044B5CD /* TimerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE1BF928FF1A830044B5CD /* TimerFactory.swift */; };
 		FAFAAE1F290280A6006A69E3 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA35B4728FD335600205ECD /* NetworkExtension.framework */; };
-		FAFAAE22290280A6006A69E3 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFAAE21290280A6006A69E3 /* PacketTunnelProvider.swift */; };
 		FAFAAE27290280A6006A69E3 /* OpenVpnAppExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FAFAAE1E290280A6006A69E3 /* OpenVpnAppExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FAFAAE3B29028131006A69E3 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA35B4728FD335600205ECD /* NetworkExtension.framework */; };
 		FAFAAE3E29028131006A69E3 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFAAE3D29028131006A69E3 /* PacketTunnelProvider.swift */; };
@@ -463,6 +470,7 @@
 		B9D7F71828D38343008B1D39 /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		B9D7F71A28D463E8008B1D39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9D7F71B28D781A8008B1D39 /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
+		FA00FA072934B7D900BC1AF7 /* ProtoAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtoAdapter.swift; sourceTree = "<group>"; };
 		FA12F19C28FDAE9D009753EE /* SystemNetworkingMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemNetworkingMonitor.swift; sourceTree = "<group>"; };
 		FA12F19E28FDB61A009753EE /* NetworkStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatistics.swift; sourceTree = "<group>"; };
 		FA12F1A128FDCB0D009753EE /* IPCHttpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPCHttpRequest.swift; sourceTree = "<group>"; };
@@ -618,6 +626,7 @@
 			files = (
 				FAFAAE48290281BC006A69E3 /* TunnelKitOpenVPNAppExtension in Frameworks */,
 				FAFAAE1F290280A6006A69E3 /* NetworkExtension.framework in Frameworks */,
+				FA00FA142934C14C00BC1AF7 /* TunnelKitWireGuardAppExtension in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1204,6 +1213,7 @@
 				FACEC9AC29046B080014ABC9 /* WireGuardTunnelAdapter.swift */,
 				FACEC9B029046BE20014ABC9 /* OpenVpnAdapter.swift */,
 				9E9C956C290A8695009B2FFE /* WireGuardAdapterEx.swift */,
+				FA00FA072934B7D900BC1AF7 /* ProtoAdapter.swift */,
 			);
 			path = OpenVpnSysExtension;
 			sourceTree = "<group>";
@@ -1517,6 +1527,7 @@
 			name = OpenVpnAppExtension;
 			packageProductDependencies = (
 				FAFAAE47290281BC006A69E3 /* TunnelKitOpenVPNAppExtension */,
+				FA00FA132934C14C00BC1AF7 /* TunnelKitWireGuardAppExtension */,
 			);
 			productName = OpenVpnAppExtension;
 			productReference = FAFAAE1E290280A6006A69E3 /* OpenVpnAppExtension.appex */;
@@ -1930,6 +1941,7 @@
 				FAA35BD528FD441700205ECD /* IPCHelper.swift in Sources */,
 				FACEC9B92904F8310014ABC9 /* ExKeyChain.swift in Sources */,
 				FACEC9AD29046B080014ABC9 /* WireGuardTunnelAdapter.swift in Sources */,
+				FA00FA082934B7D900BC1AF7 /* ProtoAdapter.swift in Sources */,
 				FAA35BDB28FD442B00205ECD /* XPCBaseService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1947,6 +1959,7 @@
 				FA12F1A428FDCBAD009753EE /* IPCHttpRequest.swift in Sources */,
 				FAA35B7128FD33DA00205ECD /* PacketTunnelProvider.swift in Sources */,
 				FAA35BD628FD441900205ECD /* IPCHelper.swift in Sources */,
+				FA00FA092934B7D900BC1AF7 /* ProtoAdapter.swift in Sources */,
 				FAA35BDC28FD442C00205ECD /* XPCBaseService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1955,11 +1968,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA00FA112934C13200BC1AF7 /* WireGuardTunnelAdapter.swift in Sources */,
+				FA00FA102934C13200BC1AF7 /* ProtoAdapter.swift in Sources */,
 				FACEC9BD290503DA0014ABC9 /* CoreAppConstants.swift in Sources */,
+				FA00FA0F2934C13200BC1AF7 /* WireGuardAdapterEx.swift in Sources */,
 				FACEC9B62904F8300014ABC9 /* ExKeyChain.swift in Sources */,
+				FA00FA122934C13200BC1AF7 /* OpenVpnAdapter.swift in Sources */,
+				FA91BD3229389991001C49D1 /* PacketTunnelProvider.swift in Sources */,
 				9E9C9564290A8348009B2FFE /* IPCHelper.swift in Sources */,
-				FAFAAE22290280A6006A69E3 /* PacketTunnelProvider.swift in Sources */,
-				9E9C956A290A83A7009B2FFE /* OpenVpnAdapter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1972,6 +1988,7 @@
 				FACEC9B72904F8300014ABC9 /* ExKeyChain.swift in Sources */,
 				9E9C956B290A83AA009B2FFE /* WireGuardTunnelAdapter.swift in Sources */,
 				9E9C9565290A834C009B2FFE /* IPCHelper.swift in Sources */,
+				FA00FA0B2934B7D900BC1AF7 /* ProtoAdapter.swift in Sources */,
 				FAFAAE3E29028131006A69E3 /* PacketTunnelProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2837,6 +2854,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B99DB42728E449A700331AFB /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
+		};
+		FA00FA132934C14C00BC1AF7 /* TunnelKitWireGuardAppExtension */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TunnelKitWireGuardAppExtension;
 		};
 		FAA35B5728FD336300205ECD /* TunnelKitOpenVPNAppExtension */ = {
 			isa = XCSwiftPackageProductDependency;
