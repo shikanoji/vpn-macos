@@ -16,13 +16,20 @@ extension HomeView {
         @Published var isOpenSetting = false
         @Published var isShowPopupLogout = false
         @Published var isShowPopupQuestion = false
+        @Published var isOpenCreateProfile = false
+        
         @Published var listCountry: [HomeListCountryModel]
         @Published var listStaticServer: [HomeListCountryModel]
         @Published var listMultiHop: [HomeListCountryModel]
+        @Published var listProfileUser: [HomeListProfileModel]
         
         var listCity: [HomeListCountryModel]
         var countrySelected: HomeListCountryModel?
+        
         var cancellabel: AnyCancellable?
+        var cancellabel1: AnyCancellable?
+        var cancellabel2: AnyCancellable?
+        
         var isConnected: Bool = false
         
         init() {
@@ -30,14 +37,31 @@ extension HomeView {
             listStaticServer = []
             listMultiHop = []
             listCity = []
+            listProfileUser = []
             getListCountry()
             getListStaticServer()
             getListMultiHop()
+            getProfileUser()
+            
+            
             _ = GlobalAppStates.shared.initApp {
                 print("init app success")
             }
             
+            setupCancelZoom()
+            
+        }
+        
+        func setupCancelZoom() {
             cancellabel = Publishers.CombineLatest($selectedMenuItem, $isOpenSetting).receive(on: RunLoop.main).map {
+                return $0.0 != .none || $0.1
+            }.eraseToAnyPublisher().assign(to: \HomeViewModel.lookScrollZoom, on: self) as AnyCancellable
+            
+            cancellabel1 = Publishers.CombineLatest($selectedMenuItem, $isShowPopupLogout).receive(on: RunLoop.main).map {
+                return $0.0 != .none || $0.1
+            }.eraseToAnyPublisher().assign(to: \HomeViewModel.lookScrollZoom, on: self) as AnyCancellable
+            
+            cancellabel2 = Publishers.CombineLatest($selectedMenuItem, $isOpenCreateProfile).receive(on: RunLoop.main).map {
                 return $0.0 != .none || $0.1
             }.eraseToAnyPublisher().assign(to: \HomeViewModel.lookScrollZoom, on: self) as AnyCancellable
         }
@@ -47,6 +71,27 @@ extension HomeView {
         func getListCountry() {
             updateAvailableContry()
         }
+         
+        
+        func getProfileUser() {
+            let profile = UserProfileTemp.getFakeData()
+            print("COUNT: \(profile.count)")
+             
+            var listTemp = [HomeListProfileModel]()
+            listTemp.append(HomeListProfileModel(type: .header, title:  L10n.Global.recentLocationsLabel))
+            listTemp.append(HomeListProfileModel(type: .body, title: "profile 1", profileDetail: profile.first))
+            listTemp.append(HomeListProfileModel(type: .spacing))
+            listTemp.append(HomeListProfileModel(type: .header, title: "All Profiles"))
+            listTemp.append(HomeListProfileModel(type: .body, title: "profile 1", profileDetail: profile.first))
+            listTemp.append(HomeListProfileModel(type: .body, title: "profile 2", profileDetail: profile.first))
+            listTemp.append(HomeListProfileModel(type: .body, title: "profile 3", profileDetail: profile.first))
+            listTemp.append(HomeListProfileModel(type: .body, title: "profile 4", profileDetail: profile.first))
+            listTemp.append(HomeListProfileModel(type: .body, title: "Gaming", profileDetail: profile.first))
+            listTemp.append(HomeListProfileModel(type: .body, title: "Working", profileDetail: profile.first))
+            listTemp.append(HomeListProfileModel(type: .body, title: "Child", profileDetail: profile.first))
+            listProfileUser = listTemp
+        }
+        
              
         func onChangeCountry(item: HomeListCountryModel?) {
             listCity = []

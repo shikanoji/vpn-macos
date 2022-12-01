@@ -11,6 +11,7 @@ enum HomeMenuItem {
     case manualConnection
     case staticIp
     case multiHop
+    case profile
     case none
 }
 
@@ -18,6 +19,8 @@ struct HomeLeftPanelView: View {
     @Binding var selectedItem: HomeMenuItem
     @StateObject private var viewModel = HomeLeftPanelViewModel()
     var onTouchSetting: (() -> Void)?
+    var onChangeTab: (() -> Void)?
+    var onTapCreateProfile: (() -> Void)?
     var iconSize: CGFloat = 32
     var quickConnectButton: some View {
         VStack {
@@ -31,7 +34,9 @@ struct HomeLeftPanelView: View {
     
     var menuSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ProfileTabbarView(index: $viewModel.indexTabbar)
+            ProfileTabbarView(index: $viewModel.indexTabbar, onChangeTab: {
+                onChangeTab?()
+            })
                 .padding(.horizontal, 16)
             Spacer().frame(height: 20)
             if viewModel.indexTabbar == 0 {
@@ -66,8 +71,14 @@ struct HomeLeftPanelView: View {
                     }
                 }
             } else {
-                Text(L10n.Global.setting)
-                    .font(.system(size: 12, weight: .medium))
+                HomeProfileMenuView( onTapCreate: {
+                    onTapCreateProfile?()
+                }, onTapMore: {
+                    withAnimation {
+                        selectedItem = .profile
+                    }
+                })
+
             }
             
         }.frame(maxWidth: .infinity, alignment: .leading)

@@ -98,6 +98,12 @@ extension HomeView {
                             viewModel.isShowPopupQuestion = true
                         }
                     )
+                } else if viewModel.selectedMenuItem == .profile {
+                    HomeListProfileView(listProfile: viewModel.listProfileUser, onTapCreate: {
+                        withAnimation {
+                            viewModel.isOpenCreateProfile = true
+                        }
+                    })
                 }
             }
         }
@@ -163,21 +169,19 @@ extension HomeView {
                     Rectangle().fill(Color.black).opacity(0.5)
                         .edgesIgnoringSafeArea([.top])
                     SettingView(onClose: {
-                                    withAnimation {
-                                        viewModel.isOpenSetting = false
-                                    }
-                                },
-                                onTapLogout: {
-                                    withAnimation {
-                                        viewModel.selectedMenuItem = .none
-                                        viewModel.isOpenSetting = false
-                                        viewModel.isShowPopupLogout = true
-                                    }
-                                })
+                        withAnimation {
+                            viewModel.isOpenSetting = false
+                        }
+                    },
+                    onTapLogout: {
+                        withAnimation {
+                            viewModel.selectedMenuItem = .none
+                            viewModel.isOpenSetting = false
+                            viewModel.isShowPopupLogout = true
+                        }
+                    })
                 }.zIndex(4)
-            }
-            
-            if viewModel.isShowPopupLogout {
+            } else if viewModel.isShowPopupLogout {
                 ZStack {
                     Rectangle().fill(Color.black).opacity(0.5)
                         .edgesIgnoringSafeArea([.top])
@@ -193,9 +197,7 @@ extension HomeView {
                         }
                     )
                 }.zIndex(4)
-            }
-            
-            if viewModel.isShowPopupQuestion {
+            } else if viewModel.isShowPopupQuestion {
                 ZStack {
                     Rectangle().fill(Color.black).opacity(0.5)
                         .edgesIgnoringSafeArea([.top])
@@ -206,6 +208,16 @@ extension HomeView {
                             }
                         }
                     )
+                }.zIndex(4)
+            } else if viewModel.isOpenCreateProfile {
+                ZStack {
+                    Rectangle().fill(Color.black).opacity(0.5)
+                        .edgesIgnoringSafeArea([.top])
+                    ProfileSelectLocationView( onCancel: {
+                        withAnimation {
+                            viewModel.isOpenCreateProfile = false
+                        }
+                    } )
                 }.zIndex(4)
             }
         }

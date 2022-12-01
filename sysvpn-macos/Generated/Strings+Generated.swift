@@ -55,6 +55,12 @@ public enum L10n {
     }
     /// Single location
     public static let countrySingleSubtitle = L10n.tr("Global", "countrySingleSubtitle", fallback: "Single location")
+    /// Create
+    public static let create = L10n.tr("Global", "create", fallback: "Create")
+    /// Create new
+    public static let createNew = L10n.tr("Global", "createNew", fallback: "Create new")
+    /// Create a new profile
+    public static let createNewProfile = L10n.tr("Global", "createNewProfile", fallback: "Create a new profile")
     /// Current IP Address
     public static let currentIpStr = L10n.tr("Global", "currentIpStr", fallback: "Current IP Address")
     /// CURRENT LOAD
@@ -140,6 +146,8 @@ public enum L10n {
     public static let passNotMatch = L10n.tr("Global", "passNotMatch", fallback: "Password not match")
     /// +Extended
     public static let plusExtended = L10n.tr("Global", "plusExtended", fallback: "+Extended")
+    /// Profile name
+    public static let profileName = L10n.tr("Global", "profileName", fallback: "Profile name")
     /// Profiles
     public static let profileStr = L10n.tr("Global", "profileStr", fallback: "Profiles")
     /// Protocol
@@ -161,6 +169,8 @@ public enum L10n {
     public static let searchEmptyStr = L10n.tr("Global", "searchEmptyStr", fallback: "No country found")
     /// Search
     public static let searchStr = L10n.tr("Global", "searchStr", fallback: "Search")
+    /// Select location
+    public static let selectLocation = L10n.tr("Global", "selectLocation", fallback: "Select location")
     /// Session:
     public static let sessionLabel = L10n.tr("Global", "sessionLabel", fallback: "Session:")
     /// Session Traffics

@@ -40,7 +40,16 @@ struct HomeView: View {
                         viewModel.isOpenSetting = true
                     }
                     
-                })
+                }, onChangeTab: {
+                    withAnimation {
+                        viewModel.selectedMenuItem = .none
+                    }
+                }, onTapCreateProfile: {
+                    withAnimation {
+                        viewModel.isOpenCreateProfile = true
+                    }
+                }
+                )
                 .frame(width: 240)
                 .contentShape(Rectangle())
                 .zIndex(3)
@@ -117,9 +126,4 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-            .environmentObject(GlobalAppStates.shared)
-    }
-}
+ 

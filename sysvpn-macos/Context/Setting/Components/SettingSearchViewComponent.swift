@@ -80,7 +80,7 @@ struct SearchPopoverView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            searchInput
+            SearchInputView(textInput: $textInput, frameHeight: 46)
                 .padding(15)
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
@@ -125,22 +125,5 @@ struct SearchPopoverView: View {
         }
         .background(Asset.Colors.popoverBgColor.swiftUIColor)
     }
-    
-    var searchInput: some View {
-        HStack(spacing: 0) {
-            Spacer().frame(width: 12)
-            Asset.Assets.icSearch.swiftUIImage
-                .resizable()
-                .frame(width: 16, height: 16)
-            Spacer().frame(width: 12)
-            TextField(L10n.Global.searchStr, text: $textInput)
-                .placeholder(when: textInput.isEmpty) {
-                    Text(L10n.Global.searchStr).foregroundColor(.white)
-                }
-                .textFieldStyle(PlainTextFieldStyle())
-        }
-        .frame(height: 46)
-        .overlay(RoundedRectangle(cornerRadius: 22).stroke(style: .init(lineWidth: 1.2))
-            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor))
-    }
+     
 }

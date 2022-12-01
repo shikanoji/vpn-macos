@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ProfileTabbarView: View {
     @Binding var index: CGFloat
+    var onChangeTab: (() -> Void)?
     var body: some View {
         ZStack(alignment: .leading) {
             GeometryReader { proxy in
@@ -26,6 +27,10 @@ struct ProfileTabbarView: View {
                             .foregroundColor(index == 0 ? Color.black : Asset.Colors.subTextColor.swiftUIColor)
                             .contentShape(Rectangle())
                             .onTapGesture {
+                                if index == 0 {
+                                    return
+                                }
+                                onChangeTab?()
                                 withAnimation {
                                     index = 0
                                 }
@@ -37,6 +42,10 @@ struct ProfileTabbarView: View {
                             .foregroundColor(index == 1 ? Color.black : Asset.Colors.subTextColor.swiftUIColor)
                             .contentShape(Rectangle())
                             .onTapGesture {
+                                if index == 1 {
+                                    return
+                                }
+                                onChangeTab?()
                                 withAnimation {
                                     index = 1
                                 }

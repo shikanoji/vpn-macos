@@ -75,6 +75,11 @@
 		B92CB1FB29069B4900B2DF60 /* MultiHopResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92CB1FA29069B4900B2DF60 /* MultiHopResult.swift */; };
 		B92CB1FE29069B7000B2DF60 /* MultiHopEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92CB1FC29069B7000B2DF60 /* MultiHopEntry.swift */; };
 		B92CB1FF29069B7000B2DF60 /* MultiHopExit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92CB1FD29069B7000B2DF60 /* MultiHopExit.swift */; };
+		B94AA07F2935BD7B00E734B3 /* HomeListProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94AA07E2935BD7B00E734B3 /* HomeListProfileView.swift */; };
+		B94AA081293611CC00E734B3 /* ProfileSelectLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94AA080293611CC00E734B3 /* ProfileSelectLocationView.swift */; };
+		B94AA083293611DA00E734B3 /* ProfileSelectLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94AA082293611DA00E734B3 /* ProfileSelectLocationViewModel.swift */; };
+		B94AA085293613F200E734B3 /* SearchInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94AA084293613F200E734B3 /* SearchInputView.swift */; };
+		B94AA08A2937438300E734B3 /* UserProfileProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94AA0892937438300E734B3 /* UserProfileProtocol.swift */; };
 		B972163528FFF1DD002E9ABE /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163428FFF1DD002E9ABE /* NotificationExtension.swift */; };
 		B972163C29028862002E9ABE /* WireGuardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163829028862002E9ABE /* WireGuardResult.swift */; };
 		B972163D29028862002E9ABE /* WireGuardInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163929028862002E9ABE /* WireGuardInterface.swift */; };
@@ -91,6 +96,8 @@
 		B9A69D26292B2F0800E6A76F /* SettingSearchViewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A69D25292B2F0800E6A76F /* SettingSearchViewComponent.swift */; };
 		B9A69D2A292DD17800E6A76F /* PopupConfirmSignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A69D29292DD17800E6A76F /* PopupConfirmSignOutView.swift */; };
 		B9A69D302930B5BB00E6A76F /* PopupQuestionMutilHop.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A69D2F2930B5BB00E6A76F /* PopupQuestionMutilHop.swift */; };
+		B9A69D352934A4BB00E6A76F /* HomeProfileMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A69D342934A4BB00E6A76F /* HomeProfileMenuView.swift */; };
+		B9A69D372934A4D200E6A76F /* HomeProfileMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A69D362934A4D200E6A76F /* HomeProfileMenuViewModel.swift */; };
 		B9ABE6642908E0AC009C7A00 /* TabbarListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABE6632908E0AC009C7A00 /* TabbarListItemView.swift */; };
 		B9ABE66629092211009C7A00 /* TabbarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABE66529092211009C7A00 /* TabbarItemView.swift */; };
 		B9ABE669290A8DCF009C7A00 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABE668290A8DCE009C7A00 /* SettingView.swift */; };
@@ -396,6 +403,11 @@
 		B92CB1FA29069B4900B2DF60 /* MultiHopResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiHopResult.swift; sourceTree = "<group>"; };
 		B92CB1FC29069B7000B2DF60 /* MultiHopEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiHopEntry.swift; sourceTree = "<group>"; };
 		B92CB1FD29069B7000B2DF60 /* MultiHopExit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiHopExit.swift; sourceTree = "<group>"; };
+		B94AA07E2935BD7B00E734B3 /* HomeListProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListProfileView.swift; sourceTree = "<group>"; };
+		B94AA080293611CC00E734B3 /* ProfileSelectLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSelectLocationView.swift; sourceTree = "<group>"; };
+		B94AA082293611DA00E734B3 /* ProfileSelectLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSelectLocationViewModel.swift; sourceTree = "<group>"; };
+		B94AA084293613F200E734B3 /* SearchInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputView.swift; sourceTree = "<group>"; };
+		B94AA0892937438300E734B3 /* UserProfileProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileProtocol.swift; sourceTree = "<group>"; };
 		B972163428FFF1DD002E9ABE /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		B972163829028862002E9ABE /* WireGuardResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireGuardResult.swift; sourceTree = "<group>"; };
 		B972163929028862002E9ABE /* WireGuardInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireGuardInterface.swift; sourceTree = "<group>"; };
@@ -411,6 +423,8 @@
 		B9A69D25292B2F0800E6A76F /* SettingSearchViewComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSearchViewComponent.swift; sourceTree = "<group>"; };
 		B9A69D29292DD17800E6A76F /* PopupConfirmSignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupConfirmSignOutView.swift; sourceTree = "<group>"; };
 		B9A69D2F2930B5BB00E6A76F /* PopupQuestionMutilHop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupQuestionMutilHop.swift; sourceTree = "<group>"; };
+		B9A69D342934A4BB00E6A76F /* HomeProfileMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProfileMenuView.swift; sourceTree = "<group>"; };
+		B9A69D362934A4D200E6A76F /* HomeProfileMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProfileMenuViewModel.swift; sourceTree = "<group>"; };
 		B9ABE6632908E0AC009C7A00 /* TabbarListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarListItemView.swift; sourceTree = "<group>"; };
 		B9ABE66529092211009C7A00 /* TabbarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarItemView.swift; sourceTree = "<group>"; };
 		B9ABE668290A8DCE009C7A00 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -692,6 +706,7 @@
 				FAC7FC08292A71D2002A91E3 /* ProfileTabbarView.swift */,
 				B9A69D2F2930B5BB00E6A76F /* PopupQuestionMutilHop.swift */,
 				FA21620729312F1000F2F616 /* HomeViewProto.swift */,
+				B94AA07E2935BD7B00E734B3 /* HomeListProfileView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -899,6 +914,14 @@
 			path = MultiHop;
 			sourceTree = "<group>";
 		};
+		B94AA0882937435100E734B3 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				B94AA0892937438300E734B3 /* UserProfileProtocol.swift */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
 		B9721636290287FA002E9ABE /* WireGuard */ = {
 			isa = PBXGroup;
 			children = (
@@ -948,6 +971,17 @@
 				9E668DF928E8A722009CDC95 /* MenuQuickAccessConfigurator.swift */,
 			);
 			path = MenuQuickAccess;
+			sourceTree = "<group>";
+		};
+		B9A69D332934A49800E6A76F /* HomeProfile */ = {
+			isa = PBXGroup;
+			children = (
+				B9A69D342934A4BB00E6A76F /* HomeProfileMenuView.swift */,
+				B9A69D362934A4D200E6A76F /* HomeProfileMenuViewModel.swift */,
+				B94AA080293611CC00E734B3 /* ProfileSelectLocationView.swift */,
+				B94AA082293611DA00E734B3 /* ProfileSelectLocationViewModel.swift */,
+			);
+			path = HomeProfile;
 			sourceTree = "<group>";
 		};
 		B9ABE667290A8A24009C7A00 /* Setting */ = {
@@ -1037,6 +1071,7 @@
 		B9B3703128FE4FE70022498B /* CodableModel */ = {
 			isa = PBXGroup;
 			children = (
+				B94AA0882937435100E734B3 /* UserProfile */,
 				B92CB1F929069B1700B2DF60 /* MultiHop */,
 				B9721636290287FA002E9ABE /* WireGuard */,
 				B9B3706528FEAAF90022498B /* ServerState */,
@@ -1116,6 +1151,7 @@
 		B9D7F70C28D213FF008B1D39 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				B9A69D332934A49800E6A76F /* HomeProfile */,
 				9EC0CF4628E748DD00617A83 /* Components */,
 				B9D7F70D28D21421008B1D39 /* HomeView.swift */,
 				9EC0CF4428E7468F00617A83 /* HomeLeftPanelView.swift */,
@@ -1342,6 +1378,7 @@
 				FADFCE7829006EEE00219BB0 /* BlinkingView.swift */,
 				FAC3CB462901355B0095F30E /* MapTooltipView.swift */,
 				B9ABE67D290B90F5009C7A00 /* RoundedCorners.swift */,
+				B94AA084293613F200E734B3 /* SearchInputView.swift */,
 			);
 			path = SharedView;
 			sourceTree = "<group>";
@@ -1748,9 +1785,11 @@
 				9E3756C228E6DB6500E95C64 /* VpnMapPointLayerView.swift in Sources */,
 				9EB62F8A28E803FD00351D98 /* HomeTrafficMonitorView.swift in Sources */,
 				B92CB1FB29069B4900B2DF60 /* MultiHopResult.swift in Sources */,
+				B94AA081293611CC00E734B3 /* ProfileSelectLocationView.swift in Sources */,
 				FAA35BD128FD41CB00205ECD /* SysVPNError.swift in Sources */,
 				FAA35BB628FD41CB00205ECD /* AppConfigManagement.swift in Sources */,
 				FACEC9B32904D71A0014ABC9 /* SysMessageService.swift in Sources */,
+				B94AA07F2935BD7B00E734B3 /* HomeListProfileView.swift in Sources */,
 				9E668DF828E8A6F7009CDC95 /* TabbarViews.swift in Sources */,
 				FADFCE7929006EEE00219BB0 /* BlinkingView.swift in Sources */,
 				FA21620A29313F4B00F2F616 /* AppAlertManager.swift in Sources */,
@@ -1776,8 +1815,10 @@
 				FACEC9B52904F82D0014ABC9 /* ExKeyChain.swift in Sources */,
 				B9B3705928FE4FE80022498B /* CountryResult.swift in Sources */,
 				B9ABE674290AD06C009C7A00 /* VpnSettingView.swift in Sources */,
+				B94AA08A2937438300E734B3 /* UserProfileProtocol.swift in Sources */,
 				9EB62F8228E7E54C00351D98 /* HomeZoomSliderView.swift in Sources */,
 				AC09D79628BE0D1F0078E928 /* AppDelegate.swift in Sources */,
+				B94AA085293613F200E734B3 /* SearchInputView.swift in Sources */,
 				B9B3705628FE4FE70022498B /* VPNConnectionDetails.swift in Sources */,
 				9E3756BF28E6DB6500E95C64 /* VpnMapProtocol+Enum.swift in Sources */,
 				B9ABE688290BB32F009C7A00 /* VpnSettingViewModel.swift in Sources */,
@@ -1790,6 +1831,7 @@
 				B9B3705828FE4FE70022498B /* CountryOrder.swift in Sources */,
 				FAA35BBD28FD41CB00205ECD /* WireguardProtocolFactory.swift in Sources */,
 				B9ABE672290ACFE5009C7A00 /* GeneralSettingView.swift in Sources */,
+				B94AA083293611DA00E734B3 /* ProfileSelectLocationViewModel.swift in Sources */,
 				9E3756CE28E6E54500E95C64 /* SpashWindowAccessor.swift in Sources */,
 				9EC3322F28C1151800CA5DF5 /* LoginInputTextFiled.swift in Sources */,
 				FAD511DF292C010E00194004 /* NetworkChecker.swift in Sources */,
@@ -1849,6 +1891,7 @@
 				9E668E0228E8BC62009CDC95 /* CountryItemView.swift in Sources */,
 				B9B3705A28FE4FE80022498B /* CountrySettings.swift in Sources */,
 				B9ABE67E290B90F5009C7A00 /* RoundedCorners.swift in Sources */,
+				B9A69D352934A4BB00E6A76F /* HomeProfileMenuView.swift in Sources */,
 				B9A69D302930B5BB00E6A76F /* PopupQuestionMutilHop.swift in Sources */,
 				B972163D29028862002E9ABE /* WireGuardInterface.swift in Sources */,
 				B9D7F71728D3324C008B1D39 /* UserModel.swift in Sources */,
@@ -1870,6 +1913,7 @@
 				AC09D79928BE0F340078E928 /* XCAssets+Generated.swift in Sources */,
 				B92CB1FF29069B7000B2DF60 /* MultiHopExit.swift in Sources */,
 				FAA35BB928FD41CB00205ECD /* AppStateManagement.swift in Sources */,
+				B9A69D372934A4D200E6A76F /* HomeProfileMenuViewModel.swift in Sources */,
 				FAA35BCD28FD41CB00205ECD /* OSExtensionManager.swift in Sources */,
 				B998BA2C2915143B0057A60B /* SettingPasswordComponent.swift in Sources */,
 				B9ABE692290BBCE5009C7A00 /* SettingSwitchComponent.swift in Sources */,

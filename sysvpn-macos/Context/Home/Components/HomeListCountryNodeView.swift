@@ -38,7 +38,7 @@ struct HomeListCountryNodeView: View {
                     .padding(.bottom, 20)
             }
             if countries.count >= 5 {
-                searchInput
+                SearchInputView(textInput: $textInput)
                     .padding(.top, 2)
                     .padding(.bottom, 12)
             }
@@ -140,22 +140,7 @@ struct HomeListCountryNodeView: View {
         .onTapGesture {
             onTouchQuestion?()
         }
-    }
-    
-    var searchInput: some View {
-        HStack(spacing: 0) {
-            Spacer().frame(width: 12)
-            Asset.Assets.icSearch.swiftUIImage
-                .resizable()
-                .frame(width: 16, height: 16)
-            Spacer().frame(width: 12)
-            TextField(L10n.Global.searchStr, text: $textInput)
-                .textFieldStyle(PlainTextFieldStyle())
-        }
-        .frame(height: 40)
-        .overlay(RoundedRectangle(cornerRadius: 22).stroke(style: .init(lineWidth: 1.2))
-            .foregroundColor(Asset.Colors.subTextColor.swiftUIColor))
-    }
+    } 
 }
 
 struct HomeDetailCityNodeView: View {

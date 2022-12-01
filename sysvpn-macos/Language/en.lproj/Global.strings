@@ -28,6 +28,12 @@
 "profileStr" = "Profiles";
 
 "whatIsMultihop" = "What is multihop?";
+ 
+"createNew" = "Create new";
+"create" = "Create";
+"selectLocation" = "Select location";
+"createNewProfile" = "Create a new profile";
+"profileName" = "Profile name";
 
 //setting
 "general" = "General";
