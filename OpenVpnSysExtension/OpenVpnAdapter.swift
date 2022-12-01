@@ -20,7 +20,7 @@ import TunnelKitOpenVPNProtocol
 
 private let log = SwiftyBeaver.self
  
-open class OpenVPNTunnelAdapter {
+open class OpenVPNTunnelAdapter : ProtoAdapter {
     private weak var packetTunnelProvider: NEPacketTunnelProvider?
 
     // MARK: Tweaks
@@ -101,7 +101,7 @@ open class OpenVPNTunnelAdapter {
         self.packetTunnelProvider = packetTunnelProvider
     }
  
-    open func startTunnel(options: [String: NSObject]? = nil, completionHandler: @escaping (Error?) -> Void) {
+    open override func startTunnel(options: [String: NSObject]? = nil, completionHandler: @escaping (Error?) -> Void) {
         // required configuration
         do {
             guard let tunnelProtocol = packetTunnelProvider?.protocolConfiguration as? NETunnelProviderProtocol else {
@@ -192,7 +192,7 @@ open class OpenVPNTunnelAdapter {
         }
     }
     
-    open func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
+    open override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
         pendingStartHandler = nil
         log.info("Stopping tunnel...")
         cfg._appexSetLastError(nil)

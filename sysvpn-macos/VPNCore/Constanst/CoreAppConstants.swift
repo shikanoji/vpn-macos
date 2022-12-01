@@ -43,6 +43,13 @@ public class CoreAppConstants {
         static let wireguard = "\(appBundleId).OpenVpnSysExtension"
         // static let wireguard = "\(appBundleId).WireGuardSysExtension"
     }
+    
+    struct VPNProtocolName {
+        static let openVpn = "OPENVPN"
+        static let wireguard = "WIREGUARD"
+        static let configurationField = "vpnProtocolConfiguration"
+    }
+    
 }
 
 extension String {
