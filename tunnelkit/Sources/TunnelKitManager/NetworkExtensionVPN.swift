@@ -256,6 +256,7 @@ public class NetworkExtensionVPN: VPN {
     // MARK: Notifications
 
     @objc private func vpnDidUpdate(_ notification: Notification) {
+        
         guard let connection = notification.object as? NETunnelProviderSession else {
             return
         }

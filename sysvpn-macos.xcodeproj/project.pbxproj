@@ -2602,6 +2602,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = OpenVpnSysExtension/open_vpn_sys_extension_birdge_header.h;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -2632,6 +2633,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = OpenVpnSysExtension/open_vpn_sys_extension_birdge_header.h;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

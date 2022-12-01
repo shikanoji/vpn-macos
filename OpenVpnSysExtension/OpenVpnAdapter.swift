@@ -17,8 +17,9 @@ import TunnelKitOpenVPNAppExtension
 import TunnelKitOpenVPNCore
 import TunnelKitOpenVPNManager
 import TunnelKitOpenVPNProtocol
-
+import os.log
 private let log = SwiftyBeaver.self
+ 
  
 open class OpenVPNTunnelAdapter : ProtoAdapter {
     private weak var packetTunnelProvider: NEPacketTunnelProvider?
@@ -338,6 +339,8 @@ extension OpenVPNTunnelAdapter: GenericSocketDelegate {
     
     public func socketDidTimeout(_ socket: GenericSocket) {
         log.debug("Socket timed out waiting for activity, cancelling...")
+       
+
         shouldReconnect = true
         socket.shutdown()
 
@@ -363,6 +366,7 @@ extension OpenVPNTunnelAdapter: GenericSocketDelegate {
     }
     
     public func socket(_ socket: GenericSocket, didShutdownWithFailure failure: Bool) {
+       
         guard let session = session else {
             return
         }
@@ -410,7 +414,7 @@ extension OpenVPNTunnelAdapter: GenericSocketDelegate {
             }
             return
         }
-
+        
         // shut down
         disposeTunnel(error: shutdownError)
     }
@@ -499,7 +503,8 @@ extension OpenVPNTunnelAdapter: OpenVPNSessionDelegate {
         } else {
             log.info("Session did stop")
         }
-
+        
+       
         isCountingData = false
         refreshDataCount()
 

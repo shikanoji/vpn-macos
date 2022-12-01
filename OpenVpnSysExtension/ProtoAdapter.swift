@@ -6,7 +6,7 @@
 //
 import NetworkExtension
 import Foundation
-
+import SwiftyBeaver
 
  open class ProtoAdapter {
     
@@ -22,3 +22,5 @@ import Foundation
     }
     
 }
+
+ 

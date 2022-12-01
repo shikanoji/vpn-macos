@@ -27,6 +27,7 @@ struct HomeLeftPanelView: View {
             HomeConnectionButtonView {
                 viewModel.onTapConnect()
             }
+            .frame(height: 250)
         }
         .frame(maxWidth: .infinity, alignment: .center)
         .padding(.horizontal, 16)
