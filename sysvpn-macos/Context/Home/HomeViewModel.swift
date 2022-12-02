@@ -17,6 +17,7 @@ extension HomeView {
         @Published var isShowPopupLogout = false
         @Published var isShowPopupQuestion = false
         @Published var isOpenCreateProfile = false
+        @Published var isShowRenameProfile = false
         
         @Published var listCountry: [HomeListCountryModel]
         @Published var listStaticServer: [HomeListCountryModel]
@@ -29,6 +30,10 @@ extension HomeView {
         var cancellabel: AnyCancellable?
         var cancellabel1: AnyCancellable?
         var cancellabel2: AnyCancellable?
+        var cancellabel3: AnyCancellable?
+        
+        var itemProfileEdit: UserProfileTemp?
+        var isEditLocation: Bool = false
         
         var isConnected: Bool = false
         
@@ -64,6 +69,10 @@ extension HomeView {
             cancellabel2 = Publishers.CombineLatest($selectedMenuItem, $isOpenCreateProfile).receive(on: RunLoop.main).map {
                 return $0.0 != .none || $0.1
             }.eraseToAnyPublisher().assign(to: \HomeViewModel.lookScrollZoom, on: self) as AnyCancellable
+            
+            cancellabel3 = Publishers.CombineLatest($selectedMenuItem, $isShowRenameProfile).receive(on: RunLoop.main).map {
+                return $0.0 != .none || $0.1
+            }.eraseToAnyPublisher().assign(to: \HomeViewModel.lookScrollZoom, on: self) as AnyCancellable
         }
         
         func onViewAppear() {}
@@ -74,21 +83,19 @@ extension HomeView {
          
         
         func getProfileUser() {
-            let profile = UserProfileTemp.getFakeData()
-            print("COUNT: \(profile.count)")
-             
+            if GlobalAppStates.shared.listProfile.isEmpty {
+                AppDataManager.shared.readListProfile()
+            }
+            let profile = GlobalAppStates.shared.listProfile
+            
             var listTemp = [HomeListProfileModel]()
-            listTemp.append(HomeListProfileModel(type: .header, title:  L10n.Global.recentLocationsLabel))
-            listTemp.append(HomeListProfileModel(type: .body, title: "profile 1", profileDetail: profile.first))
-            listTemp.append(HomeListProfileModel(type: .spacing))
-            listTemp.append(HomeListProfileModel(type: .header, title: "All Profiles"))
-            listTemp.append(HomeListProfileModel(type: .body, title: "profile 1", profileDetail: profile.first))
-            listTemp.append(HomeListProfileModel(type: .body, title: "profile 2", profileDetail: profile.first))
-            listTemp.append(HomeListProfileModel(type: .body, title: "profile 3", profileDetail: profile.first))
-            listTemp.append(HomeListProfileModel(type: .body, title: "profile 4", profileDetail: profile.first))
-            listTemp.append(HomeListProfileModel(type: .body, title: "Gaming", profileDetail: profile.first))
-            listTemp.append(HomeListProfileModel(type: .body, title: "Working", profileDetail: profile.first))
-            listTemp.append(HomeListProfileModel(type: .body, title: "Child", profileDetail: profile.first))
+            if profile.count > 0 {
+                listTemp.append(HomeListProfileModel(type: .header, title:  L10n.Global.allProfile))
+                for item in profile {
+                    let item = HomeListProfileModel(type: .body, title: item.profileName ?? "", profileDetail: item)
+                    listTemp.append(item)
+                }
+            } 
             listProfileUser = listTemp
         }
         

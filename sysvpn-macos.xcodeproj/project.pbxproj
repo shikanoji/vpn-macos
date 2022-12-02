@@ -79,6 +79,9 @@
 		B94AA083293611DA00E734B3 /* ProfileSelectLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94AA082293611DA00E734B3 /* ProfileSelectLocationViewModel.swift */; };
 		B94AA085293613F200E734B3 /* SearchInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94AA084293613F200E734B3 /* SearchInputView.swift */; };
 		B94AA08A2937438300E734B3 /* UserProfileProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94AA0892937438300E734B3 /* UserProfileProtocol.swift */; };
+		B94AA08C2939EB7200E734B3 /* HomeListProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94AA08B2939EB7200E734B3 /* HomeListProfileViewModel.swift */; };
+		B94AA08E2939F21200E734B3 /* AppDataManager+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94AA08D2939F21200E734B3 /* AppDataManager+Profile.swift */; };
+		B94AA090293A045400E734B3 /* RenameProfileComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94AA08F293A045400E734B3 /* RenameProfileComponent.swift */; };
 		B972163528FFF1DD002E9ABE /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163428FFF1DD002E9ABE /* NotificationExtension.swift */; };
 		B972163C29028862002E9ABE /* WireGuardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163829028862002E9ABE /* WireGuardResult.swift */; };
 		B972163D29028862002E9ABE /* WireGuardInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972163929028862002E9ABE /* WireGuardInterface.swift */; };
@@ -415,6 +418,9 @@
 		B94AA082293611DA00E734B3 /* ProfileSelectLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSelectLocationViewModel.swift; sourceTree = "<group>"; };
 		B94AA084293613F200E734B3 /* SearchInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputView.swift; sourceTree = "<group>"; };
 		B94AA0892937438300E734B3 /* UserProfileProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileProtocol.swift; sourceTree = "<group>"; };
+		B94AA08B2939EB7200E734B3 /* HomeListProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListProfileViewModel.swift; sourceTree = "<group>"; };
+		B94AA08D2939F21200E734B3 /* AppDataManager+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDataManager+Profile.swift"; sourceTree = "<group>"; };
+		B94AA08F293A045400E734B3 /* RenameProfileComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameProfileComponent.swift; sourceTree = "<group>"; };
 		B972163428FFF1DD002E9ABE /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		B972163829028862002E9ABE /* WireGuardResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireGuardResult.swift; sourceTree = "<group>"; };
 		B972163929028862002E9ABE /* WireGuardInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WireGuardInterface.swift; sourceTree = "<group>"; };
@@ -715,7 +721,7 @@
 				FAC7FC08292A71D2002A91E3 /* ProfileTabbarView.swift */,
 				B9A69D2F2930B5BB00E6A76F /* PopupQuestionMutilHop.swift */,
 				FA21620729312F1000F2F616 /* HomeViewProto.swift */,
-				B94AA07E2935BD7B00E734B3 /* HomeListProfileView.swift */,
+				B94AA08F293A045400E734B3 /* RenameProfileComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -899,6 +905,7 @@
 				9E34CF17290AE493002768B6 /* AppDataManager+Cache.swift */,
 				FA3A885B292646CE000BDB3D /* AppDataManager+Recent.swift */,
 				FA21620929313F4B00F2F616 /* AppAlertManager.swift */,
+				B94AA08D2939F21200E734B3 /* AppDataManager+Profile.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -989,6 +996,8 @@
 				B9A69D362934A4D200E6A76F /* HomeProfileMenuViewModel.swift */,
 				B94AA080293611CC00E734B3 /* ProfileSelectLocationView.swift */,
 				B94AA082293611DA00E734B3 /* ProfileSelectLocationViewModel.swift */,
+				B94AA07E2935BD7B00E734B3 /* HomeListProfileView.swift */,
+				B94AA08B2939EB7200E734B3 /* HomeListProfileViewModel.swift */,
 			);
 			path = HomeProfile;
 			sourceTree = "<group>";
@@ -1782,6 +1791,7 @@
 				FAA35BBF28FD41CB00205ECD /* CoreAppConstants.swift in Sources */,
 				FAC3CB472901355B0095F30E /* MapTooltipView.swift in Sources */,
 				FAA35BC628FD41CB00205ECD /* SysVPNCore.swift in Sources */,
+				B94AA090293A045400E734B3 /* RenameProfileComponent.swift in Sources */,
 				B9D7F71928D38343008B1D39 /* System.swift in Sources */,
 				B9B3704D28FE4FE70022498B /* AuthRefresh.swift in Sources */,
 				B9D7F71528D330BF008B1D39 /* BaseModel.swift in Sources */,
@@ -1822,8 +1832,10 @@
 				9E3756C128E6DB6500E95C64 /* VpnMapPointView.swift in Sources */,
 				B9B3704B28FE4FE70022498B /* AuthTokens.swift in Sources */,
 				B9A69D2A292DD17800E6A76F /* PopupConfirmSignOutView.swift in Sources */,
+				B94AA08E2939F21200E734B3 /* AppDataManager+Profile.swift in Sources */,
 				FA3A885C292646CE000BDB3D /* AppDataManager+Recent.swift in Sources */,
 				FACEC9B52904F82D0014ABC9 /* ExKeyChain.swift in Sources */,
+				B94AA08C2939EB7200E734B3 /* HomeListProfileViewModel.swift in Sources */,
 				B9B3705928FE4FE80022498B /* CountryResult.swift in Sources */,
 				B9ABE674290AD06C009C7A00 /* VpnSettingView.swift in Sources */,
 				B94AA08A2937438300E734B3 /* UserProfileProtocol.swift in Sources */,

@@ -31,9 +31,19 @@
  
 "createNew" = "Create new";
 "create" = "Create";
+"select" = "Select";
 "selectLocation" = "Select location";
 "createNewProfile" = "Create a new profile";
 "profileName" = "Profile name";
+"allProfile" = "All Profiles";
+"countryEmpty" = "Country cannot be empty";
+"profileEmpty" = "Profile name cannot be empty";
+"setLocation" = "Set location";
+"pickToTop" = "Pick to top";
+"rename" = "Rename";
+"deleteProfile" = "Delete profile";
+
+"renameProfile" = "Rename profile";
 
 //setting
 "general" = "General";

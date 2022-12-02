@@ -99,7 +99,19 @@ extension HomeView {
                         }
                     )
                 } else if viewModel.selectedMenuItem == .profile {
-                    HomeListProfileView(listProfile: viewModel.listProfileUser, onTapCreate: {
+                    HomeListProfileView(onTapCreate: {
+                        viewModel.isEditLocation = false
+                        withAnimation {
+                            viewModel.isOpenCreateProfile = true
+                        }
+                    }, onTapRename: { item in
+                        viewModel.itemProfileEdit = item
+                        withAnimation {
+                            viewModel.isShowRenameProfile = true
+                        }
+                    }, onTapChangeLocation: { item in
+                        viewModel.itemProfileEdit = item
+                        viewModel.isEditLocation = true
                         withAnimation {
                             viewModel.isOpenCreateProfile = true
                         }
@@ -168,6 +180,11 @@ extension HomeView {
                 ZStack {
                     Rectangle().fill(Color.black).opacity(0.5)
                         .edgesIgnoringSafeArea([.top])
+                        .onTapGesture {
+                            withAnimation {
+                                viewModel.isOpenSetting = false
+                            }
+                        }
                     SettingView(onClose: {
                         withAnimation {
                             viewModel.isOpenSetting = false
@@ -185,6 +202,11 @@ extension HomeView {
                 ZStack {
                     Rectangle().fill(Color.black).opacity(0.5)
                         .edgesIgnoringSafeArea([.top])
+                        .onTapGesture {
+                            withAnimation {
+                                viewModel.isShowPopupLogout = false
+                            }
+                        }
                     PopupConfirmSignOutView(
                         onCancel: {
                             withAnimation {
@@ -201,6 +223,11 @@ extension HomeView {
                 ZStack {
                     Rectangle().fill(Color.black).opacity(0.5)
                         .edgesIgnoringSafeArea([.top])
+                        .onTapGesture {
+                            withAnimation {
+                                viewModel.isShowPopupQuestion = false
+                            }
+                        }
                     PopupQuestionMutilHop(
                         onCancel: {
                             withAnimation {
@@ -213,12 +240,33 @@ extension HomeView {
                 ZStack {
                     Rectangle().fill(Color.black).opacity(0.5)
                         .edgesIgnoringSafeArea([.top])
-                    ProfileSelectLocationView( onCancel: {
+                        .onTapGesture {
+                            withAnimation {
+                                viewModel.isOpenCreateProfile = false
+                            }
+                        }
+                    ProfileSelectLocationView(onCancel: {
                         withAnimation {
                             viewModel.isOpenCreateProfile = false
                         }
-                    } )
+                    }, isEdit: viewModel.isEditLocation, itemEdit: viewModel.itemProfileEdit)
                 }.zIndex(4)
+            } else if viewModel.isShowRenameProfile {
+                ZStack {
+                    Rectangle().fill(Color.black).opacity(0.5)
+                        .edgesIgnoringSafeArea([.top])
+                        .onTapGesture {
+                            withAnimation {
+                                viewModel.isShowRenameProfile = false
+                            }
+                        }
+                    RenameProfileComponent(itemEdit: viewModel.itemProfileEdit, profileInput: viewModel.itemProfileEdit?.profileName ?? "", onCancel: {
+                        withAnimation {
+                            viewModel.isShowRenameProfile = false
+                        }
+                    })
+                }.zIndex(4)
+               
             }
         }
     }

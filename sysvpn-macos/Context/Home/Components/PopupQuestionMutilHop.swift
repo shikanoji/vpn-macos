@@ -40,9 +40,4 @@ struct PopupQuestionMutilHop: View {
         .frame(minWidth: 10, maxWidth: 350)
     }
 }
-
-struct PopupQuestionMutilHop_Previews: PreviewProvider {
-    static var previews: some View {
-        PopupQuestionMutilHop()
-    }
-}
+ 
