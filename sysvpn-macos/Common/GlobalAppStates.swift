@@ -11,6 +11,7 @@ class GlobalAppStates: ObservableObject {
     static let shared = GlobalAppStates()
     @Published var displayState: AppDisplayState = .disconnected
     @Published var recentList = [RecentModel]()
+    @Published var listProfile = [UserProfileTemp]()
     var onReady: (() -> Void)?
     var isInitApp = false
     var isWaitingInitApp = false

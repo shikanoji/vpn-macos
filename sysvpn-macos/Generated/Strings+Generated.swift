@@ -21,6 +21,8 @@ public enum L10n {
     public static let alertScrollToShowMore = L10n.tr("Global", "alertScrollToShowMore", fallback: "Scroll down to more")
     /// All countries
     public static let allCountriesLabel = L10n.tr("Global", "allCountriesLabel", fallback: "All countries")
+    /// All Profiles
+    public static let allProfile = L10n.tr("Global", "allProfile", fallback: "All Profiles")
     /// Appearence
     public static let appearence = L10n.tr("Global", "appearence", fallback: "Appearence")
     /// App language
@@ -53,6 +55,8 @@ public enum L10n {
     public static func countryCitiesSubtitle(_ p1: Int) -> String {
       return L10n.tr("Global", "countryCitiesSubtitle", p1, fallback: "%d cities available")
     }
+    /// Country cannot be empty
+    public static let countryEmpty = L10n.tr("Global", "countryEmpty", fallback: "Country cannot be empty")
     /// Single location
     public static let countrySingleSubtitle = L10n.tr("Global", "countrySingleSubtitle", fallback: "Single location")
     /// Create
@@ -83,6 +87,8 @@ public enum L10n {
     public static func daysLeft(_ p1: Int) -> String {
       return L10n.tr("Global", "daysLeft", p1, fallback: "%d days left")
     }
+    /// Delete profile
+    public static let deleteProfile = L10n.tr("Global", "deleteProfile", fallback: "Delete profile")
     /// Down speed
     public static let downSpeed = L10n.tr("Global", "downSpeed", fallback: "Down speed")
     /// Down Volume:
@@ -144,8 +150,12 @@ public enum L10n {
     public static let noset = L10n.tr("Global", "noset", fallback: "No set")
     /// Password not match
     public static let passNotMatch = L10n.tr("Global", "passNotMatch", fallback: "Password not match")
+    /// Pick to top
+    public static let pickToTop = L10n.tr("Global", "pickToTop", fallback: "Pick to top")
     /// +Extended
     public static let plusExtended = L10n.tr("Global", "plusExtended", fallback: "+Extended")
+    /// Profile name cannot be empty
+    public static let profileEmpty = L10n.tr("Global", "profileEmpty", fallback: "Profile name cannot be empty")
     /// Profile name
     public static let profileName = L10n.tr("Global", "profileName", fallback: "Profile name")
     /// Profiles
@@ -165,16 +175,24 @@ public enum L10n {
     public static let recentLocationsLabel = L10n.tr("Global", "recentLocationsLabel", fallback: "Recent locations")
     /// Recommended
     public static let recommendedLabel = L10n.tr("Global", "recommendedLabel", fallback: "Recommended")
+    /// Rename
+    public static let rename = L10n.tr("Global", "rename", fallback: "Rename")
+    /// Rename profile
+    public static let renameProfile = L10n.tr("Global", "renameProfile", fallback: "Rename profile")
     /// No country found
     public static let searchEmptyStr = L10n.tr("Global", "searchEmptyStr", fallback: "No country found")
     /// Search
     public static let searchStr = L10n.tr("Global", "searchStr", fallback: "Search")
+    /// Select
+    public static let select = L10n.tr("Global", "select", fallback: "Select")
     /// Select location
     public static let selectLocation = L10n.tr("Global", "selectLocation", fallback: "Select location")
     /// Session:
     public static let sessionLabel = L10n.tr("Global", "sessionLabel", fallback: "Session:")
     /// Session Traffics
     public static let sessionTraffics = L10n.tr("Global", "sessionTraffics", fallback: "Session Traffics")
+    /// Set location
+    public static let setLocation = L10n.tr("Global", "setLocation", fallback: "Set location")
     /// Settings
     public static let setting = L10n.tr("Global", "setting", fallback: "Settings")
     /// You will be returned to the login screen

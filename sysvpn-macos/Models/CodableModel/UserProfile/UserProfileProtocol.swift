@@ -14,7 +14,7 @@ protocol UserProfileProtocol {
 }
 
 
-struct UserProfileTemp: Codable, UserProfileProtocol {
+struct UserProfileTemp: Codable, UserProfileProtocol, Identifiable {
     func getProfileName() -> String?{
         return profileName
     }
@@ -35,7 +35,8 @@ struct UserProfileTemp: Codable, UserProfileProtocol {
 
     var profileName: String?
     var serverId: Int?
-    var profileId: Int?
+    var profileId: UUID?
+    var id: UUID = UUID()
     
     static func getFakeData() -> [UserProfileTemp]{ 
         var item = UserProfileTemp()
@@ -44,16 +45,20 @@ struct UserProfileTemp: Codable, UserProfileProtocol {
         var listTemp = [UserProfileTemp]()
         listTemp.append(item)
         listTemp.append(item)
-        
         return listTemp
     }
+    
+    static func loadDataProfile() {
+        
+    }
+    
     init(){}
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         profileName = try container.decodeIfPresent(String.self, forKey: .profileName)
         serverId = try container.decodeIfPresent(Int.self, forKey: .serverId)
-        profileId = try container.decodeIfPresent(Int.self, forKey: .profileId)
+        profileId = try container.decodeIfPresent(UUID.self, forKey: .profileId)
     }
     
     func saveUserProfile() {
@@ -64,3 +69,5 @@ struct UserProfileTemp: Codable, UserProfileProtocol {
         return UserProfileTemp.readFile(fileName: .keySaveUserProfile) as? UserProfileTemp
     }
 }
+
+

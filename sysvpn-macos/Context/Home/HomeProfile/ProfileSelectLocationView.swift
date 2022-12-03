@@ -9,16 +9,29 @@ import SwiftUI
 
 struct ProfileSelectLocationView: View {
     
-    @State var searchInput: String = ""
-    @State var profileInput: String = ""
-    @State var indexSelect: Int = 0
     var onCancel: (() -> Void)?
     var isEdit: Bool = false
     @StateObject var viewModel = ProfileSelectLocationViewModel()
+     
+    init(onCancel: (() -> Void)?,  isEdit: Bool,itemEdit: UserProfileTemp? ) {
+        self.onCancel = onCancel
+        self.isEdit = isEdit
+        viewModel.itemEdit = itemEdit
+    }
     
     private let adaptiveColums = [
         GridItem(.adaptive(minimum: 120))
     ]
+    
+    var listFilter: [CountryAvailables] {
+        if viewModel.searchInput.isEmpty {
+            return viewModel.listCountry
+        } else {
+            return viewModel.listCountry.filter { item in
+                return item.name?.localizedCaseInsensitiveContains(viewModel.searchInput) ?? false
+            }
+        }
+    }
     
     var body: some View {
         VStack (alignment: .leading, spacing: 24) {
@@ -27,7 +40,7 @@ struct ProfileSelectLocationView: View {
             } 
             searchItem
             listItemCountry
-                .frame(height: 230)
+                .frame(height: viewModel.isShowErrorEmptyCountry ? 240 : 230)
             HStack (spacing: 16){
                 Button {
                     onCancel?()
@@ -40,8 +53,18 @@ struct ProfileSelectLocationView: View {
                 .buttonStyle(ButtonCTAStyle(bgColor:Asset.Colors.popoverBgSelected.swiftUIColor, radius: 6))
                  
                 Button {
+                    if isEdit {
+                        viewModel.onEdit(onComplete: {
+                            
+                        })
+                    } else {
+                        viewModel.onCreate(onComplete: {
+                            onCancel?()
+                        })
+                    }
+                   
                 } label: {
-                    Text(L10n.Global.create)
+                    Text(isEdit ? L10n.Global.select : L10n.Global.create)
                         .foregroundColor(.black)
                         .font(Font.system(size: 13, weight: .semibold))
                 }
@@ -50,45 +73,59 @@ struct ProfileSelectLocationView: View {
             }
         }
         .padding(32)
-        .frame(width: 470, height: 580)
+        .frame(width: 470, height: isEdit ? 470 : viewModel.isShowErrorEmptyName ? 600 : 580)
         .background(Asset.Colors.bodySettingColor.swiftUIColor)
         .cornerRadius(16)
         
     }
     
     var profileInputItem: some View {
-        VStack(alignment: .leading, spacing: 24) {
+        VStack(alignment: .leading, spacing: 12) {
             Text(L10n.Global.createNewProfile)
                 .foregroundColor(.white)
                 .font(Font.system(size: 16, weight: .semibold))
+                .padding(.bottom, 12)
             HStack(spacing: 0) {
                 Spacer().frame(width: 20)
-                TextField(L10n.Global.profileName, text: $profileInput)
+                TextField(L10n.Global.profileName, text: $viewModel.profileInput)
                     .textFieldStyle(PlainTextFieldStyle())
                 Spacer().frame(width: 20)
             }
             .frame(height: 50)
             .overlay(RoundedRectangle(cornerRadius: 8).stroke(style: .init(lineWidth: 1.2))
                 .foregroundColor(Asset.Colors.borderColor.swiftUIColor))
+            if viewModel.isShowErrorEmptyName {
+                Text(L10n.Global.profileEmpty)
+                    .foregroundColor(Asset.Colors.textErrorColor.swiftUIColor)
+                    .font(Font.system(size: 13, weight: .regular))
+            }
         }
         
     }
     
     var searchItem: some View {
         VStack(alignment: .leading, spacing: 24) {
-            Text(L10n.Global.selectLocation)
-                .foregroundColor(.white)
-                .font(Font.system(size: 14, weight: .regular))
-            SearchInputView(textInput: $searchInput, borderColor: Asset.Colors.borderColor.swiftUIColor)
-                .padding(.top, 2)
+            if isEdit {
+                Text(L10n.Global.setLocation)
+                    .foregroundColor(.white)
+                    .font(Font.system(size: 16, weight: .semibold))
+                SearchInputView(textInput: $viewModel.searchInput, borderColor: Asset.Colors.borderColor.swiftUIColor)
+                    .padding(.top, 2)
+            } else {
+                Text(L10n.Global.selectLocation)
+                    .foregroundColor(.white)
+                    .font(Font.system(size: 14, weight: .regular))
+                SearchInputView(textInput: $viewModel.searchInput, borderColor: Asset.Colors.borderColor.swiftUIColor)
+                    .padding(.top, 2)
+            }
         }
     }
     
     var listItemCountry: some View {
-        VStack (alignment: .leading) {
+        VStack (alignment: .leading, spacing: 10) {
             ScrollView (showsIndicators: false) {
                 LazyVGrid (columns: adaptiveColums, alignment: .leading, spacing: 16) {
-                    ForEach (viewModel.listCountry) { item in
+                    ForEach (listFilter) { item in
                         HStack (spacing: 0) {
                             if item.image != nil {
                                 item.image!
@@ -108,14 +145,19 @@ struct ProfileSelectLocationView: View {
                             Spacer()
                         }
                         .frame(width: 128)
-                        .background(item.id == indexSelect ? Asset.Colors.popoverBgSelected.swiftUIColor : .clear)
+                        .background(item.id == viewModel.serverId ? Asset.Colors.popoverBgSelected.swiftUIColor : .clear)
                         .cornerRadius(8)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            indexSelect = item.id ?? 0
+                            viewModel.serverId = item.id ?? 0
                         }
                     }
                 }
+            }
+            if viewModel.isShowErrorEmptyCountry {
+                Text(L10n.Global.countryEmpty)
+                    .foregroundColor(Asset.Colors.textErrorColor.swiftUIColor)
+                    .font(Font.system(size: 13, weight: .regular))
             }
             
         }

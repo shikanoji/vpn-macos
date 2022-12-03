@@ -18,6 +18,7 @@ struct HomeListCountryNodeView: View {
     var onTouchQuestion: (() -> Void)?
     var onDetailCountry: ((HomeListCountryModel) -> Void)?
     @State var textInput: String = ""
+    
     var listFilter: [HomeListCountryModel] {
         if textInput.isEmpty {
             return countries

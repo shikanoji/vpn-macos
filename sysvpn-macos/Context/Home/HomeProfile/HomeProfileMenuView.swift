@@ -9,13 +9,13 @@ import SwiftUI
 
 struct HomeProfileMenuView: View {
     var sizeDot: CGFloat = 4.0
-    @StateObject var viewModel = HomeProfileMenuViewModel()
+    @StateObject var viewModel = HomeProfileMenuViewModel() 
     var onTapCreate: (() -> Void)?
     var onTapMore: (() -> Void)?
     var body: some View {
         VStack (spacing: 10) {
-            ForEach (viewModel.test, id: \.self) { item in
-                ItemProfile(title: "Gaming \(item)")
+            ForEach (viewModel.listShow) { item in
+                ItemProfile(title: item.profileName ?? "")
             }
             footerProfile
                 .padding(.top, 10)

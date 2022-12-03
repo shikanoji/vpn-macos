@@ -22,6 +22,7 @@ extension String {
     static var keySaveCountry = "KEY_SAVE_COUNTRY"
     static var keySaveUserSetting = "KEY_SAVE_USER_SETTING"
     static var keySaveUserProfile = "KEY_SAVE_USER_PROFILE"
+    static var keySaveListUserProfile = "KEY_SAVE_LIST_USER_PROFILE"
     static var keySaveLastChange = "KEY_SAVE_LAST_CHANGE"
     static var keySaveMutilHop = "KEY_SAVE_MULTI_HOP"
     static var keyIsMultiplehop = "KEY_IS_MULTI_HOP"
