@@ -12,12 +12,9 @@ struct ProfileSelectLocationView: View {
     var onCancel: (() -> Void)?
     var isEdit: Bool = false
     @StateObject var viewModel = ProfileSelectLocationViewModel()
-     
-    init(onCancel: (() -> Void)?,  isEdit: Bool,itemEdit: UserProfileTemp? ) {
-        self.onCancel = onCancel
-        self.isEdit = isEdit
-        viewModel.itemEdit = itemEdit
-    }
+    
+    @State var itemEdit: UserProfileTemp?
+    @State var serverId: Int = 0
     
     private let adaptiveColums = [
         GridItem(.adaptive(minimum: 120))
@@ -53,12 +50,23 @@ struct ProfileSelectLocationView: View {
                 .buttonStyle(ButtonCTAStyle(bgColor:Asset.Colors.popoverBgSelected.swiftUIColor, radius: 6))
                  
                 Button {
-                    if isEdit {
-                        viewModel.onEdit(onComplete: {
-                            
-                        })
+                    if isEdit { 
+                        if GlobalAppStates.shared.listProfile.isEmpty {
+                            AppDataManager.shared.readListProfile()
+                        }
+                        let profile = GlobalAppStates.shared.listProfile
+                        
+                        itemEdit?.serverId = serverId
+                        
+                        let index = profile.firstIndex { item in
+                            return item.id == itemEdit?.id
+                        } ?? 0
+                        
+                        GlobalAppStates.shared.listProfile[index] = itemEdit!
+                        AppDataManager.shared.saveProfile()
+                        onCancel?()
                     } else {
-                        viewModel.onCreate(onComplete: {
+                        viewModel.onCreate(serverId: serverId, onComplete: {
                             onCancel?()
                         })
                     }
@@ -145,11 +153,11 @@ struct ProfileSelectLocationView: View {
                             Spacer()
                         }
                         .frame(width: 128)
-                        .background(item.id == viewModel.serverId ? Asset.Colors.popoverBgSelected.swiftUIColor : .clear)
+                        .background(item.id == serverId ? Asset.Colors.popoverBgSelected.swiftUIColor : .clear)
                         .cornerRadius(8)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            viewModel.serverId = item.id ?? 0
+                            serverId = item.id ?? 0
                         }
                     }
                 }
