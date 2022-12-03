@@ -53,6 +53,19 @@ extension HomeProfileMenuView {
         func onCreateProfile() {
             
         }
+        
+        func connect(to idCountry: Int? = nil) {
+            MapAppStates.shared.connectedNode = nil
+            if idCountry == nil {
+                return
+            }
+            guard let node = AppDataManager.shared.getNodeByCountryId(countryId: idCountry!) else {
+                return
+            }
+            
+            _ = DependencyContainer.shared
+                .vpnCore.connectTo(node: node, isRetry: false)
+        }
     }
     
 }

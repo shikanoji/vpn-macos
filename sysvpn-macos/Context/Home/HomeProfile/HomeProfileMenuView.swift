@@ -14,11 +14,20 @@ struct HomeProfileMenuView: View {
     var onTapMore: (() -> Void)?
     var body: some View {
         VStack (spacing: 10) {
-            ForEach (viewModel.listShow) { item in
-                ItemProfile(title: item.profileName ?? "")
+            if viewModel.listShow.count == 0 || viewModel.listShow.isEmpty {
+                profileEmptyView
+            } else {
+                ForEach (viewModel.listShow) { item in
+                    ItemProfile(title: item.profileName ?? "")
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            viewModel.connect(to: item.serverId) 
+                        }
+                }
+                footerProfile
+                    .padding(.top, 10)
             }
-            footerProfile
-                .padding(.top, 10)
+            
         }
         .padding(.horizontal, 16)
     }
@@ -61,6 +70,37 @@ struct HomeProfileMenuView: View {
             .frame(height: 36)
             .buttonStyle(ButtonCTAStyle(bgColor:Asset.Colors.bgButtonColor.swiftUIColor ))
             
+        }
+    }
+    
+    var profileEmptyView: some View {
+        VStack {
+            VStack(spacing: 0) {
+                Text(L10n.Global.emptyProfileDesc)
+                    .font(Font.system(size: 13, weight: .regular))
+                    .foregroundColor(Color.white)
+                    .padding(16)
+                
+                Button {
+                    onTapCreate?()
+                } label: {
+                    HStack(spacing: 8) {
+                        Asset.Assets.icAdd.swiftUIImage
+                            .resizable()
+                            .frame(width: 14, height: 14)
+                        Text(L10n.Global.createNew)
+                            .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
+                            .font(Font.system(size: 13, weight: .medium))
+                    }
+                }
+                .frame(height: 36)
+                .buttonStyle(ButtonCTAStyle(bgColor:Asset.Colors.bgButtonColor.swiftUIColor ))
+                .padding(.bottom, 16)
+            }
+            .padding(.horizontal, 16)
+            .background(Asset.Colors.bgButtonColor.swiftUIColor)
+            .cornerRadius(8)
+            .frame(maxWidth: .infinity)
         }
     }
 }

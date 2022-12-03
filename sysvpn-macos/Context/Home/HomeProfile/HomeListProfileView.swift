@@ -13,6 +13,7 @@ struct HomeListProfileView: View {
     var onTapCreate: (() -> Void)?
     var onTapRename: ((_ item: UserProfileTemp) -> Void)?
     var onTapChangeLocation: ((_ item: UserProfileTemp) -> Void)?
+    var onClose: (()-> Void)?
     
     var listFilter: [HomeListProfileModel] {
         if viewModel.textInput.isEmpty {
@@ -57,6 +58,9 @@ struct HomeListProfileView: View {
                                     },
                                     onDelete: {
                                         viewModel.deleteProfile(item.id)
+                                        if viewModel.listProfile.isEmpty {
+                                            onClose?()
+                                        }
                                     }
                                 )
                             case .header:

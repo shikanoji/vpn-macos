@@ -115,7 +115,11 @@ extension HomeView {
                         withAnimation {
                             viewModel.isOpenCreateProfile = true
                         }
-                    })
+                    }, onClose: {
+                        withAnimation {
+                            viewModel.selectedMenuItem = .none
+                        }
+                    } )
                 }
             }
         }
