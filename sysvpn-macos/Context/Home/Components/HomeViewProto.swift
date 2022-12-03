@@ -119,7 +119,15 @@ extension HomeView {
                         withAnimation {
                             viewModel.selectedMenuItem = .none
                         }
-                    } )
+                    }) { item in
+                        guard let id =  item.serverId else {
+                            return
+                        }
+                        self.viewModel.connect(to: AppDataManager.shared.getNodeByCountryId(countryId: id))
+                        withAnimation {
+                            viewModel.selectedMenuItem = .none
+                        }
+                    }
                 }
             }
         }

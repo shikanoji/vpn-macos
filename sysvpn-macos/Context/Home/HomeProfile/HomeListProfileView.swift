@@ -14,6 +14,7 @@ struct HomeListProfileView: View {
     var onTapRename: ((_ item: UserProfileTemp) -> Void)?
     var onTapChangeLocation: ((_ item: UserProfileTemp) -> Void)?
     var onClose: (()-> Void)?
+    var onTapItem:  ((_ item: UserProfileTemp) -> Void)?
     
     var listFilter: [HomeListProfileModel] {
         if viewModel.textInput.isEmpty {
@@ -63,6 +64,11 @@ struct HomeListProfileView: View {
                                         }
                                     }
                                 )
+                                .onTapGesture {
+                                    if let data = item.profileDetail as? UserProfileTemp {
+                                        onTapItem?(data)
+                                    }
+                                }
                             case .header:
                                 VStack {
                                     Text(item.title)
