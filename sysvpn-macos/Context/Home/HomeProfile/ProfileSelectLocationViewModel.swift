@@ -12,16 +12,13 @@ extension ProfileSelectLocationView {
         @Published var listCountry: [CountryAvailables]
         @Published var searchInput: String = ""
         @Published var profileInput: String = ""
-        @Published var serverId: Int = 0
+        
         @Published var isShowErrorEmptyName: Bool = false
         @Published var isShowErrorEmptyCountry: Bool = false
-        
-        @Published var itemEdit: UserProfileTemp?
         
         init() {
             listCountry = []
             getListCountry()
-            serverId = itemEdit?.serverId ?? 0
         }
         
         
@@ -29,12 +26,7 @@ extension ProfileSelectLocationView {
             listCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
         }
         
-        func onEdit(onComplete: (() -> Void)?) {
-            print("ITEM EDIT: \(itemEdit?.serverId)")
-            onComplete?()
-        }
-        
-        func onCreate(  onComplete: (() -> Void)?) {
+        func onCreate(serverId: Int = 0, onComplete: (() -> Void)?) {
             if profileInput == "" || profileInput.isEmpty {
                 isShowErrorEmptyName = true
                 isShowErrorEmptyCountry = false

@@ -253,7 +253,7 @@ extension HomeView {
                         withAnimation {
                             viewModel.isOpenCreateProfile = false
                         }
-                    }, isEdit: viewModel.isEditLocation, itemEdit: viewModel.itemProfileEdit)
+                    }, isEdit: viewModel.isEditLocation, itemEdit: viewModel.itemProfileEdit, serverId: viewModel.itemProfileEdit?.serverId ?? 0)
                 }.zIndex(4)
             } else if viewModel.isShowRenameProfile {
                 ZStack {
