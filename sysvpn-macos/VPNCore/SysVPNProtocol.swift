@@ -18,14 +18,15 @@ protocol SysVPNGatewayProtocol: AnyObject {
     func autoConnect()
     func quickConnect()
     func quickConnectConnectionRequest() -> SysVPNConnectionRequest
-    func connectTo(connectType: ConnectionType, params: SysVPNConnectParams?)
-    func retryConnection()
+    func connectTo(connectType: ConnectionType, params: SysVPNConnectParams?, isRetry: Bool)
+    func retryConnection(_ time: Int)
     func connect(with request: SysVPNConnectionRequest)
     func stopConnecting(userInitiated: Bool)
     func disconnect()
     func disconnect(completion: @escaping () -> Void)
     func postConnectionInformation()
     var lastConnectionConiguration: ConnectionConfiguration? { get set }
+    func connectTo(node: INodeInfo, isRetry: Bool) -> Bool
 }
 
 protocol SysVPNnGatewayFactory {
@@ -57,6 +58,7 @@ protocol SysVPNManagerProtocol {
     var sessionStartTime: Double? {
         get
     }
+    
     var stateChanged: (() -> Void)? { get set }
     var state: VpnState { get }
     var localAgentStateChanged: ((Bool?) -> Void)? { get set }
@@ -108,6 +110,8 @@ struct ConnectionConfiguration: Codable {
     var connectionParam: SysVPNConnectParams?
     var vpnProtocol: VpnProtocol
     var serverInfo: VPNServer
+    var isRetry: Bool = false
+    var deepId: String?
 }
  
 protocol SysVpnService {

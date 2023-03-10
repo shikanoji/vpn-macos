@@ -19,7 +19,7 @@ class SysVPNManager: SysVPNManagerProtocol {
     var stateChanged: (() -> Void)?
     private var delayedDisconnectRequest: (() -> Void)?
 
-    private var _isLocalAgentConnectedNoSync: Bool?
+    private var _isLocalAgentConnectedNoSync: Bool? = false
     private let appGroup: String
     private(set) var state: VpnState = .invalid
     var readyGroup: DispatchGroup? = DispatchGroup()
@@ -69,6 +69,17 @@ class SysVPNManager: SysVPNManagerProtocol {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: "sessionStartTime")
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    var keepSessionStartTime: Double? {
+        get {
+            var value = UserDefaults.standard.double(forKey: "keepSessionStartTime")
+            return value == 0 ? nil : value
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "keepSessionStartTime")
             UserDefaults.standard.synchronize()
         }
     }
@@ -127,12 +138,18 @@ class SysVPNManager: SysVPNManagerProtocol {
         print("[VPN] About to start connection process")
         
         let connectWrapper = { [weak self] in
+            
+            if PropertiesManager.shared.intentionallyDisconnected {
+                self?.keepSessionStartTime = self?.sessionStartTime
+            } else {
+                self?.keepSessionStartTime = nil
+            }
             print("[VPN] debug \(configuration.vpnProtocol)")
             self?.currentVpnProtocol = configuration.vpnProtocol
             self?.connectAllowed = true
             self?.connectionQueue.asyncAfter(deadline: .now() + pause) { [weak self] in
                 self?.prepareConnection(forConfiguration: configuration, completion: completion)
-                self?.sessionStartTime = Date().timeIntervalSince1970
+                self?.sessionStartTime = self?.keepSessionStartTime ?? Date().timeIntervalSince1970
             }
         }
         disconnect {
@@ -142,6 +159,9 @@ class SysVPNManager: SysVPNManagerProtocol {
     
     func disconnect(completion: @escaping () -> Void) {
         executeDisconnectionRequestWhenReady { [weak self] in
+            if !PropertiesManager.shared.intentionallyDisconnected {
+                self?.logSessionTime()
+            }
             self?.connectAllowed = false
             self?.connectionQueue.async { [weak self] in
                 guard let self = self else {
@@ -151,6 +171,32 @@ class SysVPNManager: SysVPNManagerProtocol {
                 self.startDisconnect(completion: completion)
             }
         }
+    }
+    
+    func logSessionTime() {
+        guard let sessionTime = sessionStartTime else {
+            return
+        }
+        if sessionTime <= 1000 {
+            return
+        }
+        let now = Date().timeIntervalSince1970
+        let longest = AppDataManager.shared.longestSessiontime
+        let time = now - sessionTime
+        
+        AppDataManager.shared.longestSessiontime = max(time, longest)
+       
+        let calendar = Calendar.current
+        let weekOfYear = calendar.component(.weekOfYear, from: Date()) + 1
+        
+        if AppDataManager.shared.weeklyIndex == 0 || AppDataManager.shared.weeklyIndex != weekOfYear {
+            AppDataManager.shared.weeklyIndex = weekOfYear
+            AppDataManager.shared.weeklySessionTime = time
+        } else {
+            AppDataManager.shared.weeklySessionTime = AppDataManager.shared.weeklySessionTime + time
+        }
+        
+        sessionStartTime = 0
     }
     
     public func connectedDate(completion: @escaping (Date?) -> Void) {
@@ -241,7 +287,7 @@ class SysVPNManager: SysVPNManagerProtocol {
         }
     }
     
-    @objc private func vpnStatusChanged() {
+    @objc private func vpnStatusChanged() { 
         setState()
     }
     
@@ -542,7 +588,14 @@ class SysVPNManager: SysVPNManagerProtocol {
     
     func disconnectLocalAgent() {}
     
-    func connectLocalAgent() {}
+    func connectLocalAgent() {
+        connectedDate { date in
+            if let date = date {
+                self.sessionStartTime = self.keepSessionStartTime ?? date.timeIntervalSince1970
+            }
+            self.keepSessionStartTime = nil
+        }
+    }
 
     private func executeDisconnectionRequestWhenReady(request: @escaping () -> Void) {
         print("[VPN] call executeDisconnectionRequestWhenReady")
@@ -558,7 +611,6 @@ extension SysVPNManager {
     private func beginTimeoutCountdown() {
         print("[VPN] begin stop")
         cancelTimeout()
-
         timeoutTimer = timerFactory.scheduledTimer(runAt: Date().addingTimeInterval(5),
                                                    leeway: .seconds(5),
                                                    queue: .main) { [weak self] in
@@ -574,6 +626,9 @@ extension SysVPNManager {
         
         currentVpnProtocolFactory.vpnProviderManager(for: .configuration) { [weak self] vpnManager, _ in
             vpnManager?.vpnConnection.stopVPNTunnel()
+            if let vpnManager = vpnManager {
+                self?.updateState(vpnManager)
+            }
         }
     }
      

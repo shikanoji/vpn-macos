@@ -38,10 +38,9 @@ struct VpnMapPointLayerView: View {
     var nodeItems: some View {
         Group {
             ForEach(0..<nodeList.count, id: \.self) { index in
-                let parentPosition = scalePoint(nodeList[index].point)
-            
-                let node = isShowCity ? (nodeList[index].children?.first ?? nodeList[index]) : nodeList[index]
                 
+                let parentPosition = scalePoint(nodeList[index].point)
+                let node = isShowCity ? (nodeList[index].children?.first ?? nodeList[index]) : nodeList[index]
                 let nodePosition = isShowCity ? scalePoint(node.point) : parentPosition
                 
                 VpnMapPointView(state: normalState,
@@ -128,7 +127,8 @@ struct VpnMapPointLayerView: View {
                         }
                 }
             }
-        }
+        } 
+        
     }
     
     func computNodePointPos(node: NodePoint) -> CGPoint {
@@ -141,20 +141,8 @@ struct VpnMapPointLayerView: View {
         return point
     }
 }
-
-struct VpnMapPointLayerView_Previews: PreviewProvider {
-    static var previews: some View {
-        VpnMapPointLayerView(connectPoints: [
-            ConnectPoint(point1: CGPoint(x: 100, y: 100), point2: CGPoint(x: 400, y: 500))
-        ], nodeList: [
-            NodePoint(point: CGPoint(x: 400, y: 500), info: NodeInfoTest(state: .activated)),
-            NodePoint(point: CGPoint(x: 100, y: 100), info: NodeInfoTest(state: .activeDisabled)),
-            NodePoint(point: CGPoint(x: 900, y: 800), info: NodeInfoTest(state: .activated))
-        ])
-    }
-}
  
-struct SingalLineAnimatedModifier: AnimatableModifier {
+struct SingalLineAnimatedModifier:   AnimatableModifier {
     var point2: CGPoint = .zero
     var point1: CGPoint = .zero
     var maxPoint: CGPoint = .zero

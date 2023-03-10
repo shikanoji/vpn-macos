@@ -10,12 +10,12 @@ import Foundation
 class GlobalAppStates: ObservableObject {
     static let shared = GlobalAppStates()
     @Published var displayState: AppDisplayState = .disconnected
+    @Published var recentList = [RecentModel]()
+    @Published var listProfile = [UserProfileTemp]()
     var onReady: (() -> Void)?
     var isInitApp = false
     var isWaitingInitApp = false
-    var userIpAddress: String {
-        return AppDataManager.shared.userIp
-    }
+    @Published var userIpAddress: String = ""
     
     var sessionStartTime: Double? {
         return DependencyContainer.shared.appStateMgr.sessionStartTime
@@ -40,13 +40,23 @@ class GlobalAppStates: ObservableObject {
                     self.initData()
                     NotificationCenter.default.post(name: .appReadyStart, object: nil)
                     DependencyContainer.shared.vpnManager.whenReady(queue: DispatchQueue.main) {
-                        print("readdy")
+                        self.onVPNReady()
                     }
                     DependencyContainer.shared.vpnManager.prepareManagers(forSetup: true)
                 }
             }
         }
         return true
+    }
+    
+    func onVPNReady() {
+        NetworkChecker.shared.checkInternet()
+        if !AppDataManager.shared.isLogin {
+            return
+        }
+        if PropertiesManager.shared.getAutoConnect(for: AppDataManager.shared.userData?.email ?? "default").enabled {
+            DependencyContainer.shared.vpnCore.autoConnect()
+        }
     }
 
     func initData() {

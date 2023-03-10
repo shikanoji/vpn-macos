@@ -10,7 +10,7 @@ struct Constant {
     struct API {
         #if DEBUG
             static let root = "https://prod.sysvpnconnect.com"
-        // static let root = "https://api.sysvpnconnect.com"
+            //static let root = "https://api.sysvpnconnect.com"
         #else
             static let root = "https://prod.sysvpnconnect.com"
         #endif
@@ -26,6 +26,8 @@ struct Constant {
             static let login = "/shared/module_auth/v1/login"
             static let disconnectSession = "/shared/module_server/v1/vpn/disconnect_session"
             static let resfreshToken = "/shared/module_auth/v1/refresh-tokens"
+            static let changePassword = "/shared/module_user/v1/change-password"
+            static let loginSocial = "/shared/module_auth/v1/login-social"
         }
     }
 }

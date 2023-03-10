@@ -21,9 +21,14 @@ extension String {
     static var keySaveUserData = "KEY_USER_DATA"
     static var keySaveCountry = "KEY_SAVE_COUNTRY"
     static var keySaveUserSetting = "KEY_SAVE_USER_SETTING"
+    static var keySaveUserProfile = "KEY_SAVE_USER_PROFILE"
+    static var keySaveListUserProfile = "KEY_SAVE_LIST_USER_PROFILE"
     static var keySaveLastChange = "KEY_SAVE_LAST_CHANGE"
     static var keySaveMutilHop = "KEY_SAVE_MULTI_HOP"
     static var keyIsMultiplehop = "KEY_IS_MULTI_HOP"
+    static var keySaveLongestSessionTime = "KEY_SAVE_LONG_ST1"
+    static var keySaveWeeklyTime = "KEY_SAVE_WEEKLY_TIME1"
+    static var keySaveWeeklyIndex = "KEY_SAVE_WEEKLY_TIME_INDEX1"
 }
 
 class AppDataManager {
@@ -160,11 +165,14 @@ class AppDataManager {
     
     func saveIpInfo(info: AppSettingIpInfo?) {
         userIp = info?.ip ?? "127.0.0.1"
-        userCity = info?.city ?? "Ha Noi"
-        userCountryCode = info?.countryCode ?? "VN"
+        userCity = info?.city ?? "Unknown"
+        userCountryCode = info?.countryCode ?? " "
         latitude = info?.latitude ?? 0.0
         longitude = info?.longitude ?? 0.0
         userIsp = info?.isp ?? ""
+        DispatchQueue.main.async {
+            GlobalAppStates.shared.userIpAddress = self.userIp
+        }
     }
     
     private var _userEtting: AppSettingResult?
@@ -205,22 +213,7 @@ class AppDataManager {
             _userCountry?.saveListCountry()
         }
     }
-    
-    private var _recentCountries: [CountryAvailables]?
-    
-    func addRecentCountry(country: CountryAvailables) {
-        if (_recentCountries?.count ?? 0) >= 5 {
-            while (_recentCountries?.count ?? 0) >= 5 {
-                _recentCountries?.removeLast()
-            }
-            _recentCountries?.append(country)
-        } else {
-            _recentCountries?.append(country)
-        }
-        _userCountry?.recentCountries = _recentCountries
-        _userCountry?.saveListCountry()
-    }
-    
+     
     private var _mutilHopServer: [MultiHopResult]?
     
     var mutilHopServer: [MultiHopResult]? {
@@ -246,7 +239,60 @@ class AppDataManager {
         
         return nil
     }
-
+    
+    func getNodeByCountryId(countryId: Int) -> INodeInfo?{
+        guard let country = userCountry?.availableCountries?.first(where: { ct in
+            return ct.id == countryId
+        }) else {
+            return nil
+        } 
+        return country
+    }
+    
+    func getNodeByDeepId(deepId: String) -> INodeInfo? {
+        if deepId.starts(with: PrefixNodeInfo.multipleHop.rawValue) {
+            guard let hop = mutilHopServer?.first(where: { sv in
+                return sv.deepId == deepId
+            }) else {
+                return nil
+            }
+            hop.entry?.city?.country = hop.entry?.country
+            hop.exit?.city?.country = hop.exit?.country
+            return hop
+        } else if deepId.starts(with: PrefixNodeInfo.city.rawValue) {
+            guard let country = userCountry?.availableCountries?.first(where: { ct in
+                return ct.city?.contains(where: { city in
+                    return city.deepId == deepId
+                }) ?? false
+            }) else {
+                return nil
+            }
+            
+            guard let city = country.city?.first(where: { city in
+                return city.deepId == deepId
+            }) else {
+                return country
+            }
+            let updateCity = city
+            updateCity.country = country
+            return updateCity
+        } else if deepId.starts(with: PrefixNodeInfo.country.rawValue) {
+            guard let country = userCountry?.availableCountries?.first(where: { ct in
+                return ct.deepId == deepId
+            }) else {
+                return nil
+            }
+            return country
+        } else if deepId.starts(with: PrefixNodeInfo.staticServer.rawValue) {
+            if let node = userCountry?.staticServers?.first(where: { sInfo in
+                return sInfo.deepId == deepId
+            }) {
+                return node
+            }
+        }
+        return nil
+    }
+    
     func getNodeByServerInfo(server: VPNServer) -> INodeInfo? {
         if isMultipleHop {
             guard let hop = mutilHopServer?.first(where: { sv in
@@ -258,6 +304,7 @@ class AppDataManager {
             hop.exit?.city?.country = hop.exit?.country
             return hop
         }
+        
         guard let country = userCountry?.availableCountries?.first(where: { ct in
             return ct.city?.contains(where: { city in
                 return city.id == server.cityId

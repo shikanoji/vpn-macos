@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Moya
 
 extension VpnSettingView {
     @MainActor class VpnSettingViewModel: ObservableObject {
@@ -13,15 +14,21 @@ extension VpnSettingView {
         
         init() {
             listItem = []
-            let defaulProto = PropertiesManager.shared.vpnProtocol == .wireGuard ? "WireGuard" : (PropertiesManager.shared.vpnProtocol == .openVpn(.tcp) ? "OpenVPN (TCP)" : "OpenVPN (UDP)")
             let listCountry = AppDataManager.shared.userCountry?.availableCountries ?? []
+            let countryQuickConnect = PropertiesManager.shared.countryQuickConnect
+            let defaulProto = PropertiesManager.shared.vpnProtocol == .wireGuard ? "WireGuard" : (PropertiesManager.shared.vpnProtocol == .openVpn(.tcp) ? "OpenVPN (TCP)" : "OpenVPN (UDP)")
+            let countrySelected = listCountry.filter { item in
+                return countryQuickConnect == item.id
+            }.first
+             
             let itemAutoConnect = SwitchSettingItem(settingName: L10n.Global.autoConnect, settingDesc: L10n.Global.autoConnectDesc, settingValue: PropertiesManager.shared.getAutoConnect(for: AppDataManager.shared.userData?.email ?? "default").enabled, itemType: .autoConnect)
             let killSwitch = SwitchSettingItem(settingName: L10n.Global.killSwitch, settingDesc: L10n.Global.killSwitchDesc, settingValue: PropertiesManager.shared.killSwitch, itemType: .killSwitch)
             let cyberSec = SwitchSettingItem(settingName: L10n.Global.cyberSec, settingDesc: L10n.Global.cyberSecDesc, settingValue: PropertiesManager.shared.cybersec, itemType: .cyberSec)
             let typeConnect = SelectSettingItem<String>(settingName: L10n.Global.protocol, settingValue: defaulProto, settingData: ["OpenVPN (TCP)", "OpenVPN (UDP)", "WireGuard"])
-            let optionQuickConnect = SelectSettingItem<CountryAvailables>(settingName: L10n.Global.quickConnect, settingValue: listCountry.first, settingData: listCountry)
-            print(optionQuickConnect)
+            let optionQuickConnect = SelectSettingItem<CountryAvailables>(settingName: L10n.Global.quickConnectSetting, settingValue: countrySelected, settingData: listCountry)
+  
             listItem.append(itemAutoConnect)
+            listItem.append(optionQuickConnect)
             listItem.append(typeConnect)
             listItem.append(killSwitch)
             listItem.append(cyberSec)
@@ -51,6 +58,11 @@ extension VpnSettingView {
                     PropertiesManager.shared.vpnProtocol = .wireGuard
                 }
             }
+        }
+        
+        func onSelectValueCountry(value: CountryAvailables) {
+            print("ID Country: \(String(describing: value.id))")
+            PropertiesManager.shared.countryQuickConnect = value.id
         }
     }
 }

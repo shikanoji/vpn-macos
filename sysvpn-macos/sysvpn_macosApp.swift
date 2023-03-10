@@ -5,6 +5,7 @@
 //  Created by Nguyen Dinh Thach on 29/08/2022.
 //
 
+import GoogleSignIn
 import SwiftUI
 
 @main
@@ -40,7 +41,11 @@ struct sysvpn_macosApp: App {
                         }
                         isFirstLaunch = true
                     }
+                    WindowMgr.shared.nsWindow = window
                 }
+            }
+            .onOpenURL { url in
+                GIDSignIn.sharedInstance.handle(url)
             }
         }
         .windowStyle(HiddenTitleBarWindowStyle())

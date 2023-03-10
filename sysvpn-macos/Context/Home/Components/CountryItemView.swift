@@ -17,22 +17,23 @@ struct CountryItemView: View {
             if imageUrl != nil {
                 KFImage(URL(string: imageUrl!))
                     .resizable()
-                    .frame(width: 32, height: 32)
-                    .cornerRadius(16)
+                    .frame(width: 28, height: 28)
+                    .cornerRadius(14)
             } else {
                 Asset.Assets.icFlagEmpty.swiftUIImage
                     .resizable()
-                    .frame(width: 32, height: 32)
-                    .cornerRadius(16)
+                    .frame(width: 28, height: 28)
+                    .cornerRadius(14)
             }
             VStack(alignment: .leading) {
                 Text(countryName)
                     .foregroundColor(Color.white)
-                    .font(Font.system(size: 16, weight: .semibold))
-                Text(totalCity > 1 ? "\(totalCity) cities available" : "Single location")
+                    .font(Font.system(size: 13, weight: .semibold))
+                Text(totalCity > 1 ?  L10n.Global.countryCitiesSubtitle(totalCity) : L10n.Global.countrySingleSubtitle)
                     .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                    .font(Font.system(size: 14, weight: .regular))
+                    .font(Font.system(size: 12, weight: .regular))
             }
+            
             if totalCity > 1 {
                 Spacer()
                 Asset.Assets.icArrowRight.swiftUIImage
@@ -40,7 +41,7 @@ struct CountryItemView: View {
                     .frame(width: 20, height: 20)
             }
         }
-        .padding(.bottom, 10)
+        .padding(.bottom, 8)
         .contentShape(Rectangle())
     }
 }
@@ -54,23 +55,23 @@ struct CityItemView: View {
             if imageUrl != nil {
                 KFImage(URL(string: imageUrl!))
                     .resizable()
-                    .frame(width: 32, height: 32)
-                    .cornerRadius(16)
+                    .frame(width: 28, height: 28)
+                    .cornerRadius(14)
             } else {
                 Asset.Assets.icFlagEmpty.swiftUIImage
                     .resizable()
-                    .frame(width: 32, height: 32)
-                    .cornerRadius(16)
+                    .frame(width: 28, height: 28)
+                    .cornerRadius(14)
             }
             VStack(alignment: .leading) {
                 Text(cityName)
                     .foregroundColor(Color.white)
-                    .font(Font.system(size: 16, weight: .semibold))
-                Text("City of \(countryName)")
+                    .font(Font.system(size: 13, weight: .semibold))
+                Text(L10n.Global.cityOf(countryName))
                     .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                    .font(Font.system(size: 14, weight: .regular))
+                    .font(Font.system(size: 12, weight: .regular))
             }
-        }.padding(.bottom, 10)
+        }.padding(.bottom, 8)
     }
 }
 
@@ -81,44 +82,53 @@ struct MultiHopItemView: View {
     var imageUrlEnd: String?
     var body: some View {
         HStack(alignment: .center, spacing: 4) {
-            if imageUrlStart != nil {
-                KFImage(URL(string: imageUrlStart!))
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .cornerRadius(12)
-                    .opacity(0.5)
-            } else {
-                Asset.Assets.icFlagEmpty.swiftUIImage
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .cornerRadius(12)
-                    .opacity(0.5)
-            }
-            if imageUrlEnd != nil {
-                KFImage(URL(string: imageUrlEnd!))
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .cornerRadius(12)
-            } else {
-                Asset.Assets.icFlagEmpty.swiftUIImage
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .cornerRadius(12)
-            }
-            Spacer().frame(width: 8)
+            ZStack {
+                Group {
+                    if imageUrlStart != nil {
+                        KFImage(URL(string: imageUrlStart!))
+                            .resizable()
+                    } else {
+                        Asset.Assets.icFlagEmpty.swiftUIImage
+                            .resizable()
+                    }
+                }
+                .frame(width: 20, height: 20)
+                .cornerRadius(10)
+                .offset(.init(width: -10, height: 0))
+                .opacity(0.5)
+                Group {
+                    if imageUrlEnd != nil {
+                        KFImage(URL(string: imageUrlEnd!))
+                            .resizable()
+                            .frame(width: 26, height: 26)
+                            .cornerRadius(13)
+                    } else {
+                        Asset.Assets.icFlagEmpty.swiftUIImage
+                            .resizable()
+                            .frame(width: 26, height: 26)
+                            .cornerRadius(13)
+                    }
+                }
+                .overlay {
+                    RoundedRectangle(cornerRadius: 24).stroke(style: .init(lineWidth: 2))
+                        .foregroundColor(Asset.Colors.mainBackgroundColor.swiftUIColor)
+                }.transformEffect(.init(translationX: 5, y: 0))
+                
+            }.frame(width: 40, height: 26, alignment: .center)
+            Spacer().frame(width: 6)
             Text(countryNameStart)
                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor
                 )
-                .font(Font.system(size: 12, weight: .regular))
+                .font(Font.system(size: 13, weight: .regular))
             Asset.Assets.icArrowRight.swiftUIImage
                 .resizable()
                 .frame(width: 16, height: 16)
             Text(countryNameEnd)
                 .foregroundColor(Color.white)
-                .font(Font.system(size: 12, weight: .semibold))
+                .font(Font.system(size: 13, weight: .semibold))
             Spacer()
-        }.padding(.bottom, 10)
-            .contentShape(Rectangle())
+        }.padding(.bottom, 8)
+        .contentShape(Rectangle())
     }
 }
 
@@ -133,26 +143,26 @@ struct StaticItemView: View {
             if imageUrl != nil {
                 KFImage(URL(string: imageUrl!))
                     .resizable()
-                    .frame(width: 32, height: 32)
-                    .cornerRadius(16)
+                    .frame(width: 28, height: 28)
+                    .cornerRadius(14)
             } else {
                 Asset.Assets.icFlagEmpty.swiftUIImage
                     .resizable()
-                    .frame(width: 32, height: 32)
-                    .cornerRadius(16)
+                    .frame(width: 28, height: 28)
+                    .cornerRadius(14)
             }
-            Spacer().frame(width: 16)
+            Spacer().frame(width: 12)
             Asset.Assets.icStaticServer.swiftUIImage
                 .resizable()
                 .frame(width: 16, height: 16)
-            Spacer().frame(width: 16)
+            Spacer().frame(width: 12)
             VStack(alignment: .leading) {
                 Text(countryName)
                     .foregroundColor(Color.white)
-                    .font(Font.system(size: 16, weight: .semibold))
+                    .font(Font.system(size: 13, weight: .semibold))
                 Text("\(cityName) #\(serverNumber)")
                     .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
-                    .font(Font.system(size: 14, weight: .regular))
+                    .font(Font.system(size: 12, weight: .regular))
             }
             Spacer()
             ZStack {
@@ -168,7 +178,7 @@ struct StaticItemView: View {
                     .clipShape(CustomProcessShape(percent: percent))
             }
         }.padding(.bottom, 10)
-            .contentShape(Rectangle())
+        .contentShape(Rectangle()) 
     }
 }
 

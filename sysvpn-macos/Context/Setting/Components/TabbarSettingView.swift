@@ -13,7 +13,6 @@ enum TabbarSettingType {
     case account
     case statistics
     case appearence
-    case supportCenter
     
     func toString() -> String {
         switch self {
@@ -27,8 +26,6 @@ enum TabbarSettingType {
             return L10n.Global.statistics
         case .appearence:
             return L10n.Global.appearence
-        case .supportCenter:
-            return L10n.Global.supportCenter
         }
     }
 }
@@ -48,10 +45,10 @@ struct TabbarSettingView: View {
     }
     
     var bodyMenu: some View {
-        HStack(alignment: .center, spacing: 0) {
-            ForEach(listItem, id: \.self) { item in
+        HStack(alignment: .center, spacing: 5) {
+            ForEach(listItem) { item in
                 Button {
-                    if item.type == .appearence || item.type == .supportCenter {
+                    if item.type == .appearence {
                         return
                     }
                     withAnimation {

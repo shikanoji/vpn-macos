@@ -11,7 +11,17 @@ import SystemConfiguration.CaptiveNetwork
 class SystemDataUsage {
     private static let wwanInterfacePrefix = "pdp_ip"
     private static let wifiInterfacePrefix = "en"
-    private static var vpnInterfaces: [String]?
+    static var hadCanGetAppNetworkInterface = false
+    static var canGetAppNetworkInterface = false {
+        didSet {
+            if canGetAppNetworkInterface {
+                hadCanGetAppNetworkInterface = true
+            }
+        }
+    }
+
+    static var canGetSystemVpnInterface = false
+    
     static var lastestVpnUsageInfo: SingleDataUsageInfo = .init(received: 0, sent: 0)
     class func getDataUsage() -> DataUsageInfo {
         var ifaddr: UnsafeMutablePointer<ifaddrs>?
@@ -28,44 +38,33 @@ class SystemDataUsage {
         }
         
         freeifaddrs(ifaddr)
-        
         return dataUsageInfo
     }
-     
-    class func vpnDataUsageInfo() -> SingleDataUsageInfo {
+    
+    class func mayBeVPNInterface(name: String) -> Bool {
+        return name.contains("tap") || name.contains("tun") || name.contains("ppp") || name.contains("ipsec")
+    }
+    
+    private class func _allVpnDataUsageInfo() -> SingleDataUsageInfo {
         var dataUsageInfo = SingleDataUsageInfo()
-        var vpnInterface: [String] = []
-        if let interfaces = vpnInterfaces {
-            vpnInterface = interfaces
-        } else {
-            if let settings = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as? [String: Any],
-               let scopes = settings["__SCOPED__"] as? [String: Any] {
-                for (key, _) in scopes {
-                    if key.contains("tap") || key.contains("tun") || key.contains("ppp") || key.contains("ipsec") {
-                        vpnInterface.append(key)
-                    }
-                }
-            }
-        }
-        
-        if vpnInterfaces == nil && !vpnInterface.isEmpty {
-            vpnInterfaces = vpnInterface
-        }
-         
+        var canGetData = false
         var ifaddr: UnsafeMutablePointer<ifaddrs>?
         guard getifaddrs(&ifaddr) == 0 else { return dataUsageInfo }
         while let pointer = ifaddr {
             let name: String! = String(cString: pointer.pointee.ifa_name)
+             
             let addr = pointer.pointee.ifa_addr.pointee
+            
             guard addr.sa_family == UInt8(AF_LINK) else {
                 ifaddr = pointer.pointee.ifa_next
                 continue
             }
-            if !vpnInterface.contains(name) {
+            
+            if !mayBeVPNInterface(name: name) {
                 ifaddr = pointer.pointee.ifa_next
                 continue
             }
-            
+           
             var networkData: UnsafeMutablePointer<if_data>?
             networkData = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
             if let data = networkData {
@@ -75,9 +74,43 @@ class SystemDataUsage {
                 dataUsageInfo.sent += send
             }
             ifaddr = pointer.pointee.ifa_next
+            canGetData = true
         }
-        
+        canGetSystemVpnInterface = canGetData
         freeifaddrs(ifaddr)
+        return dataUsageInfo
+    }
+    
+    private class func _appVpnDataUsageInfo() -> SingleDataUsageInfo {
+        var dataUsageInfo = SingleDataUsageInfo()
+        var utunAddr = ifaddrs()
+       
+        if get_sys_vpn_ifdv(&utunAddr) == 1 {
+            let name = String(cString: utunAddr.ifa_name)
+            if !mayBeVPNInterface(name: name) {
+                canGetAppNetworkInterface = false
+                return _allVpnDataUsageInfo()
+            }
+            
+            var networkData: UnsafeMutablePointer<if_data>?
+            networkData = unsafeBitCast(utunAddr.ifa_data, to: UnsafeMutablePointer<if_data>.self)
+            if let data = networkData {
+                let send = UInt64(data.pointee.ifi_obytes)
+                let received = UInt64(data.pointee.ifi_ibytes)
+                dataUsageInfo.received += received
+                dataUsageInfo.sent += send
+            }
+            canGetAppNetworkInterface = true
+            canGetSystemVpnInterface = true
+        } else {
+            canGetAppNetworkInterface = false
+            dataUsageInfo = _allVpnDataUsageInfo()
+        }
+        return dataUsageInfo
+    }
+     
+    class func vpnDataUsageInfo() -> SingleDataUsageInfo {
+        let dataUsageInfo = _appVpnDataUsageInfo()
         lastestVpnUsageInfo = dataUsageInfo
         return dataUsageInfo
     }

@@ -35,7 +35,7 @@ class BaseServiceManager<API: TargetType> {
                 }
             }
             .retry { (error: Observable<TokenError>) in
-                error.flatMap { error in
+                error.flatMap { error -> Single<Bool> in
                     if error == TokenError.tokenExpired {
                         return self.refreshToken()
                     } else {
@@ -45,7 +45,6 @@ class BaseServiceManager<API: TargetType> {
             }
             .handleResponse()
             .filterSuccessfulStatusCodes()
-        
     }
     
     func requestIPC(_ api: API) -> Single<Response> {
@@ -66,7 +65,7 @@ class BaseServiceManager<API: TargetType> {
                 }
             }
             .retry { (error: Observable<TokenError>) in
-                error.flatMap { error in
+                error.flatMap { error -> Single<Bool> in
                     if error == TokenError.tokenExpired {
                         return self.refreshToken()
                     } else {
@@ -76,7 +75,6 @@ class BaseServiceManager<API: TargetType> {
             }
             .handleResponse()
             .filterSuccessfulStatusCodes()
-           
     }
     
     func cancelTask() {
@@ -164,7 +162,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                 let result = try JSONDecoder().decode(BaseCodable<T>.self, from: response.data)
                 if !result.success {
                     let genericError = ResponseError(statusCode: response.statusCode,
-                                                     message: result.message ?? "")
+                                                     message: result.message, error: result.errors.first ?? "")
                     print("[RESULT ERROR]: \(genericError)")
                     return Single.error(genericError)
                 }
@@ -189,6 +187,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     
     func handleEmptyResponse() -> Single<Bool> {
         return flatMap { response in
+            print("[RESPONSE]: \(String(data: response.data, encoding: .utf8) ?? "")")
             let data = try JSONSerialization.jsonObject(with: response.data, options: []) as? [String: Any]
             if !((data?["success"] as? Bool) ?? false) {
                 return Single.just(false)
@@ -201,6 +200,10 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
 struct ResponseError: Decodable, Error {
     var statusCode: Int?
     let message: String
+    var error: String = ""
+    var description: String {
+        return message
+    }
 }
 
 enum TokenError: Swift.Error {

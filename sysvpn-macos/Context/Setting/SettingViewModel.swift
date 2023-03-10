@@ -12,7 +12,7 @@ extension SettingView {
         @Published var listItem: [TabbarSettingItem]
             
         init() {
-            listItem = [TabbarSettingItem(type: .general), TabbarSettingItem(type: .vpnSetting), TabbarSettingItem(type: .account), TabbarSettingItem(type: .statistics), TabbarSettingItem(type: .appearence), TabbarSettingItem(type: .supportCenter)]
+            listItem = [TabbarSettingItem(type: .general), TabbarSettingItem(type: .vpnSetting), TabbarSettingItem(type: .account), TabbarSettingItem(type: .statistics), TabbarSettingItem(type: .appearence)]
         }
     }
 }
@@ -66,8 +66,12 @@ class EmailSettingItem: SettingElementType {
 }
 
 class SubscriptionSettingItem: SettingElementType {
-    init(settingName: String, settingDesc: String?) {
+    var isPremium: Bool = false
+    var premiumDateExpried: Date?
+    init(settingName: String, settingDesc: String?, isPremium: Bool, premiumDateExpried: Date?) {
         super.init()
+        self.isPremium = isPremium
+        self.premiumDateExpried = premiumDateExpried
         self.settingDesc = settingDesc
         self.settingName = settingName
     }

@@ -41,7 +41,7 @@ class NetworkStatistics {
     }
      
     private var timer: Timer!
-    private var timeInterval: TimeInterval = 0.1
+    private var timeInterval: TimeInterval = 1
     private var traffic: NetworkTraffic!
     private var updateWithBitrate: ((Bitrate) -> Void)?
     

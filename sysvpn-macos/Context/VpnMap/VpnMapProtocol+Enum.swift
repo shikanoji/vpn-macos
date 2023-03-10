@@ -19,15 +19,24 @@ protocol INodeInfo {
     var locationSubname: String? { get }
     var cacheNode: NodePoint? { get set }
     var level1Id: String { get }
+    var imageUrl: String? { get }
+    var deepId: String { get }
+    
 }
 
 extension INodeInfo {
+    var deepId: String {
+        return "\(locationSubname ?? "")-\(locationName)"
+    }
+    
     static func == (lhs: INodeInfo, rhs: INodeInfo) -> Bool {
-        return lhs.locationSubname == rhs.locationSubname && rhs.locationName == lhs.locationName
+        // return lhs.locationSubname == rhs.locationSubname && rhs.locationName == lhs.locationName
+        return lhs.deepId == rhs.deepId
     }
     
     static func equal(lhs: INodeInfo, rhs: INodeInfo) -> Bool {
-        return lhs.locationSubname == rhs.locationSubname && rhs.locationName == lhs.locationName
+        // return lhs.locationSubname == rhs.locationSubname && rhs.locationName == lhs.locationName
+        return lhs.deepId == rhs.deepId
     }
 }
 
@@ -46,7 +55,7 @@ struct NodePoint: Equatable {
     }
     
     public static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.info.locationName == rhs.info.locationName && lhs.info.locationSubname == rhs.info.locationSubname
+        return lhs.info.deepId == rhs.info.deepId
     }
 }
 
@@ -105,6 +114,10 @@ struct ConnectPoint: Equatable {
 }
 
 class NodeInfoTest: INodeInfo {
+    var deepId: String = ""
+    
+    var imageUrl: String?
+    
     var level1Id: String = ""
     
     static func == (lhs: NodeInfoTest, rhs: NodeInfoTest) -> Bool {
@@ -195,4 +208,9 @@ public struct AppTooltipConfig: TooltipConfig {
     public init(side: TooltipSide) {
         self.side = side
     }
+}
+
+struct RecentModel {
+    var logDate: Date
+    var node: INodeInfo
 }

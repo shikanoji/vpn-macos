@@ -43,7 +43,7 @@ struct VpnMapView: View {
                     mapState.selectedNode = node.info
                 }, onHoverNode: {
                     node, hover in
-                    if node.info.state == .disabled {
+                    if node != connectedNode {
                         return
                     }
                     if hover {
@@ -70,7 +70,6 @@ struct VpnMapView: View {
             .simultaneousGesture(TapGesture().onEnded {
                 selectedNode = nil
             })
-            // .clipped()
             .onChange(of: scale) { _ in
                 withAnimation {
                     isShowCity = scale > 1.5
@@ -81,13 +80,35 @@ struct VpnMapView: View {
                 mapState.selectedNode = newValue?.info
                 updateCameraPosition = newValue?.point.toScalePoint(scaleVector: scaleVector * screenSize.height / baseHeight)
             })
-            .onChange(of: appState.displayState, perform: { _ in
-                if appState.displayState == .connected || appState.displayState == .connecting {
+            .onChange(of: appState.displayState, perform: { value in
+                if value == .connected || value == .connecting {
                     if mapState.connectedNode != nil {
                         connectedNode = mapState.connectedNode?.toNodePoint(mapState.serverInfo?.ipAddress)
-                        updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * screenSize.height / baseHeight)
+                       
+                        if let multipleHop = mapState.connectedNode as? MultiHopResult {
+                            if let entryNode = multipleHop.entry?.country?.toNodePoint(), let exitNode = multipleHop.exit?.country?.toNodePoint() {
+                                let newX = (entryNode.point.x + exitNode.point.x) / 2 * scaleVector * screenSize.height / baseHeight
+                                let newY = (entryNode.point.y + exitNode.point.y) / 2 * scaleVector * screenSize.height / baseHeight
+                                
+                                let centerPoint = CGPoint(x: newX, y: newY)
+                                let newScale = max(1, 2 - abs(entryNode.point.x - exitNode.point.x + 200) / screenSize.width)
+                                if newScale < scale {
+                                    withAnimation {
+                                        scale = newScale
+                                    }
+                                }
+                                 
+                                updateCameraPosition = centerPoint
+                            }
+                        } else {
+                            updateCameraPosition = connectedNode?.point.toScalePoint(scaleVector: scaleVector * screenSize.height / baseHeight)
+                        }
                         return
+                    } else {
+                        updateCameraPosition = nil
                     }
+                } else if value == .disconnected {
+                    updateCameraPosition = nil
                 }
             
                 selectedNode = nil

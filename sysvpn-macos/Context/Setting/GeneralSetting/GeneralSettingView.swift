@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GeneralSettingView: View {
     @StateObject private var viewModel = GeneralSettingViewModel()
+    var onTapLogout: (() -> Void)?
     var body: some View {
         VStack(alignment: .leading) {
             ForEach(viewModel.listItem) { item in
@@ -23,14 +24,14 @@ struct GeneralSettingView: View {
                 }
             }
             Button {
-                viewModel.onLogOut()
+                onTapLogout?()
             } label: {
                 Text(L10n.Global.titleLogout)
                     .foregroundColor(Color.white)
             }.buttonStyle(LoginButtonCTAStyle(bgColor: Asset.Colors.popoverBgSelected.swiftUIColor))
         }
         .padding(.horizontal, 30)
-        .frame(width: 600)
+        .frame(maxWidth: .infinity)
     }
 }
 

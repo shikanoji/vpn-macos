@@ -42,6 +42,41 @@ struct LoginButtonCTAStyle: ButtonStyle {
     }
 }
 
+
+
+struct ButtonCTAStyle: ButtonStyle {
+    var bgColor: Color = Asset.Colors.primaryColor.swiftUIColor
+    var bgColorDissable: Color = Asset.Colors.backgroundButtonDisable.swiftUIColor
+    var foregroundColor: Color = Asset.Colors.primaryColor.swiftUIColor
+    var foregroundColorDissable: Color = Asset.Colors.primaryColor.swiftUIColor
+    var radius: CGFloat = 20
+    
+    func makeBody(configuration: ButtonStyle.Configuration) -> some View {
+        CTAButton(configuration: configuration, bgColor: bgColor, bgColorDissable: bgColorDissable, foregroundColor: foregroundColor, foregroundColorDissable: foregroundColorDissable, radius: radius)
+    }
+
+    struct CTAButton: View {
+        let configuration: ButtonStyle.Configuration
+        @Environment(\.isEnabled) private var isEnabled: Bool
+        var bgColor: Color = Asset.Colors.primaryColor.swiftUIColor
+        var bgColorDissable: Color = Asset.Colors.backgroundButtonDisable.swiftUIColor
+        var foregroundColor: Color = Asset.Colors.primaryColor.swiftUIColor
+        var foregroundColorDissable: Color = Asset.Colors.primaryColor.swiftUIColor
+        var radius: CGFloat = 20
+        
+        var body: some View {
+            configuration.label
+                .padding(EdgeInsets(top: 10.0, leading: 8.0, bottom: 10.0, trailing: 8.0))
+                .frame(maxWidth: .infinity)
+                .foregroundColor(isEnabled ? Asset.Colors.foregroundButtonEnable.swiftUIColor : Asset.Colors.foregroundButtonDisable.swiftUIColor)
+                .background(isEnabled ? bgColor : bgColorDissable)
+                .opacity(configuration.isPressed ? 0.8 : 1.0)
+                .cornerRadius(radius)
+        }
+    }
+}
+
+
 struct ActionButtonStyle: ButtonStyle {
     func makeBody(configuration: ButtonStyle.Configuration) -> some View {
         ActionButton(configuration: configuration)

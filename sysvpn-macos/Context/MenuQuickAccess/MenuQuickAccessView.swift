@@ -22,14 +22,16 @@ struct MenuQuickAccessView: View {
     var sizeIcon: CGFloat = 20
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            if connectionState == .connected || connectionState == .disconnecting {
-                headerMenuConnected
-                    .transition(.opacity)
-            } else {
-                headerMenuNotConnect
-                    .transition(.opacity)
-            }
+        VStack(alignment: .leading, spacing: 4) {
+            Group {
+                if connectionState == .connected || connectionState == .disconnecting {
+                    headerMenuConnected
+                        .transition(.opacity)
+                } else {
+                    headerMenuNotConnect
+                        .transition(.opacity)
+                }
+            }.frame(height: 155)
             bodyMenu
             footerMenu
         }
@@ -41,6 +43,12 @@ struct MenuQuickAccessView: View {
             withAnimation {
                 connectionState = newValue
             }
+            if connectionState == .connected || connectionState == .disconnected {
+                DispatchQueue.main.async {
+                    viewModel.getListRecent()
+                }
+                viewModel.onNeedRefreshUI()
+            }
         }
         .onChange(of: networkState.bitRate) { _ in
             viewModel.downloadSpeed = Bitrate.rateString(for: networkState.bitRate.download)
@@ -49,7 +57,7 @@ struct MenuQuickAccessView: View {
     }
     
     var headerMenuNotConnect: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text(viewModel.userIp)
                     .lineLimit(nil)
@@ -66,16 +74,18 @@ struct MenuQuickAccessView: View {
                 .lineLimit(nil)
                 .font(Font.system(size: 14))
                 .foregroundColor(Asset.Colors.mainTextColor.swiftUIColor)
-            Spacer().frame(height: 20)
+            Spacer().frame(height: 15)
             if connectionState == .connecting {
-                Button {} label: {
+                Button {
+                    GlobalAppStates.shared.displayState = .disconnected
+                    viewModel.onTouchDisconnect()
+                } label: {
                     AppActivityIndicator()
-                    //  Text("• • •")
-                    //      .font(Font.system(size: 14, weight: .semibold))
-                }.buttonStyle(LoginButtonCTAStyle(bgColor: Color.white))
+                }.buttonStyle(LoginButtonCTAStyle())
             } else {
                 Button {
                     viewModel.onTouchConnect()
+                    
                 } label: {
                     Text(L10n.Login.quickConnect)
                         .font(Font.system(size: 14, weight: .semibold))
@@ -86,18 +96,22 @@ struct MenuQuickAccessView: View {
             maxWidth: .infinity,
             alignment: .topLeading
         )
-        .padding(30)
+        .padding(28)
         .background(Color(rgb: 0x101016))
     }
     
     var headerMenuConnected: some View {
         VStack(alignment: .leading) {
             HStack {
-                Asset.Assets.avatarTest.swiftUIImage
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(25)
-                VStack(alignment: .leading) {
+                if let icon = MapAppStates.shared.connectedNode?.image {
+                    icon.resizable()
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 16).stroke(style: .init(lineWidth: 2))
+                                .foregroundColor(.white)
+                        }
+                        .frame(width: 32, height: 32)
+                }
+                VStack(alignment: .leading, spacing: 0) {
                     HStack {
                         Text(viewModel.userIp)
                             .lineLimit(nil)
@@ -139,31 +153,22 @@ struct MenuQuickAccessView: View {
                 .background(Color(hexString: "FFFFFF").opacity(0.2))
                 .cornerRadius(8)
                 
-                if connectionState == .disconnecting {
-                    Button {} label: {
-                        AppActivityIndicator()
-                        //   .font(Font.system(size: 14, weight: .semibold))
-                    }
-                    .frame(width: 120)
-                    .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
-                } else {
-                    Button {
-                        connectionState = .disconnecting
-                        viewModel.onTouchDisconnect()
-                    } label: {
-                        Text(L10n.Login.disconnect)
-                            .font(Font.system(size: 14, weight: .semibold))
-                    }
-                    .frame(width: 120)
-                    .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
+                Button {
+                    GlobalAppStates.shared.displayState = .disconnected
+                    viewModel.onTouchDisconnect()
+                } label: {
+                    Text(L10n.Login.disconnect)
+                        .font(Font.system(size: 14, weight: .semibold))
                 }
+                .frame(width: 120)
+                .buttonStyle(LoginButtonCTAStyle(bgColor: Color(hexString: "FFFFFF")))
             }
         }
         .frame(
             maxWidth: .infinity,
             alignment: .topLeading
         )
-        .padding(30)
+        .padding(28)
         .background(Color(hexString: "105175"))
     }
     
@@ -233,11 +238,15 @@ struct MenuQuickAccessView: View {
                 })
                 .transition(.opacity)
             } else if viewModel.tabbarSelectedItem == .recent {
-                TabbarListItemView(listItem: viewModel.listRecent)
-                    .transition(.opacity)
+                TabbarListItemView(listItem: viewModel.listRecent, onTap: { node in
+                    viewModel.connect(to: node)
+                })
+                .transition(.opacity)
             } else {
-                TabbarListItemView(listItem: viewModel.listSuggest)
-                    .transition(.opacity)
+                TabbarListItemView(listItem: viewModel.listSuggest, onTap: { node in
+                    viewModel.connect(to: node)
+                })
+                .transition(.opacity)
             }
         }
     }
@@ -275,9 +284,4 @@ struct MenuQuickAccessView: View {
         .background(Color(hexString: "101016").opacity(0.85))
     }
 }
-
-struct MenuQuickAccessView_Previews: PreviewProvider {
-    static var previews: some View {
-        MenuQuickAccessView()
-    }
-}
+ 

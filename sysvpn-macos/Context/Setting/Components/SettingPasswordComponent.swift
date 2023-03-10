@@ -5,22 +5,36 @@
 //  Created by doragon on 04/11/2022.
 //
 
+import Moya
+import RxSwift
 import SwiftUI
+import SwiftyJSON
 
 enum SettingPasswordState {
     case none
     case input
     case success
+    case failure
+}
+
+private enum Field: Int, Hashable {
+    case password, newPassword, confirmPassword
 }
 
 struct SettingPasswordComponent: View {
     var data: ChangePasswordSettingItem
     var isShowChangePass: Bool = false
+    
     @State var settingPasswordState: SettingPasswordState = .none
     @State var isActive = true
-    @Binding var isChangePasswordSuccess: Bool
-    @State private var name = ""
-    var onTapAccept: @MainActor () -> Void
+    @State var currentPass: String = ""
+    @State var newPass: String = ""
+    @State var confirmPass: String = ""
+    @State var errorMessage: String = ""
+    @State var hasError: Bool = false
+    @State var isVerifiedInput: Bool = false
+    
+    var onTapAccept: @MainActor (_ currentPass: String, _ newPass: String) -> Single<EmptyData>
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -45,15 +59,59 @@ struct SettingPasswordComponent: View {
                         .font(Font.system(size: 12, weight: .regular))
                 }
                 .onTapGesture {
-                    self.settingPasswordState = .input
+                    if self.settingPasswordState == .input {
+                        self.settingPasswordState = .none
+                        currentPass = ""
+                        newPass = ""
+                        confirmPass = ""
+                    } else {
+                        self.settingPasswordState = .input
+                    }
                 }
             }
             .padding(.vertical, 15)
             if settingPasswordState == .input {
-                ChangePasswordItem(currenPassword: $name, onTapAccept: {
-                    onTapAccept()
-                    if isChangePasswordSuccess {
-                        settingPasswordState = .success
+                ChangePasswordItem(currenPassword: $currentPass, newPassword: $newPass, confirmPassword: $confirmPass, isVerifiedInput: isVerifiedInput, errorMessage: errorMessage, hasError: hasError, onTapAccept: {
+                    _ = onTapAccept(currentPass, newPass).subscribe { result in
+                        switch result {
+                        case .success:
+                            settingPasswordState = .success
+                            currentPass = ""
+                            newPass = ""
+                            confirmPass = ""
+                        case let .failure(e):
+                            guard let error = e as? ResponseError else {
+                                self.errorMessage = L10n.Global.unknowError
+                                self.hasError = true
+                                return
+                            }
+                            print("Error: \(error.error)")
+                            errorMessage = error.error.isEmpty ? L10n.Global.unknowError : error.error
+                            hasError = true
+                        }
+                    }
+                    
+                }, onChangeText: {
+                    if !currentPass.isEmpty && newPass.count >= 8 && newPass == confirmPass {
+                        isVerifiedInput = true
+                        hasError = false
+                    } else if newPass.count <= 8 {
+                        hasError = false
+                        if !newPass.isEmpty {
+                            hasError = true
+                            errorMessage = L10n.Global.unsatisfactoryPassword
+                        }
+                        isVerifiedInput = false
+                    } else if newPass != confirmPass {
+                        hasError = false
+                        if !confirmPass.isEmpty {
+                            hasError = true
+                            errorMessage = L10n.Global.passNotMatch
+                        }
+                        isVerifiedInput = false
+                    } else {
+                        hasError = false
+                        isVerifiedInput = false
                     }
                 })
             } else if settingPasswordState == .success {
@@ -65,8 +123,18 @@ struct SettingPasswordComponent: View {
 
 struct ChangePasswordItem: View {
     @Binding var currenPassword: String
-    @State var isActive = true
+    @Binding var newPassword: String
+    @Binding var confirmPassword: String
+    @State var isCurrentPass = false
+    @State var isNewPass = false
+    @State var isRepass = false
+    var isVerifiedInput: Bool
+    var errorMessage: String = ""
+    var hasError: Bool
+    @FocusState private var focusState: Field?
     var onTapAccept: () -> Void
+    var onChangeText: () -> Void
+    
     var body: some View {
         VStack {
             formInput
@@ -75,24 +143,47 @@ struct ChangePasswordItem: View {
     
     var formInput: some View {
         VStack(alignment: .leading, spacing: 10) {
-            TextField(L10n.Global.currentPassword, text: $currenPassword)
-                .textFieldStyle(LoginInputTextFieldStyle(focused: $isActive))
-                .frame(width: 266)
+            SecureField(L10n.Global.currentPassword, text: $currenPassword)
+                .textFieldStyle(LoginInputTextFieldStyle(focused: $isCurrentPass))
+                .focused($focusState, equals: .password)
+                .frame(width: 246)
             HStack(spacing: 10) {
-                SecureField(L10n.Global.newPassword, text: $currenPassword)
-                    .textFieldStyle(LoginInputTextFieldStyle(focused: $isActive))
+                SecureField(L10n.Global.newPassword, text: $newPassword)
+                    .textFieldStyle(LoginInputTextFieldStyle(focused: $isNewPass))
+                    .focused($focusState, equals: .newPassword)
                     .textContentType(nil)
-                SecureField(L10n.Global.confirmPassword, text: $currenPassword)
-                    .textFieldStyle(LoginInputTextFieldStyle(focused: $isActive))
+                SecureField(L10n.Global.confirmPassword, text: $confirmPassword)
+                    .textFieldStyle(LoginInputTextFieldStyle(focused: $isRepass))
+                    .focused($focusState, equals: .confirmPassword)
                     .textContentType(nil)
             }
-            Spacer().frame(height: 5)
+            if hasError {
+                Text(errorMessage)
+                    .foregroundColor(Asset.Colors.errorColor.swiftUIColor)
+                    .font(Font.system(size: 12, weight: .semibold))
+            } else {
+                Spacer().frame(height: 5)
+            }
             Button {
                 onTapAccept()
             } label: {
                 Text(L10n.Global.changePassword)
             }.buttonStyle(LoginButtonCTAStyle())
                 .frame(width: 170, height: 48)
+                .environment(\.isEnabled, isVerifiedInput)
+        }
+        .onChange(of: focusState) { newValue in
+            isCurrentPass = newValue == .password
+            isNewPass = newValue == .newPassword
+            isRepass = newValue == .confirmPassword
+        }
+        .onChange(of: currenPassword, perform: { _ in
+            onChangeText()
+        })
+        .onChange(of: newPassword) { _ in
+            onChangeText()
+        }.onChange(of: confirmPassword) { _ in
+            onChangeText()
         }
     }
 }

@@ -30,7 +30,7 @@ protocol AppStateManagement {
 class SysVpnAppStateManagement: AppStateManagement {
     private var attemptingConnection = false
     private var _state: AppState = .disconnected
-
+    
     public private(set) var state: AppState {
         get {
             dispatchAssert(condition: .onQueue(.main))
@@ -54,9 +54,14 @@ class SysVpnAppStateManagement: AppStateManagement {
             GlobalAppStates.shared.displayState = displayState
             switch displayState {
             case .connected:
+                NetworkChecker.shared.resetByConnected()
+                NetworkChecker.shared.isStart = true
                 startBitrateMonitor()
             case .disconnected:
                 stopBitrateMonitor()
+                NetworkChecker.shared.isStart = false
+            case .disconnecting:
+                NetworkChecker.shared.isStart = false
             default:
                 break
             }
@@ -141,7 +146,6 @@ class SysVpnAppStateManagement: AppStateManagement {
         }
         
         // check cert / keychain
-        
         if case VpnState.disconnecting = vpnState {
             stuckDisconnecting = true
         }
@@ -189,6 +193,7 @@ class SysVpnAppStateManagement: AppStateManagement {
         cancelTimeout()
         stopAttemptingConnection()
         notifyObservers()
+        AppAlertManager.shared.showAlert(title: "Connection failed", message: "Timeout connect to vpn server")
     }
     
     private func stopAttemptingConnection() {
@@ -206,7 +211,6 @@ class SysVpnAppStateManagement: AppStateManagement {
     }
     
     public func disconnect(completion: @escaping () -> Void) {
-        PropertiesManager.shared.intentionallyDisconnected = true
         vpnManager.disconnect(completion: completion)
     }
     
@@ -316,8 +320,18 @@ class SysVpnAppStateManagement: AppStateManagement {
         guard let lastConfig = lastAttemptedConfiguration else {
             return
         }
+        
         MapAppStates.shared.serverInfo = lastConfig.serverInfo
-        MapAppStates.shared.connectedNode = AppDataManager.shared.getNodeByServerInfo(server: lastConfig.serverInfo)
+        
+        if let deepId = lastConfig.deepId, let nodeInfo = deepId.starts(with: PrefixNodeInfo.country.rawValue) ? AppDataManager.shared.getNodeByServerInfo(server: lastConfig.serverInfo) : AppDataManager.shared.getNodeByDeepId(deepId: deepId) {
+            MapAppStates.shared.connectedNode = nodeInfo
+        } else {
+            MapAppStates.shared.connectedNode = AppDataManager.shared.getNodeByServerInfo(server: lastConfig.serverInfo)
+        }
+       
+        if let info = MapAppStates.shared.connectedNode {
+            AppDataManager.shared.addRecent(node: info)
+        }
     }
     
     private func updateUIDisconnectedInfo() {
@@ -359,24 +373,32 @@ class SysVpnAppStateManagement: AppStateManagement {
     
     @objc private func killSwitchChanged() {
         if state.isConnected {
-            PropertiesManager.shared.intentionallyDisconnected = true
             vpnManager.setOnDemand(PropertiesManager.shared.killSwitch)
         }
     }
     
     private func computeDisplayState(with localAgentConnectedState: Bool?) {
-        guard let isLocalAgentConnected = localAgentConnectedState else {
-            displayState = state.asDisplayState()
-            return
-        }
+        /*   guard let isLocalAgentConnected = localAgentConnectedState else {
+             displayState = state.asDisplayState()
+             return
+         }*/
  
-        if !isLocalAgentConnected, case AppState.connected = state, !PropertiesManager.shared.intentionallyDisconnected {
-            // log.debug("Showing state as Loading connection info because local agent not connected yet", category: .connectionConnect)
-            displayState = .loadingConnectionInfo
+        if PropertiesManager.shared.intentionallyDisconnected && displayState == .connected {
             return
         }
-
-        displayState = state.asDisplayState()
+        var tempState = state.asDisplayState()
+        
+        if !NetworkChecker.shared.isStart && (tempState == .disconnected || tempState == .disconnecting) {
+            vpnManager.isOnDemandEnabled(handler: { enable in
+                if enable {
+                    NetworkChecker.shared.isStart = true
+                    return
+                }
+                self.displayState = tempState
+            })
+        } else {
+            displayState = tempState
+        }
     }
 }
 

@@ -28,10 +28,14 @@ extension GeneralSettingView {
             switch item.itemType {
             case .autoLaunch:
                 PropertiesManager.shared.autoLaunch = value
+                SettingUtils.shared.setAutoLaunch(enable: value)
             case .startMinimized:
                 PropertiesManager.shared.startMinimized = value
             case .systemNoti:
                 PropertiesManager.shared.systemNotification = value
+                if value {
+                    AppAlertManager.shared.requestPermission()
+                }
             default:
                 break
             }

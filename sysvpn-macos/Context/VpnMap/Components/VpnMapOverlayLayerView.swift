@@ -21,9 +21,8 @@ struct VpnMapOverlayLayer: ViewModifier {
     
     @State var tooltipNodeX: CGFloat = 0
     @State var tooltipNodeY: CGFloat = 0
-    
     @State var connectedPosition: CGPoint = .zero
-    
+ 
     var computedScale: Double {
         return scaleVector * scaleValue / rescaleView
     }
@@ -33,7 +32,7 @@ struct VpnMapOverlayLayer: ViewModifier {
     }
     
     var idName: String {
-        return (nodePoint?.info.locationDescription ?? "") + tooltipNodeName + (nodePoint?.info.locationSubname ?? "")
+        return nodePoint?.info.deepId ?? ""
     }
     
     var localDescription: String? {
@@ -61,7 +60,7 @@ struct VpnMapOverlayLayer: ViewModifier {
             .modifier(
                 MapTooltipModifier(name: "connected", enabled: connectedNode != nil, config: AppTooltipConfig(), content: {
                     VStack {
-                        Text("Connected")
+                        Text(L10n.Global.connected)
                             .foregroundColor(Color.black)
                     }
                 })
@@ -101,12 +100,12 @@ struct VpnMapOverlayLayer: ViewModifier {
         VStack {
             content.overlay {
                 tooltipInfo
-                
                 tooltipConnectedText.opacity((isShowConnectedNode && mapState.hoverNode != connectedNode) ? 1 : 0)
                 tooltipConnectedNode.opacity((!isShowConnectedNode || mapState.hoverNode != connectedNode) ? 0 : 1)
             }
         }.onChange(of: nodePoint) { newValue in
-            if nodePoint == nil {
+            
+            if nodePoint == nil || newValue == nil {
                 self.updateLocation(nodePoint: newValue)
             } else {
                 withAnimation {

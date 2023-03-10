@@ -22,7 +22,8 @@ extension LoginView {
         @Environment(\.openURL) private var openURL
         @Published var showAlert = false
         @Published var errorMessage: String = ""
-
+        var signInHelper: SocialSigninHelper!
+        
         init() {
             isRemember = AppSetting.shared.isRememberLogin
             let isReady = GlobalAppStates.shared.initApp { [weak self] in
@@ -32,6 +33,16 @@ extension LoginView {
             if isReady {
                 isPresentedLoading = true
             }
+            
+            signInHelper = SocialSigninHelper(onResult: { [weak self] result in
+                switch result {
+                case let .failure(error):
+                    self?.showAlert = true
+                    self?.errorMessage = error.localizedDescription
+                case let .success(data):
+                    self?.onLoginSuccess(result: data)
+                }
+            })
         }
         
         func onViewAppear() {}
@@ -89,7 +100,7 @@ extension LoginView {
                 self.isPresentedLoading = true
             }
         }
-
+        
         func hideLoading() {
             withAnimation {
                 self.isPresentedLoading = false
@@ -106,13 +117,49 @@ extension LoginView {
                 openURL(url)
             }
         }
-    
+        
         func onTouchSocialLoginGoogle() {
-            print("Google button was tapped")
+            signInHelper.googleLogin()
+        }
+        
+        func onLoginSuccess(result: LoginSType) {
+            showLoading()
+            var token = ""
+            var provider = "google"
+            switch result {
+            case let .apple(idToken):
+                let idTokenString = String(decoding: idToken, as: UTF8.self)
+                provider = "apple"
+                token = idTokenString
+            case let .google(accessToken):
+                print("token \(accessToken)")
+                provider = "google"
+                token = accessToken
+            }
+            
+            _ = APIServiceManager.shared.loginSocial(provider: provider, token: token).subscribe { event in
+                switch event {
+                case let .success(authenModel):
+                    AppDataManager.shared.userData = authenModel.user
+                    AppDataManager.shared.accessToken = authenModel.tokens?.access
+                    AppDataManager.shared.refreshToken = authenModel.tokens?.refresh
+                    self.loadCountry()
+                    self.hideLoading()
+                case let .failure(e):
+                    self.hideLoading()
+                    guard let error = e as? ResponseError else {
+                        self.errorMessage = L10n.Login.tryAgain
+                        self.showAlert = true
+                        return
+                    }
+                    self.errorMessage = error.message
+                    self.showAlert = true
+                }
+            }
         }
         
         func onTouchSocialLoginApple() {
-            print("Apple button was tapped")
+            signInHelper.appleLogin()
         }
         
         func verifyInputLogin() {

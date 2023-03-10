@@ -183,8 +183,8 @@ class PropertiesManager: PropertiesManagerProtocol {
     
     var vpnProtocol: VpnProtocol {
         get {
-            var userSetting = AppDataManager.shared.userSetting?.appSettings?.settingVpn
-            var defaultVAlue: VpnProtocol = (userSetting?.defaultTech?.contains("wg") ?? true) ? .wireGuard : .openVpn((userSetting?.defaultProtocol?.contains("udp") ?? false) ? .udp : .tcp)
+            let userSetting = AppDataManager.shared.userSetting?.appSettings?.settingVpn
+            let defaultVAlue: VpnProtocol = (userSetting?.defaultTech?.contains("wg") ?? true) ? .wireGuard : .openVpn((userSetting?.defaultProtocol?.contains("udp") ?? false) ? .udp : .tcp)
            
             return VpnProtocol.readUserDefault(keyUserDefault: Keys.vpnProtocol.rawValue) ?? defaultVAlue
         }
@@ -242,6 +242,34 @@ class PropertiesManager: PropertiesManagerProtocol {
         }
         set {
             storage.setValue(newValue, forKey: "AutoLaunch")
+        }
+    }
+    
+    var countryQuickConnect: Int? {
+        get {
+            let value = storage.integer(forKey: "CountryQuickConnect")
+            return value == 0 ? nil : value
+        }
+        set {
+            storage.setValue(newValue, forKey: "CountryQuickConnect")
+        }
+    }
+    
+    var isFirstSetup: Bool {
+        get {
+            return storage.bool(forKey: "isFirstSetup")
+        }
+        set {
+            storage.setValue(newValue, forKey: "isFirstSetup")
+        }
+    }
+    
+    var lastConnectedDeepId: String? {
+        get {
+            return storage.string(forKey: "lastConnectedDeepId")
+        }
+        set {
+            storage.setValue(newValue, forKey: "lastConnectedDeepId")
         }
     }
 }

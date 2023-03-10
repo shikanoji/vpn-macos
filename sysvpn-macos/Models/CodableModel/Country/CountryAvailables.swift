@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CountryAvailables: Codable {
+class CountryAvailables: Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case region
         case latitude
@@ -35,6 +35,7 @@ class CountryAvailables: Codable {
     var flag: String?
     var iso3: String?
     var id: Int?
+    var uuid: UUID = .init()
     
     // custom
     var cacheNode: NodePoint?

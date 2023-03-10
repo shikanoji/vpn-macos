@@ -35,15 +35,15 @@ struct HomeTrafficInfoView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Session Traffics")
+            Text(L10n.Global.sessionTraffics)
                 .font(Font.system(size: 16, weight: .semibold))
                 .foregroundColor(Asset.Colors.subTextColor.swiftUIColor)
             Spacer().frame(height: 15)
             HStack(alignment: .bottom) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Session:")
-                    Text("Down Volume:")
-                    Text("Up Volume:")
+                    Text(L10n.Global.sessionLabel)
+                    Text(L10n.Global.downVolumeLabel)
+                    Text(L10n.Global.upVolumeLabel)
                 }
                 Spacer()
                 VStack(alignment: .trailing, spacing: 8) {
@@ -88,12 +88,12 @@ struct HomeTrafficChartView: View {
                 HStack(spacing: 2) {
                     Asset.Assets.icArrowDown.swiftUIImage.renderingMode(.template)
                         .foregroundColor(Asset.Colors.primaryColor.swiftUIColor)
-                    Text("Down Speed: \(Bitrate.rateString(for: bitRate.download))")
+                    Text("\(L10n.Global.downSpeed) \(Bitrate.rateString(for: bitRate.download))")
                 }
                 Spacer().frame(width: 16)
                 HStack(spacing: 2) {
                     Asset.Assets.icArrowUp.swiftUIImage.renderingMode(.template)
-                    Text("Up Speed: \(Bitrate.rateString(for: bitRate.upload))")
+                    Text("\(L10n.Global.upSpeed) \(Bitrate.rateString(for: bitRate.upload))")
                 }
                 Spacer()
             }
@@ -113,9 +113,4 @@ struct HomeTrafficChartView: View {
         }
     }
 }
-
-struct HomeTraficMonitorView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeTrafficMonitorView().environmentObject(GlobalAppStates.shared)
-    }
-}
+ 

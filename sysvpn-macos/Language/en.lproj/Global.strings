@@ -12,18 +12,38 @@
 "quickConnect" = "Quick\nConnect";
 "labelLocation" = "Location:";
 "labelVPNIP" = "VPN IP:";
-"manualConnection" = "Manual connection";
-
-"manualCDesc" = "locations available";
+"manualConnection" = "Locations";
+"manualCDesc" = "available";
 
 "staticIP" = "Static IP";
 "staticIPDesc" = "Personal Static IP address";
 
 "multiHop" = "MultiHop";
-"multiHopDesc" = "locations available";
+"multiHopDesc" = "available";
 "sysvpnConfiguration" = "Sysvpn Configuration";
 "setting" = "Settings";
 "helpCenter" = "Help Center";
+
+"manualStr" = "Manual";
+"profileStr" = "Profiles";
+
+"whatIsMultihop" = "What is multihop?";
+ 
+"createNew" = "Create new";
+"create" = "Create";
+"select" = "Select";
+"selectLocation" = "Select location";
+"createNewProfile" = "Create a new profile";
+"profileName" = "Profile name";
+"allProfile" = "All Profiles";
+"countryEmpty" = "Country cannot be empty";
+"profileEmpty" = "Profile name cannot be empty";
+"setLocation" = "Set location";
+"pickToTop" = "Pick to top";
+"rename" = "Rename";
+"deleteProfile" = "Delete profile";
+"renameProfile" = "Rename profile";
+"emptyProfileDesc" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor";
 
 //setting
 "general" = "General";
@@ -32,6 +52,10 @@
 "statistics" = "Statistics";
 "appearence" = "Appearence";
 "supportCenter" = "Support Center";
+"confirmSignOut" = "Confirm sign out";
+"signOutDesc" = "You will be returned to the login screen";
+"cancel" = "Cancel";
+
 
 //setting detail
 ///General
@@ -54,6 +78,10 @@
 "killSwitchDesc" = "Blocks unprotected traffic if VPN connection drops.";
 "cyberSec" = "CyberSec";
 "cyberSecDesc" = "Protects you from cyber threats by blocking malicious website.";
+"searchStr" = "Search";
+"searchEmptyStr" = "No country found";
+"noset" = "No set";
+
 
 ///Account
 "emailAccount" = "Email account";
@@ -67,6 +95,10 @@
 "confirmPassword" = "Confirm new password";
 "changePassword" = "Change password";
 "changePasswordSuccess" = "Password changed successfully";
+"passNotMatch" = "Password not match";
+"unsatisfactoryPassword" = "At least 8 characters including a number and lowercase letter";
+"unknowError" = "An error occurred. Please try again later";
+
 
 ///Statistics
 "vpnStatus" = "VPN Status";
@@ -85,3 +117,30 @@
 "fontSize" = "Font Size";
 "fontSizeDesc" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
 
+"downSpeed" = "Down speed";
+"upSpeed" = "Up speed";
+"sessionTraffics" = "Session Traffics";
+"sessionLabel" = "Session:";
+"downVolumeLabel" = "Down Volume:";
+"upVolumeLabel" = "Up Volume:";
+ 
+"unprotectedAlertTitle" = "Your IP: %s Unprotected";
+"unprotectedAlertMessage" = "Connect to VPN to online sercurity";
+"cityOf"="City Of %s";
+
+"currentLoadLabel" = "CURRENT LOAD";
+"countryCitiesSubtitle" = "%d cities available";
+"countrySingleSubtitle" = "Single location";
+"alertScrollToShowMore" = "Scroll down to more";
+"recentLocationsLabel"= "Recent locations";
+
+"recommendedLabel" = "Recommended";
+"allCountriesLabel" = "All countries";
+"staticIpLabel" = "Static ip";
+"multihopLabel" = "MultiHop";
+"plusExtended" = "+Extended";
+
+"daysLeft" = "%d days left";
+"daysFree" = "%d free days";
+"ipLabel" = "IP:";
+"locationLabel" = "Location:";

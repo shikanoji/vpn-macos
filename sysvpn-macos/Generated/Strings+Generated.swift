@@ -17,6 +17,12 @@ public enum L10n {
     public static let accountSercurity = L10n.tr("Global", "accountSercurity", fallback: "Account sercurity")
     /// At least 8 characters including a number, uppercase, and lowercase letter.
     public static let accountSercurityDesc = L10n.tr("Global", "accountSercurityDesc", fallback: "At least 8 characters including a number, uppercase, and lowercase letter.")
+    /// Scroll down to more
+    public static let alertScrollToShowMore = L10n.tr("Global", "alertScrollToShowMore", fallback: "Scroll down to more")
+    /// All countries
+    public static let allCountriesLabel = L10n.tr("Global", "allCountriesLabel", fallback: "All countries")
+    /// All Profiles
+    public static let allProfile = L10n.tr("Global", "allProfile", fallback: "All Profiles")
     /// Appearence
     public static let appearence = L10n.tr("Global", "appearence", fallback: "Appearence")
     /// App language
@@ -29,16 +35,40 @@ public enum L10n {
     public static let autoLaunch = L10n.tr("Global", "autoLaunch", fallback: "Auto-launch")
     /// Start SysVPN automatically when system starts.
     public static let autoLaunchDesc = L10n.tr("Global", "autoLaunchDesc", fallback: "Start SysVPN automatically when system starts.")
+    /// Cancel
+    public static let cancel = L10n.tr("Global", "cancel", fallback: "Cancel")
     /// Change password
     public static let changePassword = L10n.tr("Global", "changePassword", fallback: "Change password")
     /// Password changed successfully
     public static let changePasswordSuccess = L10n.tr("Global", "changePasswordSuccess", fallback: "Password changed successfully")
+    /// City Of %s
+    public static func cityOf(_ p1: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Global", "cityOf", p1, fallback: "City Of %s")
+    }
     /// Confirm new password
     public static let confirmPassword = L10n.tr("Global", "confirmPassword", fallback: "Confirm new password")
+    /// Confirm sign out
+    public static let confirmSignOut = L10n.tr("Global", "confirmSignOut", fallback: "Confirm sign out")
     /// Connected
     public static let connected = L10n.tr("Global", "connected", fallback: "Connected")
+    /// %d cities available
+    public static func countryCitiesSubtitle(_ p1: Int) -> String {
+      return L10n.tr("Global", "countryCitiesSubtitle", p1, fallback: "%d cities available")
+    }
+    /// Country cannot be empty
+    public static let countryEmpty = L10n.tr("Global", "countryEmpty", fallback: "Country cannot be empty")
+    /// Single location
+    public static let countrySingleSubtitle = L10n.tr("Global", "countrySingleSubtitle", fallback: "Single location")
+    /// Create
+    public static let create = L10n.tr("Global", "create", fallback: "Create")
+    /// Create new
+    public static let createNew = L10n.tr("Global", "createNew", fallback: "Create new")
+    /// Create a new profile
+    public static let createNewProfile = L10n.tr("Global", "createNewProfile", fallback: "Create a new profile")
     /// Current IP Address
     public static let currentIpStr = L10n.tr("Global", "currentIpStr", fallback: "Current IP Address")
+    /// CURRENT LOAD
+    public static let currentLoadLabel = L10n.tr("Global", "currentLoadLabel", fallback: "CURRENT LOAD")
     /// Current password
     public static let currentPassword = L10n.tr("Global", "currentPassword", fallback: "Current password")
     /// Current sesstion time
@@ -49,8 +79,24 @@ public enum L10n {
     public static let cyberSecDesc = L10n.tr("Global", "cyberSecDesc", fallback: "Protects you from cyber threats by blocking malicious website.")
     /// Dark mode
     public static let darkMode = L10n.tr("Global", "darkMode", fallback: "Dark mode")
+    /// %d free days
+    public static func daysFree(_ p1: Int) -> String {
+      return L10n.tr("Global", "daysFree", p1, fallback: "%d free days")
+    }
+    /// %d days left
+    public static func daysLeft(_ p1: Int) -> String {
+      return L10n.tr("Global", "daysLeft", p1, fallback: "%d days left")
+    }
+    /// Delete profile
+    public static let deleteProfile = L10n.tr("Global", "deleteProfile", fallback: "Delete profile")
+    /// Down speed
+    public static let downSpeed = L10n.tr("Global", "downSpeed", fallback: "Down speed")
+    /// Down Volume:
+    public static let downVolumeLabel = L10n.tr("Global", "downVolumeLabel", fallback: "Down Volume:")
     /// Email account
     public static let emailAccount = L10n.tr("Global", "emailAccount", fallback: "Email account")
+    /// Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+    public static let emptyProfileDesc = L10n.tr("Global", "emptyProfileDesc", fallback: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor")
     /// Follow system
     public static let followSystem = L10n.tr("Global", "followSystem", fallback: "Follow system")
     /// Font Size
@@ -66,6 +112,8 @@ public enum L10n {
     public static let hello = L10n.tr("Global", "hello", fallback: "Hello")
     /// Help Center
     public static let helpCenter = L10n.tr("Global", "helpCenter", fallback: "Help Center")
+    /// IP:
+    public static let ipLabel = L10n.tr("Global", "ipLabel", fallback: "IP:")
     /// Kill switch
     public static let killSwitch = L10n.tr("Global", "killSwitch", fallback: "Kill switch")
     /// Blocks unprotected traffic if VPN connection drops.
@@ -76,24 +124,44 @@ public enum L10n {
     public static let labelVPNIP = L10n.tr("Global", "labelVPNIP", fallback: "VPN IP:")
     /// Light mode
     public static let lightMode = L10n.tr("Global", "lightMode", fallback: "Light mode")
+    /// Location:
+    public static let locationLabel = L10n.tr("Global", "locationLabel", fallback: "Location:")
     /// Location Map
     public static let locationMap = L10n.tr("Global", "locationMap", fallback: "Location Map")
     /// Longest connection
     public static let longestConnection = L10n.tr("Global", "longestConnection", fallback: "Longest connection")
-    /// locations available
-    public static let manualCDesc = L10n.tr("Global", "manualCDesc", fallback: "locations available")
-    /// Manual connection
-    public static let manualConnection = L10n.tr("Global", "manualConnection", fallback: "Manual connection")
+    /// available
+    public static let manualCDesc = L10n.tr("Global", "manualCDesc", fallback: "available")
+    /// Locations
+    public static let manualConnection = L10n.tr("Global", "manualConnection", fallback: "Locations")
+    /// Manual
+    public static let manualStr = L10n.tr("Global", "manualStr", fallback: "Manual")
     /// MultiHop
     public static let multiHop = L10n.tr("Global", "multiHop", fallback: "MultiHop")
-    /// locations available
-    public static let multiHopDesc = L10n.tr("Global", "multiHopDesc", fallback: "locations available")
+    /// available
+    public static let multiHopDesc = L10n.tr("Global", "multiHopDesc", fallback: "available")
+    /// MultiHop
+    public static let multihopLabel = L10n.tr("Global", "multihopLabel", fallback: "MultiHop")
     /// New password
     public static let newPassword = L10n.tr("Global", "newPassword", fallback: "New password")
     /// Newsletters
     public static let newsletters = L10n.tr("Global", "newsletters", fallback: "Newsletters")
     /// Lorem ipsum dolor sit amet, consectetur adipiscing elit
     public static let newslettersDesc = L10n.tr("Global", "newslettersDesc", fallback: "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
+    /// No set
+    public static let noset = L10n.tr("Global", "noset", fallback: "No set")
+    /// Password not match
+    public static let passNotMatch = L10n.tr("Global", "passNotMatch", fallback: "Password not match")
+    /// Pick to top
+    public static let pickToTop = L10n.tr("Global", "pickToTop", fallback: "Pick to top")
+    /// +Extended
+    public static let plusExtended = L10n.tr("Global", "plusExtended", fallback: "+Extended")
+    /// Profile name cannot be empty
+    public static let profileEmpty = L10n.tr("Global", "profileEmpty", fallback: "Profile name cannot be empty")
+    /// Profile name
+    public static let profileName = L10n.tr("Global", "profileName", fallback: "Profile name")
+    /// Profiles
+    public static let profileStr = L10n.tr("Global", "profileStr", fallback: "Profiles")
     /// Protocol
     public static let `protocol` = L10n.tr("Global", "protocol", fallback: "Protocol")
     /// Protocol in use
@@ -105,8 +173,32 @@ public enum L10n {
     public static let quickConnectDesc = L10n.tr("Global", "quickConnectDesc", fallback: "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
     /// Quick connect
     public static let quickConnectSetting = L10n.tr("Global", "quickConnectSetting", fallback: "Quick connect")
+    /// Recent locations
+    public static let recentLocationsLabel = L10n.tr("Global", "recentLocationsLabel", fallback: "Recent locations")
+    /// Recommended
+    public static let recommendedLabel = L10n.tr("Global", "recommendedLabel", fallback: "Recommended")
+    /// Rename
+    public static let rename = L10n.tr("Global", "rename", fallback: "Rename")
+    /// Rename profile
+    public static let renameProfile = L10n.tr("Global", "renameProfile", fallback: "Rename profile")
+    /// No country found
+    public static let searchEmptyStr = L10n.tr("Global", "searchEmptyStr", fallback: "No country found")
+    /// Search
+    public static let searchStr = L10n.tr("Global", "searchStr", fallback: "Search")
+    /// Select
+    public static let select = L10n.tr("Global", "select", fallback: "Select")
+    /// Select location
+    public static let selectLocation = L10n.tr("Global", "selectLocation", fallback: "Select location")
+    /// Session:
+    public static let sessionLabel = L10n.tr("Global", "sessionLabel", fallback: "Session:")
+    /// Session Traffics
+    public static let sessionTraffics = L10n.tr("Global", "sessionTraffics", fallback: "Session Traffics")
+    /// Set location
+    public static let setLocation = L10n.tr("Global", "setLocation", fallback: "Set location")
     /// Settings
     public static let setting = L10n.tr("Global", "setting", fallback: "Settings")
+    /// You will be returned to the login screen
+    public static let signOutDesc = L10n.tr("Global", "signOutDesc", fallback: "You will be returned to the login screen")
     /// Start minimized
     public static let startMinimized = L10n.tr("Global", "startMinimized", fallback: "Start minimized")
     /// SysVPN starts in the background and remains out of your way.
@@ -115,6 +207,8 @@ public enum L10n {
     public static let staticIP = L10n.tr("Global", "staticIP", fallback: "Static IP")
     /// Personal Static IP address
     public static let staticIPDesc = L10n.tr("Global", "staticIPDesc", fallback: "Personal Static IP address")
+    /// Static ip
+    public static let staticIpLabel = L10n.tr("Global", "staticIpLabel", fallback: "Static ip")
     /// Statistics
     public static let statistics = L10n.tr("Global", "statistics", fallback: "Statistics")
     /// Subscription details
@@ -131,6 +225,20 @@ public enum L10n {
     public static let themeMode = L10n.tr("Global", "themeMode", fallback: "Theme mode")
     /// Sign Out
     public static let titleLogout = L10n.tr("Global", "titleLogout", fallback: "Sign Out")
+    /// An error occurred. Please try again later
+    public static let unknowError = L10n.tr("Global", "unknowError", fallback: "An error occurred. Please try again later")
+    /// Connect to VPN to online sercurity
+    public static let unprotectedAlertMessage = L10n.tr("Global", "unprotectedAlertMessage", fallback: "Connect to VPN to online sercurity")
+    /// Your IP: %s Unprotected
+    public static func unprotectedAlertTitle(_ p1: UnsafePointer<CChar>) -> String {
+      return L10n.tr("Global", "unprotectedAlertTitle", p1, fallback: "Your IP: %s Unprotected")
+    }
+    /// At least 8 characters including a number and lowercase letter
+    public static let unsatisfactoryPassword = L10n.tr("Global", "unsatisfactoryPassword", fallback: "At least 8 characters including a number and lowercase letter")
+    /// Up speed
+    public static let upSpeed = L10n.tr("Global", "upSpeed", fallback: "Up speed")
+    /// Up Volume:
+    public static let upVolumeLabel = L10n.tr("Global", "upVolumeLabel", fallback: "Up Volume:")
     /// VPN Connected
     public static let vpnConnected = L10n.tr("Global", "vpnConnected", fallback: "VPN Connected")
     /// VPN not connected
@@ -141,6 +249,8 @@ public enum L10n {
     public static let vpnStatus = L10n.tr("Global", "vpnStatus", fallback: "VPN Status")
     /// Weekly time protected
     public static let weeklyTimeStr = L10n.tr("Global", "weeklyTimeStr", fallback: "Weekly time protected")
+    /// What is multihop?
+    public static let whatIsMultihop = L10n.tr("Global", "whatIsMultihop", fallback: "What is multihop?")
   }
   public enum Login {
     /// All Country

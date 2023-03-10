@@ -31,6 +31,10 @@ struct StatisticsSettingView: View {
                                     StaticSettingItemValue(text: DependencyContainer.shared.vpnManager.currentVpnProtocol?.fullName ?? "")
                                 case .currentSession:
                                     StaticSettingItemValue(text: getTime(now: Date().timeIntervalSince1970))
+                                case .weeklyTime:
+                                    StaticSettingItemValue(text: formatDisplayDuringTime(during: AppDataManager.shared.weeklySessionTime))
+                                case .longestConnection:
+                                    StaticSettingItemValue(text: formatDisplayDuringTime(during: AppDataManager.shared.longestSessiontime))
                                 default:
                                     StaticSettingItemValue(text: "---")
                                 }
@@ -51,10 +55,17 @@ struct StatisticsSettingView: View {
         guard let startTime = appState.sessionStartTime else {
             return "--:--:--"
         }
+        if appState.displayState != .connected {
+            return "--:--:--"
+        }
         
         let diff = now - startTime
-        if diff < 0 {
-            return "00:00:00"
+        return formatDisplayDuringTime(during: diff)
+    }
+    
+    func formatDisplayDuringTime(during diff: Double) -> String {
+        if diff <= 0 {
+            return "--:--:--"
         }
        
         let hour = floor(diff / 60 / 60)

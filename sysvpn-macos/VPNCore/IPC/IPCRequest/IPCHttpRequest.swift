@@ -45,7 +45,6 @@ class IPCHttpServiceService: IPCHttpServiceProtocol {
     func performRequest(urlRequest: URLRequest, completionHandler: @escaping ([String: NSObject]) -> Void) {
         session.dataTask(with: urlRequest) { data, response, etask in
              
-            
             guard let httpResponse = response as? HTTPURLResponse else {
                 completionHandler([
                     HttpFieldName.statusCode.rawValue: 400 as NSObject,

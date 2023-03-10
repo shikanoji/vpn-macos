@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var appState = GlobalAppStates()
     var timmerJob: Timer?
     var timmerAppSetting: Timer?
-
+    
     // for  demo bit rate
     var statistics: NetworkStatistics?
     
@@ -21,6 +21,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // demo install extension vpn
         OSExtensionManager.shared.startExtension()
         initNotificationObs()
+        SettingUtils.shared.restoreStartOnBootStatus()
+        if !PropertiesManager.shared.isFirstSetup {
+            PropertiesManager.shared.isFirstSetup = true
+            PropertiesManager.shared.systemNotification = true
+            PropertiesManager.shared.killSwitch = true
+        }
     }
     
     func setupMenu() {
@@ -115,6 +121,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func onReloadMutilHop() {
         AppDataManager.shared.loadListMultiHop {
             print("[Debug] refresh multihop done")
+        }
+    }
+    
+    func applicationDidBecomeActive(_: Notification) {
+        if PropertiesManager.shared.systemNotification {
+            AppAlertManager.shared.requestPermission()
         }
     }
 }
